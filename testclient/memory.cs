@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace testclient
+namespace ProjectCambridge
 {
     /*
      *    ZX Spectrum memory map, from:

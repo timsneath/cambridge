@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace testclient
+namespace ProjectCambridge
 {
     public partial class Z80
     {
@@ -31,34 +31,34 @@ namespace testclient
                 case 0x03: bc++; break;
 
                 // INC B
-                case 0x04: b++; break;
+                case 0x04: inc(ref b); break;
 
                 // DEC B
-                case 0x05: b--; break;
+                case 0x05: dec(ref b); break;
 
                 // LD B, *
                 case 0x06: b = GetNextByte(); break;
 
                 // RLCA
-                case 0x07: throw new NotImplementedException(); break;
+                case 0x07: fC = IsSign(a); a <<= 1; fH = false; fN = false; if (fC) a |= 0x01; break;
 
                 // EX AF, AF'
-                case 0x08: af_ = af; af = af_; break;
+                case 0x08: Swap(ref a, ref a_); Swap(ref f, ref f_); break;
 
                 // ADD HL, BC
                 case 0x09: hl += bc; break;
 
                 // LD A, (BC)
-                case 0x0A: break;
+                case 0x0A: a = memory.ReadByte(bc); break;
 
                 // DEC BC
-                case 0x0B: break;
+                case 0x0B: bc--; break;
 
                 // INC C
-                case 0x0C: break;
+                case 0x0C: inc(ref c); break;
 
                 // DEC C
-                case 0x0D: c--; break;
+                case 0x0D: dec(ref c);  break;
 
                 // LD C, *
                 case 0x0E: c = GetNextByte(); break;
@@ -79,10 +79,10 @@ namespace testclient
                 case 0x13: de++; break;
 
                 // INC D
-                case 0x14: d++; break;
+                case 0x14: inc(ref d); break;
 
                 // DEC D
-                case 0x15: d--; break;
+                case 0x15: dec(ref d); break;
 
                 // LD D, *
                 case 0x16: d = GetNextByte(); break;
@@ -103,10 +103,10 @@ namespace testclient
                 case 0x1B: de--; break;
 
                 // INC E
-                case 0x1C: e++; break;
+                case 0x1C: inc(ref e); break;
 
                 // DEC E
-                case 0x1D: e--; break;
+                case 0x1D: dec(ref e); break;
 
                 // LD E, *
                 case 0x1E: e = GetNextByte(); break;
@@ -127,10 +127,10 @@ namespace testclient
                 case 0x23: hl++; break;
 
                 // INC H
-                case 0x24: h++; break;
+                case 0x24: inc(ref h); break;
 
                 // DEC H
-                case 0x25: h--; break;
+                case 0x25: dec(ref h); break;
 
                 // LD H, *
                 case 0x26: h = GetNextByte(); break;
@@ -151,10 +151,10 @@ namespace testclient
                 case 0x2B: hl--; break;
 
                 // INC L
-                case 0x2C: l++; break;
+                case 0x2C: inc(ref l); break;
 
                 // DEC L
-                case 0x2D: l--; break;
+                case 0x2D: dec(ref l); break;
 
                 // LD L, *
                 case 0x2E: break;
@@ -199,10 +199,10 @@ namespace testclient
                 case 0x3B: sp--; break;
 
                 // INC A
-                case 0x3C: a++; break;
+                case 0x3C: inc(ref a); break;
 
                 // DEC A
-                case 0x3D: a--; break;
+                case 0x3D: dec(ref a); break;
 
                 // LD A, *
                 case 0x3E: a = GetNextByte(); break;
@@ -574,6 +574,75 @@ namespace testclient
 
                 default: break;
             }
+        }
+
+        private void dec(ref byte r)
+        {
+            fP = (r == 0x80);
+            fH = false; // TODO: set if borrow from bit 4
+            r--;
+            fZ = IsZero(r);
+            fS = IsSign(r);
+            fN = true;
+        }
+
+        private void inc(ref byte r)
+        {
+            fP = (r == 0x7F);
+            fH = (r & 0xF) == 0xF;
+            r++;
+            fZ = IsZero(r);
+            fS = IsSign(r);
+            fN = false;
+        }
+
+        private bool IsSign(byte x)
+        {
+            return (x & 0x80) == 0x80;
+        }
+
+        private bool IsZero(byte x)
+        {
+            return (x == 0);
+        }
+
+        private void Swap(ref byte x, ref byte y)
+        {
+            var temp = y;
+            y = x;
+            x = temp;
+        }
+
+        private void Swap(ref Flags x, ref Flags y)
+        {
+            var temp = y;
+            y = x;
+            x = temp;
+        }
+
+        private void SetFlagP(byte b)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SetFlagS(byte b)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SetFlagC(byte b)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SetFlagH(byte b)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SetFlagN(byte b)
+        {
+            throw new NotImplementedException();
         }
     }
 }

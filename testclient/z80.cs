@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace testclient
+namespace ProjectCambridge
 {
     public partial class Z80
     {
- 
+        // The Z80 microprocessor user manual can be downloaded from Zilog directly, here:
+        //    http://tinyurl.com/z80manual
+        // 
+        // Other useful details of the Z80 architecture can be found here:
+        //    http://landley.net/history/mirror/cpm/z80.html
+        // and here: 
+        //    http://z80.info/z80code.htm
 
         // Memory and clock
         private Memory memory;
@@ -36,7 +42,8 @@ namespace testclient
 
         public void Reset()
         {
-            a = f = b = c = d = e = h = l = 0;
+            a = b = c = d = e = h = l = 0;
+            f = 0;
             ix = iy = pc = sp = 0;
             memory.Reset();
         }

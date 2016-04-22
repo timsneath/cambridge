@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace testclient
+namespace ProjectCambridge
 {
     public partial class Z80
     {
         // Z80 Registers
-        // 
-        // Details of the Z80 architecture are here http://landley.net/history/mirror/cpm/z80.html
-        // And also here: http://z80.info/z80code.htm
 
         [Flags]
         private enum Flags
@@ -24,16 +21,20 @@ namespace testclient
             S = 128 // sign flag (bit 7)
         }
 
-        // The main Z80 registers are 8-bit, but can be combined internally to form 16-bit registers. 
+        // The main register set can be used individually as 8-bit registers or combined to form 16-bit registers
         private byte a, b, c, d, e, h, l;
         private Flags f;
-        private byte i; // Interrupt Page address register
+
+        // The alternate register set (A', F', B', C', D', E', H', L')
+        private byte a_, b_, c_, d_, e_, h_, l_;
+        private Flags f_;
+
+        private byte i; // Interrupt Page Address register
         private byte r; // Memory Refresh register
 
-        private ushort ix, iy; // index registers
-        private ushort pc; // Program Counter register
-        private ushort sp; // Stack Pointer register
-        private ushort af_, bc_, de_, hl_; // alternate registers (AF", BC', DE', HL')
+        private ushort ix, iy; // Index registers
+        private ushort pc; // Program Counter
+        private ushort sp; // Stack pointer
 
         private bool fC
         {

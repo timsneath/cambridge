@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace testclient.Properties
+namespace ProjectCambridge.Properties
 {
 
 

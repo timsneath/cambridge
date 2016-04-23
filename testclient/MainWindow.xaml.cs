@@ -40,5 +40,10 @@ namespace ProjectCambridge
 
             this.Results.Text = z80.GetState();
         }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

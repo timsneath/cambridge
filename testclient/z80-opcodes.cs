@@ -40,7 +40,7 @@ namespace ProjectCambridge
                 case 0x06: b = GetNextByte(); break;
 
                 // RLCA
-                case 0x07: fC = IsSign(a); a <<= 1; fH = false; fN = false; if (fC) a |= 0x01; break;
+                case 0x07: fC = IsSign(a); a <<= 1; fH = false; fN = false; if (fC) a = (byte)SetBit(a, 0); break;
 
                 // EX AF, AF'
                 case 0x08: Swap(ref a, ref a_); Swap(ref f, ref f_); break;
@@ -451,28 +451,28 @@ namespace ProjectCambridge
                 case 0x8F: a += a; break;
 
                 // SUB B
-                case 0x90: a -= b; break;
+                case 0x90: sub(b); break;
 
                 // SUB C
-                case 0x91: a -= c; break;
+                case 0x91: sub(c); break;
 
                 // SUB D
-                case 0x92: a -= d; break;
+                case 0x92: sub(d); break;
 
                 // SUB E
-                case 0x93: a -= e; break;
+                case 0x93: sub(e); break;
 
                 // SUB H
-                case 0x94: a -= h; break;
+                case 0x94: sub(h); break;
 
                 // SUB L
-                case 0x95: a -= l; break;
+                case 0x95: sub(l); break;
 
                 // SUB (HL)
-                case 0x96: a -= memory.ReadByte(hl); break;
+                case 0x96: sub(memory.ReadByte(hl)); break;
 
                 // SUB A
-                case 0x97: a -= a; break;
+                case 0x97: sub(a); break;
 
                 // SBC A, B
                 case 0x98: a -= b; break;
@@ -675,10 +675,125 @@ namespace ProjectCambridge
                 // JP C, **
                 case 0xDA: if (fC) pc = GetNextWord(); break;
 
+                // IN A, (**)
+                case 0xDB: break;
 
+                // CALL C, **
+                case 0xDC: if (fC) call(); break;
 
-                default: break;
+                // IX OPERATIONS
+                case 0xDD: break;
+
+                // SBC A, *
+                case 0xDE: break;
+
+                // RST 18h
+                case 0xDF: rst(0x18); break;
+
+                // RET PO
+                case 0xE0: break;
+
+                // POP HL
+                case 0xE1: hl = pop(); break;
+
+                // JP PO, **
+                case 0xE2: break;
+
+                // EX (SP), HL
+                case 0xE3: break;
+
+                // CALL PO, **
+                case 0xE4: break;
+
+                // PUSH HL
+                case 0xE5: push(hl); break;
+
+                // AND *
+                case 0xE6: break;
+
+                // RST 20h
+                case 0xE7: rst(0x20); break;
+
+                // RET PE
+                case 0xE8: break;
+
+                // JP (HL)
+                case 0xE9: pc = memory.ReadWord(hl); break;
+
+                // JP PE, **
+                case 0xEA: break;
+
+                // EX DE, HL
+                case 0xEB: Swap(ref d, ref h); Swap(ref e, ref l); break;
+
+                // CALL PE, **
+                case 0xEC: break;
+
+                // EXTD INSTRUCTIONS
+                case 0xED: break;
+
+                // XOR *
+                case 0xEE: break;
+
+                // RST 28h
+                case 0xEF: rst(0x28); break;
+
+                // RET P
+                case 0xF0: break;
+
+                // POP AF
+                case 0xF1: af = pop(); break;
+
+                // JP P, **
+                case 0xF2: break;
+
+                // DI
+                case 0xF3: break;
+
+                // CALL P, **
+                case 0xF4: break;
+
+                // PUSH AF
+                case 0xF5: push(af); break;
+
+                // OR *
+                case 0xF6: break;
+
+                // RST 30h
+                case 0xF7: rst(0x30); break;
+
+                // RET M
+                case 0xF8: break;
+
+                // LD SP, HL
+                case 0xF9: sp = hl; break;
+
+                // JP M, **
+                case 0xFA: break;
+
+                // EI
+                case 0xFB: break;
+
+                // CALL M, **
+                case 0xFC: break;
+
+                // IY INSTRUCTIONS
+                case 0xFD: break;
+
+                // CP *
+                case 0xFE: break;
+
+                // RST 38h
+                case 0xFF: rst(0x38); break; 
             }   
+        }
+
+
+        private void sub(byte r)
+        {
+            a -= r;
+            fS = IsSign(r);
+            fZ = IsZero(r);
         }
 
         private void call()
@@ -732,6 +847,21 @@ namespace ProjectCambridge
             fN = true;
             fC = false; // TODO; set if borrow
 
+        }
+
+        private bool IsBitSet(int x, int index)
+        {
+            return (x & (1 << index)) == 1;
+        }
+
+        private int SetBit(int x, int index)
+        {
+            return x | (1 << index);
+        }
+
+        private int ClearBit(int x, int index)
+        {
+            return x & ~(1 << index);
         }
 
         private bool IsSign(byte x)

@@ -48,6 +48,32 @@ namespace ProjectCambridge
             memory.Reset();
         }
 
+        public string GetState()
+        {
+            // AF BC DE HL AF' BC' DE' HL' IX IY SP PC
+            // I R IFF1 IFF2 IM < halted > < tstates >
 
+            var state = $"A  {a:X2} | BC  {bc:X4} | DE  {de:X4} | HL  {hl:X4}\n";
+            state += $"A' {a_:X2} | BC' {bc_:X4} | DE' {de_:X4} | HL' {hl_:X4}\n";
+            state += $"IX {ix:X4} | IY {iy:X4} | SP {sp:X4} | PC {pc:X4}\n";
+
+            state += "Flags: ";
+            if (fC) state += "C";
+            if (fN) state += "N";
+            if (fP) state += "P";
+            if (fH) state += "H";
+            if (fZ) state += "Z";
+            if (fS) state += "S";
+
+            return state;
+        }
+
+        public void LoadMemory(ushort start, byte[] contents)
+        {
+            foreach (byte c in contents)
+            {
+                memory.WriteByte(start++, c);
+            }
+        }
     }
 }

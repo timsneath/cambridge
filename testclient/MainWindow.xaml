@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:ProjectCambridge"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <TextBox x:Name="Instructions" />
+        <Button x:Name="Execute" Click="Execute_Click">Enter</Button>
+        <TextBlock x:Name="Results" FontFamily="Consolas" />
+    </StackPanel>
 </Window>

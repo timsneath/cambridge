@@ -34,7 +34,7 @@ namespace ProjectCambridge
 
         public Memory()
         {
-            memory = new byte[RAM_TOP];
+            memory = new byte[RAM_TOP + 1];
             this.Reset();
         }
 

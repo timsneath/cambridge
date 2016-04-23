@@ -13,7 +13,7 @@ namespace ProjectCambridge
          * helpful decoder shortcuts: http://z80.info/decoding.htm
          * and http://z80.info/z80code.txt
          */
-        public void Decode()
+        public void Tick()
         {
             byte opCode = GetNextByte();
             switch (opCode)
@@ -570,10 +570,146 @@ namespace ProjectCambridge
                 // OR A
                 case 0xB7: a |= a; break;
 
+                // CP B
+                case 0xB8: cp(b); break;
+
+                // CP C
+                case 0xB9: cp(c); break;
+
+                // CP D
+                case 0xBA: cp(d); break;
+
+                // CP E
+                case 0xBB: cp(e); break;
+
+                // CP H
+                case 0xBC: cp(h); break;
+
+                // CP L
+                case 0xBD: cp(l); break;
+
+                // CP (HL)
+                case 0xBE: cp(memory.ReadByte(hl)); break;
+
+                // CP A
+                case 0xBF: cp(a); break;
+
+                // RET NZ
+                case 0xC0: break;
+
+                // POP BC
+                case 0xC1: bc = pop(); break;
+
+                // JP NZ, **
+                case 0xC2: break;
+
+                // JP **
+                case 0xC3: pc = GetNextWord(); break;
+
+                // CALL NZ, **
+                case 0xC4: if (!fZ) { call(); }; break;
+
+                // PUSH BC
+                case 0xC5: push(bc); break;
+
+                // ADD A, *
+                case 0xC6: break;
+
+                // RST 00h
+                case 0xC7: rst(0x00); break;
+
+                // RET Z
+                case 0xC8: if (fZ) pc = pop(); break;
+
+                // RET
+                case 0xC9: pc = pop(); break;
+
+                // JP Z, **
+                case 0xCA: if (fZ) pc = GetNextWord(); break;
+
+                // BITWISE INSTRUCTIONS
+                case 0xCB: break;
+
+                // CALL Z, **
+                case 0xCC: if (fZ) call(); break;
+
+                // CALL **
+                case 0xCD: call(); break;
+
+                // ADC A, *
+                case 0xCE: GetNextByte(); break;
+
+                // RST 08h
+                case 0xCF: rst(0x08); break;
+
+                // RET NC
+                case 0xD0: if (!fC) pc = pop(); break;
+
+                // POP DE
+                case 0xD1: de = pop(); break;
+
+                // JP NC, **
+                case 0xD2: if (!fC) pc = GetNextWord(); break;
+
+                // OUT (*), A
+                case 0xD3: GetNextByte(); break;
+
+                // CALL NC, **
+                case 0xD4: if (!fC) call(); break;
+
+                // PUSH DE
+                case 0xD5: push(de); break;
+
+                // SUB *
+                case 0xD6: GetNextByte(); break;
+
+                // RST 10h
+                case 0xD7: rst(0x10); break;
+
+                // RET C
+                case 0xD8: if (fC) pc = pop(); break;
+
+                // EXX
+                case 0xD9: Swap(ref b, ref b_); Swap(ref c, ref c_); Swap(ref d, ref d_); Swap(ref e, ref e_); Swap(ref h, ref h_); Swap(ref l, ref l_); break;
+
+                // JP C, **
+                case 0xDA: if (fC) pc = GetNextWord(); break;
+
 
 
                 default: break;
-            }
+            }   
+        }
+
+        private void call()
+        {
+            push((ushort)(pc + 2));
+            pc = GetNextWord();
+        }
+
+        private void rst(int v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void push(ushort v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private ushort pop()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void inc(ref byte r)
+        {
+            fP = (r == 0x7F);
+            fH = (r & 0xF) == 0xF;
+            r++;
+            fZ = IsZero(r);
+            fS = IsSign(r);
+            fN = false;
         }
 
         private void dec(ref byte r)
@@ -586,14 +722,16 @@ namespace ProjectCambridge
             fN = true;
         }
 
-        private void inc(ref byte r)
-        {
-            fP = (r == 0x7F);
-            fH = (r & 0xF) == 0xF;
-            r++;
-            fZ = IsZero(r);
+        private void cp(byte r)
+        { 
+            var res = (byte)(a - r);
             fS = IsSign(r);
-            fN = false;
+            fZ = (res == 0);
+            fH = false; // TODO: set if borrow from bit 4f
+            fP = IsSign(res) != IsSign(a); // overflow
+            fN = true;
+            fC = false; // TODO; set if borrow
+
         }
 
         private bool IsSign(byte x)
@@ -618,31 +756,6 @@ namespace ProjectCambridge
             var temp = y;
             y = x;
             x = temp;
-        }
-
-        private void SetFlagP(byte b)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetFlagS(byte b)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetFlagC(byte b)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetFlagH(byte b)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetFlagN(byte b)
-        {
-            throw new NotImplementedException();
         }
     }
 }

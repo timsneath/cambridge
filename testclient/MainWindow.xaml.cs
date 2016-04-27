@@ -20,6 +20,8 @@ namespace ProjectCambridge
     /// </summary>
     public partial class MainWindow : Window
     {
+        Z80 z80;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,15 +29,23 @@ namespace ProjectCambridge
 
         private void Execute_Click(object sender, RoutedEventArgs e)
         {
-            var z80 = new Z80();
+            z80 = new Z80();
             var code = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x0C, 0x04 };
 
             z80.LoadMemory(0xA000, code);
             z80.pc = 0xA000;
 
-            foreach (var x in code)
+            for (;;)
             {
                 z80.Tick();
+                WriteRegisters();
+
+                // lots of 'better' ways to do this - but this is a dirty hack to let the UI update without 
+                // bothering to manage threads. Works well here where we deliberately want to sleep anyway.
+                Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background, 
+                    new System.Threading.ThreadStart(() => System.Threading.Thread.Sleep(200)));
+
+                if (z80.pc >= 0xA000 + code.Length) break;
             }
 
             this.Results.Text = z80.GetState();
@@ -44,6 +54,28 @@ namespace ProjectCambridge
         private void Test_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void WriteRegisters()
+        {
+            RegA.Text = string.Format("{0:X2}", z80.a);
+            RegBC.Text = string.Format("{0:X4}", z80.bc);
+            RegDE.Text = string.Format("{0:X4}", z80.de);
+            RegHL.Text = string.Format("{0:X4}", z80.hl);
+            RegAPrime.Text = string.Format("{0:X2}", z80.a_);
+            RegBCPrime.Text = string.Format("{0:X4}", z80.bc_);
+            RegDEPrime.Text = string.Format("{0:X4}", z80.de_);
+            RegHLPrime.Text = string.Format("{0:X4}", z80.hl_);
+            RegIX.Text = string.Format("{0:X4}", z80.ix);
+            RegIY.Text = string.Format("{0:X4}", z80.iy);
+            RegSP.Text = string.Format("{0:X4}", z80.sp);
+            RegPC.Text = string.Format("{0:X4}", z80.pc);
+            FlagC.IsChecked = z80.fC;
+            FlagH.IsChecked = z80.fH;
+            FlagN.IsChecked = z80.fN;
+            FlagP.IsChecked = z80.fP;
+            FlagS.IsChecked = z80.fS;
+            FlagZ.IsChecked = z80.fZ;
         }
     }
 }

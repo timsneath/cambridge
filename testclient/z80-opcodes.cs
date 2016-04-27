@@ -859,7 +859,7 @@ namespace ProjectCambridge
             return x | (1 << index);
         }
 
-        private int ClearBit(int x, int index)
+        private int ResetBit(int x, int index)
         {
             return x & ~(1 << index);
         }
@@ -874,14 +874,7 @@ namespace ProjectCambridge
             return (x == 0);
         }
 
-        private void Swap(ref byte x, ref byte y)
-        {
-            var temp = y;
-            y = x;
-            x = temp;
-        }
-
-        private void Swap(ref Flags x, ref Flags y)
+        private void Swap<T>(ref T x, ref T y)
         {
             var temp = y;
             y = x;

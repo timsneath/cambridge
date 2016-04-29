@@ -80,8 +80,8 @@ namespace ProjectCambridge
             }
             set
             {
-                a = (byte)((value & 0xFF00) >> 8);
-                f = (Flags)(value & 0x00FF);
+                a = HighByte(af);
+                f = (Flags)LowByte(af);
             }
         }
 
@@ -93,8 +93,8 @@ namespace ProjectCambridge
             }
             set
             {
-                b = (byte)((value & 0xFF00) >> 8);
-                c = (byte)(value & 0x00FF);
+                b = HighByte(de);
+                c = LowByte(bc);
             }
         }
 
@@ -106,8 +106,8 @@ namespace ProjectCambridge
             }
             set
             {
-                d = (byte)((value & 0xFF00) >> 8);
-                e = (byte)(value & 0x00FF);
+                d = HighByte(de);
+                e = LowByte(de);
             }
         }
 
@@ -119,8 +119,8 @@ namespace ProjectCambridge
             }
             set
             {
-                h = (byte)((value & 0xFF00) >> 8);
-                l = (byte)(value & 0x00FF);
+                h = HighByte(hl);
+                l = LowByte(hl);
             }
         }
 

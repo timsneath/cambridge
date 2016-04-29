@@ -25,7 +25,7 @@ namespace ProjectCambridge
      *    
      */
 
-    class Memory
+    public class Memory
     {
         const int ROM_TOP = 0x3FFF;
         const int RAM_TOP = 0xFFFF;
@@ -41,6 +41,15 @@ namespace ProjectCambridge
         public void Reset()
         {
             Array.Clear(memory, ROM_TOP + 1, RAM_TOP - ROM_TOP);
+        }
+
+        public void Load(ushort start, byte[] contents)
+        {
+            foreach (byte c in contents)
+            {
+                // TODO: avoid the encapsulated if check by writing directly
+                this.WriteByte(start++, c);
+            }
         }
 
         public byte ReadByte(ushort addr)

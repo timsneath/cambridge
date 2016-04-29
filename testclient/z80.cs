@@ -17,9 +17,9 @@ namespace ProjectCambridge
         // Memory and clock
         private Memory memory;
 
-        public Z80()
+        public Z80(Memory memory)
         {
-            memory = new Memory();
+            this.memory = memory;
             this.Reset();
         }
 
@@ -60,36 +60,28 @@ namespace ProjectCambridge
             var callAddr = GetNextWord();
 
             pc += 2;
-            PUSH16(pc);
+            PUSH(pc);
 
             pc = callAddr;
         }
 
         private void RST(byte addr)
         {
-            PUSH16(pc);
+            PUSH(pc);
             pc = addr;
         }
 
-        private void PUSH16(ushort val)
+        private void PUSH(ushort val)
         {
-            PUSH8(HighByte(val));
-            PUSH8(LowByte(val));
+            memory.WriteByte(--sp, HighByte(val));
+            memory.WriteByte(--sp, LowByte(val));
         }
 
-        private void PUSH8(byte val)
+        private ushort POP()
         {
-            throw new NotImplementedException();
-        }
-
-        private byte POP8()
-        {
-            throw new NotImplementedException();
-        }
-
-        private ushort POP16()
-        {
-            throw new NotImplementedException();
+            var lo = memory.ReadByte(sp++);
+            var hi = memory.ReadByte(sp++);
+            return (ushort)((hi << 8) + lo);
         }
 
         private byte RLC(byte reg)
@@ -248,7 +240,6 @@ namespace ProjectCambridge
             a = b = c = d = e = h = l = 0;
             f = 0;
             ix = iy = pc = sp = 0;
-            memory.Reset();
         }
 
         public string GetState()
@@ -269,14 +260,6 @@ namespace ProjectCambridge
             if (fS) state += "S";
 
             return state;
-        }
-
-        public void LoadMemory(ushort start, byte[] contents)
-        {
-            foreach (byte c in contents)
-            {
-                memory.WriteByte(start++, c);
-            }
         }
     }
 }

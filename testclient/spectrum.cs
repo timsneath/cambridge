@@ -12,7 +12,7 @@ namespace ProjectCambridge
 
         public Spectrum()
         {
-            z80 = new Z80();
+            z80 = new Z80(new Memory());
 
         }
     }

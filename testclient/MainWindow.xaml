@@ -66,8 +66,7 @@
             </WrapPanel>
         </GroupBox>
         <TextBox x:Name="Instructions" />
-        <Button x:Name="Execute" Click="Execute_Click">Enter</Button>
-        <TextBlock x:Name="Results" FontFamily="Consolas" Height="200" />
-        <Button x:Name="Test" Click="Test_Click">Run Tests</Button>
+        <Button x:Name="Execute" Click="Execute_Click">Run Test Code</Button>
+        <TextBlock x:Name="Results" FontFamily="Consolas" Height="100" />
     </StackPanel>
 </Window>

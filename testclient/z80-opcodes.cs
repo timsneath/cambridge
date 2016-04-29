@@ -599,7 +599,7 @@ namespace ProjectCambridge
                 case 0xC0: break;
 
                 // POP BC
-                case 0xC1: bc = POP16(); break;
+                case 0xC1: bc = POP(); break;
 
                 // JP NZ, **
                 case 0xC2: break;
@@ -611,7 +611,7 @@ namespace ProjectCambridge
                 case 0xC4: if (!fZ) { CALL(); }; break;
 
                 // PUSH BC
-                case 0xC5: PUSH16(bc); break;
+                case 0xC5: PUSH(bc); break;
 
                 // ADD A, *
                 case 0xC6: break;
@@ -620,10 +620,10 @@ namespace ProjectCambridge
                 case 0xC7: RST(0x00); break;
 
                 // RET Z
-                case 0xC8: if (fZ) pc = POP16(); break;
+                case 0xC8: if (fZ) pc = POP(); break;
 
                 // RET
-                case 0xC9: pc = POP16(); break;
+                case 0xC9: pc = POP(); break;
 
                 // JP Z, **
                 case 0xCA: if (fZ) pc = GetNextWord(); break;
@@ -644,10 +644,10 @@ namespace ProjectCambridge
                 case 0xCF: RST(0x08); break;
 
                 // RET NC
-                case 0xD0: if (!fC) pc = POP16(); break;
+                case 0xD0: if (!fC) pc = POP(); break;
 
                 // POP DE
-                case 0xD1: de = POP16(); break;
+                case 0xD1: de = POP(); break;
 
                 // JP NC, **
                 case 0xD2: if (!fC) pc = GetNextWord(); break;
@@ -659,7 +659,7 @@ namespace ProjectCambridge
                 case 0xD4: if (!fC) CALL(); break;
 
                 // PUSH DE
-                case 0xD5: PUSH16(de); break;
+                case 0xD5: PUSH(de); break;
 
                 // SUB *
                 case 0xD6: GetNextByte(); break;
@@ -668,7 +668,7 @@ namespace ProjectCambridge
                 case 0xD7: RST(0x10); break;
 
                 // RET C
-                case 0xD8: if (fC) pc = POP16(); break;
+                case 0xD8: if (fC) pc = POP(); break;
 
                 // EXX
                 case 0xD9: Swap(ref b, ref b_); Swap(ref c, ref c_); Swap(ref d, ref d_); Swap(ref e, ref e_); Swap(ref h, ref h_); Swap(ref l, ref l_); break;
@@ -695,7 +695,7 @@ namespace ProjectCambridge
                 case 0xE0: break;
 
                 // POP HL
-                case 0xE1: hl = POP16(); break;
+                case 0xE1: hl = POP(); break;
 
                 // JP PO, **
                 case 0xE2: break;
@@ -707,7 +707,7 @@ namespace ProjectCambridge
                 case 0xE4: break;
 
                 // PUSH HL
-                case 0xE5: PUSH16(hl); break;
+                case 0xE5: PUSH(hl); break;
 
                 // AND *
                 case 0xE6: break;
@@ -743,7 +743,7 @@ namespace ProjectCambridge
                 case 0xF0: break;
 
                 // POP AF
-                case 0xF1: af = POP16(); break;
+                case 0xF1: af = POP(); break;
 
                 // JP P, **
                 case 0xF2: break;
@@ -755,7 +755,7 @@ namespace ProjectCambridge
                 case 0xF4: break;
 
                 // PUSH AF
-                case 0xF5: PUSH16(af); break;
+                case 0xF5: PUSH(af); break;
 
                 // OR *
                 case 0xF6: break;

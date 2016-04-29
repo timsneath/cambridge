@@ -21,18 +21,21 @@ namespace ProjectCambridge
     public partial class MainWindow : Window
     {
         Z80 z80;
+        Memory memory;
 
         public MainWindow()
         {
             InitializeComponent();
+            memory = new Memory();
         }
 
         private void Execute_Click(object sender, RoutedEventArgs e)
         {
-            z80 = new Z80();
+            
             var code = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x0C, 0x04 };
 
-            z80.LoadMemory(0xA000, code);
+            memory.Load(0xA000, code);
+            z80 = new Z80(memory);
             z80.pc = 0xA000;
 
             for (;;)
@@ -49,11 +52,6 @@ namespace ProjectCambridge
             }
 
             this.Results.Text = z80.GetState();
-        }
-
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void WriteRegisters()

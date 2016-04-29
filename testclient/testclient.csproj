@@ -59,6 +59,7 @@
     <Compile Include="exceptions.cs" />
     <Compile Include="memory.cs" />
     <Compile Include="spectrum.cs" />
+    <Compile Include="extensionmethods.cs" />
     <Compile Include="z80-opcodes.cs" />
     <Compile Include="z80-registers.cs" />
     <Compile Include="z80.cs" />

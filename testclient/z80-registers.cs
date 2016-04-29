@@ -130,5 +130,8 @@ namespace ProjectCambridge
         internal ushort bc_ { get { return (ushort)((b_ << 8) + c_); } }
         internal ushort de_ { get { return (ushort)((d_ << 8) + e_); } }
         internal ushort hl_ { get { return (ushort)((h_ << 8) + l_); } }
+
+        public byte HighByte(ushort val) => (byte)((val & 0xFF00) >> 8);
+        public byte LowByte(ushort val) => (byte)(val & 0x00FF);
     }
 }

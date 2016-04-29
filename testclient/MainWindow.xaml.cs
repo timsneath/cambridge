@@ -37,7 +37,7 @@ namespace ProjectCambridge
 
             for (;;)
             {
-                z80.Tick();
+                z80.DecodeOpcode();
                 WriteRegisters();
 
                 // lots of 'better' ways to do this - but this is a dirty hack to let the UI update without 

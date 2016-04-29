@@ -23,6 +23,209 @@ namespace ProjectCambridge
             this.Reset();
         }
 
+        // operations
+        private byte INC(byte reg)
+        {
+            fP = (reg == 0x7F);
+            fH = (reg & 0xF) == 0xF;
+            reg++;
+            fZ = IsZero(reg);
+            fS = IsSign(reg);
+            fN = false;
+
+            return reg;
+        }
+
+        private byte DEC(byte reg)
+        {
+            fP = (reg == 0x80);
+            fH = false; // TODO: set if borrow from bit 4
+            reg--;
+            fZ = IsZero(reg);
+            fS = IsSign(reg);
+            fN = true;
+
+            return reg;
+        }
+
+        private void SUB(byte reg)
+        {
+            a -= reg;
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+        }
+
+        private void CALL()
+        {
+            var callAddr = GetNextWord();
+
+            pc += 2;
+            PUSH16(pc);
+
+            pc = callAddr;
+        }
+
+        private void RST(byte addr)
+        {
+            PUSH16(pc);
+            pc = addr;
+        }
+
+        private void PUSH16(ushort val)
+        {
+            PUSH8(HighByte(val));
+            PUSH8(LowByte(val));
+        }
+
+        private void PUSH8(byte val)
+        {
+            throw new NotImplementedException();
+        }
+
+        private byte POP8()
+        {
+            throw new NotImplementedException();
+        }
+
+        private ushort POP16()
+        {
+            throw new NotImplementedException();
+        }
+
+        private byte RLC(byte reg)
+        {
+            // rotates register r to the left
+            // bit 7 is copied to carry and to bit 0
+            fC = IsSign(reg);
+            reg <<= 1;
+            if (fC) reg = (byte)SetBit(reg, 0);
+
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+            fH = false;
+            fP = IsParity(reg);
+            fN = false;
+
+            return reg;
+        }
+
+        private byte RRC(byte reg)
+        {
+            fC = IsBitSet(reg, 0);
+            reg >>= 1;
+            if (fC) reg = (byte)SetBit(reg, 7);
+
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+            fH = false;
+            fP = IsParity(reg);
+            fN = false;
+
+            return reg;
+
+        }
+
+        private byte RL(byte reg)
+        {
+            // rotates register r to the left, through carry. 
+            // carry becomes the LSB of the new r
+            bool bit0 = fC;
+
+            fC = IsSign(reg);
+            reg <<= 1;
+
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+            fH = false;
+            fP = IsParity(reg);
+            fN = false;
+
+            if (bit0) reg = (byte)SetBit(reg, 0);
+
+            return reg;
+        }
+
+        private byte RR(byte reg)
+        {
+            bool bit7 = fC;
+
+            fC = IsBitSet(reg, 0);
+            reg >>= 1;
+
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+            fH = false;
+            fP = IsParity(reg);
+            fN = false;
+
+            if (bit7) reg = (byte)SetBit(reg, 7);
+
+            return reg;
+        }
+
+        private byte SLA(byte reg)
+        {
+            fC = IsSign(reg);
+            reg <<= 1;
+
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+            fH = false;
+            fP = IsParity(reg);
+            fN = false;
+
+            return reg;
+        }
+
+        private byte SRA(byte reg)
+        {
+            bool bit7 = IsSign(reg);
+
+            fC = IsBitSet(reg, 0);
+            reg >>= 1;
+
+            if (bit7) SetBit(reg, 7);
+
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+            fH = false;
+            fP = IsParity(reg);
+            fN = false;
+
+            return reg;
+        }
+
+        private byte SLL(byte reg)
+        {
+            // technically, SLL is undocumented
+            fC = IsBitSet(reg, 7);
+            reg <<= 1;
+            SetBit(reg, 1);
+
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+            fH = false;
+            fP = IsParity(reg);
+            fN = false;
+
+            return reg;
+        }
+
+        private byte SRL(byte reg)
+        {
+            fC = IsBitSet(reg, 0);
+            reg >>= 1;
+            ResetBit(reg, 7);
+
+            fS = IsSign(reg);
+            fZ = IsZero(reg);
+            fH = false;
+            fP = IsParity(reg);
+            fN = false;
+
+            return reg;
+        }
+
         // 
         private byte GetNextByte()
         {

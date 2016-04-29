@@ -1,5 +1,6 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace ProjectCambridge
          * helpful decoder shortcuts: http://z80.info/decoding.htm
          * and http://z80.info/z80code.txt
          */
-        public void Tick()
+        public void DecodeOpcode()
         {
             byte opCode = GetNextByte();
             switch (opCode)
@@ -31,10 +32,10 @@ namespace ProjectCambridge
                 case 0x03: bc++; break;
 
                 // INC B
-                case 0x04: inc(ref b); break;
+                case 0x04: b = INC(b); break;
 
                 // DEC B
-                case 0x05: dec(ref b); break;
+                case 0x05: b = DEC(b); break;
 
                 // LD B, *
                 case 0x06: b = GetNextByte(); break;
@@ -55,10 +56,10 @@ namespace ProjectCambridge
                 case 0x0B: bc--; break;
 
                 // INC C
-                case 0x0C: inc(ref c); break;
+                case 0x0C: c = INC(c); break;
 
                 // DEC C
-                case 0x0D: dec(ref c);  break;
+                case 0x0D: c = DEC(c); break;
 
                 // LD C, *
                 case 0x0E: c = GetNextByte(); break;
@@ -79,10 +80,10 @@ namespace ProjectCambridge
                 case 0x13: de++; break;
 
                 // INC D
-                case 0x14: inc(ref d); break;
+                case 0x14: d = INC(d); break;
 
                 // DEC D
-                case 0x15: dec(ref d); break;
+                case 0x15: d = DEC(d); break;
 
                 // LD D, *
                 case 0x16: d = GetNextByte(); break;
@@ -103,10 +104,10 @@ namespace ProjectCambridge
                 case 0x1B: de--; break;
 
                 // INC E
-                case 0x1C: inc(ref e); break;
+                case 0x1C: e = INC(e); break;
 
                 // DEC E
-                case 0x1D: dec(ref e); break;
+                case 0x1D: e = DEC(e); break;
 
                 // LD E, *
                 case 0x1E: e = GetNextByte(); break;
@@ -127,10 +128,10 @@ namespace ProjectCambridge
                 case 0x23: hl++; break;
 
                 // INC H
-                case 0x24: inc(ref h); break;
+                case 0x24: h = INC(h); break;
 
                 // DEC H
-                case 0x25: dec(ref h); break;
+                case 0x25: h = DEC(h); break;
 
                 // LD H, *
                 case 0x26: h = GetNextByte(); break;
@@ -151,10 +152,10 @@ namespace ProjectCambridge
                 case 0x2B: hl--; break;
 
                 // INC L
-                case 0x2C: inc(ref l); break;
+                case 0x2C: l = INC(l); break;
 
                 // DEC L
-                case 0x2D: dec(ref l); break;
+                case 0x2D: l = DEC(l); break;
 
                 // LD L, *
                 case 0x2E: break;
@@ -199,10 +200,10 @@ namespace ProjectCambridge
                 case 0x3B: sp--; break;
 
                 // INC A
-                case 0x3C: inc(ref a); break;
+                case 0x3C: a = INC(a); break;
 
                 // DEC A
-                case 0x3D: dec(ref a); break;
+                case 0x3D: a = DEC(a); break;
 
                 // LD A, *
                 case 0x3E: a = GetNextByte(); break;
@@ -451,28 +452,28 @@ namespace ProjectCambridge
                 case 0x8F: a += a; break;
 
                 // SUB B
-                case 0x90: sub(b); break;
+                case 0x90: SUB(b); break;
 
                 // SUB C
-                case 0x91: sub(c); break;
+                case 0x91: SUB(c); break;
 
                 // SUB D
-                case 0x92: sub(d); break;
+                case 0x92: SUB(d); break;
 
                 // SUB E
-                case 0x93: sub(e); break;
+                case 0x93: SUB(e); break;
 
                 // SUB H
-                case 0x94: sub(h); break;
+                case 0x94: SUB(h); break;
 
                 // SUB L
-                case 0x95: sub(l); break;
+                case 0x95: SUB(l); break;
 
                 // SUB (HL)
-                case 0x96: sub(memory.ReadByte(hl)); break;
+                case 0x96: SUB(memory.ReadByte(hl)); break;
 
                 // SUB A
-                case 0x97: sub(a); break;
+                case 0x97: SUB(a); break;
 
                 // SBC A, B
                 case 0x98: a -= b; break;
@@ -598,7 +599,7 @@ namespace ProjectCambridge
                 case 0xC0: break;
 
                 // POP BC
-                case 0xC1: bc = pop(); break;
+                case 0xC1: bc = POP16(); break;
 
                 // JP NZ, **
                 case 0xC2: break;
@@ -607,46 +608,46 @@ namespace ProjectCambridge
                 case 0xC3: pc = GetNextWord(); break;
 
                 // CALL NZ, **
-                case 0xC4: if (!fZ) { call(); }; break;
+                case 0xC4: if (!fZ) { CALL(); }; break;
 
                 // PUSH BC
-                case 0xC5: push(bc); break;
+                case 0xC5: PUSH16(bc); break;
 
                 // ADD A, *
                 case 0xC6: break;
 
                 // RST 00h
-                case 0xC7: rst(0x00); break;
+                case 0xC7: RST(0x00); break;
 
                 // RET Z
-                case 0xC8: if (fZ) pc = pop(); break;
+                case 0xC8: if (fZ) pc = POP16(); break;
 
                 // RET
-                case 0xC9: pc = pop(); break;
+                case 0xC9: pc = POP16(); break;
 
                 // JP Z, **
                 case 0xCA: if (fZ) pc = GetNextWord(); break;
 
                 // BITWISE INSTRUCTIONS
-                case 0xCB: break;
+                case 0xCB: DecodeCBOpcode(); break;
 
                 // CALL Z, **
-                case 0xCC: if (fZ) call(); break;
+                case 0xCC: if (fZ) CALL(); break;
 
                 // CALL **
-                case 0xCD: call(); break;
+                case 0xCD: CALL(); break;
 
                 // ADC A, *
                 case 0xCE: GetNextByte(); break;
 
                 // RST 08h
-                case 0xCF: rst(0x08); break;
+                case 0xCF: RST(0x08); break;
 
                 // RET NC
-                case 0xD0: if (!fC) pc = pop(); break;
+                case 0xD0: if (!fC) pc = POP16(); break;
 
                 // POP DE
-                case 0xD1: de = pop(); break;
+                case 0xD1: de = POP16(); break;
 
                 // JP NC, **
                 case 0xD2: if (!fC) pc = GetNextWord(); break;
@@ -655,19 +656,19 @@ namespace ProjectCambridge
                 case 0xD3: GetNextByte(); break;
 
                 // CALL NC, **
-                case 0xD4: if (!fC) call(); break;
+                case 0xD4: if (!fC) CALL(); break;
 
                 // PUSH DE
-                case 0xD5: push(de); break;
+                case 0xD5: PUSH16(de); break;
 
                 // SUB *
                 case 0xD6: GetNextByte(); break;
 
                 // RST 10h
-                case 0xD7: rst(0x10); break;
+                case 0xD7: RST(0x10); break;
 
                 // RET C
-                case 0xD8: if (fC) pc = pop(); break;
+                case 0xD8: if (fC) pc = POP16(); break;
 
                 // EXX
                 case 0xD9: Swap(ref b, ref b_); Swap(ref c, ref c_); Swap(ref d, ref d_); Swap(ref e, ref e_); Swap(ref h, ref h_); Swap(ref l, ref l_); break;
@@ -679,7 +680,7 @@ namespace ProjectCambridge
                 case 0xDB: break;
 
                 // CALL C, **
-                case 0xDC: if (fC) call(); break;
+                case 0xDC: if (fC) CALL(); break;
 
                 // IX OPERATIONS
                 case 0xDD: break;
@@ -688,13 +689,13 @@ namespace ProjectCambridge
                 case 0xDE: break;
 
                 // RST 18h
-                case 0xDF: rst(0x18); break;
+                case 0xDF: RST(0x18); break;
 
                 // RET PO
                 case 0xE0: break;
 
                 // POP HL
-                case 0xE1: hl = pop(); break;
+                case 0xE1: hl = POP16(); break;
 
                 // JP PO, **
                 case 0xE2: break;
@@ -706,13 +707,13 @@ namespace ProjectCambridge
                 case 0xE4: break;
 
                 // PUSH HL
-                case 0xE5: push(hl); break;
+                case 0xE5: PUSH16(hl); break;
 
                 // AND *
                 case 0xE6: break;
 
                 // RST 20h
-                case 0xE7: rst(0x20); break;
+                case 0xE7: RST(0x20); break;
 
                 // RET PE
                 case 0xE8: break;
@@ -736,13 +737,13 @@ namespace ProjectCambridge
                 case 0xEE: break;
 
                 // RST 28h
-                case 0xEF: rst(0x28); break;
+                case 0xEF: RST(0x28); break;
 
                 // RET P
                 case 0xF0: break;
 
                 // POP AF
-                case 0xF1: af = pop(); break;
+                case 0xF1: af = POP16(); break;
 
                 // JP P, **
                 case 0xF2: break;
@@ -754,13 +755,13 @@ namespace ProjectCambridge
                 case 0xF4: break;
 
                 // PUSH AF
-                case 0xF5: push(af); break;
+                case 0xF5: PUSH16(af); break;
 
                 // OR *
                 case 0xF6: break;
 
                 // RST 30h
-                case 0xF7: rst(0x30); break;
+                case 0xF7: RST(0x30); break;
 
                 // RET M
                 case 0xF8: break;
@@ -784,65 +785,140 @@ namespace ProjectCambridge
                 case 0xFE: break;
 
                 // RST 38h
-                case 0xFF: rst(0x38); break; 
+                case 0xFF: RST(0x38); break; 
             }   
         }
 
-
-        private void sub(byte r)
+        private void DecodeCBOpcode()
         {
-            a -= r;
-            fS = IsSign(r);
-            fZ = IsZero(r);
+            byte opCode = GetNextByte();
+            
+            // first two bits of opCode determine function:
+            switch (opCode >> 6)
+            {
+                // 00 = rot [y], r[z]
+                case 0: rot(opCode & 0x38, opCode & 0x07); break;
+
+                // 01 = BIT y, r[z]
+                case 1: bit(opCode & 0x38, opCode & 0x07); break;
+
+                // 02 = RES y, r[z]
+                case 2: res(opCode & 0x38, opCode & 0x07); break;
+
+                // 03 = SET y, r[z]
+                case 3: set(opCode & 0x38, opCode & 0x07); break;
+            }
         }
 
-        private void call()
+        private void rot(int operation, int register)
         {
-            push((ushort)(pc + 2));
-            pc = GetNextWord();
+            Func<byte, byte> rotFunction;
+            
+            switch(operation)
+            {
+                case 0x00: rotFunction = RLC; break;
+                case 0x01: rotFunction = RRC; break;
+                case 0x02: rotFunction = RL; break;
+                case 0x03: rotFunction = RR; break;
+                case 0x04: rotFunction = SLA; break;
+                case 0x05: rotFunction = SRA; break;
+                case 0x06: rotFunction = SLL; break;
+                case 0x07: rotFunction = SRL; break;
+                default:
+                    throw new ArgumentOutOfRangeException("operation", operation, "Operation must map to a valid rotation operation.");
+            }
+
+            switch (register)
+            {
+                case 0x00: b = rotFunction(b); break;
+                case 0x01: c = rotFunction(c); break;
+                case 0x02: d = rotFunction(d); break;
+                case 0x03: e = rotFunction(e); break;
+                case 0x04: h = rotFunction(h); break;
+                case 0x05: l = rotFunction(l); break;
+                case 0x06: memory.WriteByte(hl, rotFunction(memory.ReadByte(hl))); break;
+                case 0x07: a = rotFunction(a); break;
+                default:
+                    throw new ArgumentOutOfRangeException("register", register, "Field register must map to a valid Z80 register.");
+            }
         }
 
-        private void rst(int v)
+
+
+        private bool IsParity(byte reg)
         {
-            throw new NotImplementedException();
+            int bits1 = 0;
+            for(var i=0; i < 8; i++)
+            {
+                if (IsBitSet(reg, i)) { bits1++; }
+            }
+
+            return (bits1 % 2 == 0);
         }
 
-        private void push(ushort v)
-        {
-            throw new NotImplementedException();
-        }
 
-        private ushort pop()
-        {
-            throw new NotImplementedException();
-        }
+        private void bit(int bitToTest, int reg)
+        { 
+            switch(reg)
+            {
+                case 0x0: fZ = !IsBitSet(b, bitToTest); break;
+                case 0x1: fZ = !IsBitSet(c, bitToTest); break;
+                case 0x2: fZ = !IsBitSet(d, bitToTest); break;
+                case 0x3: fZ = !IsBitSet(e, bitToTest); break;
+                case 0x4: fZ = !IsBitSet(h, bitToTest); break;
+                case 0x5: fZ = !IsBitSet(l, bitToTest); break;
+                case 0x6: fZ = !IsBitSet(memory.ReadByte(hl), bitToTest); break;
+                case 0x7: fZ = !IsBitSet(a, bitToTest); break;
+                default:
+                    throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
+            }
 
-        private void inc(ref byte r)
-        {
-            fP = (r == 0x7F);
-            fH = (r & 0xF) == 0xF;
-            r++;
-            fZ = IsZero(r);
-            fS = IsSign(r);
+            fH = true;
             fN = false;
         }
 
-        private void dec(ref byte r)
+        private void res(int bitToReset, int reg)
         {
-            fP = (r == 0x80);
-            fH = false; // TODO: set if borrow from bit 4
-            r--;
-            fZ = IsZero(r);
-            fS = IsSign(r);
-            fN = true;
+            switch (reg)
+            {
+                case 0x0: b = ResetBit(b, bitToReset); break;
+                case 0x1: c = ResetBit(c, bitToReset); break;
+                case 0x2: d = ResetBit(d, bitToReset); break;
+                case 0x3: e = ResetBit(e, bitToReset); break;
+                case 0x4: h = ResetBit(h, bitToReset); break;
+                case 0x5: l = ResetBit(l, bitToReset); break;
+                case 0x6: memory.WriteByte(hl, ResetBit(memory.ReadByte(hl), bitToReset)); break;
+                case 0x7: a = ResetBit(a, bitToReset); break;
+                default:
+                    throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
+            }
+
         }
 
-        private void cp(byte r)
+        private void set(int bitToSet, int reg)
+        {
+            switch (reg)
+            {
+                case 0x0: b = SetBit(b, bitToSet); break;
+                case 0x1: c = SetBit(c, bitToSet); break;
+                case 0x2: d = SetBit(d, bitToSet); break;
+                case 0x3: e = SetBit(e, bitToSet); break;
+                case 0x4: h = SetBit(h, bitToSet); break;
+                case 0x5: l = SetBit(l, bitToSet); break;
+                case 0x6: memory.WriteByte(hl, SetBit(memory.ReadByte(hl), bitToSet)); break;
+                case 0x7: a = SetBit(a, bitToSet); break;
+                default:
+                    throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
+            }
+
+        }
+
+        private void cp(byte reg)
         { 
-            var res = (byte)(a - r);
-            fS = IsSign(r);
+            var res = (byte)(a - reg);
+            fS = IsSign(reg);
             fZ = (res == 0);
-            fH = false; // TODO: set if borrow from bit 4f
+            fH = false; // TODO: set if borrow from bit 4
             fP = IsSign(res) != IsSign(a); // overflow
             fN = true;
             fC = false; // TODO; set if borrow
@@ -851,17 +927,17 @@ namespace ProjectCambridge
 
         private bool IsBitSet(int x, int index)
         {
-            return (x & (1 << index)) == 1;
+            return (x & (1 << index)) == 1 << index;
         }
 
-        private int SetBit(int x, int index)
+        private byte SetBit(int x, int index)
         {
-            return x | (1 << index);
+            return (byte)(x | (1 << index));
         }
 
-        private int ResetBit(int x, int index)
+        private byte ResetBit(int x, int index)
         {
-            return x & ~(1 << index);
+            return (byte)(x & ~(1 << index));
         }
 
         private bool IsSign(byte x)

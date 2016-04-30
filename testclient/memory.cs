@@ -47,8 +47,7 @@ namespace ProjectCambridge
         {
             foreach (byte c in contents)
             {
-                // TODO: avoid the encapsulated if check by writing directly
-                this.WriteByte(start++, c);
+                memory[start++] = c;
             }
         }
 
@@ -59,7 +58,7 @@ namespace ProjectCambridge
 
         public ushort ReadWord(ushort addr)
         {
-            return (ushort)((memory[addr] << 8) + memory[addr+1]); 
+            return (ushort)((memory[addr+1] << 8) + memory[addr]); 
         }
 
         public void WriteByte(ushort addr, byte val)

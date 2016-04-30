@@ -36,6 +36,9 @@ namespace ProjectCambridge
         public ushort pc; // Program Counter
         public ushort sp; // Stack pointer
 
+        public bool iff1;
+        public bool iff2; 
+
         public bool fC
         {
             get { return (f & Flags.C) == Flags.C; }

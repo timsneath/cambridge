@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProjectCambridge
 {
-    public class Spectrum
+    public partial class Z80
     {
-        private Z80 z80;
-
-        public Spectrum()
-        {
-            z80 = new Z80(new Memory(), 0x0000);
-
-        }
+        byte[] output = new byte[256];
     }
 }

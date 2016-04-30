@@ -14,7 +14,7 @@ namespace ProjectCambridge
          * helpful decoder shortcuts: http://z80.info/decoding.htm
          * and http://z80.info/z80code.txt
          */
-        public void DecodeOpcode()
+        public bool ExecuteNextInstruction()
         {
             byte opCode = GetNextByte();
             switch (opCode)
@@ -92,7 +92,7 @@ namespace ProjectCambridge
                 case 0x17: break;
 
                 // JR *
-                case 0x18: break;
+                case 0x18: JR((sbyte)GetNextByte()); break;
 
                 // ADD HL, DE
                 case 0x19: hl += de; break;
@@ -116,7 +116,7 @@ namespace ProjectCambridge
                 case 0x1F: break;
 
                 // JR NZ, *
-                case 0x20: break;
+                case 0x20: if (!fZ) { JR((sbyte)GetNextByte()); } break;
 
                 // LD HL, **
                 case 0x21: h = GetNextByte(); l = GetNextByte(); break;
@@ -140,7 +140,7 @@ namespace ProjectCambridge
                 case 0x27: break;
 
                 // JR Z, *
-                case 0x28: break;
+                case 0x28: if (fZ) { JR((sbyte)GetNextByte()); } break;
 
                 // ADD HL, HL
                 case 0x29: hl += hl; break;
@@ -164,7 +164,7 @@ namespace ProjectCambridge
                 case 0x2F: break;
 
                 // JR NC, *
-                case 0x30: break;
+                case 0x30: if (!fC) { JR((sbyte)GetNextByte()); } break;
 
                 // LD SP, **
                 case 0x31: sp = GetNextWord(); break;
@@ -188,7 +188,7 @@ namespace ProjectCambridge
                 case 0x37: break;
 
                 // JR C, *
-                case 0x38: break;
+                case 0x38: if (fC) { JR((sbyte)GetNextByte()); } break;
 
                 // ADD HL, SP
                 case 0x39: hl += sp; break;
@@ -374,7 +374,7 @@ namespace ProjectCambridge
                 case 0x75: memory.WriteByte(hl, l); break;
 
                 // HALT
-                case 0x76: break;
+                case 0x76: return true;
 
                 // LD (HL), A
                 case 0x77: memory.WriteByte(hl, a); break;
@@ -476,28 +476,28 @@ namespace ProjectCambridge
                 case 0x97: SUB(a); break;
 
                 // SBC A, B
-                case 0x98: a -= b; break;
+                case 0x98: a = SBC(a, b); break;
 
                 // SBC A, C
-                case 0x99: a -= c; break;
+                case 0x99: a = SBC(a, c); break;
 
                 // SBC A, D
-                case 0x9A: a -= d; break;
+                case 0x9A: a = SBC(a, d); break;
 
                 // SBC A, E
-                case 0x9B: a -= e; break;
+                case 0x9B: a = SBC(a, e); break;
 
                 // SBC A, H
-                case 0x9C: a -= h; break;
+                case 0x9C: a = SBC(a, h); break;
 
                 // SBC A, L
-                case 0x9D: a -= l; break;
+                case 0x9D: a = SBC(a, l); break;
 
                 // SBC A, (HL)
-                case 0x9E: a -= memory.ReadByte(hl); break;
+                case 0x9E: a = SBC(a, memory.ReadByte(hl)); break;
 
                 // SBC A, A
-                case 0x9F: a -= a; break;
+                case 0x9F: a = SBC(a, a); break;
 
                 // AND B
                 case 0xA0: a &= b; break;
@@ -572,37 +572,37 @@ namespace ProjectCambridge
                 case 0xB7: a |= a; break;
 
                 // CP B
-                case 0xB8: cp(b); break;
+                case 0xB8: CP(b); break;
 
                 // CP C
-                case 0xB9: cp(c); break;
+                case 0xB9: CP(c); break;
 
                 // CP D
-                case 0xBA: cp(d); break;
+                case 0xBA: CP(d); break;
 
                 // CP E
-                case 0xBB: cp(e); break;
+                case 0xBB: CP(e); break;
 
                 // CP H
-                case 0xBC: cp(h); break;
+                case 0xBC: CP(h); break;
 
                 // CP L
-                case 0xBD: cp(l); break;
+                case 0xBD: CP(l); break;
 
                 // CP (HL)
-                case 0xBE: cp(memory.ReadByte(hl)); break;
+                case 0xBE: CP(memory.ReadByte(hl)); break;
 
                 // CP A
-                case 0xBF: cp(a); break;
+                case 0xBF: CP(a); break;
 
                 // RET NZ
-                case 0xC0: break;
+                case 0xC0: if (!fZ) { pc = POP(); } break;
 
                 // POP BC
                 case 0xC1: bc = POP(); break;
 
                 // JP NZ, **
-                case 0xC2: break;
+                case 0xC2: if (!fZ) { pc = GetNextWord(); } break;
 
                 // JP **
                 case 0xC3: pc = GetNextWord(); break;
@@ -620,7 +620,7 @@ namespace ProjectCambridge
                 case 0xC7: RST(0x00); break;
 
                 // RET Z
-                case 0xC8: if (fZ) pc = POP(); break;
+                case 0xC8: if (fZ) { pc = POP(); } break;
 
                 // RET
                 case 0xC9: pc = POP(); break;
@@ -653,7 +653,7 @@ namespace ProjectCambridge
                 case 0xD2: if (!fC) pc = GetNextWord(); break;
 
                 // OUT (*), A
-                case 0xD3: GetNextByte(); break;
+                case 0xD3: output[GetNextByte()] = a; break;
 
                 // CALL NC, **
                 case 0xD4: if (!fC) CALL(); break;
@@ -686,107 +686,109 @@ namespace ProjectCambridge
                 case 0xDD: break;
 
                 // SBC A, *
-                case 0xDE: break;
+                case 0xDE: a = SBC(a, GetNextByte()); break;
 
                 // RST 18h
                 case 0xDF: RST(0x18); break;
 
                 // RET PO
-                case 0xE0: break;
+                case 0xE0: if (!fP) { pc = POP(); } break;
 
                 // POP HL
                 case 0xE1: hl = POP(); break;
 
                 // JP PO, **
-                case 0xE2: break;
+                case 0xE2: if (!fP) { pc = GetNextWord(); } break;
 
                 // EX (SP), HL
-                case 0xE3: break;
+                case 0xE3: var temp = hl; hl = memory.ReadWord(sp); memory.WriteWord(sp, temp); break;
 
                 // CALL PO, **
-                case 0xE4: break;
+                case 0xE4: if (!fP) { CALL(); } break;
 
                 // PUSH HL
                 case 0xE5: PUSH(hl); break;
 
                 // AND *
-                case 0xE6: break;
+                case 0xE6: a &= GetNextByte(); break;
 
                 // RST 20h
                 case 0xE7: RST(0x20); break;
 
                 // RET PE
-                case 0xE8: break;
+                case 0xE8: if (fP) { pc = POP(); } break;
 
                 // JP (HL)
                 case 0xE9: pc = memory.ReadWord(hl); break;
 
                 // JP PE, **
-                case 0xEA: break;
+                case 0xEA: if (fP) { pc = GetNextWord(); } break;
 
                 // EX DE, HL
                 case 0xEB: Swap(ref d, ref h); Swap(ref e, ref l); break;
 
                 // CALL PE, **
-                case 0xEC: break;
+                case 0xEC: if (fP) { CALL(); } break;
 
                 // EXTD INSTRUCTIONS
-                case 0xED: break;
+                case 0xED: DecodeEBOpcode(); break;
 
                 // XOR *
-                case 0xEE: break;
+                case 0xEE: a ^= GetNextByte();  break;
 
                 // RST 28h
                 case 0xEF: RST(0x28); break;
 
                 // RET P
-                case 0xF0: break;
+                case 0xF0: if (!fS) pc = POP(); break;
 
                 // POP AF
                 case 0xF1: af = POP(); break;
 
                 // JP P, **
-                case 0xF2: break;
+                case 0xF2: if (!fS) { pc = GetNextWord(); } break;
 
                 // DI
-                case 0xF3: break;
+                case 0xF3: iff1 = false; iff2 = false; break;
 
                 // CALL P, **
-                case 0xF4: break;
+                case 0xF4: if (!fS) { CALL(); } break;
 
                 // PUSH AF
                 case 0xF5: PUSH(af); break;
 
                 // OR *
-                case 0xF6: break;
+                case 0xF6: a |= GetNextByte(); break;
 
                 // RST 30h
                 case 0xF7: RST(0x30); break;
 
                 // RET M
-                case 0xF8: break;
+                case 0xF8: if (fS) { pc = POP(); } break;
 
                 // LD SP, HL
                 case 0xF9: sp = hl; break;
 
                 // JP M, **
-                case 0xFA: break;
+                case 0xFA: if (fS) { pc = GetNextWord(); } break;
 
                 // EI
                 case 0xFB: break;
 
                 // CALL M, **
-                case 0xFC: break;
+                case 0xFC: if (fS) { CALL(); } break;
 
                 // IY INSTRUCTIONS
                 case 0xFD: break;
 
                 // CP *
-                case 0xFE: break;
+                case 0xFE: CP(GetNextByte()); break;
 
                 // RST 38h
                 case 0xFF: RST(0x38); break; 
-            }   
+            }
+
+            return false;
         }
 
         private void DecodeCBOpcode()
@@ -809,6 +811,74 @@ namespace ProjectCambridge
                 case 3: set(opCode & 0x38, opCode & 0x07); break;
             }
         }
+
+        private void DecodeEBOpcode()
+        {
+            byte opCode = GetNextByte();
+
+            switch(opCode)
+            {
+                // IN B, (C)
+                case 0x40: break;
+
+                // OUT (C), B
+                case 0x41: break;
+
+                // SBC HL, BC
+                case 0x42: break;
+
+                // LD (**), BC
+                case 0x43: memory.WriteWord(GetNextWord(), bc); break;
+
+                // NEG
+                case 0x44: break;
+
+                // RETN
+                case 0x45: break;
+
+                // IM 0
+                case 0x46: break;
+
+                // LD I, A
+                case 0x47: i = a; break;
+
+                // IN C, (C)
+                case 0x48: break;
+
+                // OUT C, (C)
+                case 0x49: break;
+
+                // ADC HL, BC
+                case 0x4A: break;
+
+                // LD BC, (**)
+                case 0x4B: bc = memory.ReadWord(GetNextWord()); break;
+
+                // RETI
+                case 0x4D: break;
+
+                // LD R, A
+                case 0x4F: r = a; break;
+
+                default:
+                    throw new InvalidOperationException($"Opcode EB{opCode:X2} not understood. ");
+            }
+        }
+
+        private byte GetNextByte()
+        {
+            var byteRead = memory.ReadByte(pc);
+            pc++;
+            return byteRead;
+        }
+
+        private ushort GetNextWord()
+        {
+            var wordRead = memory.ReadWord(pc);
+            pc += 2;
+            return wordRead;
+        }
+
 
         private void rot(int operation, int register)
         {
@@ -842,7 +912,6 @@ namespace ProjectCambridge
                     throw new ArgumentOutOfRangeException("register", register, "Field register must map to a valid Z80 register.");
             }
         }
-
 
 
         private bool IsParity(byte reg)
@@ -910,18 +979,6 @@ namespace ProjectCambridge
                 default:
                     throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
             }
-
-        }
-
-        private void cp(byte reg)
-        { 
-            var res = (byte)(a - reg);
-            fS = IsSign(reg);
-            fZ = (res == 0);
-            fH = false; // TODO: set if borrow from bit 4
-            fP = IsSign(res) != IsSign(a); // overflow
-            fN = true;
-            fC = false; // TODO; set if borrow
 
         }
 

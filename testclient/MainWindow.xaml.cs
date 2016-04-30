@@ -29,29 +29,32 @@ namespace ProjectCambridge
             memory = new Memory();
         }
 
-        private void Execute_Click(object sender, RoutedEventArgs e)
+        private void RunTestCode_Click(object sender, RoutedEventArgs e)
         {
-            
-            var code = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x0C, 0x04 };
+            var code = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x0C, 0x04, 0x76 };
 
             memory.Load(0xA000, code);
-            z80 = new Z80(memory);
-            z80.pc = 0xA000;
+            z80 = new Z80(memory, 0xA000);
 
-            for (;;)
+            Execute();
+
+            this.Results.Text = z80.GetState();
+        }
+
+        private void Execute()
+        {
+            bool halt = false;
+
+            while (!halt)
             {
-                z80.DecodeOpcode();
+                halt = z80.ExecuteNextInstruction();
                 WriteRegisters();
 
                 // lots of 'better' ways to do this - but this is a dirty hack to let the UI update without 
                 // bothering to manage threads. Works well here where we deliberately want to sleep anyway.
                 Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background, 
                     new System.Threading.ThreadStart(() => System.Threading.Thread.Sleep(200)));
-
-                if (z80.pc >= 0xA000 + code.Length) break;
             }
-
-            this.Results.Text = z80.GetState();
         }
 
         private void WriteRegisters()
@@ -74,6 +77,23 @@ namespace ProjectCambridge
             FlagP.IsChecked = z80.fP;
             FlagS.IsChecked = z80.fS;
             FlagZ.IsChecked = z80.fZ;
+        }
+
+        private void LoadROM_Click(object sender, RoutedEventArgs e)
+        {
+            var rom = new byte[16384];
+
+            var fs = new System.IO.FileStream(@"C:\Code\Roms\48.rom", System.IO.FileMode.Open);
+            fs.Read(rom, 0, 16384);
+
+            memory.Load(0x0000, rom);
+        }
+
+        private void ExecuteROM_Click(object sender, RoutedEventArgs e)
+        {
+            z80 = new Z80(memory, 0x0000);
+
+            Execute();
         }
     }
 }

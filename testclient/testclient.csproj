@@ -58,6 +58,7 @@
     <Compile Include="display.cs" />
     <Compile Include="exceptions.cs" />
     <Compile Include="memory.cs" />
+    <Compile Include="z80-ports.cs" />
     <Compile Include="spectrum.cs" />
     <Compile Include="extensionmethods.cs" />
     <Compile Include="z80-opcodes.cs" />

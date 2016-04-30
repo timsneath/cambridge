@@ -17,10 +17,11 @@ namespace ProjectCambridge
         // Memory and clock
         private Memory memory;
 
-        public Z80(Memory memory)
+        public Z80(Memory memory, ushort startAddr)
         {
             this.memory = memory;
             this.Reset();
+            this.pc = startAddr;
         }
 
         // operations
@@ -82,6 +83,18 @@ namespace ProjectCambridge
             var lo = memory.ReadByte(sp++);
             var hi = memory.ReadByte(sp++);
             return (ushort)((hi << 8) + lo);
+        }
+
+        private void CP(byte reg)
+        {
+            var res = (byte)(a - reg);
+            fS = IsSign(reg);
+            fZ = (res == 0);
+            fH = false; // TODO: set if borrow from bit 4
+            fP = IsSign(res) != IsSign(a); // overflow
+            fN = true;
+            fC = false; // TODO; set if borrow
+
         }
 
         private byte RLC(byte reg)
@@ -218,20 +231,36 @@ namespace ProjectCambridge
             return reg;
         }
 
-        // 
-        private byte GetNextByte()
+        private void JR(sbyte jump)
         {
-            var byteRead = memory.ReadByte(pc);
-            pc++;
-            return byteRead;
+            if (jump >= 0)
+            {
+                pc += (ushort)jump;
+            }
+            else
+            {
+                pc -= (ushort)-jump;
+
+                // if we're going backwards, we also automatically allow for 
+                // the twice-incremented PC
+                pc -= 2;
+            }
         }
 
-        private ushort GetNextWord()
+        private byte SBC(byte a, byte reg)
         {
-            var wordRead = memory.ReadWord(pc);
-            pc += 2;
-            return wordRead;
+            a -= reg;
+            if (fC) a--;
+
+            fS = IsSign(a);
+            fZ = IsZero(a);
+            fH = false; // TODO: set if borrow from bit 4
+            fP = false; // TODO: set if overflow, otherwise reset
+            fN = true;
+            fC = false; // TODO: set if borrow, otherwise reset
+            return a;
         }
+
 
         // interrupts
 
@@ -240,6 +269,7 @@ namespace ProjectCambridge
             a = b = c = d = e = h = l = 0;
             f = 0;
             ix = iy = pc = sp = 0;
+            iff1 = iff2 = false;
         }
 
         public string GetState()

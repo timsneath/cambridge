@@ -89,11 +89,11 @@ namespace ProjectCambridge
         private void LoadROM_Click(object sender, RoutedEventArgs e)
         {
             var rom = new byte[16384];
-            System.IO.FileStream fs;
+            FileStream fs;
 
             var task = Task.Run(() =>
             {
-                fs = new System.IO.FileStream(@"C:\Code\Roms\48.rom", System.IO.FileMode.Open);
+                fs = new FileStream(@"C:\Code\Roms\48.rom", System.IO.FileMode.Open);
                 fs.Read(rom, 0, 16384);
                 memory.Load(0x0000, rom);
             });
@@ -110,7 +110,23 @@ namespace ProjectCambridge
 
         private void DrawTest_Click(object sender, RoutedEventArgs e)
         {
-            ZXSpectrumScreen.Source = display.UpdateDisplay();
+            ZXSpectrumScreen.Source = display.ShowTestImage();
+        }
+
+        private void RomTest_Click(object sender, RoutedEventArgs e)
+        {
+            var ram = new byte[48 * 1024];
+            FileStream fs;
+
+            var task = Task.Run(() =>
+            {
+                fs = new FileStream(@"C:\Code\Roms\jetset.z80", System.IO.FileMode.Open);
+                fs.Position = 30; // throw away 30-byte Z80 header for now
+                fs.Read(ram, 0, 48 * 1024);
+                memory.Load(0x4000, ram);
+            });
+
+            ZXSpectrumScreen.Source = display.Repaint(memory);
         }
     }
 }

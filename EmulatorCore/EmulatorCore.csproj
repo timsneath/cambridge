@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="colors.cs" />
     <Compile Include="display.cs" />
     <Compile Include="exceptions.cs" />
     <Compile Include="extensionmethods.cs" />

@@ -93,6 +93,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="project.json" />
+    <None Include="roms\48.rom" />
+    <None Include="roms\jetset.z80" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

@@ -62,6 +62,7 @@ namespace ProjectCambridge
 
                 // lots of 'better' ways to do this - but this is a dirty hack to let the UI update without 
                 // bothering to manage threads. Works well here where we deliberately want to sleep anyway.
+                
                 //Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background,
                 //    new System.Threading.ThreadStart(() => System.Threading.Thread.Sleep(200)));
             }
@@ -113,12 +114,12 @@ namespace ProjectCambridge
 
         private async void ScreenTest_Click(object sender, RoutedEventArgs e)
         {
-            var ram = new byte[6192];
+            var ram = new byte[6912];
 
-            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/AticAtac.scr"));
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/highway.scr"));
             var fs = await file.OpenStreamForReadAsync();
             
-            fs.Read(ram, 0, 6192);
+            fs.Read(ram, 0, 6912);
             memory.Load(0x4000, ram);
 
             display.Repaint(memory);

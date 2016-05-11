@@ -65,10 +65,10 @@ namespace ProjectCambridge.EmulatorCore
                 for (int x = 0; x < 256; x++)
                 {
                     idx = 4 * (y * 256 + x);
-                    displayBuffer[idx++] = (byte)x;
-                    displayBuffer[idx++] = (byte)y;
-                    displayBuffer[idx++] = (byte)r.Next();
-                    displayBuffer[idx] = 255;
+                    displayBuffer[idx++] = (byte)255; // blue
+                    displayBuffer[idx++] = (byte)x; // green
+                    displayBuffer[idx++] = (byte)y; // red
+                    displayBuffer[idx] = (byte)255; // alpha
                 }
             }
 
@@ -88,16 +88,20 @@ namespace ProjectCambridge.EmulatorCore
             {
                 for (int x = 0; x < 32; x++)
                 {
-                    idx = 4 * (y * 256 + x);
+                    idx = 4 * (y * 256 + (x * 8));
 
                     // transform (x, y) coordinates to appropriate memory location
-                    var y7y6 = y & 0xC0;
-                    var y5y4y3 = y & 0x38;
+                    var y7y6 = (y & 0xC0) >> 6;
+                    var y5y4y3 = (y & 0x38) >> 3;
                     var y2y1y0 = y & 0x07;
                     var hi = 0x40 | (y7y6 << 3) | y2y1y0;
                     var lo = (y5y4y3 << 5) | x;
                     var addr = (hi << 8) + lo;
 
+                    if ((addr > 0x5800) || (addr < 0x4000))
+                            {
+                        throw new IndexOutOfRangeException("address");
+                    }
                     // read in the 8 pixels of monochrome data
                     var pixel8 = memory.ReadByte((ushort)addr);
 
@@ -108,7 +112,8 @@ namespace ProjectCambridge.EmulatorCore
                     //    7  6  5  4  3  2  1  0
                     //    F  B  P2 P1 P0 I2 I1 I0
                     // 
-                    //  for 8x8 cells starting at 0x5800
+                    //  for 8x8 cells starting at 0x5800 (array of 32 x 24)
+                    //  so (0, 64) = 32
                     var color = memory.ReadByte((ushort)(0x5800 + ((y / 8) * 32 + x)));
                     var paperColor = SpectrumColors[(byte)((color & 0x78) >> 3)]; // 0x78 = 01111000
                     var inkColorAsByte = (byte)((color & 0x07)); // 0x07 = 00000111
@@ -120,13 +125,13 @@ namespace ProjectCambridge.EmulatorCore
 
 
                     // apply state to the display
-                    for (int bit = 0; bit < 8; bit++)
+                    for (int bit = 7; bit >= 0; bit--)
                     {
                         bool isBitSet = (pixel8 & (1 << bit)) == 1 << bit;
-                        displayBuffer[idx++] = (byte)(isBitSet ? inkColor.R : paperColor.R); // red
-                        displayBuffer[idx++] = (byte)(isBitSet ? inkColor.G : paperColor.G); // green
                         displayBuffer[idx++] = (byte)(isBitSet ? inkColor.B : paperColor.B); // blue
-                        displayBuffer[idx] = (byte)(isBitSet ? inkColor.A : paperColor.A); // blue
+                        displayBuffer[idx++] = (byte)(isBitSet ? inkColor.G : paperColor.G); // green
+                        displayBuffer[idx++] = (byte)(isBitSet ? inkColor.R : paperColor.R); // red
+                        displayBuffer[idx++] = (byte)(isBitSet ? inkColor.A : paperColor.A); // blue
                     }
                 }
             }

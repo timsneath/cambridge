@@ -10,7 +10,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Orientation="Vertical">
             <Border Margin="10" 
-                    BorderThickness="3" BorderBrush="Black" Background="AliceBlue"
+                    BorderThickness="3" BorderBrush="Black" Background="Black"
                     HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Image Width="256" Height="192" x:Name="ZXSpectrumScreen"  />
             </Border>
@@ -78,7 +78,7 @@
                 <Button x:Name="LoadROM" Click="LoadROM_Click" Margin="5">Load Spectrum ROM</Button>
                 <Button x:Name="ExecuteROM" Click="ExecuteROM_Click" Margin="5">Execute Spectrum ROM</Button>
                 <Button x:Name="DrawTest" Click="DrawTest_Click" Margin="5">Test Spectrum Display</Button>
-                <Button x:Name="RomTest" Click="RomTest_Click" Margin="5">Test Sample Rom Image</Button>
+                <Button x:Name="RomTest" Click="ScreenTest_Click" Margin="5">Test Sample Rom Image</Button>
             </StackPanel>
             <TextBlock x:Name="Results" FontFamily="Consolas" Height="100" />
         </StackPanel>

@@ -14,7 +14,8 @@ namespace ProjectCambridge.EmulatorCore
     // Good tips on writing bitmaps here: http://www.charlespetzold.com/blog/2012/08/WriteableBitmap-Pixel-Arrays-in-CSharp-and-CPlusPlus.html
     public class Display
     {
-        WriteableBitmap displayBitmap;
+        public WriteableBitmap Bitmap { get; }
+
         Stream pixelStream;
         byte[] displayBuffer;
 
@@ -27,8 +28,8 @@ namespace ProjectCambridge.EmulatorCore
             // Windows color information is stored as BGRA (so 32-bit)
 
             displayBuffer = new byte[256 * 192 * 4];
-            displayBitmap = new WriteableBitmap(256, 192);
-            pixelStream = displayBitmap.PixelBuffer.AsStream();
+            Bitmap = new WriteableBitmap(256, 192);
+            pixelStream = Bitmap.PixelBuffer.AsStream();
 
             var colors = new Dictionary<byte, Color>();
             colors.Add(0x00, Color.FromArgb(0xFF, 0x00, 0x00, 0x00)); // black
@@ -51,9 +52,11 @@ namespace ProjectCambridge.EmulatorCore
             SpectrumColors = new ReadOnlyDictionary<byte, Color>(colors);
         }
 
-        public WriteableBitmap ShowTestImage()
+        public void ShowTestImage()
         {
             // TODO: Data bind this to the image control 
+
+            var r = new Random();
 
             // draw some stuff
             int idx;
@@ -64,7 +67,7 @@ namespace ProjectCambridge.EmulatorCore
                     idx = 4 * (y * 256 + x);
                     displayBuffer[idx++] = (byte)x;
                     displayBuffer[idx++] = (byte)y;
-                    displayBuffer[idx++] = (byte)255;
+                    displayBuffer[idx++] = (byte)r.Next();
                     displayBuffer[idx] = 255;
                 }
             }
@@ -72,10 +75,11 @@ namespace ProjectCambridge.EmulatorCore
             pixelStream.Seek(0, SeekOrigin.Begin);
             pixelStream.Write(displayBuffer, 0, displayBuffer.Length);
 
-            return displayBitmap;
+            Bitmap.Invalidate();
+
         }
 
-        public WriteableBitmap Repaint(Memory memory)
+        public void Repaint(Memory memory)
         {
             int idx;
 
@@ -127,7 +131,10 @@ namespace ProjectCambridge.EmulatorCore
                 }
             }
 
-            return displayBitmap;
+            pixelStream.Seek(0, SeekOrigin.Begin);
+            pixelStream.Write(displayBuffer, 0, displayBuffer.Length);
+
+            Bitmap.Invalidate();
         }
     }
 }

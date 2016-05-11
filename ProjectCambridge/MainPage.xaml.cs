@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ProjectCambridge.EmulatorCore;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -33,6 +34,8 @@ namespace ProjectCambridge
             this.InitializeComponent();
             memory = new Memory();
             display = new Display();
+
+            ZXSpectrumScreen.Source = display.Bitmap;
         }
 
 
@@ -86,19 +89,14 @@ namespace ProjectCambridge
             FlagZ.IsChecked = z80.fZ;
         }
 
-        private void LoadROM_Click(object sender, RoutedEventArgs e)
+        private async void LoadROM_Click(object sender, RoutedEventArgs e)
         {
             var rom = new byte[16384];
-            FileStream fs;
 
-            var task = Task.Run(() =>
-            {
-                fs = new FileStream(@"C:\Code\Roms\48.rom", System.IO.FileMode.Open);
-                fs.Read(rom, 0, 16384);
-                memory.Load(0x0000, rom);
-            });
-
-            task.Wait();
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/48.rom"));
+            var fs = await file.OpenStreamForReadAsync();
+            fs.Read(rom, 0, 16384);
+            memory.Load(0x0000, rom);
         }
 
         private void ExecuteROM_Click(object sender, RoutedEventArgs e)
@@ -110,23 +108,20 @@ namespace ProjectCambridge
 
         private void DrawTest_Click(object sender, RoutedEventArgs e)
         {
-            ZXSpectrumScreen.Source = display.ShowTestImage();
+            display.ShowTestImage();
         }
 
-        private void RomTest_Click(object sender, RoutedEventArgs e)
+        private async void ScreenTest_Click(object sender, RoutedEventArgs e)
         {
-            var ram = new byte[48 * 1024];
-            FileStream fs;
+            var ram = new byte[6192];
 
-            var task = Task.Run(() =>
-            {
-                fs = new FileStream(@"C:\Code\Roms\jetset.z80", System.IO.FileMode.Open);
-                fs.Position = 30; // throw away 30-byte Z80 header for now
-                fs.Read(ram, 0, 48 * 1024);
-                memory.Load(0x4000, ram);
-            });
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/AticAtac.scr"));
+            var fs = await file.OpenStreamForReadAsync();
+            
+            fs.Read(ram, 0, 6192);
+            memory.Load(0x4000, ram);
 
-            ZXSpectrumScreen.Source = display.Repaint(memory);
+            display.Repaint(memory);
         }
     }
 }

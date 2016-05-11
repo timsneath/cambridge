@@ -683,7 +683,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xDC: if (fC) CALL(); break;
 
                 // IX OPERATIONS
-                case 0xDD: break;
+                case 0xDD: DecodeDDOpcode();  break;
 
                 // SBC A, *
                 case 0xDE: a = SBC(a, GetNextByte()); break;
@@ -779,7 +779,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xFC: if (fS) { CALL(); } break;
 
                 // IY INSTRUCTIONS
-                case 0xFD: break;
+                case 0xFD: DecodeFDOpcode();  break;
 
                 // CP *
                 case 0xFE: CP(GetNextByte()); break;
@@ -790,6 +790,7 @@ namespace ProjectCambridge.EmulatorCore
 
             return false;
         }
+
 
         private void DecodeCBOpcode()
         {
@@ -862,6 +863,150 @@ namespace ProjectCambridge.EmulatorCore
 
                 default:
                     throw new InvalidOperationException($"Opcode EB{opCode:X2} not understood. ");
+            }
+        }
+
+        private void DecodeFDOpcode()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DecodeDDOpcode()
+        {
+            byte opCode = GetNextByte();
+            ushort addr = 0;
+            byte val = 0;
+
+            switch (opCode)
+            {
+                // ADD IX, BC
+                case 0x09: ix += bc; break;
+
+                // ADD IX, DE
+                case 0x19: ix += de; break;
+
+                // LD IX, **
+                case 0x21: ix = GetNextWord(); break;
+
+                // LD (**), IX
+                case 0x22: memory.WriteWord(GetNextWord(), ix); break;
+
+                // INC IX
+                case 0x23: ix++; break;
+
+                // ADD IX, IX
+                case 0x29: ix += ix; break;
+
+                // LD IX, (**)
+                case 0x2A: ix = memory.ReadWord(GetNextWord()); break;
+
+                // DEC IX
+                case 0x2B: ix--; break;
+
+                // INC (IX+*)
+                case 0x34:
+                    addr = (ushort)(ix + GetNextByte());
+                    val = memory.ReadByte(addr);
+                    memory.WriteByte(addr, ++val);
+                    break;
+
+                // DEC (IX+*)
+                case 0x35:
+                    addr = (ushort)(ix + GetNextByte());
+                    val = memory.ReadByte(addr);
+                    memory.WriteByte(addr, --val);
+                    break;
+
+                // LD (IX+*), *
+                case 0x36: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, GetNextByte()); break;
+
+                // ADD IX, SP
+                case 0x39: ix += sp; break;
+
+                // LD B, (IX+*)
+                case 0x46: addr = (ushort)(ix + GetNextByte()); b = memory.ReadByte(addr); break;
+
+                // LD C, (IX+*)
+                case 0x4E: addr = (ushort)(ix + GetNextByte()); c = memory.ReadByte(addr); break;
+
+                // LD D, (IX+*)
+                case 0x56: addr = (ushort)(ix + GetNextByte()); d = memory.ReadByte(addr); break;
+                
+                // LD E, (IX+*)
+                case 0x5E: addr = (ushort)(ix + GetNextByte()); e = memory.ReadByte(addr); break;
+
+                // LD H, (IX+*)
+                case 0x66: addr = (ushort)(ix + GetNextByte()); h = memory.ReadByte(addr); break;
+
+                // LD L, (IX+*)
+                case 0x6E: addr = (ushort)(ix + GetNextByte()); l = memory.ReadByte(addr); break;
+
+                // LD (IX+*), B
+                case 0x70: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, b); break;
+
+                // LD (IX+*), C
+                case 0x71: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, c); break;
+
+                // LD (IX+*), D
+                case 0x72: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, d); break;
+
+                // LD (IX+*), E
+                case 0x73: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, e); break;
+
+                // LD (IX+*), H
+                case 0x74: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, h); break;
+
+                // LD (IX+*), L
+                case 0x75: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, l); break;
+
+                // LD (IX+*), A
+                case 0x77: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, a); break;
+
+                // LD A, (IX+*)
+                case 0x7E: addr = (ushort)(ix + GetNextByte()); a = memory.ReadByte(addr); break;
+
+                // ADD A, (IX+*)
+                case 0x86: break;
+
+                // ADC A, (IX+*)
+                case 0x8E: break; 
+
+                // SUB (IX+*)
+                case 0x96: break; 
+
+                // SBC A, (IX+*)
+                case 0x9E: break;
+
+                // AND (IX+*)
+                case 0xA6: break;
+
+                // XOR (IX+*)
+                case 0xAE: break;
+
+                // OR (IX+*)
+                case 0xB6: break;
+
+                // CP (IX+*)
+                case 0xBE: break;
+
+                // POP IX
+                case 0xE1: ix = POP(); break;
+
+                // EX (SP), IX
+                case 0xE3: var temp = memory.ReadWord(sp); memory.WriteWord(sp, addr); ix = temp; break;
+
+                // PUSH IX
+                case 0xE5: PUSH(ix); break;
+
+                // JP (IX)
+                case 0xE9: pc = memory.ReadWord(ix); break;
+
+                // LD SP, IX
+                case 0xF9: sp = ix; break;
+
+                default:
+                    throw new InvalidOperationException($"Opcode DD{opCode:X2} not understood. ");
+
             }
         }
 

@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -66,10 +63,10 @@ namespace ProjectCambridge.EmulatorCore
                 for (var x = 0; x <= 255; x++)
                 {
                     idx = 4 * (y * 256 + x);
-                    displayBuffer[idx++] = 0xFF; // blue
-                    displayBuffer[idx++] = (byte)x;    // green
-                    displayBuffer[idx++] = (byte)y;    // red
-                    displayBuffer[idx]   = 0xFF; // alpha
+                    displayBuffer[idx++] = 0xFF;      // blue
+                    displayBuffer[idx++] = (byte)x;   // green
+                    displayBuffer[idx++] = (byte)y;   // red
+                    displayBuffer[idx] = 0xFF;        // alpha
                 }
             }
 

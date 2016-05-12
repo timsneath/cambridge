@@ -58,7 +58,7 @@ namespace ProjectCambridge.EmulatorCore
 
         public ushort ReadWord(ushort addr)
         {
-            return (ushort)((memory[addr+1] << 8) + memory[addr]); 
+            return (ushort)((memory[addr + 1] << 8) + memory[addr]);
         }
 
         public void WriteByte(ushort addr, byte val)

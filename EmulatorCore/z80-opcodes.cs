@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -176,7 +176,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x33: sp++; break;
 
                 // INC (HL)
-                case 0x34: var incValue = memory.ReadByte(hl) + 1;  memory.WriteByte(hl, (byte)incValue); break;
+                case 0x34: var incValue = memory.ReadByte(hl) + 1; memory.WriteByte(hl, (byte)incValue); break;
 
                 // DEC (HL)
                 case 0x35: var decValue = memory.ReadByte(hl) - 1; memory.WriteByte(hl, (byte)decValue); break;
@@ -683,7 +683,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xDC: if (fC) CALL(); break;
 
                 // IX OPERATIONS
-                case 0xDD: DecodeDDOpcode();  break;
+                case 0xDD: DecodeDDOpcode(); break;
 
                 // SBC A, *
                 case 0xDE: a = SBC(a, GetNextByte()); break;
@@ -734,7 +734,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xED: DecodeEBOpcode(); break;
 
                 // XOR *
-                case 0xEE: a ^= GetNextByte();  break;
+                case 0xEE: a ^= GetNextByte(); break;
 
                 // RST 28h
                 case 0xEF: RST(0x28); break;
@@ -779,13 +779,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xFC: if (fS) { CALL(); } break;
 
                 // IY INSTRUCTIONS
-                case 0xFD: DecodeFDOpcode();  break;
+                case 0xFD: DecodeFDOpcode(); break;
 
                 // CP *
                 case 0xFE: CP(GetNextByte()); break;
 
                 // RST 38h
-                case 0xFF: RST(0x38); break; 
+                case 0xFF: RST(0x38); break;
             }
 
             return false;
@@ -795,7 +795,7 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeCBOpcode()
         {
             byte opCode = GetNextByte();
-            
+
             // first two bits of opCode determine function:
             switch (opCode >> 6)
             {
@@ -817,7 +817,7 @@ namespace ProjectCambridge.EmulatorCore
         {
             byte opCode = GetNextByte();
 
-            switch(opCode)
+            switch (opCode)
             {
                 // IN B, (C)
                 case 0x40: break;
@@ -832,7 +832,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x43: memory.WriteWord(GetNextWord(), bc); break;
 
                 // NEG
-                case 0x44: a = NEG(a);  break;
+                case 0x44: a = NEG(a); break;
 
                 // RETN
                 case 0x45: break;
@@ -1066,7 +1066,7 @@ namespace ProjectCambridge.EmulatorCore
 
                 // LD D, (IY+*)
                 case 0x56: addr = (ushort)(iy + GetNextByte()); d = memory.ReadByte(addr); break;
-                
+
                 // LD E, (IY+*)
                 case 0x5E: addr = (ushort)(iy + GetNextByte()); e = memory.ReadByte(addr); break;
 
@@ -1104,10 +1104,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x86: addr = (ushort)(iy + GetNextByte()); a = ADD(a, memory.ReadByte(addr)); break;
 
                 // ADC A, (IY+*)
-                case 0x8E: addr = (ushort)(iy + GetNextByte()); a = ADC(a, memory.ReadByte(addr)); break; 
+                case 0x8E: addr = (ushort)(iy + GetNextByte()); a = ADC(a, memory.ReadByte(addr)); break;
 
                 // SUB (IY+*)
-                case 0x96: addr = (ushort)(iy + GetNextByte()); a = SUB(a, memory.ReadByte(addr)); break; 
+                case 0x96: addr = (ushort)(iy + GetNextByte()); a = SUB(a, memory.ReadByte(addr)); break;
 
                 // SBC A, (IY+*)
                 case 0x9E: addr = (ushort)(iy + GetNextByte()); a = SBC(a, memory.ReadByte(addr)); break;
@@ -1163,8 +1163,8 @@ namespace ProjectCambridge.EmulatorCore
         private void rot(int operation, int register)
         {
             Func<byte, byte> rotFunction;
-            
-            switch(operation)
+
+            switch (operation)
             {
                 case 0x00: rotFunction = RLC; break;
                 case 0x01: rotFunction = RRC; break;
@@ -1194,8 +1194,8 @@ namespace ProjectCambridge.EmulatorCore
         }
 
         private void bit(int bitToTest, int reg)
-        { 
-            switch(reg)
+        {
+            switch (reg)
             {
                 case 0x0: fZ = !IsBitSet(b, bitToTest); break;
                 case 0x1: fZ = !IsBitSet(c, bitToTest); break;

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,17 +14,13 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+
 using ProjectCambridge.EmulatorCore;
-using System.Threading.Tasks;
-using Windows.Storage;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace ProjectCambridge
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         Z80 z80;
@@ -62,7 +60,7 @@ namespace ProjectCambridge
 
                 // lots of 'better' ways to do this - but this is a dirty hack to let the UI update without 
                 // bothering to manage threads. Works well here where we deliberately want to sleep anyway.
-                
+
                 //Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background,
                 //    new System.Threading.ThreadStart(() => System.Threading.Thread.Sleep(200)));
             }
@@ -118,7 +116,7 @@ namespace ProjectCambridge
 
             var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/highway.scr"));
             var fs = await file.OpenStreamForReadAsync();
-            
+
             fs.Read(ram, 0, 6912);
             memory.Load(0x4000, ram);
 

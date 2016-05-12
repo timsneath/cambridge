@@ -37,7 +37,7 @@ namespace ProjectCambridge.EmulatorCore
         public ushort sp; // Stack pointer
 
         public bool iff1;
-        public bool iff2; 
+        public bool iff2;
 
         public bool fC
         {

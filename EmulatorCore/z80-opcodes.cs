@@ -861,6 +861,8 @@ namespace ProjectCambridge.EmulatorCore
                 // LD R, A
                 case 0x4F: r = a; break;
 
+                // TODO: Finish off ED operations
+
                 default:
                     throw new InvalidOperationException($"Opcode EB{opCode:X2} not understood. ");
             }
@@ -1407,30 +1409,15 @@ namespace ProjectCambridge.EmulatorCore
             return (bits1 % 2 == 0);
         }
 
-        private bool IsBitSet(int x, int index)
-        {
-            return (x & (1 << index)) == 1 << index;
-        }
+        private bool IsBitSet(int x, int index) => (x & (1 << index)) == 1 << index;
 
-        private byte SetBit(int x, int index)
-        {
-            return (byte)(x | (1 << index));
-        }
+        private byte SetBit(int x, int index) => (byte)(x | (1 << index));
 
-        private byte ResetBit(int x, int index)
-        {
-            return (byte)(x & ~(1 << index));
-        }
+        private byte ResetBit(int x, int index) => (byte)(x & ~(1 << index));
 
-        private bool IsSign(byte x)
-        {
-            return (x & 0x80) == 0x80;
-        }
+        private bool IsSign(byte x) => (x & 0x80) == 0x80;
 
-        private bool IsZero(byte x)
-        {
-            return (x == 0);
-        }
+        private bool IsZero(byte x) => (x == 0);
 
         private void Swap<T>(ref T x, ref T y)
         {

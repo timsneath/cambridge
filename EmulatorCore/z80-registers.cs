@@ -127,12 +127,13 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
-        // provided for diagnostics purposes - hence readonly. 
-        // No Z80 instructions allow you to read from these directly.
-        public ushort af_ { get { return (ushort)((a_ << 8) + f_); } }
-        public ushort bc_ { get { return (ushort)((b_ << 8) + c_); } }
-        public ushort de_ { get { return (ushort)((d_ << 8) + e_); } }
-        public ushort hl_ { get { return (ushort)((h_ << 8) + l_); } }
+        // Z80 instructions require you to exchange these registers (e.g. AF' <-> AF) 
+        // before you can read their contents. These expression-bodied members are
+        // provided for diagnostic purposes only. 
+        public ushort af_ => (ushort)((a_ << 8) + f_);
+        public ushort bc_ => (ushort)((b_ << 8) + c_);
+        public ushort de_ => (ushort)((d_ << 8) + e_);
+        public ushort hl_ => (ushort)((h_ << 8) + l_);
 
         public byte HighByte(ushort val) => (byte)((val & 0xFF00) >> 8);
         public byte LowByte(ushort val) => (byte)(val & 0x00FF);

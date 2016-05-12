@@ -863,6 +863,18 @@ namespace ProjectCambridge.EmulatorCore
 
                 // TODO: Finish off ED operations
 
+                // LDI
+                case 0xA0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; fH = fN = false; fP = (bc != 0); break;
+
+                // LDD
+                case 0xA8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; fH = fN = false; fP = (bc != 0); break;
+
+                // LDIR
+                case 0xB0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; if (bc > 0) pc -= 2; fH = fP = fN = false; break;
+
+                // LDDR
+                case 0xB8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; if (bc > 0) pc -= 2; fH = fP = fN = false; break;
+
                 default:
                     throw new InvalidOperationException($"Opcode EB{opCode:X2} not understood. ");
             }

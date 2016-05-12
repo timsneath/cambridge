@@ -185,7 +185,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x36: memory.WriteWord(hl, GetNextByte()); break;
 
                 // SCF
-                case 0x37: break;
+                case 0x37: fH = false; fN = false; fC = true; break;
 
                 // JR C, *
                 case 0x38: if (fC) { JR((sbyte)GetNextByte()); } break;
@@ -209,7 +209,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x3E: a = GetNextByte(); break;
 
                 // CCF
-                case 0x3F: break;
+                case 0x3F: fN = false; fC = !fC; break;
 
                 // LD B, B
                 case 0x40: break;
@@ -452,28 +452,28 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x8F: a += a; break;
 
                 // SUB B
-                case 0x90: SUB(b); break;
+                case 0x90: a = SUB(a, b); break;
 
                 // SUB C
-                case 0x91: SUB(c); break;
+                case 0x91: a = SUB(a, c); break;
 
                 // SUB D
-                case 0x92: SUB(d); break;
+                case 0x92: a = SUB(a, d); break;
 
                 // SUB E
-                case 0x93: SUB(e); break;
+                case 0x93: a = SUB(a, e); break;
 
                 // SUB H
-                case 0x94: SUB(h); break;
+                case 0x94: a = SUB(a, h); break;
 
                 // SUB L
-                case 0x95: SUB(l); break;
+                case 0x95: a = SUB(a, l); break;
 
                 // SUB (HL)
-                case 0x96: SUB(memory.ReadByte(hl)); break;
+                case 0x96: a = SUB(a, memory.ReadByte(hl)); break;
 
                 // SUB A
-                case 0x97: SUB(a); break;
+                case 0x97: a = SUB(a, a); break;
 
                 // SBC A, B
                 case 0x98: a = SBC(a, b); break;
@@ -500,76 +500,76 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x9F: a = SBC(a, a); break;
 
                 // AND B
-                case 0xA0: a &= b; break;
+                case 0xA0: a = AND(a, b); break;
 
                 // AND C
-                case 0xA1: a &= c; break;
+                case 0xA1: a = AND(a, b); break;
 
                 // AND D
-                case 0xA2: a &= d; break;
+                case 0xA2: a = AND(a, b); break;
 
                 // AND E
-                case 0xA3: a &= e; break;
+                case 0xA3: a = AND(a, b); break;
 
                 // AND H
-                case 0xA4: a &= h; break;
+                case 0xA4: a = AND(a, b); break;
 
                 // AND L
-                case 0xA5: a &= l; break;
+                case 0xA5: a = AND(a, b); break;
 
                 // AND (HL)
-                case 0xA6: a &= memory.ReadByte(hl); break;
+                case 0xA6: a = AND(a, memory.ReadByte(hl)); break;
 
                 // AND A
-                case 0xA7: a &= a; break;
+                case 0xA7: a = AND(a, a); break;
 
                 // XOR B
-                case 0xA8: a ^= b; break;
+                case 0xA8: a = XOR(a, b); break;
 
                 // XOR C
-                case 0xA9: a ^= c; break;
+                case 0xA9: a = XOR(a, b); break;
 
                 // XOR D
-                case 0xAA: a ^= d; break;
+                case 0xAA: a = XOR(a, b); break;
 
                 // XOR E
-                case 0xAB: a ^= e; break;
+                case 0xAB: a = XOR(a, b); break;
 
                 // XOR H
-                case 0xAC: a ^= h; break;
+                case 0xAC: a = XOR(a, b); break;
 
                 // XOR L
-                case 0xAD: a ^= l; break;
+                case 0xAD: a = XOR(a, b); break;
 
                 // XOR (HL)
-                case 0xAE: a ^= memory.ReadByte(hl); break;
+                case 0xAE: a = XOR(a, memory.ReadByte(hl)); break;
 
                 // XOR A
-                case 0xAF: a ^= a; break;
+                case 0xAF: a = XOR(a, a); break;
 
                 // OR B
-                case 0xB0: a |= b; break;
+                case 0xB0: a = OR(a, b); break;
 
                 // OR C
-                case 0xB1: a |= c; break;
+                case 0xB1: a = OR(a, c); break;
 
                 // OR D
-                case 0xB2: a |= d; break;
+                case 0xB2: a = OR(a, d); break;
 
                 // OR E
-                case 0xB3: a |= e; break;
+                case 0xB3: a = OR(a, e); break;
 
                 // OR H
-                case 0xB4: a |= h; break;
+                case 0xB4: a = OR(a, h); break;
 
                 // OR L
-                case 0xB5: a |= l; break;
+                case 0xB5: a = OR(a, l); break;
 
                 // OR (HL)
-                case 0xB6: a |= memory.ReadByte(hl); break;
+                case 0xB6: a = OR(a, memory.ReadByte(hl)); break;
 
                 // OR A
-                case 0xB7: a |= a; break;
+                case 0xB7: a = OR(a, a); break;
 
                 // CP B
                 case 0xB8: CP(b); break;
@@ -614,7 +614,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xC5: PUSH(bc); break;
 
                 // ADD A, *
-                case 0xC6: break;
+                case 0xC6: a = ADD(a, GetNextByte()); break;
 
                 // RST 00h
                 case 0xC7: RST(0x00); break;
@@ -677,7 +677,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xDA: if (fC) pc = GetNextWord(); break;
 
                 // IN A, (**)
-                case 0xDB: break;
+                case 0xDB: memory.ReadByte(GetNextWord()); break;
 
                 // CALL C, **
                 case 0xDC: if (fC) CALL(); break;
@@ -758,7 +758,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xF5: PUSH(af); break;
 
                 // OR *
-                case 0xF6: a |= GetNextByte(); break;
+                case 0xF6: a = OR(a, GetNextByte()); break;
 
                 // RST 30h
                 case 0xF7: RST(0x30); break;
@@ -832,7 +832,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x43: memory.WriteWord(GetNextWord(), bc); break;
 
                 // NEG
-                case 0x44: break;
+                case 0x44: a = NEG(a);  break;
 
                 // RETN
                 case 0x45: break;
@@ -864,11 +864,6 @@ namespace ProjectCambridge.EmulatorCore
                 default:
                     throw new InvalidOperationException($"Opcode EB{opCode:X2} not understood. ");
             }
-        }
-
-        private void DecodeFDOpcode()
-        {
-            throw new NotImplementedException();
         }
 
         private void DecodeDDOpcode()
@@ -931,7 +926,7 @@ namespace ProjectCambridge.EmulatorCore
 
                 // LD D, (IX+*)
                 case 0x56: addr = (ushort)(ix + GetNextByte()); d = memory.ReadByte(addr); break;
-                
+
                 // LD E, (IX+*)
                 case 0x5E: addr = (ushort)(ix + GetNextByte()); e = memory.ReadByte(addr); break;
 
@@ -966,28 +961,28 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x7E: addr = (ushort)(ix + GetNextByte()); a = memory.ReadByte(addr); break;
 
                 // ADD A, (IX+*)
-                case 0x86: break;
+                case 0x86: addr = (ushort)(ix + GetNextByte()); a = ADD(a, memory.ReadByte(addr)); break;
 
                 // ADC A, (IX+*)
-                case 0x8E: break; 
+                case 0x8E: addr = (ushort)(ix + GetNextByte()); a = ADC(a, memory.ReadByte(addr)); break;
 
                 // SUB (IX+*)
-                case 0x96: break; 
+                case 0x96: addr = (ushort)(ix + GetNextByte()); a = SUB(a, memory.ReadByte(addr)); break;
 
                 // SBC A, (IX+*)
-                case 0x9E: break;
+                case 0x9E: addr = (ushort)(ix + GetNextByte()); a = SBC(a, memory.ReadByte(addr)); break;
 
                 // AND (IX+*)
-                case 0xA6: break;
+                case 0xA6: addr = (ushort)(ix + GetNextByte()); a = AND(a, memory.ReadByte(addr)); break;
 
                 // XOR (IX+*)
-                case 0xAE: break;
+                case 0xAE: addr = (ushort)(ix + GetNextByte()); a = XOR(a, memory.ReadByte(addr)); break;
 
                 // OR (IX+*)
-                case 0xB6: break;
+                case 0xB6: addr = (ushort)(ix + GetNextByte()); a = OR(a, memory.ReadByte(addr)); break;
 
                 // CP (IX+*)
-                case 0xBE: break;
+                case 0xBE: addr = (ushort)(ix + GetNextByte()); a = CP(memory.ReadByte(addr)); break;
 
                 // POP IX
                 case 0xE1: ix = POP(); break;
@@ -1003,6 +998,146 @@ namespace ProjectCambridge.EmulatorCore
 
                 // LD SP, IX
                 case 0xF9: sp = ix; break;
+
+                default:
+                    throw new InvalidOperationException($"Opcode DD{opCode:X2} not understood. ");
+
+            }
+        }
+
+
+        private void DecodeFDOpcode()
+        {
+            byte opCode = GetNextByte();
+            ushort addr = 0;
+            byte val = 0;
+
+            switch (opCode)
+            {
+                // ADD IY, BC
+                case 0x09: iy += bc; break;
+
+                // ADD IY, DE
+                case 0x19: iy += de; break;
+
+                // LD IY, **
+                case 0x21: iy = GetNextWord(); break;
+
+                // LD (**), IY
+                case 0x22: memory.WriteWord(GetNextWord(), iy); break;
+
+                // INC IY
+                case 0x23: iy++; break;
+
+                // ADD IY, IY
+                case 0x29: iy += iy; break;
+
+                // LD IY, (**)
+                case 0x2A: iy = memory.ReadWord(GetNextWord()); break;
+
+                // DEC IY
+                case 0x2B: iy--; break;
+
+                // INC (IY+*)
+                case 0x34:
+                    addr = (ushort)(iy + GetNextByte());
+                    val = memory.ReadByte(addr);
+                    memory.WriteByte(addr, ++val);
+                    break;
+
+                // DEC (IY+*)
+                case 0x35:
+                    addr = (ushort)(iy + GetNextByte());
+                    val = memory.ReadByte(addr);
+                    memory.WriteByte(addr, --val);
+                    break;
+
+                // LD (IY+*), *
+                case 0x36: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, GetNextByte()); break;
+
+                // ADD IY, SP
+                case 0x39: iy += sp; break;
+
+                // LD B, (IY+*)
+                case 0x46: addr = (ushort)(iy + GetNextByte()); b = memory.ReadByte(addr); break;
+
+                // LD C, (IY+*)
+                case 0x4E: addr = (ushort)(iy + GetNextByte()); c = memory.ReadByte(addr); break;
+
+                // LD D, (IY+*)
+                case 0x56: addr = (ushort)(iy + GetNextByte()); d = memory.ReadByte(addr); break;
+                
+                // LD E, (IY+*)
+                case 0x5E: addr = (ushort)(iy + GetNextByte()); e = memory.ReadByte(addr); break;
+
+                // LD H, (IY+*)
+                case 0x66: addr = (ushort)(iy + GetNextByte()); h = memory.ReadByte(addr); break;
+
+                // LD L, (IY+*)
+                case 0x6E: addr = (ushort)(iy + GetNextByte()); l = memory.ReadByte(addr); break;
+
+                // LD (IY+*), B
+                case 0x70: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, b); break;
+
+                // LD (IY+*), C
+                case 0x71: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, c); break;
+
+                // LD (IY+*), D
+                case 0x72: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, d); break;
+
+                // LD (IY+*), E
+                case 0x73: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, e); break;
+
+                // LD (IY+*), H
+                case 0x74: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, h); break;
+
+                // LD (IY+*), L
+                case 0x75: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, l); break;
+
+                // LD (IY+*), A
+                case 0x77: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, a); break;
+
+                // LD A, (IY+*)
+                case 0x7E: addr = (ushort)(iy + GetNextByte()); a = memory.ReadByte(addr); break;
+
+                // ADD A, (IY+*)
+                case 0x86: addr = (ushort)(iy + GetNextByte()); a = ADD(a, memory.ReadByte(addr)); break;
+
+                // ADC A, (IY+*)
+                case 0x8E: addr = (ushort)(iy + GetNextByte()); a = ADC(a, memory.ReadByte(addr)); break; 
+
+                // SUB (IY+*)
+                case 0x96: addr = (ushort)(iy + GetNextByte()); a = SUB(a, memory.ReadByte(addr)); break; 
+
+                // SBC A, (IY+*)
+                case 0x9E: addr = (ushort)(iy + GetNextByte()); a = SBC(a, memory.ReadByte(addr)); break;
+
+                // AND (IY+*)
+                case 0xA6: addr = (ushort)(iy + GetNextByte()); a = AND(a, memory.ReadByte(addr)); break;
+
+                // XOR (IY+*)
+                case 0xAE: addr = (ushort)(iy + GetNextByte()); a = XOR(a, memory.ReadByte(addr)); break;
+
+                // OR (IY+*)
+                case 0xB6: addr = (ushort)(iy + GetNextByte()); a = OR(a, memory.ReadByte(addr)); break;
+
+                // CP (IY+*)
+                case 0xBE: addr = (ushort)(iy + GetNextByte()); a = CP(memory.ReadByte(addr)); break;
+
+                // POP IY
+                case 0xE1: iy = POP(); break;
+
+                // EX (SP), IY
+                case 0xE3: var temp = memory.ReadWord(sp); memory.WriteWord(sp, addr); iy = temp; break;
+
+                // PUSH IY
+                case 0xE5: PUSH(iy); break;
+
+                // JP (IY)
+                case 0xE9: pc = memory.ReadWord(iy); break;
+
+                // LD SP, IY
+                case 0xF9: sp = iy; break;
 
                 default:
                     throw new InvalidOperationException($"Opcode DD{opCode:X2} not understood. ");
@@ -1058,19 +1193,6 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
-
-        private bool IsParity(byte reg)
-        {
-            int bits1 = 0;
-            for(var i=0; i < 8; i++)
-            {
-                if (IsBitSet(reg, i)) { bits1++; }
-            }
-
-            return (bits1 % 2 == 0);
-        }
-
-
         private void bit(int bitToTest, int reg)
         { 
             switch(reg)
@@ -1125,6 +1247,18 @@ namespace ProjectCambridge.EmulatorCore
                     throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
             }
 
+        }
+
+
+        private bool IsParity(byte reg)
+        {
+            int bits1 = 0;
+            for (var i = 0; i < 8; i++)
+            {
+                if (IsBitSet(reg, i)) { bits1++; }
+            }
+
+            return (bits1 % 2 == 0);
         }
 
         private bool IsBitSet(int x, int index)

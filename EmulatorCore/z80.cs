@@ -14,7 +14,6 @@ namespace ProjectCambridge.EmulatorCore
         // and here: 
         //    http://z80.info/z80code.htm
 
-        // Memory and clock
         private Memory memory;
 
         public Z80(Memory memory, ushort startAddr)
@@ -24,7 +23,15 @@ namespace ProjectCambridge.EmulatorCore
             this.pc = startAddr;
         }
 
-        // operations
+        public void Reset()
+        {
+            a = b = c = d = e = h = l = 0;
+            f = 0;
+            ix = iy = pc = sp = 0;
+            iff1 = iff2 = false;
+        }
+
+        #region Arithmetic operations
         private byte INC(byte reg)
         {
             fP = (reg == 0x7F);
@@ -49,13 +56,28 @@ namespace ProjectCambridge.EmulatorCore
             return reg;
         }
 
-        private void SUB(byte reg)
+        private byte ADC(byte a, byte reg)
         {
-            a -= reg;
-            fS = IsSign(reg);
-            fZ = IsZero(reg);
+            a += reg;
+            return a;
         }
 
+        private byte ADD(byte a, byte reg)
+        {
+            a += reg;
+            return a;
+        }
+
+        private byte SUB(byte a, byte v)
+        {
+            a -= v;
+            fS = IsSign(a);
+            fZ = IsZero(a);
+            return a;
+        }
+        #endregion
+
+        #region Flow operations
         private void CALL()
         {
             var callAddr = GetNextWord();
@@ -66,12 +88,30 @@ namespace ProjectCambridge.EmulatorCore
             pc = callAddr;
         }
 
+        private void JR(sbyte jump)
+        {
+            if (jump >= 0)
+            {
+                pc += (ushort)jump;
+            }
+            else
+            {
+                pc -= (ushort)-jump;
+
+                // if we're going backwards, we also automatically allow for 
+                // the twice-incremented PC
+                pc -= 2;
+            }
+        }
+
         private void RST(byte addr)
         {
             PUSH(pc);
             pc = addr;
         }
+        #endregion
 
+        #region Stack operations
         private void PUSH(ushort val)
         {
             memory.WriteByte(--sp, HighByte(val));
@@ -84,17 +124,55 @@ namespace ProjectCambridge.EmulatorCore
             var hi = memory.ReadByte(sp++);
             return (ushort)((hi << 8) + lo);
         }
+        #endregion
 
-        private void CP(byte reg)
+        #region Logic operations
+        private byte CP(byte v)
         {
-            var res = (byte)(a - reg);
-            fS = IsSign(reg);
+            var res = (byte)(a - v);
+            fS = IsSign(v);
             fZ = (res == 0);
             fH = false; // TODO: set if borrow from bit 4
             fP = IsSign(res) != IsSign(a); // overflow
             fN = true;
             fC = false; // TODO; set if borrow
 
+            return res;
+        }
+
+        private byte OR(byte a, byte reg)
+        {
+            a |= reg;
+            return a;
+        }
+
+        private byte XOR(byte a, byte reg)
+        {
+            a ^= reg;
+            return a;
+        }
+
+        private byte AND(byte a, byte reg)
+        {
+            a &= reg;
+            return a;
+        }
+
+        private byte NEG(byte a)
+        {
+            // returns two's complement of a
+            fP = (a == 0x80);
+            fC = (a != 0x00);
+
+            a = (byte)~a;
+            a++;
+
+            fS = IsSign(a);
+            fZ = IsZero(a);
+            fH = false; // TODO: fix this
+            fN = true;
+
+            return a;
         }
 
         private byte RLC(byte reg)
@@ -231,22 +309,6 @@ namespace ProjectCambridge.EmulatorCore
             return reg;
         }
 
-        private void JR(sbyte jump)
-        {
-            if (jump >= 0)
-            {
-                pc += (ushort)jump;
-            }
-            else
-            {
-                pc -= (ushort)-jump;
-
-                // if we're going backwards, we also automatically allow for 
-                // the twice-incremented PC
-                pc -= 2;
-            }
-        }
-
         private byte SBC(byte a, byte reg)
         {
             a -= reg;
@@ -260,18 +322,10 @@ namespace ProjectCambridge.EmulatorCore
             fC = false; // TODO: set if borrow, otherwise reset
             return a;
         }
+        #endregion
 
 
-        // interrupts
-
-        public void Reset()
-        {
-            a = b = c = d = e = h = l = 0;
-            f = 0;
-            ix = iy = pc = sp = 0;
-            iff1 = iff2 = false;
-        }
-
+        #region Diagnostics and debugging
         public string GetState()
         {
             // AF BC DE HL AF' BC' DE' HL' IX IY SP PC
@@ -291,5 +345,6 @@ namespace ProjectCambridge.EmulatorCore
 
             return state;
         }
+        #endregion
     }
 }

@@ -803,13 +803,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0: rot(opCode & 0x38, opCode & 0x07); break;
 
                 // 01 = BIT y, r[z]
-                case 1: bit(opCode & 0x38, opCode & 0x07); break;
+                case 1: BIT(opCode & 0x38, opCode & 0x07); break;
 
                 // 02 = RES y, r[z]
-                case 2: res(opCode & 0x38, opCode & 0x07); break;
+                case 2: RES(opCode & 0x38, opCode & 0x07); break;
 
                 // 03 = SET y, r[z]
-                case 3: set(opCode & 0x38, opCode & 0x07); break;
+                case 3: SET(opCode & 0x38, opCode & 0x07); break;
             }
         }
 
@@ -984,6 +984,9 @@ namespace ProjectCambridge.EmulatorCore
                 // CP (IX+*)
                 case 0xBE: addr = (ushort)(ix + GetNextByte()); a = CP(memory.ReadByte(addr)); break;
 
+                // bitwise instructions
+                case 0xCB: DecodeDDCBOpCode(); break;
+
                 // POP IX
                 case 0xE1: ix = POP(); break;
 
@@ -1005,6 +1008,146 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
+        private void DecodeDDCBOpCode()
+        {
+            // format is DDCB[addr][opcode]
+            ushort addr = (ushort)(ix + GetNextByte());
+            var opCode = GetNextByte();
+
+            switch (opCode)
+            {
+                // RLC (IX+*)
+                case 0x06: memory.WriteByte(addr, RLC(memory.ReadByte(addr))); break;
+
+                // RRC (IX+*)
+                case 0x0E: memory.WriteByte(addr, RRC(memory.ReadByte(addr))); break;
+
+                // RL (IX+*)
+                case 0x16: memory.WriteByte(addr, RL(memory.ReadByte(addr))); break;
+
+                // RR (IX+*)
+                case 0x1E: memory.WriteByte(addr, RR(memory.ReadByte(addr))); break;
+
+                // SLA (IX+*)
+                case 0x26: memory.WriteByte(addr, SLA(memory.ReadByte(addr))); break;
+
+                // SRA (IX+*)
+                case 0x2E: memory.WriteByte(addr, SRA(memory.ReadByte(addr))); break;
+
+                // SLL (IX+*)
+                case 0x36: memory.WriteByte(addr, SLL(memory.ReadByte(addr))); break;
+
+                // SRL (IX+*)
+                case 0x3E: memory.WriteByte(addr, SRL(memory.ReadByte(addr))); break;
+
+                // BIT n, (IX+*)
+                case 0x46:
+                case 0x4E:
+                case 0x56:
+                case 0x5E:
+                case 0x66:
+                case 0x6E:
+                case 0x76:
+                case 0x7E:
+                    BIT(opCode & 0x07, addr); break;
+
+                // RES n, (IX+*)
+                case 0x86:
+                case 0x8E:
+                case 0x96:
+                case 0x9E:
+                case 0xA6:
+                case 0xAE:
+                case 0xB6:
+                case 0xBE:
+                    RES(opCode & 0x07, addr); break;
+
+                // SET n, (IX+*)
+                case 0xC6:
+                case 0xCE:
+                case 0xD6:
+                case 0xDE:
+                case 0xE6:
+                case 0xEE:
+                case 0xF6:
+                case 0xFE:
+                    SET(opCode & 0x07, addr); break;
+
+                default:
+                    throw new InvalidOperationException($"Opcode DDCB**{opCode:X2} not understood. ");
+            };
+        }
+
+        private ushort DecodeFDCBOpCode()
+        {
+            // format is FDCB[addr][opcode]
+            ushort addr = (ushort)(iy + GetNextByte());
+            var opCode = GetNextByte();
+
+            switch (opCode)
+            {
+                // RLC (IY+*)
+                case 0x06: memory.WriteByte(addr, RLC(memory.ReadByte(addr))); break;
+
+                // RRC (IY+*)
+                case 0x0E: memory.WriteByte(addr, RRC(memory.ReadByte(addr))); break;
+
+                // RL (IY+*)
+                case 0x16: memory.WriteByte(addr, RL(memory.ReadByte(addr))); break;
+
+                // RR (IY+*)
+                case 0x1E: memory.WriteByte(addr, RR(memory.ReadByte(addr))); break;
+
+                // SLA (IY+*)
+                case 0x26: memory.WriteByte(addr, SLA(memory.ReadByte(addr))); break;
+
+                // SRA (IY+*)
+                case 0x2E: memory.WriteByte(addr, SRA(memory.ReadByte(addr))); break;
+
+                // SLL (IY+*)
+                case 0x36: memory.WriteByte(addr, SLL(memory.ReadByte(addr))); break;
+
+                // SRL (IY+*)
+                case 0x3E: memory.WriteByte(addr, SRL(memory.ReadByte(addr))); break;
+
+                // BIT n, (IY+*)
+                case 0x46:
+                case 0x4E:
+                case 0x56:
+                case 0x5E:
+                case 0x66:
+                case 0x6E:
+                case 0x76:
+                case 0x7E:
+                    BIT(opCode & 0x07, addr); break;
+
+                // RES n, (IY+*)
+                case 0x86:
+                case 0x8E:
+                case 0x96:
+                case 0x9E:
+                case 0xA6:
+                case 0xAE:
+                case 0xB6:
+                case 0xBE:
+                    RES(opCode & 0x07, addr); break;
+
+                // SET n, (IY+*)
+                case 0xC6:
+                case 0xCE:
+                case 0xD6:
+                case 0xDE:
+                case 0xE6:
+                case 0xEE:
+                case 0xF6:
+                case 0xFE:
+                    SET(opCode & 0x07, addr); break;
+
+                default:
+                    throw new InvalidOperationException($"Opcode FDCB**{opCode:X2} not understood. ");
+            };
+            return addr;
+        }
 
         private void DecodeFDOpcode()
         {
@@ -1124,6 +1267,9 @@ namespace ProjectCambridge.EmulatorCore
                 // CP (IY+*)
                 case 0xBE: addr = (ushort)(iy + GetNextByte()); a = CP(memory.ReadByte(addr)); break;
 
+                // bitwise instructions
+                case 0xCB: DecodeFDCBOpCode(); break;
+
                 // POP IY
                 case 0xE1: iy = POP(); break;
 
@@ -1175,7 +1321,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x06: rotFunction = SLL; break;
                 case 0x07: rotFunction = SRL; break;
                 default:
-                    throw new ArgumentOutOfRangeException("operation", operation, "Operation must map to a valid rotation operation.");
+                    throw new ArgumentOutOfRangeException(nameof(operation), operation, "Operation must map to a valid rotation operation.");
             }
 
             switch (register)
@@ -1189,11 +1335,11 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x06: memory.WriteByte(hl, rotFunction(memory.ReadByte(hl))); break;
                 case 0x07: a = rotFunction(a); break;
                 default:
-                    throw new ArgumentOutOfRangeException("register", register, "Field register must map to a valid Z80 register.");
+                    throw new ArgumentOutOfRangeException(nameof(register), register, "Field register must map to a valid Z80 register.");
             }
         }
 
-        private void bit(int bitToTest, int reg)
+        private void BIT(int bitToTest, int reg)
         {
             switch (reg)
             {
@@ -1213,7 +1359,7 @@ namespace ProjectCambridge.EmulatorCore
             fN = false;
         }
 
-        private void res(int bitToReset, int reg)
+        private void RES(int bitToReset, int reg)
         {
             switch (reg)
             {
@@ -1231,7 +1377,7 @@ namespace ProjectCambridge.EmulatorCore
 
         }
 
-        private void set(int bitToSet, int reg)
+        private void SET(int bitToSet, int reg)
         {
             switch (reg)
             {

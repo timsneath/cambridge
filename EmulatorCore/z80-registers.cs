@@ -42,37 +42,37 @@ namespace ProjectCambridge.EmulatorCore
         public bool fC
         {
             get { return (f & Flags.C) == Flags.C; }
-            set { f |= Flags.C; }
+            set { if (value) f |= Flags.C; else f &= ~Flags.C; }
         }
 
         public bool fN
         {
             get { return (f & Flags.N) == Flags.N; }
-            set { f |= Flags.N; }
+            set { if (value) f |= Flags.N; else f &= ~Flags.N; }
         }
 
         public bool fP
         {
             get { return (f & Flags.P) == Flags.P; }
-            set { f |= Flags.P; }
+            set { if (value) f |= Flags.P; else f &= ~Flags.P; }
         }
 
         public bool fH
         {
             get { return (f & Flags.H) == Flags.H; }
-            set { f |= Flags.H; }
+            set { if (value) f |= Flags.H; else f &= ~Flags.H; }
         }
 
         public bool fZ
         {
             get { return (f & Flags.Z) == Flags.Z; }
-            set { f |= Flags.Z; }
+            set { if (value) f |= Flags.Z; else f &= ~Flags.Z; }
         }
 
         public bool fS
         {
             get { return (f & Flags.S) == Flags.S; }
-            set { f |= Flags.S; }
+            set { if (value) f |= Flags.S; else f &= ~Flags.S; }
         }
 
         public ushort af
@@ -83,8 +83,8 @@ namespace ProjectCambridge.EmulatorCore
             }
             set
             {
-                a = HighByte(af);
-                f = (Flags)LowByte(af);
+                a = HighByte(value);
+                f = (Flags)LowByte(value);
             }
         }
 
@@ -96,8 +96,8 @@ namespace ProjectCambridge.EmulatorCore
             }
             set
             {
-                b = HighByte(de);
-                c = LowByte(bc);
+                b = HighByte(value);
+                c = LowByte(value);
             }
         }
 
@@ -109,8 +109,8 @@ namespace ProjectCambridge.EmulatorCore
             }
             set
             {
-                d = HighByte(de);
-                e = LowByte(de);
+                d = HighByte(value);
+                e = LowByte(value);
             }
         }
 
@@ -122,8 +122,8 @@ namespace ProjectCambridge.EmulatorCore
             }
             set
             {
-                h = HighByte(hl);
-                l = LowByte(hl);
+                h = HighByte(value);
+                l = LowByte(value);
             }
         }
 

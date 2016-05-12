@@ -374,7 +374,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x75: memory.WriteByte(hl, l); break;
 
                 // HALT
-                case 0x76: return true;
+                case 0x76: return false;
 
                 // LD (HL), A
                 case 0x77: memory.WriteByte(hl, a); break;
@@ -788,7 +788,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xFF: RST(0x38); break;
             }
 
-            return false;
+            return true;
         }
 
 

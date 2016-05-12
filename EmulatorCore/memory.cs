@@ -30,17 +30,27 @@ namespace ProjectCambridge.EmulatorCore
         const int ROM_TOP = 0x3FFF;
         const int RAM_TOP = 0xFFFF;
 
+        public bool IsROMProtected { get; set; }
+
         private byte[] memory;
 
-        public Memory()
+        public Memory(bool ROMProtected = true)
         {
             memory = new byte[RAM_TOP + 1];
+            IsROMProtected = ROMProtected;
             this.Reset();
         }
 
-        public void Reset()
+        public void Reset(bool IncludeROMArea = false)
         {
-            Array.Clear(memory, ROM_TOP + 1, RAM_TOP - ROM_TOP);
+            if (IncludeROMArea)
+            {
+                Array.Clear(memory, 0, memory.Length);
+            }
+            else
+            {
+                Array.Clear(memory, ROM_TOP + 1, RAM_TOP - ROM_TOP);
+            }
         }
 
         public void Load(ushort start, byte[] contents)
@@ -57,7 +67,7 @@ namespace ProjectCambridge.EmulatorCore
 
         public void WriteByte(ushort addr, byte val)
         {
-            if (addr > ROM_TOP)
+            if (addr > ROM_TOP || !IsROMProtected)
             {
                 memory[addr] = val;
             }
@@ -69,7 +79,7 @@ namespace ProjectCambridge.EmulatorCore
 
         internal void WriteWord(ushort addr, ushort val)
         {
-            if (addr > ROM_TOP - 1)
+            if (addr > ROM_TOP - 1 || !IsROMProtected)
             {
                 memory[addr] = (byte)((val & 0xFF00) >> 8);
                 memory[addr + 1] = (byte)(val & 0x00FF);

@@ -119,7 +119,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x20: if (!fZ) { JR((sbyte)GetNextByte()); } break;
 
                 // LD HL, **
-                case 0x21: h = GetNextByte(); l = GetNextByte(); break;
+                case 0x21: l = GetNextByte(); h = GetNextByte(); break;
 
                 // LD (**), HL
                 case 0x22: memory.WriteWord(hl, GetNextWord()); break;
@@ -182,7 +182,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x35: var decValue = memory.ReadByte(hl) - 1; memory.WriteByte(hl, (byte)decValue); break;
 
                 // LD (HL), *
-                case 0x36: memory.WriteWord(hl, GetNextByte()); break;
+                case 0x36: memory.WriteByte(hl, GetNextByte()); break;
 
                 // SCF
                 case 0x37: fH = false; fN = false; fC = true; break;

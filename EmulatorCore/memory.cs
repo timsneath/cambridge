@@ -81,8 +81,8 @@ namespace ProjectCambridge.EmulatorCore
         {
             if (addr > ROM_TOP - 1 || !IsROMProtected)
             {
-                memory[addr] = (byte)((val & 0xFF00) >> 8);
-                memory[addr + 1] = (byte)(val & 0x00FF);
+                memory[addr] = (byte)(val & 0x00FF);
+                memory[addr+1] = (byte)((val & 0xFF00) >> 8);
             }
             else
             {

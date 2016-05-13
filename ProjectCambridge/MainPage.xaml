@@ -61,7 +61,7 @@
                     <TextBox Grid.Column="7" Grid.Row="2" x:Name="RegPC" Text="0000" />
                     <CheckBox Grid.Column="1" Grid.Row="3" x:Name="FlagC">C</CheckBox>
                     <CheckBox Grid.Column="2" Grid.Row="3" x:Name="FlagN">N</CheckBox>
-                    <CheckBox Grid.Column="3" Grid.Row="3" x:Name="FlagP">P/V</CheckBox>
+                    <CheckBox Grid.Column="3" Grid.Row="3" x:Name="FlagPV">P/V</CheckBox>
                     <CheckBox Grid.Column="4" Grid.Row="3" x:Name="FlagH">H</CheckBox>
                     <CheckBox Grid.Column="5" Grid.Row="3" x:Name="FlagZ">Z</CheckBox>
                     <CheckBox Grid.Column="6" Grid.Row="3" x:Name="FlagS">S</CheckBox>

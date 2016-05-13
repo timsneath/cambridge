@@ -83,7 +83,7 @@ namespace ProjectCambridge
             FlagC.IsChecked = z80.fC;
             FlagH.IsChecked = z80.fH;
             FlagN.IsChecked = z80.fN;
-            FlagP.IsChecked = z80.fP;
+            FlagPV.IsChecked = z80.fPV;
             FlagS.IsChecked = z80.fS;
             FlagZ.IsChecked = z80.fZ;
         }

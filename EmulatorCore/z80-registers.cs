@@ -51,7 +51,7 @@ namespace ProjectCambridge.EmulatorCore
             set { if (value) f |= Flags.N; else f &= ~Flags.N; }
         }
 
-        public bool fP
+        public bool fPV
         {
             get { return (f & Flags.P) == Flags.P; }
             set { if (value) f |= Flags.P; else f &= ~Flags.P; }
@@ -128,12 +128,29 @@ namespace ProjectCambridge.EmulatorCore
         }
 
         // Z80 instructions require you to exchange these registers (e.g. AF' <-> AF) 
-        // before you can read their contents. These expression-bodied members are
-        // provided for diagnostic purposes only. 
-        public ushort af_ => (ushort)((a_ << 8) + f_);
-        public ushort bc_ => (ushort)((b_ << 8) + c_);
-        public ushort de_ => (ushort)((d_ << 8) + e_);
-        public ushort hl_ => (ushort)((h_ << 8) + l_);
+        // before you can read their contents. These members are provided for 
+        // diagnostic purposes only. 
+        public ushort af_
+        {
+            get { return (ushort)((a_ << 8) + f_); }
+            set { a_ = HighByte(value); f_ = (Flags)LowByte(value); }
+        }
+        public ushort bc_
+        {
+            get { return (ushort)((b_ << 8) + c_); }
+            set { b_ = HighByte(value); c_ = LowByte(value); }
+        }
+        public ushort de_
+        {
+            get { return (ushort)((d_ << 8) + e_); }
+            set { d_ = HighByte(value); e_ = LowByte(value); }
+        }
+        public ushort hl_
+        {
+            get { return (ushort)((h_ << 8) + l_); }
+            set { h_ = HighByte(value); l_ = LowByte(value); }
+        }
+
 
         public byte HighByte(ushort val) => (byte)((val & 0xFF00) >> 8);
         public byte LowByte(ushort val) => (byte)(val & 0x00FF);

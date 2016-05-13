@@ -34,7 +34,7 @@ namespace ProjectCambridge.EmulatorCore
         #region Arithmetic operations
         private byte INC(byte reg)
         {
-            fP = (reg == 0x7F);
+            fPV = (reg == 0x7F);
             fH = (reg & 0xF) == 0xF;
             reg++;
             fZ = IsZero(reg);
@@ -46,7 +46,7 @@ namespace ProjectCambridge.EmulatorCore
 
         private byte DEC(byte reg)
         {
-            fP = (reg == 0x80);
+            fPV = (reg == 0x80);
             fH = false; // TODO: set if borrow from bit 4
             reg--;
             fZ = IsZero(reg);
@@ -133,7 +133,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(v);
             fZ = (res == 0);
             fH = false; // TODO: set if borrow from bit 4
-            fP = IsSign(res) != IsSign(a); // overflow
+            fPV = IsSign(res) != IsSign(a); // overflow
             fN = true;
             fC = false; // TODO; set if borrow
 
@@ -161,7 +161,7 @@ namespace ProjectCambridge.EmulatorCore
         private byte NEG(byte a)
         {
             // returns two's complement of a
-            fP = (a == 0x80);
+            fPV = (a == 0x80);
             fC = (a != 0x00);
 
             a = (byte)~a;
@@ -186,7 +186,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(reg);
             fZ = IsZero(reg);
             fH = false;
-            fP = IsParity(reg);
+            fPV = IsParity(reg);
             fN = false;
 
             return reg;
@@ -201,7 +201,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(reg);
             fZ = IsZero(reg);
             fH = false;
-            fP = IsParity(reg);
+            fPV = IsParity(reg);
             fN = false;
 
             return reg;
@@ -220,7 +220,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(reg);
             fZ = IsZero(reg);
             fH = false;
-            fP = IsParity(reg);
+            fPV = IsParity(reg);
             fN = false;
 
             if (bit0) reg = (byte)SetBit(reg, 0);
@@ -238,7 +238,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(reg);
             fZ = IsZero(reg);
             fH = false;
-            fP = IsParity(reg);
+            fPV = IsParity(reg);
             fN = false;
 
             if (bit7) reg = (byte)SetBit(reg, 7);
@@ -254,7 +254,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(reg);
             fZ = IsZero(reg);
             fH = false;
-            fP = IsParity(reg);
+            fPV = IsParity(reg);
             fN = false;
 
             return reg;
@@ -272,7 +272,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(reg);
             fZ = IsZero(reg);
             fH = false;
-            fP = IsParity(reg);
+            fPV = IsParity(reg);
             fN = false;
 
             return reg;
@@ -288,7 +288,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(reg);
             fZ = IsZero(reg);
             fH = false;
-            fP = IsParity(reg);
+            fPV = IsParity(reg);
             fN = false;
 
             return reg;
@@ -303,7 +303,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(reg);
             fZ = IsZero(reg);
             fH = false;
-            fP = IsParity(reg);
+            fPV = IsParity(reg);
             fN = false;
 
             return reg;
@@ -317,7 +317,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign(a);
             fZ = IsZero(a);
             fH = false; // TODO: set if borrow from bit 4
-            fP = false; // TODO: set if overflow, otherwise reset
+            fPV = false; // TODO: set if overflow, otherwise reset
             fN = true;
             fC = false; // TODO: set if borrow, otherwise reset
             return a;
@@ -338,7 +338,7 @@ namespace ProjectCambridge.EmulatorCore
             state += "Flags: ";
             if (fC) state += "C";
             if (fN) state += "N";
-            if (fP) state += "P";
+            if (fPV) state += "P";
             if (fH) state += "H";
             if (fZ) state += "Z";
             if (fS) state += "S";

@@ -122,7 +122,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x21: l = GetNextByte(); h = GetNextByte(); break;
 
                 // LD (**), HL
-                case 0x22: memory.WriteWord(hl, GetNextWord()); break;
+                case 0x22: memory.WriteWord(GetNextWord(), hl); break;
 
                 // INC HL
                 case 0x23: hl++; break;
@@ -692,19 +692,19 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xDF: RST(0x18); break;
 
                 // RET PO
-                case 0xE0: if (!fP) { pc = POP(); } break;
+                case 0xE0: if (!fPV) { pc = POP(); } break;
 
                 // POP HL
                 case 0xE1: hl = POP(); break;
 
                 // JP PO, **
-                case 0xE2: if (!fP) { pc = GetNextWord(); } break;
+                case 0xE2: if (!fPV) { pc = GetNextWord(); } break;
 
                 // EX (SP), HL
                 case 0xE3: var temp = hl; hl = memory.ReadWord(sp); memory.WriteWord(sp, temp); break;
 
                 // CALL PO, **
-                case 0xE4: if (!fP) { CALL(); } break;
+                case 0xE4: if (!fPV) { CALL(); } break;
 
                 // PUSH HL
                 case 0xE5: PUSH(hl); break;
@@ -716,22 +716,22 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE7: RST(0x20); break;
 
                 // RET PE
-                case 0xE8: if (fP) { pc = POP(); } break;
+                case 0xE8: if (fPV) { pc = POP(); } break;
 
                 // JP (HL)
                 case 0xE9: pc = memory.ReadWord(hl); break;
 
                 // JP PE, **
-                case 0xEA: if (fP) { pc = GetNextWord(); } break;
+                case 0xEA: if (fPV) { pc = GetNextWord(); } break;
 
                 // EX DE, HL
                 case 0xEB: Swap(ref d, ref h); Swap(ref e, ref l); break;
 
                 // CALL PE, **
-                case 0xEC: if (fP) { CALL(); } break;
+                case 0xEC: if (fPV) { CALL(); } break;
 
                 // EXTD INSTRUCTIONS
-                case 0xED: DecodeEBOpcode(); break;
+                case 0xED: DecodeEDOpcode(); break;
 
                 // XOR *
                 case 0xEE: a ^= GetNextByte(); break;
@@ -813,7 +813,7 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
-        private void DecodeEBOpcode()
+        private void DecodeEDOpcode()
         {
             byte opCode = GetNextByte();
 
@@ -861,19 +861,25 @@ namespace ProjectCambridge.EmulatorCore
                 // LD R, A
                 case 0x4F: r = a; break;
 
+                // LD A, I
+                case 0x57: a = i; fS = IsSign(i); fZ = IsZero(i); fH = false; fPV = iff2; fN = false; break;
+
+                // LD A, R
+                case 0x5F: a = r; fS = IsSign(r); fZ = IsZero(r); fH = false; fPV = iff2; fN = false; break;
+
                 // TODO: Finish off ED operations
 
                 // LDI
-                case 0xA0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; fH = fN = false; fP = (bc != 0); break;
+                case 0xA0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; fH = fN = false; fPV = (bc != 0); break;
 
                 // LDD
-                case 0xA8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; fH = fN = false; fP = (bc != 0); break;
+                case 0xA8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; fH = fN = false; fPV = (bc != 0); break;
 
                 // LDIR
-                case 0xB0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; if (bc > 0) pc -= 2; fH = fP = fN = false; break;
+                case 0xB0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; if (bc > 0) pc -= 2; fH = fPV = fN = false; break;
 
                 // LDDR
-                case 0xB8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; if (bc > 0) pc -= 2; fH = fP = fN = false; break;
+                case 0xB8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; if (bc > 0) pc -= 2; fH = fPV = fN = false; break;
 
                 default:
                     throw new InvalidOperationException($"Opcode EB{opCode:X2} not understood. ");
@@ -1005,7 +1011,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE1: ix = POP(); break;
 
                 // EX (SP), IX
-                case 0xE3: var temp = memory.ReadWord(sp); memory.WriteWord(sp, addr); ix = temp; break;
+                case 0xE3: var temp = memory.ReadWord(sp); memory.WriteWord(sp, ix); ix = temp; break;
 
                 // PUSH IX
                 case 0xE5: PUSH(ix); break;
@@ -1288,7 +1294,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE1: iy = POP(); break;
 
                 // EX (SP), IY
-                case 0xE3: var temp = memory.ReadWord(sp); memory.WriteWord(sp, addr); iy = temp; break;
+                case 0xE3: var temp = memory.ReadWord(sp); memory.WriteWord(sp, iy); iy = temp; break;
 
                 // PUSH IY
                 case 0xE5: PUSH(iy); break;

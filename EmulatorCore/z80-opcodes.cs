@@ -47,7 +47,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x08: Swap(ref a, ref a_); Swap(ref f, ref f_); break;
 
                 // ADD HL, BC
-                case 0x09: hl += bc; break;
+                case 0x09: hl = ADD(hl, bc); break;
 
                 // LD A, (BC)
                 case 0x0A: a = memory.ReadByte(bc); break;
@@ -95,7 +95,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x18: JR((sbyte)GetNextByte()); break;
 
                 // ADD HL, DE
-                case 0x19: hl += de; break;
+                case 0x19: hl = ADD(hl, de); break;
 
                 // LD A, (DE)
                 case 0x1A: a = memory.ReadByte(de); break;
@@ -143,7 +143,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x28: if (fZ) { JR((sbyte)GetNextByte()); } break;
 
                 // ADD HL, HL
-                case 0x29: hl += hl; break;
+                case 0x29: hl = ADD(hl, hl); break;
 
                 // LD HL, (**)
                 case 0x2A: hl = memory.ReadWord(GetNextWord()); break;
@@ -191,7 +191,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x38: if (fC) { JR((sbyte)GetNextByte()); } break;
 
                 // ADD HL, SP
-                case 0x39: hl += sp; break;
+                case 0x39: hl = ADD(hl, sp); break;
 
                 // LD A, (**)
                 case 0x3A: a = memory.ReadByte(GetNextWord()); break;
@@ -404,52 +404,52 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x7F: break;
 
                 // ADD A, B
-                case 0x80: a += b; break;
+                case 0x80: a = ADD(a, b); break;
 
                 // ADD A, C
-                case 0x81: a += c; break;
+                case 0x81: a = ADD(a, c); break;
 
                 // ADD A, D
-                case 0x82: a += d; break;
+                case 0x82: a = ADD(a, d); break;
 
                 // ADD A, E
-                case 0x83: a += e; break;
+                case 0x83: a = ADD(a, e); break;
 
                 // ADD A, H
-                case 0x84: a += h; break;
+                case 0x84: a = ADD(a, h); break;
 
                 // ADD A, L
-                case 0x85: a += l; break;
+                case 0x85: a = ADD(a, l); break;
 
                 // ADD A, (HL)
-                case 0x86: a += memory.ReadByte(hl); break;
+                case 0x86: a = ADD(a, memory.ReadByte(hl)); break;
 
                 // ADD A, A
-                case 0x87: a += a; break;
+                case 0x87: a = ADD(a, a); break;
 
                 // ADC A, B
-                case 0x88: a += b; break;
+                case 0x88: a = ADC(a, b); break;
 
                 // ADC A, C
-                case 0x89: a += c; break;
+                case 0x89: a = ADC(a, c); break;
 
                 // ADC A, D
-                case 0x8A: a += d; break;
+                case 0x8A: a = ADC(a, d); break;
 
                 // ADC A, E
-                case 0x8B: a += e; break;
+                case 0x8B: a = ADC(a, e); break;
 
                 // ADC A, H
-                case 0x8C: a += h; break;
+                case 0x8C: a = ADC(a, h); break;
 
                 // ADC A, L
-                case 0x8D: a += l; break;
+                case 0x8D: a = ADC(a, l); break;
 
                 // ADC A, (HL)
-                case 0x8E: a += memory.ReadByte(hl); break;
+                case 0x8E: a = ADC(a, memory.ReadByte(hl)); break;
 
                 // ADC A, A
-                case 0x8F: a += a; break;
+                case 0x8F: a = ADC(a, a); break;
 
                 // SUB B
                 case 0x90: a = SUB(a, b); break;
@@ -638,7 +638,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xCD: CALL(); break;
 
                 // ADC A, *
-                case 0xCE: GetNextByte(); break;
+                case 0xCE: a = ADC(a, GetNextByte()); break;
 
                 // RST 08h
                 case 0xCF: RST(0x08); break;
@@ -662,7 +662,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xD5: PUSH(de); break;
 
                 // SUB *
-                case 0xD6: GetNextByte(); break;
+                case 0xD6: a = SUB(a, GetNextByte()); break;
 
                 // RST 10h
                 case 0xD7: RST(0x10); break;
@@ -791,7 +791,6 @@ namespace ProjectCambridge.EmulatorCore
             return true;
         }
 
-
         private void DecodeCBOpcode()
         {
             byte opCode = GetNextByte();
@@ -850,7 +849,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x49: break;
 
                 // ADC HL, BC
-                case 0x4A: break;
+                case 0x4A: hl = ADC(hl, bc);  break;
 
                 // LD BC, (**)
                 case 0x4B: bc = memory.ReadWord(GetNextWord()); break;
@@ -872,14 +871,26 @@ namespace ProjectCambridge.EmulatorCore
                 // LDI
                 case 0xA0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; fH = fN = false; fPV = (bc != 0); break;
 
+                // CPI
+                case 0xA1: CPI(); break;
+
                 // LDD
                 case 0xA8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; fH = fN = false; fPV = (bc != 0); break;
+
+                // CPD
+                case 0xA9: CPD(); break;
 
                 // LDIR
                 case 0xB0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; if (bc > 0) pc -= 2; fH = fPV = fN = false; break;
 
+                // CPIR
+                case 0xB1: CPIR(); break;
+
                 // LDDR
                 case 0xB8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; if (bc > 0) pc -= 2; fH = fPV = fN = false; break;
+
+                // CPDR
+                case 0xB9: CPDR(); break;
 
                 default:
                     throw new InvalidOperationException($"Opcode EB{opCode:X2} not understood. ");
@@ -1412,9 +1423,7 @@ namespace ProjectCambridge.EmulatorCore
                 default:
                     throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
             }
-
         }
-
 
         private bool IsParity(byte reg)
         {

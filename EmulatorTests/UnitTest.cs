@@ -690,9 +690,89 @@ namespace ProjectCambridge.EmulatorTests
         {
             z80.a = 0x44;
             z80.c = 0x11;
-            Execute(0x87);
-            Assert.IsTrue(z80.fH);
+            Execute(0x81);
+            Assert.IsFalse(z80.fH);
             Assert.IsFalse(z80.fS | z80.fZ | z80.fPV | z80.fN | z80.fC);
+        }
+
+        [TestMethod]
+        public void TestADD_A_n() // ADD A, n
+        {
+            z80.a = 0x23;
+            Execute(0xC6, 0x33);
+            Assert.IsTrue(z80.a == 0x56);
+            Assert.IsFalse(z80.fH);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fN | z80.fPV | z80.fC);
+        }
+
+        [TestMethod]
+        public void TestADD_A_pHL() // ADD A, (HL)
+        {
+            z80.a = 0xA0;
+            z80.hl = 0x2323;
+            Poke(0x2323, 0x08);
+            Execute(0x86);
+            Assert.IsTrue(z80.a == 0xA8);
+            Assert.IsTrue(z80.fS);
+            Assert.IsFalse(z80.fZ | z80.fC | z80.fPV | z80.fN | z80.fH);
+        }
+
+        [TestMethod]
+        public void TestADD_A_IXd() // ADD A, (IX + d)
+        {
+            z80.a = 0x11;
+            z80.ix = 0x1000;
+            Poke(0x1005, 0x22);
+            Execute(0xDD, 0x86, 0x05);
+            Assert.IsTrue(z80.a == 0x33);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
+        }
+
+        [TestMethod]
+        public void TestADD_A_IYd() // ADD A, (IY + d)
+        {
+            z80.a = 0x11;
+            z80.iy = 0x1000;
+            Poke(0x1005, 0x22);
+            Execute(0xFD, 0x86, 0x05);
+            Assert.IsTrue(z80.a == 0x33);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
+        }
+
+        [TestMethod]
+        public void TestADC_A_pHL() // ADC A, (HL)
+        {
+            z80.a = 0x16;
+            z80.fC = true;
+            z80.hl = 0x6666;
+            Poke(0x6666, 0x10);
+            Execute(0x8E);
+            Assert.IsTrue(z80.a == 0x27);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
+        }
+
+        [TestMethod]
+        public void TestSUB_D() // SUB D
+        {
+            z80.a = 0x29;
+            z80.d = 0x11;
+            Execute(0x92);
+            Assert.IsTrue(z80.a == 0x18);
+            Assert.IsTrue(z80.fN);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fC);
+        }
+
+        [TestMethod]
+        public void TestSBC_pHL() // SBC A, (HL)
+        {
+            z80.a = 0x16;
+            z80.fC = true;
+            z80.hl = 0x3433;
+            Poke(0x3433, 0x05);
+            Execute(0x9E);
+            Assert.IsTrue(z80.a == 0x10);
+            Assert.IsTrue(z80.fN);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fC);
         }
     }
 }

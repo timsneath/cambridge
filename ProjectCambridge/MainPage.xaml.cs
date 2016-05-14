@@ -45,28 +45,27 @@ namespace ProjectCambridge
             z80 = new Z80(memory, 0xA000);
 
             Execute();
-
-            this.Results.Text = z80.GetState();
         }
 
-        private void Execute()
+        private async void Execute()
         {
-            bool halt = false;
+            bool notHalt = true;
 
-            while (!halt)
+            while (notHalt)
             {
-                halt = z80.ExecuteNextInstruction();
-                WriteRegisters();
+                UpdateRegisterDebugDisplay();
 
-                // lots of 'better' ways to do this - but this is a dirty hack to let the UI update without 
-                // bothering to manage threads. Works well here where we deliberately want to sleep anyway.
+                // probably 'better' ways to do this - but this gives the UI time to update, and slows the
+                // clock down to a manageable speed
+                await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-                //Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background,
-                //    new System.Threading.ThreadStart(() => System.Threading.Thread.Sleep(200)));
+                notHalt = z80.ExecuteNextInstruction();
             }
+
+            UpdateRegisterDebugDisplay();
         }
 
-        private void WriteRegisters()
+        private void UpdateRegisterDebugDisplay()
         {
             RegA.Text = string.Format("{0:X2}", z80.a);
             RegBC.Text = string.Format("{0:X4}", z80.bc);
@@ -95,12 +94,14 @@ namespace ProjectCambridge
             var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/48.rom"));
             var fs = await file.OpenStreamForReadAsync();
             fs.Read(rom, 0, 16384);
+            memory.Reset();
             memory.Load(0x0000, rom);
         }
 
         private void ExecuteROM_Click(object sender, RoutedEventArgs e)
         {
             z80 = new Z80(memory, 0x0000);
+            UpdateRegisterDebugDisplay();
 
             Execute();
         }

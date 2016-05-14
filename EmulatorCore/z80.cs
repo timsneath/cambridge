@@ -56,23 +56,54 @@ namespace ProjectCambridge.EmulatorCore
             return reg;
         }
 
-        private byte ADC(byte a, byte reg)
+        private byte ADC(byte a, byte b)
         {
-            a += reg;
-            return a;
+            if (fC) b++;
+            return ADD(a, b);
         }
 
-        private byte ADD(byte a, byte reg)
+        private ushort ADC(ushort a, ushort b)
         {
-            a += reg;
-            return a;
+            if (fC) b++;
+            return ADD(a, b);
         }
 
-        private byte SUB(byte a, byte v)
+        private byte ADD(byte a, byte b)
         {
-            a -= v;
+            fH = (((a & 0x0F) + (b & 0x0F)) & 0x10) == 0x10;
+            fPV = a + b > 0xFF;
+            fC = a + b > 0xFF;
+            a += b;
             fS = IsSign(a);
             fZ = IsZero(a);
+            fN = false;
+            return a;
+        }
+
+        private ushort ADD(ushort a, ushort b)
+        {
+            fH = (((a & 0xFFF) + (b & 0xFFF)) & 0x1000) == 0x1000;
+            fC = a + b > 0xFFFF;
+            a += b;
+            fN = false;
+            return a;
+        }
+
+        private byte SBC(byte a, byte b)
+        {
+            if (fC) b++;
+            return SUB(a, b);
+        }
+
+        private byte SUB(byte a, byte b)
+        {
+            fH = (a & 0x0F) < (b & 0x0F);
+            fC = a - b < 0;
+            fPV = a - b < 0;
+            a -= b;
+            fS = IsSign(a);
+            fZ = IsZero(a);
+            fN = true;
             return a;
         }
         #endregion
@@ -135,9 +166,67 @@ namespace ProjectCambridge.EmulatorCore
             fH = false; // TODO: set if borrow from bit 4
             fPV = IsSign(res) != IsSign(a); // overflow
             fN = true;
-            fC = false; // TODO; set if borrow
+            fC = a < v;
 
             return res;
+        }
+
+        private void CPD()
+        {
+            byte val = memory.ReadByte(hl);
+            fH = (a & 0x0F) < (val & 0x0F);
+            fS = (a - val < 0);
+            fZ = (a == val);
+            fN = true;
+            fPV = (bc - 1 != 0);
+            hl--;
+            bc--;
+        }
+
+        private void CPDR()
+        {
+            byte val = memory.ReadByte(hl);
+            fH = (a & 0x0F) < (val & 0x0F);
+            fS = (a - val < 0);
+            fZ = (a == val);
+            fN = true;
+            fPV = (bc - 1 != 0);
+            hl--;
+            bc--;
+
+            if ((bc != 0) && (a != val))
+            {
+                pc -= 2;
+            }
+        }
+
+        private void CPI()
+        {
+            byte val = memory.ReadByte(hl);
+            fH = (a & 0x0F) < (val & 0x0F);
+            fS = (a - val < 0);
+            fZ = (a == val);
+            fN = true;
+            fPV = (bc - 1 != 0);
+            hl++;
+            bc--;
+        }
+
+        private void CPIR()
+        {
+            byte val = memory.ReadByte(hl);
+            fH = (a & 0x0F) < (val & 0x0F);
+            fS = (a - val < 0);
+            fZ = (a == val);
+            fN = true;
+            fPV = (bc - 1 != 0);
+            hl++;
+            bc--;
+
+            if ((bc != 0) && (a != val))
+            {
+                pc -= 2;
+            }
         }
 
         private byte OR(byte a, byte reg)
@@ -307,20 +396,6 @@ namespace ProjectCambridge.EmulatorCore
             fN = false;
 
             return reg;
-        }
-
-        private byte SBC(byte a, byte reg)
-        {
-            a -= reg;
-            if (fC) a--;
-
-            fS = IsSign(a);
-            fZ = IsZero(a);
-            fH = false; // TODO: set if borrow from bit 4
-            fPV = false; // TODO: set if overflow, otherwise reset
-            fN = true;
-            fC = false; // TODO: set if borrow, otherwise reset
-            return a;
         }
         #endregion
 

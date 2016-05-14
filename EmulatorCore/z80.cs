@@ -131,7 +131,7 @@ namespace ProjectCambridge.EmulatorCore
 
                 // if we're going backwards, we also automatically allow for 
                 // the twice-incremented PC
-                pc -= 2;
+                // pc -= 2;
             }
         }
 

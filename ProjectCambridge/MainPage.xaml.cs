@@ -57,7 +57,7 @@ namespace ProjectCambridge
 
                 // probably 'better' ways to do this - but this gives the UI time to update, and slows the
                 // clock down to a manageable speed
-                await Task.Delay(TimeSpan.FromSeconds(0.5));
+                await Task.Delay(TimeSpan.FromSeconds(ExecutionSpeed.Value));
 
                 notHalt = z80.ExecuteNextInstruction();
             }
@@ -87,7 +87,7 @@ namespace ProjectCambridge
             FlagZ.IsChecked = z80.fZ;
         }
 
-        private async void LoadROM_Click(object sender, RoutedEventArgs e)
+        private async void ExecuteSpectrumROM_Click(object sender, RoutedEventArgs e)
         {
             var rom = new byte[16384];
 
@@ -96,10 +96,7 @@ namespace ProjectCambridge
             fs.Read(rom, 0, 16384);
             memory.Reset();
             memory.Load(0x0000, rom);
-        }
 
-        private void ExecuteROM_Click(object sender, RoutedEventArgs e)
-        {
             z80 = new Z80(memory, 0x0000);
             UpdateRegisterDebugDisplay();
 
@@ -115,13 +112,18 @@ namespace ProjectCambridge
         {
             var ram = new byte[6912];
 
-            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/highway.scr"));
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/AticAtac.scr"));
             var fs = await file.OpenStreamForReadAsync();
 
             fs.Read(ram, 0, 6912);
             memory.Load(0x4000, ram);
 
             display.Repaint(memory);
+        }
+
+        private void Fast_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -860,6 +860,18 @@ namespace ProjectCambridge.EmulatorCore
                 // LD R, A
                 case 0x4F: r = a; break;
 
+                // IN D, (C)
+                case 0x50: break;
+
+                // OUT (C), D
+                case 0x51: break;
+
+                // SBC HL, DE
+                case 0x52: break;
+
+                // LD (**), DE
+                case 0x53: memory.WriteWord(GetNextWord(), de); break;
+
                 // LD A, I
                 case 0x57: a = i; fS = IsSign(i); fZ = IsZero(i); fH = false; fPV = iff2; fN = false; break;
 
@@ -893,7 +905,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xB9: CPDR(); break;
 
                 default:
-                    throw new InvalidOperationException($"Opcode EB{opCode:X2} not understood. ");
+                    throw new InvalidOperationException($"Opcode ED{opCode:X2} not understood. ");
             }
         }
 

@@ -5,21 +5,21 @@ using ProjectCambridge.EmulatorCore;
 namespace ProjectCambridge.EmulatorTests
 {
     [TestClass]
-    public class Z80Tests
+    public class Z80InstructionTests
     {
         // TODO: Adjust earlier test cases for consistency of naming
 
         Memory memory;
         Z80 z80;
 
-        public Z80Tests()
+        public Z80InstructionTests()
         {
             memory = new Memory(ROMProtected: false);
             z80 = new Z80(memory, 0xA000);
         }
 
         [TestInitialize]
-        public void TestClean()
+        public void Initialize()
         {
             z80.Reset();
             memory.Reset(IncludeROMArea: true);
@@ -49,7 +49,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestNOP()
+        public void NOP()
         {
             Execute(0x00, 0x00, 0x00, 0x00);
 
@@ -64,7 +64,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_H_E()
+        public void LD_H_E()
         {
             z80.h = 0x8A;
             z80.e = 0x10;
@@ -74,14 +74,14 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_R_N() // LD r, r'
+        public void LD_R_N() // LD r, r'
         {
             Execute(0x1E, 0xA5);
             Assert.IsTrue(z80.e == 0xA5);
         }
 
         [TestMethod]
-        public void TestLD_R_HL() // LD r, (HL)
+        public void LD_R_HL() // LD r, (HL)
         {
             Poke(0x75A1, 0x58);
             z80.hl = 0x75A1;
@@ -90,7 +90,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_R_IXd() // LD r, (IX+d)
+        public void LD_R_IXd() // LD r, (IX+d)
         {
             z80.ix = 0x25AF;
             Poke(0x25C8, 0x39);
@@ -99,7 +99,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_R_IYd() // LD r, (IY+d)
+        public void LD_R_IYd() // LD r, (IY+d)
         {
             z80.iy = 0x25AF;
             Poke(0x25C8, 0x39);
@@ -108,7 +108,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_HL_R() // LD (HL), r
+        public void LD_HL_R() // LD (HL), r
         {
             z80.hl = 0x2146;
             z80.b = 0x29;
@@ -117,7 +117,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_IXd_r() // LD (IX+d), r
+        public void LD_IXd_r() // LD (IX+d), r
         {
             z80.c = 0x1C;
             z80.ix = 0x3100;
@@ -126,7 +126,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_IYd_r() // LD (IY+d), r
+        public void LD_IYd_r() // LD (IY+d), r
         {
             z80.c = 0x48;
             z80.iy = 0x2A11;
@@ -135,7 +135,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_HL_N() // LD (HL), n
+        public void LD_HL_N() // LD (HL), n
         {
             z80.hl = 0x4444;
             Execute(0x36, 0x28);
@@ -143,7 +143,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_IXd_N() // LD (IX+d), n
+        public void LD_IXd_N() // LD (IX+d), n
         {
             z80.ix = 0x219A;
             Execute(0xDD, 0x36, 0x05, 0x5A);
@@ -151,7 +151,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_IYd_N() // LD (IY+d), n
+        public void LD_IYd_N() // LD (IY+d), n
         {
             z80.iy = 0xA940;
             Execute(0xFD, 0x36, 0x10, 0x97);
@@ -159,7 +159,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_A_BC() // LD A, (BC)
+        public void LD_A_BC() // LD A, (BC)
         {
             z80.bc = 0x4747;
             Poke(0x4747, 0x12);
@@ -168,7 +168,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_A_DE() // LD A, (DE)
+        public void LD_A_DE() // LD A, (DE)
         {
             z80.de = 0x30A2;
             Poke(0x30A2, 0x22);
@@ -177,7 +177,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_A_NN() // LD A, (nn)
+        public void LD_A_NN() // LD A, (nn)
         {
             Poke(0x8832, 0x04);
             Execute(0x3A, 0x32, 0x88);
@@ -185,7 +185,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_BC_A() // LD (BC), A
+        public void LD_BC_A() // LD (BC), A
         {
             z80.a = 0x7A;
             z80.bc = 0x1212;
@@ -194,7 +194,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_DE_A() // LD (DE), A
+        public void LD_DE_A() // LD (DE), A
         {
             z80.de = 0x1128;
             z80.a = 0xA0;
@@ -203,7 +203,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_NN_A() // LD (NN), A
+        public void LD_NN_A() // LD (NN), A
         {
             z80.a = 0xD7;
             Execute(0x32, 0x41, 0x31);
@@ -211,7 +211,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_A_I() // LD A, I
+        public void LD_A_I() // LD A, I
         {
             var oldCarry = z80.fC;
             z80.i = 0xFE;
@@ -229,7 +229,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_A_R() // LD A, R
+        public void LD_A_R() // LD A, R
         {
             var oldCarry = z80.fC;
             z80.r = 0x07;
@@ -247,7 +247,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_I_A() // LD I, A
+        public void LD_I_A() // LD I, A
         {
             z80.a = 0x5C;
             Execute(0xED, 0x47);
@@ -256,7 +256,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_R_A() // LD R, A
+        public void LD_R_A() // LD R, A
         {
             z80.a = 0xDE;
             Execute(0xED, 0x4F);
@@ -265,7 +265,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_DD_NN() // LD dd, nn
+        public void LD_DD_NN() // LD dd, nn
         {
             Execute(0x21, 0x00, 0x50);
             Assert.IsTrue(z80.hl == 0x5000);
@@ -274,21 +274,21 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_IX_NN() // LD IX, nn
+        public void LD_IX_NN() // LD IX, nn
         {
             Execute(0xDD, 0x21, 0xA2, 0x45);
             Assert.IsTrue(z80.ix == 0x45A2);
         }
 
         [TestMethod]
-        public void TestLD_IY_NN() // LD IY, nn
+        public void LD_IY_NN() // LD IY, nn
         {
             Execute(0xFD, 0x21, 0x33, 0x77);
             Assert.IsTrue(z80.iy == 0x7733);
         }
 
         [TestMethod]
-        public void TestLD_HL_NN1() // LD HL, (nn)
+        public void LD_HL_NN1() // LD HL, (nn)
         {
             Poke(0x4545, 0x37);
             Poke(0x4546, 0xA1);
@@ -298,7 +298,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_HL_NN2()
+        public void LD_HL_NN2()
         {
             Poke(0x8ABC, 0x84);
             Poke(0x8ABD, 0x89);
@@ -307,7 +307,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_DD_pNN() // LD dd, (nn)
+        public void LD_DD_pNN() // LD dd, (nn)
         {
             Poke(0x2130, 0x65);
             Poke(0x2131, 0x78);
@@ -316,7 +316,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_IX_pNN() // LD IX, (nn)
+        public void LD_IX_pNN() // LD IX, (nn)
         {
             Poke(0x6666, 0x92);
             Poke(0x6667, 0xDA);
@@ -325,7 +325,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_IY_pNN() // LD IY, (nn)
+        public void LD_IY_pNN() // LD IY, (nn)
         {
             Poke(0xF532, 0x11);
             Poke(0xF533, 0x22);
@@ -334,7 +334,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_pNN_HL() // LD (nn), HL
+        public void LD_pNN_HL() // LD (nn), HL
         {
             z80.hl = 0x483A;
             Execute(0x22, 0x29, 0xB2);
@@ -343,7 +343,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_pNN_DD() // LD (nn), DD
+        public void LD_pNN_DD() // LD (nn), DD
         {
             z80.bc = 0x4644;
             Execute(0xED, 0x43, 0x00, 0x10);
@@ -352,7 +352,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_pNN_IX() // LD (nn), IX
+        public void LD_pNN_IX() // LD (nn), IX
         {
             z80.ix = 0x5A30;
             Execute(0xDD, 0x22, 0x92, 0x43);
@@ -361,7 +361,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_pNN_IY() // LD (nn), IY
+        public void LD_pNN_IY() // LD (nn), IY
         {
             z80.iy = 0x4174;
             Execute(0xFD, 0x22, 0x38, 0x88);
@@ -370,7 +370,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_SP_HL() // LD SP, HL
+        public void LD_SP_HL() // LD SP, HL
         {
             z80.hl = 0x442E;
             Execute(0xF9);
@@ -378,7 +378,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_SP_IX() // LD SP, IX
+        public void LD_SP_IX() // LD SP, IX
         {
             z80.ix = 0x98DA;
             Execute(0xDD, 0xF9);
@@ -386,7 +386,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLD_SP_IY() // LD SP, IY
+        public void LD_SP_IY() // LD SP, IY
         {
             z80.iy = 0xA227;
             Execute(0xFD, 0xF9);
@@ -394,7 +394,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestPUSH_qq() // PUSH qq
+        public void PUSH_qq() // PUSH qq
         {
             z80.af = 0x2233;
             z80.sp = 0x1007;
@@ -405,7 +405,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestPUSH_IX() // PUSH IX
+        public void PUSH_IX() // PUSH IX
         {
             z80.ix = 0x2233;
             z80.sp = 0x1007;
@@ -416,7 +416,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestPUSH_IY() // PUSH IY
+        public void PUSH_IY() // PUSH IY
         {
             z80.iy = 0x2233;
             z80.sp = 0x1007;
@@ -427,7 +427,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestPOP_qq() // POP qq
+        public void POP_qq() // POP qq
         {
             z80.sp = 0x1000;
             Poke(0x1000, 0x55);
@@ -438,7 +438,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestPOP_IX() // POP IX
+        public void POP_IX() // POP IX
         {
             z80.sp = 0x1000;
             Poke(0x1000, 0x55);
@@ -449,7 +449,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestPOP_IY() // POP IY
+        public void POP_IY() // POP IY
         {
             z80.sp = 0x8FFF;
             Poke(0x8FFF, 0xFF);
@@ -460,7 +460,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestEX_DE_HL() // EX DE, HL
+        public void EX_DE_HL() // EX DE, HL
         {
             z80.de = 0x2822;
             z80.hl = 0x499A;
@@ -470,7 +470,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestEX_AF_AF() // EX AF, AF'
+        public void EX_AF_AF() // EX AF, AF'
         {
             z80.af = 0x9900;
             z80.af_ = 0x5944;
@@ -480,7 +480,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestEXX() // EXX
+        public void EXX() // EXX
         {
             z80.af = 0x1234; z80.af_ = 0x4321;
             z80.bc = 0x445A; z80.de = 0x3DA2; z80.hl = 0x8859;
@@ -497,7 +497,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestEX_SP_HL() // EX (SP), HL
+        public void EX_SP_HL() // EX (SP), HL
         {
             z80.hl = 0x7012;
             z80.sp = 0x8856;
@@ -511,7 +511,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestEX_SP_IX() // EX (SP), IX
+        public void EX_SP_IX() // EX (SP), IX
         {
             z80.ix = 0x3988;
             z80.sp = 0x0100;
@@ -525,7 +525,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestEX_SP_IY() // EX (SP), IY
+        public void EX_SP_IY() // EX (SP), IY
         {
             z80.iy = 0x3988;
             z80.sp = 0x0100;
@@ -539,7 +539,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLDI() // LDI
+        public void LDI() // LDI
         {
             z80.hl = 0x1111;
             Poke(0x1111, 0x88);
@@ -557,7 +557,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLDIR() // LDIR
+        public void LDIR() // LDIR
         {
             z80.hl = 0x1111;
             z80.de = 0x2222;
@@ -582,7 +582,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLDD() // LDD
+        public void LDD() // LDD
         {
             z80.hl = 0x1111;
             Poke(0x1111, 0x88);
@@ -600,7 +600,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestLDDR() // LDDR
+        public void LDDR() // LDDR
         {
             z80.hl = 0x1114;
             z80.de = 0x2225;
@@ -625,7 +625,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestCPI() // CPI
+        public void CPI() // CPI
         {
             z80.hl = 0x1111;
             Poke(0x1111, 0x3B);
@@ -641,7 +641,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestCPIR() // CPIR
+        public void CPIR() // CPIR
         {
             z80.hl = 0x1111;
             z80.a = 0xF3;
@@ -656,7 +656,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestCPD() // CPD
+        public void CPD() // CPD
         {
             z80.hl = 0x1111;
             Poke(0x1111, 0x3B);
@@ -671,7 +671,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestCPDR() // CPDR
+        public void CPDR() // CPDR
         {
             z80.hl = 0x1118;
             z80.a = 0xF3;
@@ -686,7 +686,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestADD_A_r() // ADD A, r
+        public void ADD_A_r() // ADD A, r
         {
             z80.a = 0x44;
             z80.c = 0x11;
@@ -696,7 +696,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestADD_A_n() // ADD A, n
+        public void ADD_A_n() // ADD A, n
         {
             z80.a = 0x23;
             Execute(0xC6, 0x33);
@@ -706,7 +706,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestADD_A_pHL() // ADD A, (HL)
+        public void ADD_A_pHL() // ADD A, (HL)
         {
             z80.a = 0xA0;
             z80.hl = 0x2323;
@@ -718,7 +718,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestADD_A_IXd() // ADD A, (IX + d)
+        public void ADD_A_IXd() // ADD A, (IX + d)
         {
             z80.a = 0x11;
             z80.ix = 0x1000;
@@ -729,7 +729,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestADD_A_IYd() // ADD A, (IY + d)
+        public void ADD_A_IYd() // ADD A, (IY + d)
         {
             z80.a = 0x11;
             z80.iy = 0x1000;
@@ -740,7 +740,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestADC_A_pHL() // ADC A, (HL)
+        public void ADC_A_pHL() // ADC A, (HL)
         {
             z80.a = 0x16;
             z80.fC = true;
@@ -752,7 +752,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestSUB_D() // SUB D
+        public void SUB_D() // SUB D
         {
             z80.a = 0x29;
             z80.d = 0x11;
@@ -763,7 +763,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
-        public void TestSBC_pHL() // SBC A, (HL)
+        public void SBC_pHL() // SBC A, (HL)
         {
             z80.a = 0x16;
             z80.fC = true;
@@ -773,6 +773,107 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.a == 0x10);
             Assert.IsTrue(z80.fN);
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fC);
+        }
+
+        [TestMethod]
+        public void AND_s() // AND s
+        {
+            z80.b = 0x7B;
+            z80.a = 0xC3;
+            Execute(0xA0);
+            Assert.IsTrue(z80.a == 0x43);
+            Assert.IsTrue(z80.fH);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fPV | z80.fN | z80.fC);
+        }
+
+        [TestMethod]
+        public void OR_s() // OR s
+        {
+            z80.h = 0x48;
+            z80.a = 0x12;
+            Execute(0xB4);
+            Assert.IsTrue(z80.a == 0x5A);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
+        }
+
+        [TestMethod]
+        public void XOR_s() // XOR s
+        {
+            z80.a = 0x96;
+            Execute(0xEE, 0x5D);
+            Assert.IsTrue(z80.a == 0xCB);
+            Assert.IsTrue(z80.fS);
+            Assert.IsFalse(z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
+        }
+
+        [TestMethod]
+        public void CP_s() // CP s
+        {
+            z80.a = 0x63;
+            z80.hl = 0x6000;
+            Poke(0x6000, 0x60);
+            Execute(0xBE);
+            Assert.IsTrue(z80.fN);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fC);
+        }
+
+        [TestMethod]
+        public void INC_s() // INC s
+        {
+            bool oldC = z80.fC;
+            z80.d = 0x28;
+            Execute(0x14);
+            Assert.IsTrue(z80.d == 0x29);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN);
+            Assert.IsTrue(z80.fC == oldC);
+        }
+
+        [TestMethod]
+        public void INC_pHL() // INC (HL)
+        {
+            bool oldC = z80.fC;
+            z80.hl = 0x3434;
+            Poke(0x3434, 0x7F);
+            Execute(0x34);
+            Assert.IsTrue(Peek(0x3434) == 0x80);
+            Assert.IsTrue(z80.fPV & z80.fS & z80.fH);
+            Assert.IsFalse(z80.fZ | z80.fN);
+            Assert.IsTrue(z80.fC == oldC);
+        }
+
+        [TestMethod]
+        public void INC_pIXd() // INC (IX+d)
+        {
+            bool oldC = z80.fC;
+            z80.ix = 0x2020;
+            Poke(0x2030, 0x34);
+            Execute(0xDD, 0x34, 0x10);
+            Assert.IsTrue(Peek(0x2030) == 0x35);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN);
+            Assert.IsTrue(z80.fC == oldC);
+        }
+
+        [TestMethod]
+        public void INC_pIYd() // INC (IY+d)
+        {
+            bool oldC = z80.fC;
+            z80.iy = 0x2020;
+            Poke(0x2030, 0x34);
+            Execute(0xFD, 0x34, 0x10);
+            Assert.IsTrue(Peek(0x2030) == 0x35);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN);
+            Assert.IsTrue(z80.fC == oldC);
+        }
+
+        [TestMethod]
+        public void DEC_m() // DEC m
+        {
+            bool oldC = z80.fC;
+            z80.d = 0x2A;
+            Execute(0x15);
+            Assert.IsTrue(z80.fN);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV);
+            Assert.IsTrue(z80.fC == oldC);
         }
     }
 }

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProjectCambridge.EmulatorCore
 {
+    // TODO: CP should be SUB with the result thrownaway
+
     public partial class Z80
     {
         /* 
@@ -41,7 +43,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x06: b = GetNextByte(); break;
 
                 // RLCA
-                case 0x07: fC = IsSign(a); a <<= 1; fH = false; fN = false; if (fC) a = (byte)SetBit(a, 0); break;
+                case 0x07: fC = IsSign8(a); a <<= 1; fH = false; fN = false; if (fC) a = (byte)SetBit(a, 0); break;
 
                 // EX AF, AF'
                 case 0x08: Swap(ref a, ref a_); Swap(ref f, ref f_); break;
@@ -176,10 +178,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x33: sp++; break;
 
                 // INC (HL)
-                case 0x34: var incValue = memory.ReadByte(hl) + 1; memory.WriteByte(hl, (byte)incValue); break;
+                case 0x34: memory.WriteByte(hl, INC(memory.ReadByte(hl))); break;
 
                 // DEC (HL)
-                case 0x35: var decValue = memory.ReadByte(hl) - 1; memory.WriteByte(hl, (byte)decValue); break;
+                case 0x35: memory.WriteByte(hl, DEC(memory.ReadByte(hl))); break;
 
                 // LD (HL), *
                 case 0x36: memory.WriteByte(hl, GetNextByte()); break;
@@ -710,7 +712,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE5: PUSH(hl); break;
 
                 // AND *
-                case 0xE6: a &= GetNextByte(); break;
+                case 0xE6: a = AND(a, GetNextByte()); break;
 
                 // RST 20h
                 case 0xE7: RST(0x20); break;
@@ -734,7 +736,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xED: DecodeEDOpcode(); break;
 
                 // XOR *
-                case 0xEE: a ^= GetNextByte(); break;
+                case 0xEE: a = XOR(a, GetNextByte()); break;
 
                 // RST 28h
                 case 0xEF: RST(0x28); break;
@@ -825,16 +827,31 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x41: break;
 
                 // SBC HL, BC
-                case 0x42: break;
+                case 0x42: hl = SBC(hl, bc);  break;
 
                 // LD (**), BC
                 case 0x43: memory.WriteWord(GetNextWord(), bc); break;
 
                 // NEG
-                case 0x44: a = NEG(a); break;
+                case 0x44:
+                case 0x4C:
+                case 0x54:
+                case 0x5C:
+                case 0x64:
+                case 0x6C:
+                case 0x74:
+                case 0x7C:
+                    a = NEG(a); break;
 
                 // RETN
-                case 0x45: break;
+                case 0x45:
+                case 0x55:
+                case 0x5D:
+                case 0x65:
+                case 0x6D:
+                case 0x75:
+                case 0x7D:
+                    pc = POP(); iff1 = iff2; break;
 
                 // IM 0
                 case 0x46: break;
@@ -867,18 +884,81 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x51: break;
 
                 // SBC HL, DE
-                case 0x52: break;
+                case 0x52: hl = SBC(hl, de); break;
 
                 // LD (**), DE
                 case 0x53: memory.WriteWord(GetNextWord(), de); break;
 
                 // LD A, I
-                case 0x57: a = i; fS = IsSign(i); fZ = IsZero(i); fH = false; fPV = iff2; fN = false; break;
+                case 0x57: a = i; fS = IsSign8(i); fZ = IsZero(i); fH = false; fPV = iff2; fN = false; break;
+
+                // IN E, (C)
+                case 0x58: break;
+
+                // OUT (C), E
+                case 0x59: break;
+
+                // ADC HL, DE
+                case 0x5A: hl = ADC(hl, de); break;
+
+                // LD DE, (**)
+                case 0x5B: de = memory.ReadWord(GetNextWord()); break;
+
+                // IM 2
+                case 0x5E:
+                case 0x7E:
+                    break;
 
                 // LD A, R
-                case 0x5F: a = r; fS = IsSign(r); fZ = IsZero(r); fH = false; fPV = iff2; fN = false; break;
+                case 0x5F: a = r; fS = IsSign8(r); fZ = IsZero(r); fH = false; fPV = iff2; fN = false; break;
 
-                // TODO: Finish off ED operations
+                // IN H, (C)
+                case 0x60: break;
+
+                // OUT (C), H
+                case 0x61: break;
+
+                // SBC HL, HL
+                case 0x62: hl = SBC(hl, hl); break;
+
+                // LD (**), HL
+                case 0x63: memory.WriteWord(GetNextWord(), hl); break;
+
+                // RRD
+                case 0x67: break;
+
+                // IN L, (C)
+                case 0x68: break;
+
+                // OUT (C), L
+                case 0x69: break;
+
+                // ADD HL, HL
+                case 0x6A: hl = ADD(hl, hl); break;
+
+                // LD HL, (**)
+                case 0x6B: hl = memory.ReadWord(GetNextWord()); break;
+
+                // RLD
+                case 0x6F: break;
+
+                // SBC HL, SP
+                case 0x72: hl = SBC(hl, sp); break;
+
+                // LD (**), SP
+                case 0x73: memory.WriteWord(GetNextWord(), sp); break;
+
+                // IN A, (C)
+                case 0x78: break;
+
+                // OUT (C), A
+                case 0x79: break;
+
+                // ADC HL, SP
+                case 0x7A: hl = ADC(hl, sp); break;
+
+                // LD SP, (**)
+                case 0x7B: sp = GetNextWord(); break;
 
                 // LDI
                 case 0xA0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; fH = fN = false; fPV = (bc != 0); break;
@@ -886,11 +966,23 @@ namespace ProjectCambridge.EmulatorCore
                 // CPI
                 case 0xA1: CPI(); break;
 
+                // INI
+                case 0xA2: break;
+
+                // OUTI
+                case 0xA3: break;
+
                 // LDD
                 case 0xA8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; fH = fN = false; fPV = (bc != 0); break;
 
                 // CPD
                 case 0xA9: CPD(); break;
+
+                // IND
+                case 0xAA: break;
+
+                // OUTD
+                case 0xAB: break;
 
                 // LDIR
                 case 0xB0: memory.WriteByte(de, memory.ReadByte(hl)); de++; hl++; bc--; if (bc > 0) pc -= 2; fH = fPV = fN = false; break;
@@ -898,11 +990,23 @@ namespace ProjectCambridge.EmulatorCore
                 // CPIR
                 case 0xB1: CPIR(); break;
 
+                // INIR
+                case 0xB2: break;
+
+                // OTIR
+                case 0xB3: break;
+
                 // LDDR
                 case 0xB8: memory.WriteByte(de, memory.ReadByte(hl)); de--; hl--; bc--; if (bc > 0) pc -= 2; fH = fPV = fN = false; break;
 
                 // CPDR
                 case 0xB9: CPDR(); break;
+
+                // INDR
+                case 0xBA: break;
+
+                // OTDR
+                case 0xBB: break;
 
                 default:
                     throw new InvalidOperationException($"Opcode ED{opCode:X2} not understood. ");
@@ -944,15 +1048,13 @@ namespace ProjectCambridge.EmulatorCore
                 // INC (IX+*)
                 case 0x34:
                     addr = (ushort)(ix + GetNextByte());
-                    val = memory.ReadByte(addr);
-                    memory.WriteByte(addr, ++val);
+                    memory.WriteByte(addr, INC(memory.ReadByte(addr)));
                     break;
 
                 // DEC (IX+*)
                 case 0x35:
                     addr = (ushort)(ix + GetNextByte());
-                    val = memory.ReadByte(addr);
-                    memory.WriteByte(addr, --val);
+                    memory.WriteByte(addr, DEC(memory.ReadByte(addr)));
                     break;
 
                 // LD (IX+*), *
@@ -1227,15 +1329,13 @@ namespace ProjectCambridge.EmulatorCore
                 // INC (IY+*)
                 case 0x34:
                     addr = (ushort)(iy + GetNextByte());
-                    val = memory.ReadByte(addr);
-                    memory.WriteByte(addr, ++val);
+                    memory.WriteByte(addr, INC(memory.ReadByte(addr)));
                     break;
 
                 // DEC (IY+*)
                 case 0x35:
                     addr = (ushort)(iy + GetNextByte());
-                    val = memory.ReadByte(addr);
-                    memory.WriteByte(addr, --val);
+                    memory.WriteByte(addr, DEC(memory.ReadByte(addr)));
                     break;
 
                 // LD (IY+*), *
@@ -1382,81 +1482,8 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
-        private void BIT(int bitToTest, int reg)
-        {
-            switch (reg)
-            {
-                case 0x0: fZ = !IsBitSet(b, bitToTest); break;
-                case 0x1: fZ = !IsBitSet(c, bitToTest); break;
-                case 0x2: fZ = !IsBitSet(d, bitToTest); break;
-                case 0x3: fZ = !IsBitSet(e, bitToTest); break;
-                case 0x4: fZ = !IsBitSet(h, bitToTest); break;
-                case 0x5: fZ = !IsBitSet(l, bitToTest); break;
-                case 0x6: fZ = !IsBitSet(memory.ReadByte(hl), bitToTest); break;
-                case 0x7: fZ = !IsBitSet(a, bitToTest); break;
-                default:
-                    throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
-            }
 
-            fH = true;
-            fN = false;
-        }
 
-        private void RES(int bitToReset, int reg)
-        {
-            switch (reg)
-            {
-                case 0x0: b = ResetBit(b, bitToReset); break;
-                case 0x1: c = ResetBit(c, bitToReset); break;
-                case 0x2: d = ResetBit(d, bitToReset); break;
-                case 0x3: e = ResetBit(e, bitToReset); break;
-                case 0x4: h = ResetBit(h, bitToReset); break;
-                case 0x5: l = ResetBit(l, bitToReset); break;
-                case 0x6: memory.WriteByte(hl, ResetBit(memory.ReadByte(hl), bitToReset)); break;
-                case 0x7: a = ResetBit(a, bitToReset); break;
-                default:
-                    throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
-            }
-
-        }
-
-        private void SET(int bitToSet, int reg)
-        {
-            switch (reg)
-            {
-                case 0x0: b = SetBit(b, bitToSet); break;
-                case 0x1: c = SetBit(c, bitToSet); break;
-                case 0x2: d = SetBit(d, bitToSet); break;
-                case 0x3: e = SetBit(e, bitToSet); break;
-                case 0x4: h = SetBit(h, bitToSet); break;
-                case 0x5: l = SetBit(l, bitToSet); break;
-                case 0x6: memory.WriteByte(hl, SetBit(memory.ReadByte(hl), bitToSet)); break;
-                case 0x7: a = SetBit(a, bitToSet); break;
-                default:
-                    throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
-            }
-        }
-
-        private bool IsParity(byte reg)
-        {
-            int bits1 = 0;
-            for (var i = 0; i < 8; i++)
-            {
-                if (IsBitSet(reg, i)) { bits1++; }
-            }
-
-            return (bits1 % 2 == 0);
-        }
-
-        private bool IsBitSet(int x, int index) => (x & (1 << index)) == 1 << index;
-
-        private byte SetBit(int x, int index) => (byte)(x | (1 << index));
-
-        private byte ResetBit(int x, int index) => (byte)(x & ~(1 << index));
-
-        private bool IsSign(byte x) => (x & 0x80) == 0x80;
-
-        private bool IsZero(byte x) => (x == 0);
 
         private void Swap<T>(ref T x, ref T y)
         {

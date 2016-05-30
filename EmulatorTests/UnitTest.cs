@@ -32,7 +32,7 @@ namespace ProjectCambridge.EmulatorTests
         {
             // we pick this as a 'safe' location that doesn't clash with other instructions
             // TODO: randomize this, perhaps? 
-            ushort addr = 0xA000; 
+            ushort addr = 0xA000;
 
             foreach (var instruction in instructions)
             {
@@ -475,7 +475,7 @@ namespace ProjectCambridge.EmulatorTests
             z80.af = 0x9900;
             z80.af_ = 0x5944;
             Execute(0x08);
-            Assert.IsTrue(z80.af_== 0x9900);
+            Assert.IsTrue(z80.af_ == 0x9900);
             Assert.IsTrue(z80.af == 0x5944);
         }
 
@@ -874,6 +874,170 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fN);
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV);
             Assert.IsTrue(z80.fC == oldC);
+        }
+
+        [TestMethod]
+        public void DAA() // DAA
+        {
+            z80.a = 0x0E;
+            z80.b = 0x0F;
+            z80.c = 0x90;
+            z80.d = 0x40;
+
+            // AND 0x0F; ADD A, 0x90; DAA; ADC A 0x40; DAA
+            Execute(0xA0, 0x81, 0x27, 0x8A, 0x27);
+
+            Assert.IsTrue(z80.a == 0x45);
+            // TODO: Add asserts for flags
+        }
+
+        [TestMethod]
+        public void CPL() // CPL
+        {
+            z80.a = 0xB4;
+            Execute(0x2F);
+            Assert.IsTrue(z80.a == 0x4B);
+            Assert.IsTrue(z80.fH & z80.fN);
+        }
+
+        [TestMethod]
+        public void NEG() // NEG
+        {
+            z80.a = 0x98;
+            Execute(0xED, 0x44);
+            Assert.IsTrue(z80.a == 0x68);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fPV);
+            Assert.IsTrue(z80.fN & z80.fC & z80.fH);
+        }
+
+        [TestMethod]
+        public void CCF() // CCF
+        {
+            z80.fN = true;
+            z80.fC = true;
+            Execute(0x3F);
+            Assert.IsFalse(z80.fC | z80.fN);
+        }
+
+        [TestMethod]
+        public void SCF() // SCF
+        {
+            z80.fC = false;
+            z80.fH = true;
+            z80.fN = true;
+            Execute(0x37);
+            Assert.IsTrue(z80.fC);
+            Assert.IsFalse(z80.fH | z80.fN);
+        }
+
+        [TestMethod]
+        public void HALT() // HALT
+        {
+            // TODO: Replace temporary HALT assert with real logic 
+            // when HALT isn't used to end emulation
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void DI() // DI
+        {
+            z80.iff1 = true;
+            z80.iff2 = true;
+            Execute(0xF3);
+            Assert.IsFalse(z80.iff1 | z80.iff2);
+        }
+
+        [TestMethod]
+        public void EI() // DI
+        {
+            z80.iff1 = true;
+            z80.iff2 = true;
+            Execute(0xF3);
+            Assert.IsFalse(z80.iff1 | z80.iff2);
+        }
+
+        [TestMethod]
+        public void IM0() // IM 0
+        {
+            // TODO: Come up with a test case for this
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void IM1() // IM 1
+        {
+            // TODO: Come up with a test case for this
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void IM2() // IM 2
+        {
+            // TODO: Come up with a test case for this
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void ADD_HL_ss() // ADD HL, ss
+        {
+            z80.hl = 0x4242;
+            z80.de = 0x1111;
+            Execute(0x19);
+            Assert.IsTrue(z80.hl == 0x5353);
+        }
+
+        [TestMethod]
+        public void ADC_HL_ss() // ADD HL, ss
+        {
+            z80.bc = 0x2222;
+            z80.hl = 0x5437;
+            z80.fC = true;
+            Execute(0xED, 0x4A);
+            Assert.IsTrue(z80.hl == 0x765A);
+        }
+
+        [TestMethod]
+        public void SBC_HL_ss() // SBC HL, ss
+        {
+            z80.hl = 0x9999;
+            z80.de = 0x1111;
+            z80.fC = true;
+            Execute(0xED, 0x52);
+            Assert.IsTrue(z80.hl == 0x8887);
+        }
+
+        [TestMethod]
+        public void ADD_IX_pp() // ADD IX, pp
+        {
+            z80.ix = 0x3333;
+            z80.bc = 0x5555;
+            Execute(0xDD, 0x09);
+            Assert.IsTrue(z80.ix == 0x8888);
+        }
+
+        [TestMethod]
+        public void ADD_IY_pp() // ADD IY, rr
+        {
+            z80.iy = 0x3333;
+            z80.bc = 0x5555;
+            Execute(0xFD, 0x09);
+            Assert.IsTrue(z80.iy == 0x8888);
+        }
+
+        [TestMethod]
+        public void INC_ss() // INC ss
+        {
+            z80.hl = 0x1000;
+            Execute(0x23);
+            Assert.IsTrue(z80.hl == 0x1001);
+        }
+
+        [TestMethod]
+        public void INC_IX() // INC IX
+        {
+            z80.ix = 0x3300;
+            Execute(0xDD, 0x23);
+            Assert.IsTrue(z80.ix == 0x3301);
         }
     }
 }

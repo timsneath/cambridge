@@ -144,6 +144,43 @@ namespace ProjectCambridge.EmulatorCore
             fN = true;
             return a;
         }
+
+        // algorithm from http://worldofspectrum.org/faq/reference/z80reference.htm
+        private void DAA()
+        {
+            byte correctionFactor = 0;
+            byte oldA = a;
+
+            if ((a > 0x99) | fC)
+            {
+                correctionFactor |= 0x60;
+                fC = true;
+            }
+            else
+            {
+                fC = false;
+            }
+
+            if (((a & 0x0F) > 0x09) | fH)
+            {
+                correctionFactor |= 0x06;
+            }
+
+            if (!fN)
+            {
+                a += correctionFactor;
+            }
+            else
+            {
+                a -= correctionFactor;
+            }
+
+            fH = ((oldA & 0x10) ^ (a & 0x10)) == 0x10;
+
+            fS = IsSign8(a);
+            fZ = IsZero(a);
+            fPV = IsParity(a);
+        }
         #endregion
 
         #region Flow operations

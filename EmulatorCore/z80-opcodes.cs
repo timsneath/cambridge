@@ -139,7 +139,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x26: h = GetNextByte(); break;
 
                 // DAA
-                case 0x27: break;
+                case 0x27: DAA(); break;
 
                 // JR Z, *
                 case 0x28: if (fZ) { JR((sbyte)GetNextByte()); } break;

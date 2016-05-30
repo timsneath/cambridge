@@ -63,6 +63,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.pc == 0xA005);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_H_E()
         {
@@ -73,6 +74,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.e == 0x10);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_R_N() // LD r, r'
         {
@@ -80,6 +82,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.e == 0xA5);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_R_HL() // LD r, (HL)
         {
@@ -89,6 +92,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.c == 0x58);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_R_IXd() // LD r, (IX+d)
         {
@@ -98,6 +102,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.b == 0x39);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_R_IYd() // LD r, (IY+d)
         {
@@ -107,6 +112,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.b == 0x39);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_HL_R() // LD (HL), r
         {
@@ -116,6 +122,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x2146) == 0x29);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_IXd_r() // LD (IX+d), r
         {
@@ -125,6 +132,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x3106) == 0x1C);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_IYd_r() // LD (IY+d), r
         {
@@ -134,6 +142,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x2A15) == 0x48);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_HL_N() // LD (HL), n
         {
@@ -142,6 +151,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x4444) == 0x28);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_IXd_N() // LD (IX+d), n
         {
@@ -150,6 +160,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x219F) == 0x5A);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_IYd_N() // LD (IY+d), n
         {
@@ -158,6 +169,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0xA950) == 0x97);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_A_BC() // LD A, (BC)
         {
@@ -167,6 +179,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.a == 0x12);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_A_DE() // LD A, (DE)
         {
@@ -176,6 +189,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.a == 0x22);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_A_NN() // LD A, (nn)
         {
@@ -184,6 +198,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.a == 0x04);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_BC_A() // LD (BC), A
         {
@@ -193,6 +208,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x1212) == 0x7A);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_DE_A() // LD (DE), A
         {
@@ -202,6 +218,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x1128) == 0xA0);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_NN_A() // LD (NN), A
         {
@@ -210,6 +227,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x3141) == 0xD7);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_A_I() // LD A, I
         {
@@ -228,6 +246,7 @@ namespace ProjectCambridge.EmulatorTests
             // this instruction, the Parity flag contains a 0.
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_A_R() // LD A, R
         {
@@ -246,6 +265,7 @@ namespace ProjectCambridge.EmulatorTests
             // this instruction, the Parity flag contains a 0.
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_I_A() // LD I, A
         {
@@ -255,6 +275,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.a == 0x5C);
         }
 
+        [TestCategory("8-Bit Load Group")]
         [TestMethod]
         public void LD_R_A() // LD R, A
         {
@@ -264,6 +285,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.a == 0xDE);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_DD_NN() // LD dd, nn
         {
@@ -273,6 +295,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.l == 0x00);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_IX_NN() // LD IX, nn
         {
@@ -280,6 +303,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.ix == 0x45A2);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_IY_NN() // LD IY, nn
         {
@@ -287,6 +311,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.iy == 0x7733);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_HL_NN1() // LD HL, (nn)
         {
@@ -297,6 +322,7 @@ namespace ProjectCambridge.EmulatorTests
 
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_HL_NN2()
         {
@@ -306,6 +332,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.hl == 0x8984);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_DD_pNN() // LD dd, (nn)
         {
@@ -315,6 +342,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.bc == 0x7865);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_IX_pNN() // LD IX, (nn)
         {
@@ -324,6 +352,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.ix == 0xDA92);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_IY_pNN() // LD IY, (nn)
         {
@@ -333,6 +362,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.iy == 0x2211);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_pNN_HL() // LD (nn), HL
         {
@@ -342,6 +372,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0xB22A) == 0x48);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_pNN_DD() // LD (nn), DD
         {
@@ -351,6 +382,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x1001) == 0x46);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_pNN_IX() // LD (nn), IX
         {
@@ -360,6 +392,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x4393) == 0x5A);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_pNN_IY() // LD (nn), IY
         {
@@ -369,6 +402,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x8839) == 0x41);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_SP_HL() // LD SP, HL
         {
@@ -377,6 +411,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x442E);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_SP_IX() // LD SP, IX
         {
@@ -385,6 +420,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x98DA);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void LD_SP_IY() // LD SP, IY
         {
@@ -393,6 +429,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0xA227);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void PUSH_qq() // PUSH qq
         {
@@ -404,6 +441,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x1005);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void PUSH_IX() // PUSH IX
         {
@@ -415,6 +453,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x1005);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void PUSH_IY() // PUSH IY
         {
@@ -426,6 +465,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x1005);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void POP_qq() // POP qq
         {
@@ -437,6 +477,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x1002);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void POP_IX() // POP IX
         {
@@ -448,6 +489,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x1002);
         }
 
+        [TestCategory("16-Bit Load Group")]
         [TestMethod]
         public void POP_IY() // POP IY
         {
@@ -459,6 +501,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x9001);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void EX_DE_HL() // EX DE, HL
         {
@@ -469,6 +512,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.de == 0x499A);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void EX_AF_AF() // EX AF, AF'
         {
@@ -479,6 +523,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.af == 0x5944);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void EXX() // EXX
         {
@@ -496,6 +541,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.af_ == 0x4321); // unchanged
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void EX_SP_HL() // EX (SP), HL
         {
@@ -510,6 +556,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x8856);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void EX_SP_IX() // EX (SP), IX
         {
@@ -524,6 +571,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x0100);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void EX_SP_IY() // EX (SP), IY
         {
@@ -538,6 +586,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.sp == 0x0100);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void LDI() // LDI
         {
@@ -556,6 +605,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fPV);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void LDIR() // LDIR
         {
@@ -581,6 +631,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fH | z80.fPV | z80.fN);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void LDD() // LDD
         {
@@ -599,6 +650,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fPV);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void LDDR() // LDDR
         {
@@ -624,6 +676,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fH | z80.fPV | z80.fN);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void CPI() // CPI
         {
@@ -640,6 +693,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x1111) == 0x3B);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void CPIR() // CPIR
         {
@@ -655,6 +709,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fPV & z80.fZ);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void CPD() // CPD
         {
@@ -670,6 +725,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(Peek(0x1111) == 0x3B);
         }
 
+        [TestCategory("Exchange, Block Transfer, and Search Group")]
         [TestMethod]
         public void CPDR() // CPDR
         {
@@ -685,6 +741,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fPV & z80.fZ);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void ADD_A_r() // ADD A, r
         {
@@ -695,6 +752,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fPV | z80.fN | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void ADD_A_n() // ADD A, n
         {
@@ -705,6 +763,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fN | z80.fPV | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void ADD_A_pHL() // ADD A, (HL)
         {
@@ -717,6 +776,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fZ | z80.fC | z80.fPV | z80.fN | z80.fH);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void ADD_A_IXd() // ADD A, (IX + d)
         {
@@ -728,6 +788,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void ADD_A_IYd() // ADD A, (IY + d)
         {
@@ -739,6 +800,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void ADC_A_pHL() // ADC A, (HL)
         {
@@ -751,6 +813,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void SUB_D() // SUB D
         {
@@ -762,6 +825,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void SBC_pHL() // SBC A, (HL)
         {
@@ -775,6 +839,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void AND_s() // AND s
         {
@@ -786,6 +851,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fPV | z80.fN | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void OR_s() // OR s
         {
@@ -796,6 +862,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void XOR_s() // XOR s
         {
@@ -806,6 +873,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void CP_s() // CP s
         {
@@ -817,6 +885,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void INC_s() // INC s
         {
@@ -828,6 +897,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fC == oldC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void INC_pHL() // INC (HL)
         {
@@ -841,6 +911,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fC == oldC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void INC_pIXd() // INC (IX+d)
         {
@@ -853,6 +924,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fC == oldC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void INC_pIYd() // INC (IY+d)
         {
@@ -865,6 +937,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fC == oldC);
         }
 
+        [TestCategory("8-Bit Arithmetic Group")]
         [TestMethod]
         public void DEC_m() // DEC m
         {
@@ -876,6 +949,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fC == oldC);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void DAA() // DAA
         {
@@ -891,6 +965,7 @@ namespace ProjectCambridge.EmulatorTests
             // TODO: Add asserts for flags
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void CPL() // CPL
         {
@@ -900,6 +975,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fH & z80.fN);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void NEG() // NEG
         {
@@ -910,6 +986,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.fN & z80.fC & z80.fH);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void CCF() // CCF
         {
@@ -919,6 +996,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fC | z80.fN);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void SCF() // SCF
         {
@@ -930,6 +1008,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.fH | z80.fN);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void HALT() // HALT
         {
@@ -938,6 +1017,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(true);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void DI() // DI
         {
@@ -947,6 +1027,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.iff1 | z80.iff2);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void EI() // DI
         {
@@ -956,6 +1037,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsFalse(z80.iff1 | z80.iff2);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void IM0() // IM 0
         {
@@ -963,6 +1045,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(true);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void IM1() // IM 1
         {
@@ -970,6 +1053,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(true);
         }
 
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         [TestMethod]
         public void IM2() // IM 2
         {
@@ -977,6 +1061,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(true);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void ADD_HL_ss() // ADD HL, ss
         {
@@ -986,6 +1071,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.hl == 0x5353);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void ADC_HL_ss() // ADD HL, ss
         {
@@ -996,6 +1082,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.hl == 0x765A);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void SBC_HL_ss() // SBC HL, ss
         {
@@ -1006,6 +1093,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.hl == 0x8887);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void ADD_IX_pp() // ADD IX, pp
         {
@@ -1015,6 +1103,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.ix == 0x8888);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void ADD_IY_pp() // ADD IY, rr
         {
@@ -1024,6 +1113,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.iy == 0x8888);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void INC_ss() // INC ss
         {
@@ -1032,6 +1122,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.hl == 0x1001);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void INC_IX() // INC IX
         {
@@ -1040,6 +1131,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.ix == 0x3301);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void INC_IY() // INC IY
         {
@@ -1048,6 +1140,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.ix == 0x2978);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void DEC_ss() // DEC ss
         {
@@ -1056,6 +1149,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.hl == 0x1000);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void DEC_IX() // DEC IX
         {
@@ -1064,6 +1158,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.ix == 0x2005);
         }
 
+        [TestCategory("16-Bit Arithmetic Group")]
         [TestMethod]
         public void DEC_IY() // DEC IY
         {
@@ -1074,7 +1169,7 @@ namespace ProjectCambridge.EmulatorTests
 
 
         // TODO: Go back and check some of these flags
-
+        [TestCategory("Rotate and Shift Group")]
         [TestMethod]
         public void RLCA() // RLCA
         {
@@ -1084,6 +1179,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.a == 0x11);
         }
 
+        [TestCategory("Rotate and Shift Group")]
         [TestMethod]
         public void RLA() // RLA
         {
@@ -1094,6 +1190,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.a == 0xED);
         }
 
+        [TestCategory("Rotate and Shift Group")]
         [TestMethod]
         public void RRCA() // RRCA
         {
@@ -1101,6 +1198,157 @@ namespace ProjectCambridge.EmulatorTests
             Execute(0x0F);
             Assert.IsTrue(z80.a == 0x88);
             Assert.IsTrue(z80.fC);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RRA() // RRA
+        {
+            z80.fH = true;
+            z80.fN = true;
+            z80.a = 0xE1;
+            Execute(0x1F);
+            Assert.IsTrue(z80.a == 0x70);
+            Assert.IsTrue(z80.fC);
+            Assert.IsFalse(z80.fH | z80.fN);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RLC_r() // RLC r
+        {
+            z80.fH = true;
+            z80.fN = true;
+            z80.l = 0x88;
+            Execute(0xCB, 0x05);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(z80.l == 0x11);
+            Assert.IsFalse(z80.fH | z80.fN);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RLC_pHL() // RLC (HL)
+        {
+            z80.fH = true;
+            z80.fN = true;
+            z80.hl = 0x2828;
+            Poke(0x2828, 0x88);
+            Execute(0xCB, 0x06);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(Peek(0x2828) == 0x11);
+            Assert.IsFalse(z80.fH | z80.fN);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RLC_pIXd() // RLC (IX+d)
+        {
+            z80.ix = 0x1000;
+            Poke(0x1002, 0x88);
+            Execute(0xDD, 0xCB, 0x02, 0x06);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(Peek(0x1002) == 0x11);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RLC_pIYd() // RLC (IY+d)
+        {
+            z80.iy = 0x1000;
+            Poke(0x1002, 0x88);
+            Execute(0xFD, 0xCB, 0x02, 0x06);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(Peek(0x1002) == 0x11);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RL_m() // RL m
+        {
+            z80.d = 0x8F;
+            z80.fC = true;
+            Execute(0xCB, 0x12);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(z80.d == 0x1E);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RRC_m() // RRC m
+        {
+            z80.a = 0x31;
+            Execute(0xCB, 0x0F);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(z80.a == 0x98);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RR_m() // RR m
+        {
+            z80.hl = 0x4343;
+            Poke(0x4343, 0xDD);
+            z80.fC = true;
+            Execute(0xCB, 0x1E);
+            Assert.IsTrue(Peek(0x4343) == 0x6E);
+            Assert.IsTrue(z80.fC);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void SLA_m() // SLA m
+        {
+            z80.l = 0xB1;
+            Execute(0xCB, 0x25);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(z80.l == 0x62);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void SRA_m() // SRA m
+        {
+            z80.ix = 0x1000;
+            Poke(0x1003, 0xB8);
+            Execute(0xDD, 0xCB, 0x03);
+            Assert.IsFalse(z80.fC);
+            Assert.IsTrue(Peek(0x1003) == 0xDC);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void SRL_m() // SRL m
+        {
+            z80.b = 0x8F;
+            Poke(0x1003, 0xB8);
+            Execute(0xCB, 0x38);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(z80.b == 0x47);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RLD() // RLD
+        {
+            z80.hl = 0x5000;
+            z80.a = 0x7A;
+            Poke(0x5000, 0x31);
+            Execute(0xED, 0x6F);
+            Assert.IsTrue(z80.a == 0x73);
+            Assert.IsTrue(Peek(0x5000) == 0x1A);
+        }
+
+        [TestCategory("Rotate and Shift Group")]
+        [TestMethod]
+        public void RRD() // RRD
+        {
+            z80.hl = 0x5000;
+            z80.a = 0x84;
+            Poke(0x5000, 0x20);
+            Execute(0xED, 0x67);
+            Assert.IsTrue(z80.a == 0x80);
+            Assert.IsTrue(Peek(0x5000) == 0x42);
         }
     }
 }

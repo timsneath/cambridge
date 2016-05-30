@@ -1039,5 +1039,68 @@ namespace ProjectCambridge.EmulatorTests
             Execute(0xDD, 0x23);
             Assert.IsTrue(z80.ix == 0x3301);
         }
+
+        [TestMethod]
+        public void INC_IY() // INC IY
+        {
+            z80.iy = 0x2977;
+            Execute(0xFD, 0x23);
+            Assert.IsTrue(z80.ix == 0x2978);
+        }
+
+        [TestMethod]
+        public void DEC_ss() // DEC ss
+        {
+            z80.hl = 0x1001;
+            Execute(0x2B);
+            Assert.IsTrue(z80.hl == 0x1000);
+        }
+
+        [TestMethod]
+        public void DEC_IX() // DEC IX
+        {
+            z80.ix = 0x2006;
+            Execute(0xDD, 0x2B);
+            Assert.IsTrue(z80.ix == 0x2005);
+        }
+
+        [TestMethod]
+        public void DEC_IY() // DEC IY
+        {
+            z80.iy = 0x7649;
+            Execute(0xFD, 0x2B);
+            Assert.IsTrue(z80.iy == 0x7648);
+        }
+
+
+        // TODO: Go back and check some of these flags
+
+        [TestMethod]
+        public void RLCA() // RLCA
+        {
+            z80.a = 0x88;
+            Execute(0x07);
+            Assert.IsTrue(z80.fC);
+            Assert.IsTrue(z80.a == 0x11);
+        }
+
+        [TestMethod]
+        public void RLA() // RLA
+        {
+            z80.fC = true;
+            z80.a = 0x76;
+            Execute(0x17);
+            Assert.IsFalse(z80.fC);
+            Assert.IsTrue(z80.a == 0xED);
+        }
+
+        [TestMethod]
+        public void RRCA() // RRCA
+        {
+            z80.a = 0x11;
+            Execute(0x0F);
+            Assert.IsTrue(z80.a == 0x88);
+            Assert.IsTrue(z80.fC);
+        }
     }
 }

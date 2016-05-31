@@ -801,16 +801,16 @@ namespace ProjectCambridge.EmulatorCore
             switch (opCode >> 6)
             {
                 // 00 = rot [y], r[z]
-                case 0: rot(opCode & 0x38, opCode & 0x07); break;
+                case 0: rot((opCode & 0x38) >> 3, opCode & 0x07); break;
 
                 // 01 = BIT y, r[z]
-                case 1: BIT(opCode & 0x38, opCode & 0x07); break;
+                case 1: BIT((opCode & 0x38) >> 3, opCode & 0x07); break;
 
                 // 02 = RES y, r[z]
-                case 2: RES(opCode & 0x38, opCode & 0x07); break;
+                case 2: RES((opCode & 0x38) >> 3, opCode & 0x07); break;
 
                 // 03 = SET y, r[z]
-                case 3: SET(opCode & 0x38, opCode & 0x07); break;
+                case 3: SET((opCode & 0x38) >> 3, opCode & 0x07); break;
             }
         }
 
@@ -1264,7 +1264,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x6E:
                 case 0x76:
                 case 0x7E:
-                    BIT(opCode & 0x07, addr); break;
+                    BIT((opCode & 0x38) >> 3, addr); break;
 
                 // RES n, (IY+*)
                 case 0x86:
@@ -1275,7 +1275,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xAE:
                 case 0xB6:
                 case 0xBE:
-                    RES(opCode & 0x07, addr); break;
+                    RES((opCode & 0x38) >> 3, addr); break;
 
                 // SET n, (IY+*)
                 case 0xC6:
@@ -1286,7 +1286,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xEE:
                 case 0xF6:
                 case 0xFE:
-                    SET(opCode & 0x07, addr); break;
+                    SET((opCode & 0x38) >> 3, addr); break;
 
                 default:
                     throw new InvalidOperationException($"Opcode FDCB**{opCode:X2} not understood. ");

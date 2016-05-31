@@ -1268,7 +1268,7 @@ namespace ProjectCambridge.EmulatorTests
         public void RL_m() // RL m
         {
             z80.d = 0x8F;
-            z80.fC = true;
+            z80.fC = false;
             Execute(0xCB, 0x12);
             Assert.IsTrue(z80.fC);
             Assert.IsTrue(z80.d == 0x1E);
@@ -1290,7 +1290,7 @@ namespace ProjectCambridge.EmulatorTests
         {
             z80.hl = 0x4343;
             Poke(0x4343, 0xDD);
-            z80.fC = true;
+            z80.fC = false;
             Execute(0xCB, 0x1E);
             Assert.IsTrue(Peek(0x4343) == 0x6E);
             Assert.IsTrue(z80.fC);
@@ -1312,7 +1312,7 @@ namespace ProjectCambridge.EmulatorTests
         {
             z80.ix = 0x1000;
             Poke(0x1003, 0xB8);
-            Execute(0xDD, 0xCB, 0x03);
+            Execute(0xDD, 0xCB, 0x03, 0x2E);
             Assert.IsFalse(z80.fC);
             Assert.IsTrue(Peek(0x1003) == 0xDC);
         }
@@ -1393,7 +1393,7 @@ namespace ProjectCambridge.EmulatorTests
             z80.fZ = true;
             z80.iy = 0x2000;
             Poke(0x2004, 0xD2);
-            Execute(0xDD, 0xCB, 0x04, 0x76);
+            Execute(0xFD, 0xCB, 0x04, 0x76);
             Assert.IsFalse(z80.fZ);
             Assert.IsTrue(Peek(0x2004) == 0xD2);
         }

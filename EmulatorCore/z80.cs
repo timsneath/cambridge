@@ -351,7 +351,7 @@ namespace ProjectCambridge.EmulatorCore
 
             fS = IsSign8(a);
             fZ = IsZero(a);
-            fH = false; // TODO: fix this
+            fH = true;
             fN = true;
 
             return a;
@@ -449,7 +449,7 @@ namespace ProjectCambridge.EmulatorCore
             fC = IsBitSet(reg, 0);
             reg >>= 1;
 
-            if (bit7) SetBit(reg, 7);
+            if (bit7) reg = SetBit(reg, 7);
 
             fS = IsSign8(reg);
             fZ = IsZero(reg);
@@ -465,7 +465,7 @@ namespace ProjectCambridge.EmulatorCore
             // technically, SLL is undocumented
             fC = IsBitSet(reg, 7);
             reg <<= 1;
-            SetBit(reg, 1);
+            reg = SetBit(reg, 1);
 
             fS = IsSign8(reg);
             fZ = IsZero(reg);
@@ -480,7 +480,7 @@ namespace ProjectCambridge.EmulatorCore
         {
             fC = IsBitSet(reg, 0);
             reg >>= 1;
-            ResetBit(reg, 7);
+            reg = ResetBit(reg, 7);
 
             fS = IsSign8(reg);
             fZ = IsZero(reg);
@@ -489,6 +489,26 @@ namespace ProjectCambridge.EmulatorCore
             fN = false;
 
             return reg;
+        }
+
+        private void RLD()
+        {
+            byte pHL = memory.ReadByte(hl);
+            byte new_pHL = (byte)((pHL & 0x0F) << 4);
+            new_pHL += (byte)(a & 0x0F);
+            a = (byte)(a & 0xF0);
+            a += (byte)((pHL & 0xF0) >> 4);
+            memory.WriteByte(hl, new_pHL);
+        }
+
+        private void RRD()
+        {
+            byte pHL = memory.ReadByte(hl);
+            byte new_pHL = (byte)((a & 0x0F) << 4);
+            new_pHL += (byte)((pHL & 0xF0) >> 4);
+            a = (byte)(a & 0xF0);
+            a += (byte)(pHL & 0x0F);
+            memory.WriteByte(hl, new_pHL);
         }
         #endregion
 

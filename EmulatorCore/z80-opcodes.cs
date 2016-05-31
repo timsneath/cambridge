@@ -43,7 +43,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x06: b = GetNextByte(); break;
 
                 // RLCA
-                case 0x07: fC = IsSign8(a); a <<= 1; fH = false; fN = false; if (fC) a = (byte)SetBit(a, 0); break;
+                case 0x07: a = RLC(a); break;
 
                 // EX AF, AF'
                 case 0x08: Swap(ref a, ref a_); Swap(ref f, ref f_); break;
@@ -67,7 +67,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x0E: c = GetNextByte(); break;
 
                 // RRCA
-                case 0x0F: break;
+                case 0x0F: a = RRC(a);  break;
 
                 // DJNZ *
                 case 0x10: GetNextByte(); break;
@@ -91,7 +91,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x16: d = GetNextByte(); break;
 
                 // RLA
-                case 0x17: break;
+                case 0x17: a = RL(a);  break;
 
                 // JR *
                 case 0x18: JR((sbyte)GetNextByte()); break;
@@ -115,7 +115,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x1E: e = GetNextByte(); break;
 
                 // RRA
-                case 0x1F: break;
+                case 0x1F: a = RR(a); break;
 
                 // JR NZ, *
                 case 0x20: if (!fZ) { JR((sbyte)GetNextByte()); } break;
@@ -163,7 +163,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x2E: break;
 
                 // CPL
-                case 0x2F: break;
+                case 0x2F: a = (byte)~a; fH = true; fN = true; break;
 
                 // JR NC, *
                 case 0x30: if (!fC) { JR((sbyte)GetNextByte()); } break;
@@ -925,7 +925,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x63: memory.WriteWord(GetNextWord(), hl); break;
 
                 // RRD
-                case 0x67: break;
+                case 0x67: RRD(); break;
 
                 // IN L, (C)
                 case 0x68: break;
@@ -940,7 +940,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x6B: hl = memory.ReadWord(GetNextWord()); break;
 
                 // RLD
-                case 0x6F: break;
+                case 0x6F: RLD(); break;
 
                 // SBC HL, SP
                 case 0x72: hl = SBC(hl, sp); break;
@@ -1194,7 +1194,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x6E:
                 case 0x76:
                 case 0x7E:
-                    BIT(opCode & 0x07, addr); break;
+                    fZ = !IsBitSet(memory.ReadByte(addr), (opCode & 0x38) >> 3); break;
 
                 // RES n, (IX+*)
                 case 0x86:
@@ -1205,7 +1205,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xAE:
                 case 0xB6:
                 case 0xBE:
-                    RES(opCode & 0x07, addr); break;
+                    memory.WriteByte(addr, ResetBit(memory.ReadByte(addr), (opCode & 0x38) >> 3)); break;
 
                 // SET n, (IX+*)
                 case 0xC6:
@@ -1216,7 +1216,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xEE:
                 case 0xF6:
                 case 0xFE:
-                    SET(opCode & 0x07, addr); break;
+                    memory.WriteByte(addr, SetBit(memory.ReadByte(addr), (opCode & 0x38) >> 3)); break;
 
                 default:
                     throw new InvalidOperationException($"Opcode DDCB**{opCode:X2} not understood. ");
@@ -1264,7 +1264,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x6E:
                 case 0x76:
                 case 0x7E:
-                    BIT((opCode & 0x38) >> 3, addr); break;
+                    fZ = !IsBitSet(memory.ReadByte(addr), (opCode & 0x38) >> 3); break;
 
                 // RES n, (IY+*)
                 case 0x86:
@@ -1275,7 +1275,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xAE:
                 case 0xB6:
                 case 0xBE:
-                    RES((opCode & 0x38) >> 3, addr); break;
+                    memory.WriteByte(addr, ResetBit(memory.ReadByte(addr), (opCode & 0x38) >> 3)); break;
 
                 // SET n, (IY+*)
                 case 0xC6:
@@ -1286,7 +1286,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xEE:
                 case 0xF6:
                 case 0xFE:
-                    SET((opCode & 0x38) >> 3, addr); break;
+                    memory.WriteByte(addr, SetBit(memory.ReadByte(addr), (opCode & 0x38) >> 3)); break;
 
                 default:
                     throw new InvalidOperationException($"Opcode FDCB**{opCode:X2} not understood. ");

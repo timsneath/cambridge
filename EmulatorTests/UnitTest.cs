@@ -49,6 +49,7 @@ namespace ProjectCambridge.EmulatorTests
         }
 
         [TestMethod]
+        [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         public void NOP()
         {
             Execute(0x00, 0x00, 0x00, 0x00);
@@ -1137,7 +1138,7 @@ namespace ProjectCambridge.EmulatorTests
         {
             z80.iy = 0x2977;
             Execute(0xFD, 0x23);
-            Assert.IsTrue(z80.ix == 0x2978);
+            Assert.IsTrue(z80.iy == 0x2978);
         }
 
         [TestCategory("16-Bit Arithmetic Group")]
@@ -1349,6 +1350,100 @@ namespace ProjectCambridge.EmulatorTests
             Execute(0xED, 0x67);
             Assert.IsTrue(z80.a == 0x80);
             Assert.IsTrue(Peek(0x5000) == 0x42);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void BIT_b_r() // BIT b, r
+        {
+            z80.b = 0;
+            Execute(0xCB, 0x50);
+            Assert.IsTrue(z80.b == 0);
+            Assert.IsTrue(z80.fZ);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void BIT_b_pHL() // BIT b, (HL)
+        {
+            z80.fZ = true;
+            z80.hl = 0x4444;
+            Poke(0x4444, 0x10);
+            Execute(0xCB, 0x66);
+            Assert.IsFalse(z80.fZ);
+            Assert.IsTrue(Peek(0x4444) == 0x10);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void BIT_b_pIXd() // BIT b, (IX+d)
+        {
+            z80.fZ = true;
+            z80.ix = 0x2000;
+            Poke(0x2004, 0xD2);
+            Execute(0xDD, 0xCB, 0x04, 0x76);
+            Assert.IsFalse(z80.fZ);
+            Assert.IsTrue(Peek(0x2004) == 0xD2);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void BIT_b_pIYd() // BIT b, (IY+d)
+        {
+            z80.fZ = true;
+            z80.iy = 0x2000;
+            Poke(0x2004, 0xD2);
+            Execute(0xDD, 0xCB, 0x04, 0x76);
+            Assert.IsFalse(z80.fZ);
+            Assert.IsTrue(Peek(0x2004) == 0xD2);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void SET_b_r() // SET b, r
+        {
+            z80.a = 0;
+            Execute(0xCB, 0xE7);
+            Assert.IsTrue(z80.a == 0x10);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void SET_b_pHL() // SET b, (HL)
+        {
+            z80.hl = 0x3000;
+            Poke(0x3000, 0x2F);
+            Execute(0xCB, 0xE6);
+            Assert.IsTrue(Peek(0x3000) == 0x3F);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void SET_b_pIXd() // SET b, (IX+d)
+        {
+            z80.ix = 0x2000;
+            Poke(0x2003, 0xF0);
+            Execute(0xDD, 0xCB, 0x03, 0xC6);
+            Assert.IsTrue(Peek(0x2003) == 0xF1);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void SET_b_pIYd() // SET b, (IY+d)
+        {
+            z80.iy = 0x2000;
+            Poke(0x2003, 0x38);
+            Execute(0xFD, 0xCB, 0x03, 0xC6);
+            Assert.IsTrue(Peek(0x2003) == 0x39);
+        }
+
+        [TestCategory("Bit Set, Reset, and Test Group")]
+        [TestMethod]
+        public void RES_b_m() // RES b, m
+        {
+            z80.d = 0xFF;
+            Execute(0xCB, 0xB2);
+            Assert.IsTrue(z80.d == 0xBF);
         }
     }
 }

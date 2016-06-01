@@ -67,10 +67,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x0E: c = GetNextByte(); break;
 
                 // RRCA
-                case 0x0F: a = RRC(a);  break;
+                case 0x0F: a = RRC(a); break;
 
                 // DJNZ *
-                case 0x10: GetNextByte(); break;
+                case 0x10: b--; if (b != 0) { JR((sbyte)GetNextByte()); } break;
 
                 // LD DE, **
                 case 0x11: d = GetNextByte(); e = GetNextByte(); break;
@@ -91,7 +91,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x16: d = GetNextByte(); break;
 
                 // RLA
-                case 0x17: a = RL(a);  break;
+                case 0x17: a = RL(a); break;
 
                 // JR *
                 case 0x18: JR((sbyte)GetNextByte()); break;
@@ -1142,7 +1142,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE5: PUSH(ix); break;
 
                 // JP (IX)
-                case 0xE9: pc = memory.ReadWord(ix); break;
+                case 0xE9: pc = ix; break;
 
                 // LD SP, IX
                 case 0xF9: sp = ix; break;
@@ -1423,7 +1423,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE5: PUSH(iy); break;
 
                 // JP (IY)
-                case 0xE9: pc = memory.ReadWord(iy); break;
+                case 0xE9: pc = iy; break;
 
                 // LD SP, IY
                 case 0xF9: sp = iy; break;

@@ -245,3 +245,6 @@ ModelManifest.xml
 .fake/
 
 /ProjectCambridge/roms
+/EmulatorTests/fuse_tests/tests.in
+/EmulatorTests/fuse_tests/tests.expected
+/EmulatorTests/fuse_tests/README

@@ -92,6 +92,13 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fuse_tests\README" />
+    <Content Include="fuse_tests\tests.expected">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fuse_tests\tests.in">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="project.json" />
     <Content Include="roms\48.rom">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

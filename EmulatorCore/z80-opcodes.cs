@@ -1017,7 +1017,6 @@ namespace ProjectCambridge.EmulatorCore
         {
             byte opCode = GetNextByte();
             ushort addr = 0;
-            byte val = 0;
 
             switch (opCode)
             {
@@ -1298,7 +1297,6 @@ namespace ProjectCambridge.EmulatorCore
         {
             byte opCode = GetNextByte();
             ushort addr = 0;
-            byte val = 0;
 
             switch (opCode)
             {

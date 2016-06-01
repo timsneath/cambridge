@@ -75,6 +75,7 @@
             <TextBox x:Name="Instructions" />
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="RunTest" Click="RunTestCode_Click" Margin="5">Run Test Code</Button>
+                <Button x:Name="RunFuseTests" Click="RunFuseTests_Click" Margin="5">Run Fuse Tests</Button>
                 <Button x:Name="ExecuteROM" Click="ExecuteSpectrumROM_Click" Margin="5">Execute Spectrum ROM</Button>
                 <Button x:Name="DrawTest" Click="DrawTest_Click" Margin="5">Test Spectrum Display</Button>
                 <Button x:Name="RomTest" Click="ScreenTest_Click" Margin="5">Test Sample Rom Image</Button>

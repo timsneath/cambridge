@@ -1,0 +1,24 @@
+﻿The FUSE emulator contains a large unit test suite of over 1,300 tests:
+   http://fuse-emulator.sourceforge.net/ 
+
+The tests are delivered in two files: a tests.in file that contains test 
+inputs and a tests.expected that gives the expected output state for the 
+Z80 processor. 
+
+This project loads them from disk and creates standard .NET unit tests out
+of the results. 
+
+Because the FUSE emulator is GPL2 licensed, and this project is more
+permissively licensed (under the MIT license), the test suite and resultant
+.NET unit tests are excluded from the GitHub project, but they can be 
+recreated by:
+
+1. Download the FUSE emulator and extract the files 
+      z80\tests\tests.* 
+   to a convenient location.
+   
+2. Execute the command utility CreateUnitTests.exe, having adjusted the 
+   location of the test files and output as appropriate
+
+3. Copy the resultant fusetests.cs to the EmulatorTests folder and add it
+   to that project.

@@ -13,6 +13,8 @@ namespace ProjectCambridge.Utilities
         {
 
             var outputClass = new StringWriter();
+            var outputTest = new StringWriter();
+            string testName = "";
 
             outputClass.Write(@"using System;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -23,8 +25,6 @@ namespace ProjectCambridge.EmulatorTests
     [TestClass]
     public class FuseTests
     {
-        // TODO: Adjust earlier test cases for consistency of naming
-
         Memory memory;
         Z80 z80;
 
@@ -44,24 +44,31 @@ namespace ProjectCambridge.EmulatorTests
         private void Poke(ushort addr, byte val) => memory.WriteByte(addr, val);
         private byte Peek(ushort addr) => memory.ReadByte(addr);
 
-        private void LoadInstructions(byte[] instructions)
+        private void LoadRegisters(ushort af, ushort bc, ushort de, ushort hl, 
+                                   ushort af_, ushort bc_, ushort de_, ushort hl_,
+                                   ushort ix, ushort iy, ushort sp, ushort pc)
         {
-            // we pick this as a 'safe' location that doesn't clash with other instructions
-            // TODO: randomize this, perhaps? 
-            ushort addr = 0xA000;
-
-            foreach (var instruction in instructions)
-            {
-                memory.WriteByte(addr++, instruction);
-            }
-            memory.WriteByte(addr, 0x76); // HALT instruction
+            z80.af = af; z80.bc = bc; z80.de = de; z80.hl = hl;
+            z80.af_ = af_; z80.bc_ = bc_; z80.de_ = de_; z80.hl_ = hl_;
+            z80.ix = ix; z80.iy = iy; z80.sp = sp; z80.pc = pc;
         }
 
-        private void Execute(params byte[] instructions)
+        private void AssertRegisters(ushort af, ushort bc, ushort de, ushort hl, 
+                                   ushort af_, ushort bc_, ushort de_, ushort hl_,
+                                   ushort ix, ushort iy, ushort sp, ushort pc)
         {
-            LoadInstructions(instructions);
-            z80.pc = 0xA000;
-            while (z80.ExecuteNextInstruction()) { }
+            Assert.IsTrue(z80.af == af);
+            Assert.IsTrue(z80.bc == bc);
+            Assert.IsTrue(z80.de == de);
+            Assert.IsTrue(z80.hl == hl);
+            Assert.IsTrue(z80.af_ == af_);
+            Assert.IsTrue(z80.bc_ == bc_);
+            Assert.IsTrue(z80.de_ == de_);
+            Assert.IsTrue(z80.hl_ == hl_);
+            Assert.IsTrue(z80.ix == ix);
+            Assert.IsTrue(z80.iy == iy);
+            Assert.IsTrue(z80.sp == sp);
+            Assert.IsTrue(z80.pc == pc);
         }");
             outputClass.WriteLine();
             outputClass.WriteLine();
@@ -74,35 +81,36 @@ namespace ProjectCambridge.EmulatorTests
 
             while (inputLine < input.Count)
             {
-                var testName = input[inputLine];
-                outputClass.Write(@"        [TestMethod]
+                testName = input[inputLine];
+                outputTest.Write(@"        [TestMethod]
         [TestCategory(""Fuse Tests"")]
         public void Test_");
-                outputClass.Write(testName + "()\n");
+                outputTest.Write(testName + "()\n");
                 inputLine++;
 
-                outputClass.Write("        {\n");
+                outputTest.Write("        {\n");
 
                 var registers = input[inputLine].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                outputClass.Write("                z80.af = 0x" + registers[0] + ";\n");
-                outputClass.Write("                z80.bc = 0x" + registers[1] + ";\n");
-                outputClass.Write("                z80.de = 0x" + registers[2] + ";\n");
-                outputClass.Write("                z80.hl = 0x" + registers[3] + ";\n");
-                outputClass.Write("                z80.af_ = 0x" + registers[4] + ";\n");
-                outputClass.Write("                z80.bc_ = 0x" + registers[5] + ";\n");
-                outputClass.Write("                z80.de_ = 0x" + registers[6] + ";\n");
-                outputClass.Write("                z80.hl_ = 0x" + registers[7] + ";\n");
-                outputClass.Write("                z80.ix = 0x" + registers[8] + ";\n");
-                outputClass.Write("                z80.iy = 0x" + registers[9] + ";\n");
-                outputClass.Write("                z80.sp = 0x" + registers[10] + ";\n");
-                outputClass.Write("                z80.pc = 0x" + registers[11] + ";\n\n");
+                outputTest.Write("                LoadRegisters(");
+                outputTest.Write("0x" + registers[0] + ", ");
+                outputTest.Write("0x" + registers[1] + ", ");
+                outputTest.Write("0x" + registers[2] + ", ");
+                outputTest.Write("0x" + registers[3] + ", ");
+                outputTest.Write("0x" + registers[4] + ", ");
+                outputTest.Write("0x" + registers[5] + ", ");
+                outputTest.Write("0x" + registers[6] + ", ");
+                outputTest.Write("0x" + registers[7] + ", ");
+                outputTest.Write("0x" + registers[8] + ", ");
+                outputTest.Write("0x" + registers[9] + ", ");
+                outputTest.Write("0x" + registers[10] + ", ");
+                outputTest.Write("0x" + registers[11] + ");\n");
                 inputLine++;
 
                 var special = input[inputLine].Split(' ');
-                outputClass.Write("                z80.i = 0x" + special[0] + ";\n");
-                outputClass.Write("                z80.r = 0x" + special[1] + ";\n");
-                outputClass.Write("                z80.iff1 = " + ((special[2] == "1") ? "true" : "false") + ";\n");
-                outputClass.Write("                z80.iff2 = " + ((special[3] == "1") ? "true" : "false") + ";\n\n");
+                outputTest.Write("                z80.i = 0x" + special[0] + ";\n");
+                outputTest.Write("                z80.r = 0x" + special[1] + ";\n");
+                outputTest.Write("                z80.iff1 = " + ((special[2] == "1") ? "true" : "false") + ";\n");
+                outputTest.Write("                z80.iff2 = " + ((special[3] == "1") ? "true" : "false") + ";\n\n");
                 // TODO: Take care of IM, Halted, T-States status
                 inputLine++;
 
@@ -113,18 +121,18 @@ namespace ProjectCambridge.EmulatorTests
                     var idx = 1;
                     while (pokes[idx] != "-1")
                     {
-                        outputClass.Write("                Poke(0x" + string.Format($"{addr:X4}") + ", 0x" + pokes[idx] + ");\n");
+                        outputTest.Write("                Poke(0x" + string.Format($"{addr:X4}") + ", 0x" + pokes[idx] + ");\n");
                         idx++;
                         addr++;
                     }
-                    outputClass.Write("                Poke(0x" + string.Format($"{addr:X4}") + ", 0x76);\n\n"); // HALT
+                    outputTest.Write("                Poke(0x" + string.Format($"{addr:X4}") + ", 0x76);\n\n"); // HALT
                     inputLine++;
                 }
                 inputLine++; // ignore blank line
                 inputLine++;
 
-                outputClass.Write("                while (z80.ExecuteNextInstruction()) { }\n\n");
-                outputClass.Write("                z80.pc--; // rewind HALT instruction\n");
+                outputTest.Write("                while (z80.ExecuteNextInstruction()) { }\n\n");
+                outputTest.Write("                z80.pc--;\n");
 
                 if (expected[expectedLine] != testName)
                 {
@@ -137,18 +145,19 @@ namespace ProjectCambridge.EmulatorTests
                     expectedLine++;
 
                 var expectedRegisters = expected[expectedLine].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                outputClass.Write("                Assert.IsTrue(z80.af == 0x" + expectedRegisters[0] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.bc == 0x" + expectedRegisters[1] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.de == 0x" + expectedRegisters[2] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.hl == 0x" + expectedRegisters[3] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.af_ == 0x" + expectedRegisters[4] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.bc_ == 0x" + expectedRegisters[5] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.de_ == 0x" + expectedRegisters[6] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.hl_ == 0x" + expectedRegisters[7] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.ix == 0x" + expectedRegisters[8] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.iy == 0x" + expectedRegisters[9] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.sp == 0x" + expectedRegisters[10] + ");\n");
-                outputClass.Write("                Assert.IsTrue(z80.pc == 0x" + expectedRegisters[11] + ");\n");
+                outputTest.Write("                AssertRegisters(");
+                outputTest.Write("0x" + expectedRegisters[0] + ", ");
+                outputTest.Write("0x" + expectedRegisters[1] + ", ");
+                outputTest.Write("0x" + expectedRegisters[2] + ", ");
+                outputTest.Write("0x" + expectedRegisters[3] + ", ");
+                outputTest.Write("0x" + expectedRegisters[4] + ", ");
+                outputTest.Write("0x" + expectedRegisters[5] + ", ");
+                outputTest.Write("0x" + expectedRegisters[6] + ", ");
+                outputTest.Write("0x" + expectedRegisters[7] + ", ");
+                outputTest.Write("0x" + expectedRegisters[8] + ", ");
+                outputTest.Write("0x" + expectedRegisters[9] + ", ");
+                outputTest.Write("0x" + expectedRegisters[10] + ", ");
+                outputTest.Write("0x" + expectedRegisters[11] + ");\n");
                 expectedLine++;
 
                 // for now, ignore special flags
@@ -165,13 +174,22 @@ namespace ProjectCambridge.EmulatorTests
                 // ignore blank line
                 expectedLine++;
 
-                outputClass.Write("        }\n\n");
+                outputTest.Write("        }\n\n");
+
+                // we ignore certain FUSE tests that are incompatible with our test harness
+                // specifically, we're using HALT right now to end, rather than some number
+                // of pre-defined T-states
+                if (!(new string[] {"02"}).Contains(testName))
+                {
+                    outputClass.Write(outputTest.ToString());
+                }
+                outputTest = new StringWriter();
             }
 
             outputClass.Write("    }\n");
             outputClass.Write("}\n");
 
-            string fusePath = @"C:\scratch\CreateFuseUnitTests.cs";
+            string fusePath = @"C:\scratch\FuseUnitTests.cs";
             File.WriteAllText(fusePath, outputClass.ToString());
         }
     }

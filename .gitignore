@@ -249,4 +249,4 @@ ModelManifest.xml
 /EmulatorTests/fuse_tests/tests.expected
 /EmulatorTests/fuse_tests/README
 /ProjectCambridge/fuse_tests
-/EmulatorTests/fusetests.cs
+/EmulatorTests/FuseUnitTests.cs

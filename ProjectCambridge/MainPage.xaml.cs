@@ -136,15 +136,19 @@ namespace ProjectCambridge
 
             memory = new Memory(ROMProtected: false);
 
-            var line = 0;
-            while (line < inputText.Count)
+            var inputLine = 0;
+            var expectedOutputLine = 0;
+
+            while (inputLine < inputText.Count)
             {
                 memory.Reset();
                 z80 = new Z80(memory, 0x0000);
-                Results.Text += "Test: " + inputText[line] + "\n";
-                line++;
 
-                var registers = inputText[line].Split(' ');
+                var testName = inputText[inputLine];
+                Results.Text += "Test: " + testName + "\n";
+                inputLine++;
+
+                var registers = inputText[inputLine].Split(' ');
                 z80.af = ushort.Parse(registers[0], System.Globalization.NumberStyles.HexNumber);
                 z80.bc = ushort.Parse(registers[1], System.Globalization.NumberStyles.HexNumber);
                 z80.de = ushort.Parse(registers[2], System.Globalization.NumberStyles.HexNumber);
@@ -157,19 +161,19 @@ namespace ProjectCambridge
                 z80.iy = ushort.Parse(registers[9], System.Globalization.NumberStyles.HexNumber);
                 z80.sp = ushort.Parse(registers[10], System.Globalization.NumberStyles.HexNumber);
                 z80.pc = ushort.Parse(registers[11], System.Globalization.NumberStyles.HexNumber);
-                line++;
+                inputLine++;
 
-                var special = inputText[line].Split(' ');
+                var special = inputText[inputLine].Split(' ');
                 z80.i = byte.Parse(special[0], System.Globalization.NumberStyles.HexNumber);
                 z80.r = byte.Parse(special[1], System.Globalization.NumberStyles.HexNumber);
                 z80.iff1 = (special[2] == "1");
                 z80.iff2 = (special[3] == "1");
-                // ignore im, halted, t-states for now
-                line++;
+                // TODO: Take care of IM, Halted, T-States status
+                inputLine++;
 
-                while (!inputText[line].StartsWith("-1"))
+                while (!inputText[inputLine].StartsWith("-1"))
                 {
-                    var pokes = inputText[line].Split(' ');
+                    var pokes = inputText[inputLine].Split(' ');
                     var addr = ushort.Parse(pokes[0], System.Globalization.NumberStyles.HexNumber);
                     var idx = 1;
                     while (pokes[idx] != "-1")
@@ -179,16 +183,60 @@ namespace ProjectCambridge
                         addr++;
                     }
                     memory.WriteByte(addr, 0x76);
-                    line++;
+                    inputLine++;
                 }
-                line++; // ignore blank line
-                line++;
+                inputLine++; // ignore blank line
+                inputLine++;
 
                 await Execute();
+                z80.pc--; // rewind HALT instruction
 
-                Results.Text += z80.GetState() + "\n";
+                if (expectedOutputText[expectedOutputLine] != testName)
+                {
+                    throw new Exception("Mismatch of input and output lines");
+                }
+                expectedOutputLine++;
+
+                // TODO: Check T-States
+                while (expectedOutputText[expectedOutputLine].StartsWith(" "))
+                    expectedOutputLine++;
+
+                var expectedRegisters = expectedOutputText[expectedOutputLine].Split(' ');
+                CheckRegister("AF", z80.af, ushort.Parse(expectedRegisters[0], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("BC", z80.bc, ushort.Parse(expectedRegisters[1], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("DE", z80.de, ushort.Parse(expectedRegisters[2], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("HL", z80.hl, ushort.Parse(expectedRegisters[3], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("AF'", z80.af_, ushort.Parse(expectedRegisters[4], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("BC'", z80.bc_, ushort.Parse(expectedRegisters[5], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("DE'", z80.de_, ushort.Parse(expectedRegisters[6], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("HL'", z80.hl_, ushort.Parse(expectedRegisters[7], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("IX", z80.ix, ushort.Parse(expectedRegisters[8], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("IY", z80.iy, ushort.Parse(expectedRegisters[9], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("SP", z80.sp, ushort.Parse(expectedRegisters[10], System.Globalization.NumberStyles.HexNumber));
+                CheckRegister("PC", z80.pc, ushort.Parse(expectedRegisters[11], System.Globalization.NumberStyles.HexNumber));
+                expectedOutputLine++;
+
+                // for now, ignore special flags
+                expectedOutputLine++;
+
+                // for now, ignore memory state
+                while (expectedOutputText[expectedOutputLine].Length > 0 && expectedOutputText[expectedOutputLine][0] >= '0' && expectedOutputText[expectedOutputLine][0] <= '9')
+                    expectedOutputLine++; 
+
+                // ignore blank line
+                expectedOutputLine++;
+
+                Results.Text += "\n";
             }
 
+        }
+
+        private void CheckRegister(string registerName, ushort registerValue, ushort expectedValue)
+        {
+            if (registerValue != expectedValue)
+            {
+                Results.Text += $"Expected {registerName} to be {expectedValue}, but was {registerValue}\n";
+            }
         }
     }
 }

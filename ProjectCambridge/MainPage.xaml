@@ -81,7 +81,7 @@
                 <Button x:Name="RomTest" Click="ScreenTest_Click" Margin="5">Test Sample Rom Image</Button>
                 <Slider x:Name="ExecutionSpeed" Minimum="0.0001" Maximum="1" TickFrequency="0.05" StepFrequency="0.0001" Width="500" Value="0.2" Margin="5" />
             </StackPanel>
-            <TextBlock x:Name="Results" FontFamily="Consolas" Height="100" />
+            <TextBlock x:Name="Results" FontFamily="Consolas" Height="400"/>
         </StackPanel>
     </Grid>
 </Page>

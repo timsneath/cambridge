@@ -25,7 +25,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x00: break;
 
                 // LD BC, **
-                case 0x01: b = GetNextByte(); c = GetNextByte(); break;
+                case 0x01: bc = GetNextWord(); break;
 
                 // LD (BC), A
                 case 0x02: memory.WriteByte(bc, a); break;
@@ -43,7 +43,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x06: b = GetNextByte(); break;
 
                 // RLCA
-                case 0x07: a = RLC(a); break;
+                case 0x07: RLCA(); break;
 
                 // EX AF, AF'
                 case 0x08: Swap(ref a, ref a_); Swap(ref f, ref f_); break;
@@ -67,13 +67,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x0E: c = GetNextByte(); break;
 
                 // RRCA
-                case 0x0F: a = RRC(a); break;
+                case 0x0F: RRCA(); break;
 
                 // DJNZ *
                 case 0x10: b--; if (b != 0) { JR((sbyte)GetNextByte()); } break;
 
                 // LD DE, **
-                case 0x11: d = GetNextByte(); e = GetNextByte(); break;
+                case 0x11: de = GetNextWord(); break;
 
                 // LD (DE), A
                 case 0x12: memory.WriteByte(de, a); break;
@@ -121,7 +121,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x20: if (!fZ) { JR((sbyte)GetNextByte()); } break;
 
                 // LD HL, **
-                case 0x21: l = GetNextByte(); h = GetNextByte(); break;
+                case 0x21: hl = GetNextWord(); break;
 
                 // LD (**), HL
                 case 0x22: memory.WriteWord(GetNextWord(), hl); break;

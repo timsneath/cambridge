@@ -13,12 +13,14 @@ namespace ProjectCambridge.EmulatorCore
         [Flags]
         public enum Flags
         {
-            C = 1,  // carry flag (bit 0)
-            N = 2,  // add/subtract flag (bit 1)
-            P = 4,  // parity/overflow flag (bit 2)
-            H = 16, // half carry flag (bit 4)
-            Z = 64, // zero flag (bit 6)
-            S = 128 // sign flag (bit 7)
+            C = 1,   // carry flag (bit 0)
+            N = 2,   // add/subtract flag (bit 1)
+            P = 4,   // parity/overflow flag (bit 2)
+            F3 = 8,  // undocumented flag
+            H = 16,  // half carry flag (bit 4)
+            F5 = 32, // undocumented flag
+            Z = 64,  // zero flag (bit 6)
+            S = 128  // sign flag (bit 7)
         }
 
         // The main register set can be used individually as 8-bit registers or combined to form 16-bit registers
@@ -57,10 +59,22 @@ namespace ProjectCambridge.EmulatorCore
             set { if (value) f |= Flags.P; else f &= ~Flags.P; }
         }
 
+        public bool f3
+        {
+            get { return (f & Flags.F3) == Flags.F3; }
+            set { if (value) f |= Flags.F3; else f &= ~Flags.F3; }
+        }
+
         public bool fH
         {
             get { return (f & Flags.H) == Flags.H; }
             set { if (value) f |= Flags.H; else f &= ~Flags.H; }
+        }
+
+        public bool f5
+        {
+            get { return (f & Flags.F5) == Flags.F5; }
+            set { if (value) f |= Flags.F5; else f &= ~Flags.F5; }
         }
 
         public bool fZ

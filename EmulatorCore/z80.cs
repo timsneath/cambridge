@@ -33,37 +33,40 @@ namespace ProjectCambridge.EmulatorCore
 
         // Algorithm for counting set bits taken from LLVM optimization proposal at: 
         //    https://llvm.org/bugs/show_bug.cgi?id=1488
-        private bool IsParity(int reg)
+        private bool IsParity(int value)
         {
             int count = 0;
 
-            for (; reg != 0; count++)
+            for (; value != 0; count++)
             {
-                reg &= reg - 1; // clear the least significant bit set
+                value &= value - 1; // clear the least significant bit set
             }
             return (count % 2 == 0);
         }
 
-        private bool IsBitSet(int x, int index) => (x & (1 << index)) == 1 << index;
+        private bool IsBitSet(int value, int bit) => (value & (1 << bit)) == 1 << bit;
 
-        private byte SetBit(int x, int index) => (byte)(x | (1 << index));
+        private byte SetBit(int value, int bit) => (byte)(value | (1 << bit));
 
-        private byte ResetBit(int x, int index) => (byte)(x & ~(1 << index));
+        private byte ResetBit(int value, int bit) => (byte)(value & ~(1 << bit));
 
-        private bool IsSign8(byte x) => (x & 0x80) == 0x80;
+        private bool IsSign8(byte value) => (value & 0x80) == 0x80;
 
-        private bool IsSign16(ushort x) => (x & 0x8000) == 0x8000;
+        private bool IsSign16(ushort value) => (value & 0x8000) == 0x8000;
 
-        private bool IsZero(ushort x) => (x == 0);
+        private bool IsZero(ushort value) => (value == 0);
 
         #region Arithmetic operations
         private byte INC(byte reg)
         {
+            var oldReg = reg;
             fPV = (reg == 0x7F);
-            fH = (reg & 0xF) == 0xF;
             reg++;
+            fH = IsBitSet(reg, 4) != IsBitSet(oldReg, 4);
             fZ = IsZero(reg);
             fS = IsSign8(reg);
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
             fN = false;
 
             return reg;
@@ -71,11 +74,14 @@ namespace ProjectCambridge.EmulatorCore
 
         private byte DEC(byte reg)
         {
+            var oldReg = reg;
             fPV = (reg == 0x80);
-            fH = false; // TODO: set if borrow from bit 4
             reg--;
+            fH = IsBitSet(reg, 4) != IsBitSet(oldReg, 4);
             fZ = IsZero(reg);
             fS = IsSign8(reg);
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
             fN = true;
 
             return reg;
@@ -100,6 +106,8 @@ namespace ProjectCambridge.EmulatorCore
             fC = a + b > 0xFF;
             a += b;
             fS = IsSign8(a);
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
             fZ = IsZero(a);
             fN = false;
             return a;
@@ -110,6 +118,8 @@ namespace ProjectCambridge.EmulatorCore
             fH = (((a & 0xFFF) + (b & 0xFFF)) & 0x1000) == 0x1000;
             fC = a + b > 0xFFFF;
             a += b;
+            f5 = IsBitSet(a, 13);
+            f3 = IsBitSet(a, 11);
             fN = false;
             return a;
         }
@@ -365,6 +375,8 @@ namespace ProjectCambridge.EmulatorCore
             reg <<= 1;
             if (fC) reg = (byte)SetBit(reg, 0);
 
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
@@ -374,12 +386,28 @@ namespace ProjectCambridge.EmulatorCore
             return reg;
         }
 
+        private void RLCA()
+        {
+            // rotates register A to the left
+            // bit 7 is copied to carry and to bit 0
+            fC = IsSign8(a);
+            a <<= 1;
+            if (fC) a = (byte)SetBit(a, 0);
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
+            fH = false;
+            fN = false;
+        }
+
         private byte RRC(byte reg)
         {
             fC = IsBitSet(reg, 0);
             reg >>= 1;
             if (fC) reg = (byte)SetBit(reg, 7);
 
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
@@ -388,6 +416,19 @@ namespace ProjectCambridge.EmulatorCore
 
             return reg;
 
+        }
+
+        private void RRCA()
+        {
+            fC = IsBitSet(a, 0);
+            a >>= 1;
+            if (fC) a = (byte)SetBit(a, 7);
+
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
+            fH = false;
+            fN = false;
         }
 
         private byte RL(byte reg)

@@ -91,7 +91,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x16: d = GetNextByte(); break;
 
                 // RLA
-                case 0x17: a = RL(a); break;
+                case 0x17: RLA(); break;
 
                 // JR *
                 case 0x18: JR((sbyte)GetNextByte()); break;
@@ -115,10 +115,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x1E: e = GetNextByte(); break;
 
                 // RRA
-                case 0x1F: a = RR(a); break;
+                case 0x1F: RRA(); break;
 
                 // JR NZ, *
-                case 0x20: if (!fZ) { JR((sbyte)GetNextByte()); } break;
+                case 0x20: if (!fZ) { JR((sbyte)GetNextByte()); } else { pc++; } break;
 
                 // LD HL, **
                 case 0x21: hl = GetNextWord(); break;
@@ -142,7 +142,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x27: DAA(); break;
 
                 // JR Z, *
-                case 0x28: if (fZ) { JR((sbyte)GetNextByte()); } break;
+                case 0x28: if (fZ) { JR((sbyte)GetNextByte()); } else { pc++; } break;
 
                 // ADD HL, HL
                 case 0x29: hl = ADD(hl, hl); break;
@@ -163,10 +163,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x2E: break;
 
                 // CPL
-                case 0x2F: a = (byte)~a; fH = true; fN = true; break;
+                case 0x2F: CPL(); break;
 
                 // JR NC, *
-                case 0x30: if (!fC) { JR((sbyte)GetNextByte()); } break;
+                case 0x30: if (!fC) { JR((sbyte)GetNextByte()); } else { pc++; } break;
 
                 // LD SP, **
                 case 0x31: sp = GetNextWord(); break;
@@ -187,10 +187,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x36: memory.WriteByte(hl, GetNextByte()); break;
 
                 // SCF
-                case 0x37: fH = false; fN = false; fC = true; break;
+                case 0x37: SCF(); break;
 
                 // JR C, *
-                case 0x38: if (fC) { JR((sbyte)GetNextByte()); } break;
+                case 0x38: if (fC) { JR((sbyte)GetNextByte()); } else { pc++; } break;
 
                 // ADD HL, SP
                 case 0x39: hl = ADD(hl, sp); break;
@@ -211,7 +211,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x3E: a = GetNextByte(); break;
 
                 // CCF
-                case 0x3F: fN = false; fC = !fC; break;
+                case 0x3F: CCF(); break;
 
                 // LD B, B
                 case 0x40: break;
@@ -604,13 +604,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xC1: bc = POP(); break;
 
                 // JP NZ, **
-                case 0xC2: if (!fZ) { pc = GetNextWord(); } break;
+                case 0xC2: if (!fZ) { pc = GetNextWord(); } else { pc += 2; } break;
 
                 // JP **
                 case 0xC3: pc = GetNextWord(); break;
 
                 // CALL NZ, **
-                case 0xC4: if (!fZ) { CALL(); }; break;
+                case 0xC4: if (!fZ) { CALL(); } else { pc += 2; } break;
 
                 // PUSH BC
                 case 0xC5: PUSH(bc); break;
@@ -628,13 +628,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xC9: pc = POP(); break;
 
                 // JP Z, **
-                case 0xCA: if (fZ) pc = GetNextWord(); break;
+                case 0xCA: if (fZ) pc = GetNextWord(); else { pc += 2; } break;
 
                 // BITWISE INSTRUCTIONS
                 case 0xCB: DecodeCBOpcode(); break;
 
                 // CALL Z, **
-                case 0xCC: if (fZ) CALL(); break;
+                case 0xCC: if (fZ) { CALL(); } else { pc += 2; } break;
 
                 // CALL **
                 case 0xCD: CALL(); break;
@@ -652,13 +652,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xD1: de = POP(); break;
 
                 // JP NC, **
-                case 0xD2: if (!fC) pc = GetNextWord(); break;
+                case 0xD2: if (!fC) { pc = GetNextWord(); } else { pc += 2; } break;
 
                 // OUT (*), A
                 case 0xD3: output[GetNextByte()] = a; break;
 
                 // CALL NC, **
-                case 0xD4: if (!fC) CALL(); break;
+                case 0xD4: if (!fC) { CALL(); } else { pc += 2; } break;
 
                 // PUSH DE
                 case 0xD5: PUSH(de); break;
@@ -676,13 +676,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xD9: Swap(ref b, ref b_); Swap(ref c, ref c_); Swap(ref d, ref d_); Swap(ref e, ref e_); Swap(ref h, ref h_); Swap(ref l, ref l_); break;
 
                 // JP C, **
-                case 0xDA: if (fC) pc = GetNextWord(); break;
+                case 0xDA: if (fC) { pc = GetNextWord(); } else { pc += 2; } break;
 
                 // IN A, (**)
                 case 0xDB: memory.ReadByte(GetNextWord()); break;
 
                 // CALL C, **
-                case 0xDC: if (fC) CALL(); break;
+                case 0xDC: if (fC) { CALL(); } else { pc += 2; } break;
 
                 // IX OPERATIONS
                 case 0xDD: DecodeDDOpcode(); break;
@@ -700,13 +700,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE1: hl = POP(); break;
 
                 // JP PO, **
-                case 0xE2: if (!fPV) { pc = GetNextWord(); } break;
+                case 0xE2: if (!fPV) { pc = GetNextWord(); } else { pc += 2; } break;
 
                 // EX (SP), HL
                 case 0xE3: var temp = hl; hl = memory.ReadWord(sp); memory.WriteWord(sp, temp); break;
 
                 // CALL PO, **
-                case 0xE4: if (!fPV) { CALL(); } break;
+                case 0xE4: if (!fPV) { CALL(); } else { pc += 2; } break;
 
                 // PUSH HL
                 case 0xE5: PUSH(hl); break;
@@ -724,13 +724,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE9: pc = memory.ReadWord(hl); break;
 
                 // JP PE, **
-                case 0xEA: if (fPV) { pc = GetNextWord(); } break;
+                case 0xEA: if (fPV) { pc = GetNextWord(); } else { pc += 2; } break;
 
                 // EX DE, HL
                 case 0xEB: Swap(ref d, ref h); Swap(ref e, ref l); break;
 
                 // CALL PE, **
-                case 0xEC: if (fPV) { CALL(); } break;
+                case 0xEC: if (fPV) { CALL(); } else { pc += 2; } break;
 
                 // EXTD INSTRUCTIONS
                 case 0xED: DecodeEDOpcode(); break;
@@ -748,13 +748,13 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xF1: af = POP(); break;
 
                 // JP P, **
-                case 0xF2: if (!fS) { pc = GetNextWord(); } break;
+                case 0xF2: if (!fS) { pc = GetNextWord(); } else { pc += 2; } break;
 
                 // DI
                 case 0xF3: iff1 = false; iff2 = false; break;
 
                 // CALL P, **
-                case 0xF4: if (!fS) { CALL(); } break;
+                case 0xF4: if (!fS) { CALL(); } else { pc += 2; } break;
 
                 // PUSH AF
                 case 0xF5: PUSH(af); break;
@@ -778,7 +778,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xFB: break;
 
                 // CALL M, **
-                case 0xFC: if (fS) { CALL(); } break;
+                case 0xFC: if (fS) { CALL(); } else { pc += 2; } break;
 
                 // IY INSTRUCTIONS
                 case 0xFD: DecodeFDOpcode(); break;
@@ -1479,9 +1479,6 @@ namespace ProjectCambridge.EmulatorCore
                     throw new ArgumentOutOfRangeException(nameof(register), register, "Field register must map to a valid Z80 register.");
             }
         }
-
-
-
 
         private void Swap<T>(ref T x, ref T y)
         {

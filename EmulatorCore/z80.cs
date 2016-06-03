@@ -102,10 +102,20 @@ namespace ProjectCambridge.EmulatorCore
         private byte ADD(byte a, byte b)
         {
             fH = (((a & 0x0F) + (b & 0x0F)) & 0x10) == 0x10;
-            fPV = a + b > 0xFF;
+
+            // overflow in add only occurs when operand polarities are the same
+            bool overflowCheck = (IsSign8(a) == IsSign8(b));
+
             fC = a + b > 0xFF;
             a += b;
             fS = IsSign8(a);
+
+            // if polarity is now different then add caused an overflow
+            if (overflowCheck)
+            {
+                fPV = (fS != IsSign8(b));
+            }
+
             f5 = IsBitSet(a, 5);
             f3 = IsBitSet(a, 3);
             fZ = IsZero(a);
@@ -137,18 +147,35 @@ namespace ProjectCambridge.EmulatorCore
             fH = (a & 0xFFF) < (b & 0xFFF);
             fPV = a < b;
             a -= b;
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
             fS = IsSign16(a);
             fZ = IsZero(a);
             fN = true;
             return a;
         }
 
+        // TODO: Consistent parameter names
         private byte SUB(byte a, byte b)
         {
-            fC = a - b < 0;
+            fC = a < b;
             fH = (a & 0x0F) < (b & 0x0F);
-            fPV = a < b;
+
+            fS = IsSign8(a);
+
+            // overflow in subtract only occurs when operand signs are different
+            bool overflowCheck = (IsSign8(a) != IsSign8(b));
+
             a -= b;
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
+            // if a changed polarity then subtract caused an overflow
+            if (overflowCheck)
+            {
+                fPV = (fS != IsSign8(a));
+            }
+
             fS = IsSign8(a);
             fZ = IsZero(a);
             fN = true;
@@ -186,6 +213,8 @@ namespace ProjectCambridge.EmulatorCore
             }
 
             fH = ((oldA & 0x10) ^ (a & 0x10)) == 0x10;
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
 
             fS = IsSign8(a);
             fZ = IsZero(a);
@@ -320,7 +349,10 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign8(a);
             fZ = IsZero(a);
             fH = false;
-            fPV = false; // true if overflow - but how?
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
+            fPV = IsParity(a);
             fN = false;
             fC = false;
             return a;
@@ -332,6 +364,9 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign8(a);
             fZ = IsZero(a);
             fH = false;
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
             fPV = IsParity(a);
             fN = false;
             fC = false;
@@ -344,7 +379,9 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign8(a);
             fZ = IsZero(a);
             fH = true;
-            fPV = false; // true if overflow - but how?
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+            fPV = IsParity(a);
             fN = false;
             fC = false;
             return a;
@@ -359,12 +396,43 @@ namespace ProjectCambridge.EmulatorCore
             a = (byte)~a;
             a++;
 
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
             fS = IsSign8(a);
             fZ = IsZero(a);
             fH = true;
             fN = true;
 
             return a;
+        }
+
+        // TODO: Organize these into the same groups as the Z80 manual
+        private void CPL()
+        {
+            a = (byte)~a;
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+            fH = true;
+            fN = true;
+        }
+
+        private void SCF()
+        {
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+            fH = false;
+            fN = false;
+            fC = true;
+        }
+
+        private void CCF()
+        {
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+            fH = fC;
+            fN = false;
+            fC = !fC;
         }
 
         private byte RLC(byte reg)
@@ -375,8 +443,8 @@ namespace ProjectCambridge.EmulatorCore
             reg <<= 1;
             if (fC) reg = (byte)SetBit(reg, 0);
 
-            f5 = IsBitSet(a, 5);
-            f3 = IsBitSet(a, 3);
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
@@ -406,8 +474,8 @@ namespace ProjectCambridge.EmulatorCore
             reg >>= 1;
             if (fC) reg = (byte)SetBit(reg, 7);
 
-            f5 = IsBitSet(a, 5);
-            f3 = IsBitSet(a, 3);
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
@@ -443,12 +511,33 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
             fPV = IsParity(reg);
             fN = false;
 
             if (bit0) reg = (byte)SetBit(reg, 0);
 
             return reg;
+        }
+
+        private void RLA()
+        {
+            // rotates register r to the left, through carry. 
+            // carry becomes the LSB of the new r
+            bool bit0 = fC;
+
+            fC = IsSign8(a);
+            a <<= 1;
+
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
+            fH = false;
+            fN = false;
+
+            if (bit0) a = (byte)SetBit(a, 0);
+
         }
 
         private byte RR(byte reg)
@@ -461,6 +550,8 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
             fPV = IsParity(reg);
             fN = false;
 
@@ -469,10 +560,29 @@ namespace ProjectCambridge.EmulatorCore
             return reg;
         }
 
+        private void RRA()
+        {
+            bool bit7 = fC;
+
+            fC = IsBitSet(a, 0);
+            a >>= 1;
+
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
+            fH = false;
+            fN = false;
+
+            if (bit7) a = (byte)SetBit(a, 7);
+        }
+
         private byte SLA(byte reg)
         {
             fC = IsSign8(reg);
             reg <<= 1;
+
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
 
             fS = IsSign8(reg);
             fZ = IsZero(reg);
@@ -492,6 +602,9 @@ namespace ProjectCambridge.EmulatorCore
 
             if (bit7) reg = SetBit(reg, 7);
 
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
+
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
@@ -506,7 +619,10 @@ namespace ProjectCambridge.EmulatorCore
             // technically, SLL is undocumented
             fC = IsBitSet(reg, 7);
             reg <<= 1;
-            reg = SetBit(reg, 1);
+            reg = SetBit(reg, 0);
+
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
 
             fS = IsSign8(reg);
             fZ = IsZero(reg);
@@ -522,6 +638,9 @@ namespace ProjectCambridge.EmulatorCore
             fC = IsBitSet(reg, 0);
             reg >>= 1;
             reg = ResetBit(reg, 7);
+
+            f5 = IsBitSet(reg, 5);
+            f3 = IsBitSet(reg, 3);
 
             fS = IsSign8(reg);
             fZ = IsZero(reg);
@@ -558,17 +677,20 @@ namespace ProjectCambridge.EmulatorCore
         {
             switch (reg)
             {
-                case 0x0: fZ = !IsBitSet(b, bitToTest); break;
-                case 0x1: fZ = !IsBitSet(c, bitToTest); break;
-                case 0x2: fZ = !IsBitSet(d, bitToTest); break;
-                case 0x3: fZ = !IsBitSet(e, bitToTest); break;
-                case 0x4: fZ = !IsBitSet(h, bitToTest); break;
-                case 0x5: fZ = !IsBitSet(l, bitToTest); break;
+                case 0x0: fZ = !IsBitSet(b, bitToTest); fPV = fZ;  break;
+                case 0x1: fZ = !IsBitSet(c, bitToTest); fPV = fZ; break;
+                case 0x2: fZ = !IsBitSet(d, bitToTest); fPV = fZ; break;
+                case 0x3: fZ = !IsBitSet(e, bitToTest); fPV = fZ; break;
+                case 0x4: fZ = !IsBitSet(h, bitToTest); fPV = fZ; break;
+                case 0x5: fZ = !IsBitSet(l, bitToTest); fPV = fZ; break;
                 case 0x6: fZ = !IsBitSet(memory.ReadByte(hl), bitToTest); break;
-                case 0x7: fZ = !IsBitSet(a, bitToTest); break;
+                case 0x7: fZ = !IsBitSet(a, bitToTest); fPV = fZ; break;
                 default:
                     throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
             }
+
+            // undocumented behavior from http://worldofspectrum.org/faq/reference/z80reference.htm
+            fS = ((bitToTest == 7) && (!fZ) && (reg != 0x6));
 
             fH = true;
             fN = false;

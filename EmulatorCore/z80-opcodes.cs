@@ -70,7 +70,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x0F: RRCA(); break;
 
                 // DJNZ *
-                case 0x10: b--; if (b != 0) { JR((sbyte)GetNextByte()); } break;
+                case 0x10: b--; if (b != 0) { JR((sbyte)GetNextByte()); } else { pc++; } break;
 
                 // LD DE, **
                 case 0x11: de = GetNextWord(); break;
@@ -1427,7 +1427,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xF9: sp = iy; break;
 
                 default:
-                    throw new InvalidOperationException($"Opcode DD{opCode:X2} not understood. ");
+                    throw new InvalidOperationException($"Opcode FD{opCode:X2} not understood. ");
 
             }
         }

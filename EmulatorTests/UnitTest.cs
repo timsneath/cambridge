@@ -860,7 +860,8 @@ namespace ProjectCambridge.EmulatorTests
             z80.a = 0x12;
             Execute(0xB4);
             Assert.IsTrue(z80.a == 0x5A);
-            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fPV | z80.fN | z80.fC);
+            Assert.IsTrue(z80.fPV);
+            Assert.IsFalse(z80.fS | z80.fZ | z80.fH | z80.fN | z80.fC);
         }
 
         [TestCategory("8-Bit Arithmetic Group")]

@@ -15,6 +15,7 @@ namespace ProjectCambridge.EmulatorCore
         //    http://z80.info/z80code.htm
 
         private Memory memory;
+        public long tStates { get; set; }
 
         public Z80(Memory memory, ushort startAddr)
         {
@@ -29,6 +30,7 @@ namespace ProjectCambridge.EmulatorCore
             f = 0;
             ix = iy = pc = sp = 0;
             iff1 = iff2 = false;
+            tStates = 0;
         }
 
         // Algorithm for counting set bits taken from LLVM optimization proposal at: 
@@ -56,6 +58,72 @@ namespace ProjectCambridge.EmulatorCore
 
         private bool IsZero(ushort value) => (value == 0);
 
+        private void LDI()
+        {
+            memory.WriteByte(de, memory.ReadByte(hl));
+            de++;
+            hl++;
+            bc--;
+            fH = false;
+            fN = false;
+            fPV = (bc != 0);
+
+            tStates += 16;
+        }
+
+        private void LDD()
+        {
+            memory.WriteByte(de, memory.ReadByte(hl));
+            de--;
+            hl--;
+            bc--;
+            fH = false;
+            fN = false;
+            fPV = (bc != 0);
+
+            tStates += 16;
+        }
+
+        private void LDIR()
+        {
+            memory.WriteByte(de, memory.ReadByte(hl));
+            de++;
+            hl++;
+            bc--;
+            if (bc != 0)
+            {
+                pc -= 2;
+                tStates += 21;
+            }
+            else
+            {
+                fH = false;
+                fPV = false;
+                fN = false;
+                tStates += 16;
+            }
+        }
+
+        private void LDDR()
+        {
+            memory.WriteByte(de, memory.ReadByte(hl));
+            de--;
+            hl--;
+            bc--;
+            if (bc > 0)
+            {
+                pc -= 2;
+                tStates += 21;
+            }
+            else
+            {
+                fH = false;
+                fPV = false;
+                fN = false;
+                tStates += 16;
+            }
+        }
+
         #region Arithmetic operations
         private byte INC(byte reg)
         {
@@ -68,6 +136,8 @@ namespace ProjectCambridge.EmulatorCore
             f5 = IsBitSet(reg, 5);
             f3 = IsBitSet(reg, 3);
             fN = false;
+
+            tStates += 4;
 
             return reg;
         }
@@ -83,6 +153,8 @@ namespace ProjectCambridge.EmulatorCore
             f5 = IsBitSet(reg, 5);
             f3 = IsBitSet(reg, 3);
             fN = true;
+
+            tStates += 4;
 
             return reg;
         }
@@ -120,6 +192,9 @@ namespace ProjectCambridge.EmulatorCore
             f3 = IsBitSet(a, 3);
             fZ = IsZero(a);
             fN = false;
+
+            tStates += 4;
+
             return a;
         }
 
@@ -131,6 +206,9 @@ namespace ProjectCambridge.EmulatorCore
             f5 = IsBitSet(a, 13);
             f3 = IsBitSet(a, 11);
             fN = false;
+
+            tStates += 11;
+
             return a;
         }
 
@@ -152,6 +230,9 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign16(a);
             fZ = IsZero(a);
             fN = true;
+
+            tStates += 15;
+
             return a;
         }
 
@@ -179,6 +260,9 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign8(a);
             fZ = IsZero(a);
             fN = true;
+
+            tStates += 4;
+
             return a;
         }
 
@@ -219,6 +303,8 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign8(a);
             fZ = IsZero(a);
             fPV = IsParity(a);
+
+            tStates += 4;
         }
         #endregion
 
@@ -231,6 +317,8 @@ namespace ProjectCambridge.EmulatorCore
             PUSH(pc);
 
             pc = callAddr;
+
+            tStates += 17;
         }
 
         private void JR(sbyte jump)
@@ -247,12 +335,31 @@ namespace ProjectCambridge.EmulatorCore
                 // the twice-incremented PC
                 // pc -= 2;
             }
+
+            tStates += 12;
+        }
+
+        private void DJNZ(sbyte relativeAddress)
+        {
+            b--;
+
+            if (b != 0)
+            {
+                JR(relativeAddress);
+                tStates += 13;
+            }
+            else
+            {
+                pc++;
+                tStates += 8;
+            }
         }
 
         private void RST(byte addr)
         {
             PUSH(pc);
             pc = addr;
+            tStates += 11;
         }
         #endregion
 
@@ -277,10 +384,12 @@ namespace ProjectCambridge.EmulatorCore
             var res = (byte)(a - v);
             fS = IsSign8(v);
             fZ = (res == 0);
-            fH = false; // TODO: set if borrow from bit 4
-            fPV = IsSign8(res) != IsSign8(a); // overflow
+            fH = IsBitSet(a, 4) != IsBitSet(res, 4);
+            fPV = IsSign8(a) != IsSign8(res);
             fN = true;
             fC = a < v;
+
+            tStates += 4;
 
             return res;
         }
@@ -295,6 +404,8 @@ namespace ProjectCambridge.EmulatorCore
             fPV = (bc - 1 != 0);
             hl--;
             bc--;
+
+            tStates += 16;
         }
 
         private void CPDR()
@@ -311,6 +422,11 @@ namespace ProjectCambridge.EmulatorCore
             if ((bc != 0) && (a != val))
             {
                 pc -= 2;
+                tStates += 21;
+            }
+            else
+            {
+                tStates += 16;
             }
         }
 
@@ -324,6 +440,8 @@ namespace ProjectCambridge.EmulatorCore
             fPV = (bc - 1 != 0);
             hl++;
             bc--;
+
+            tStates += 16;
         }
 
         private void CPIR()
@@ -340,6 +458,11 @@ namespace ProjectCambridge.EmulatorCore
             if ((bc != 0) && (a != val))
             {
                 pc -= 2;
+                tStates += 21;
+            }
+            else
+            {
+                tStates += 16;
             }
         }
 
@@ -355,6 +478,9 @@ namespace ProjectCambridge.EmulatorCore
             fPV = IsParity(a);
             fN = false;
             fC = false;
+
+            tStates += 4;
+
             return a;
         }
 
@@ -370,6 +496,9 @@ namespace ProjectCambridge.EmulatorCore
             fPV = IsParity(a);
             fN = false;
             fC = false;
+
+            tStates += 4;
+
             return a;
         }
 
@@ -384,6 +513,9 @@ namespace ProjectCambridge.EmulatorCore
             fPV = IsParity(a);
             fN = false;
             fC = false;
+
+            tStates += 4;
+
             return a;
         }
 
@@ -404,6 +536,8 @@ namespace ProjectCambridge.EmulatorCore
             fH = true;
             fN = true;
 
+            tStates += 8;
+
             return a;
         }
 
@@ -415,6 +549,8 @@ namespace ProjectCambridge.EmulatorCore
             f3 = IsBitSet(a, 3);
             fH = true;
             fN = true;
+
+            tStates += 4;
         }
 
         private void SCF()
@@ -433,6 +569,8 @@ namespace ProjectCambridge.EmulatorCore
             fH = fC;
             fN = false;
             fC = !fC;
+
+            tStates += 4;
         }
 
         private byte RLC(byte reg)
@@ -466,6 +604,8 @@ namespace ProjectCambridge.EmulatorCore
 
             fH = false;
             fN = false;
+
+            tStates += 4;
         }
 
         private byte RRC(byte reg)
@@ -497,6 +637,8 @@ namespace ProjectCambridge.EmulatorCore
 
             fH = false;
             fN = false;
+
+            tStates += 4;
         }
 
         private byte RL(byte reg)
@@ -538,6 +680,7 @@ namespace ProjectCambridge.EmulatorCore
 
             if (bit0) a = (byte)SetBit(a, 0);
 
+            tStates += 4;
         }
 
         private byte RR(byte reg)
@@ -573,7 +716,9 @@ namespace ProjectCambridge.EmulatorCore
             fH = false;
             fN = false;
 
-            if (bit7) a = (byte)SetBit(a, 7);
+            if (bit7) { a = SetBit(a, 7); }
+
+            tStates += 4;
         }
 
         private byte SLA(byte reg)
@@ -659,6 +804,8 @@ namespace ProjectCambridge.EmulatorCore
             a = (byte)(a & 0xF0);
             a += (byte)((pHL & 0xF0) >> 4);
             memory.WriteByte(hl, new_pHL);
+
+            tStates += 18;
         }
 
         private void RRD()
@@ -669,6 +816,8 @@ namespace ProjectCambridge.EmulatorCore
             a = (byte)(a & 0xF0);
             a += (byte)(pHL & 0x0F);
             memory.WriteByte(hl, new_pHL);
+
+            tStates += 18;
         }
         #endregion
 
@@ -677,14 +826,14 @@ namespace ProjectCambridge.EmulatorCore
         {
             switch (reg)
             {
-                case 0x0: fZ = !IsBitSet(b, bitToTest); fPV = fZ;  break;
-                case 0x1: fZ = !IsBitSet(c, bitToTest); fPV = fZ; break;
-                case 0x2: fZ = !IsBitSet(d, bitToTest); fPV = fZ; break;
-                case 0x3: fZ = !IsBitSet(e, bitToTest); fPV = fZ; break;
-                case 0x4: fZ = !IsBitSet(h, bitToTest); fPV = fZ; break;
-                case 0x5: fZ = !IsBitSet(l, bitToTest); fPV = fZ; break;
+                case 0x0: fZ = !IsBitSet(b, bitToTest); f3 = IsBitSet(b, 3); f5 = IsBitSet(b, 5); fPV = fZ;  break;
+                case 0x1: fZ = !IsBitSet(c, bitToTest); f3 = IsBitSet(c, 3); f5 = IsBitSet(c, 5); fPV = fZ; break;
+                case 0x2: fZ = !IsBitSet(d, bitToTest); f3 = IsBitSet(d, 3); f5 = IsBitSet(d, 5); fPV = fZ; break;
+                case 0x3: fZ = !IsBitSet(e, bitToTest); f3 = IsBitSet(e, 3); f5 = IsBitSet(e, 5); fPV = fZ; break;
+                case 0x4: fZ = !IsBitSet(h, bitToTest); f3 = IsBitSet(h, 3); f5 = IsBitSet(h, 5); fPV = fZ; break;
+                case 0x5: fZ = !IsBitSet(l, bitToTest); f3 = IsBitSet(l, 3); f5 = IsBitSet(l, 5); fPV = fZ; break;
                 case 0x6: fZ = !IsBitSet(memory.ReadByte(hl), bitToTest); break;
-                case 0x7: fZ = !IsBitSet(a, bitToTest); fPV = fZ; break;
+                case 0x7: fZ = !IsBitSet(a, bitToTest); f3 = IsBitSet(a, 3); f5 = IsBitSet(a, 5); fPV = fZ; break;
                 default:
                     throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
             }
@@ -728,6 +877,80 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x7: a = SetBit(a, bitToSet); break;
                 default:
                     throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
+            }
+        }
+        #endregion
+
+        #region Port operations
+        private void INIR()
+        {
+            memory.WriteByte(hl, 0); // TODO: read from port instead of 0
+            hl++;
+            b--;
+            if (b != 0)
+            {
+                pc -= 2;
+                tStates += 21;
+            }
+            else
+            {
+                fN = true;
+                fZ = true;
+                tStates += 16;
+            }
+        }
+
+        private void OTIR()
+        {
+            // TODO: write byte (HL) to port c
+            hl++;
+            b--;
+            if (b != 0)
+            {
+                pc -= 2;
+                tStates += 21;
+            }
+            else
+            {
+                fN = true;
+                fZ = true;
+                tStates += 16;
+            }
+        }
+
+        private void INDR()
+        {
+            memory.WriteByte(hl, 0); // TODO: read from port instead of 0
+            hl--;
+            b--;
+            if (b != 0)
+            {
+                pc -= 2;
+                tStates += 21;
+            }
+            else
+            {
+                fN = true;
+                fZ = true;
+                tStates += 16;
+            }
+        }
+
+        private void OTDR()
+        {
+            // TODO: write byte (HL) to port c
+            hl--;
+            b--;
+            if (b != 0)
+            {
+                pc -= 2;
+                tStates += 21;
+            }
+            else
+            {
+                fN = true;
+                fZ = true;
+                tStates += 16;
             }
         }
         #endregion

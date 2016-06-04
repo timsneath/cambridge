@@ -50,15 +50,22 @@ namespace ProjectCambridge
         private async Task Execute()
         {
             bool notHalt = true;
+            long instructionsExecuted = 0;
 
             while (notHalt)
             {
-                UpdateRegisterDebugDisplay();
+                if (DebugSwitch.IsOn)
+                {
+                    UpdateRegisterDebugDisplay();
 
-                // probably 'better' ways to do this - but this gives the UI time to update, and slows the
-                // clock down to a manageable speed
-                await Task.Delay(TimeSpan.FromSeconds(ExecutionSpeed.Value));
-
+                    // probably 'better' ways to do this - but this gives the UI time to update, and slows the
+                    // clock down to a manageable speed
+                    await Task.Delay(TimeSpan.FromSeconds(ExecutionSpeed.Value));
+                }
+                else if (instructionsExecuted++ % 0x100 == 0)
+                {
+                    await Task.Delay(10);
+                }
                 notHalt = z80.ExecuteNextInstruction();
             }
 

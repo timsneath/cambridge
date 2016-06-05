@@ -12,7 +12,8 @@ namespace ProjectCambridge.EmulatorCore
 
         public Spectrum()
         {
-            z80 = new Z80(new Memory(), 0x0000);
+            z80 = new Z80(new Memory());
+            
 
         }
     }

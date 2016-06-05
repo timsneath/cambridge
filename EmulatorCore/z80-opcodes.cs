@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace ProjectCambridge.EmulatorCore
 {
-    // TODO: CP should be SUB with the result thrownaway
-
     public partial class Z80
     {
         /* 

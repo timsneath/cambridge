@@ -19,6 +19,7 @@ using ProjectCambridge.EmulatorCore;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
+// TODO: A lot of the logic here will ultimately reside in EmulatorCore\spectrum.cs
 namespace ProjectCambridge
 {
     public sealed partial class MainPage : Page
@@ -26,6 +27,7 @@ namespace ProjectCambridge
         Z80 z80;
         Memory memory;
         Display display;
+        DispatcherTimer screenRefreshTimer;
 
         public MainPage()
         {
@@ -101,14 +103,26 @@ namespace ProjectCambridge
 
             var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/48.rom"));
             var fs = await file.OpenStreamForReadAsync();
+
             fs.Read(rom, 0, 16384);
             memory.Reset();
             memory.Load(0x0000, rom);
+
+            screenRefreshTimer = new DispatcherTimer();
+            screenRefreshTimer.Tick += screenRefreshTimer_Tick;
+            screenRefreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+
+            screenRefreshTimer.Start();
 
             z80 = new Z80(memory, 0x0000);
             UpdateRegisterDebugDisplay();
 
             await Execute();
+        }
+
+        private void screenRefreshTimer_Tick(object sender, object e)
+        {
+            display.Repaint(memory);
         }
 
         private void DrawTest_Click(object sender, RoutedEventArgs e)
@@ -129,12 +143,9 @@ namespace ProjectCambridge
             display.Repaint(memory);
         }
 
-        private void CheckRegister(string registerName, ushort registerValue, ushort expectedValue)
+        private void RepaintDisplay_Click(object sender, RoutedEventArgs e)
         {
-            if (registerValue != expectedValue)
-            {
-                Results.Text += $"Expected {registerName} to be {expectedValue}, but was {registerValue}\n";
-            }
+            display.Repaint(memory);
         }
     }
 }

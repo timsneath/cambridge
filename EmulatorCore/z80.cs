@@ -27,10 +27,20 @@ namespace ProjectCambridge.EmulatorCore
 
         public void Reset()
         {
-            a = b = c = d = e = h = l = 0;
-            f = 0;
-            ix = iy = pc = sp = 0;
-            iff1 = iff2 = false;
+            // Initial register states are set per section 2.4 of 
+            //    http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
+            af = 0xFFFF;
+            bc = 0xFFFF;
+            de = 0xFFFF;
+            hl = 0xFFFF;
+            ix = 0xFFFF;
+            iy = 0xFFFF;
+            sp = 0xFFFF;
+            pc = 0x0000;
+            iff1 = false;
+            iff2 = false;
+            im = 0;
+
             tStates = 0;
             cpuSuspended = false;
         }
@@ -170,7 +180,24 @@ namespace ProjectCambridge.EmulatorCore
         private ushort ADC(ushort a, ushort b)
         {
             if (fC) b++;
-            return ADD(a, b);
+
+            // overflow in add only occurs when operand polarities are the same
+            bool overflowCheck = (IsSign16(a) == IsSign16(b));
+
+            a = ADD(a, b);
+
+            // if polarity is now different then add caused an overflow
+            if (overflowCheck)
+            {
+                fPV = (IsSign16(a) != IsSign16(b));
+            }
+            else
+            {
+                fPV = false;
+            }
+            fS = IsSign16(a);
+            fZ = IsZero(a);
+            return a;
         }
 
         private byte ADD(byte a, byte b)
@@ -218,69 +245,82 @@ namespace ProjectCambridge.EmulatorCore
             return a;
         }
 
-        private byte SBC(byte a, byte b)
+        private byte SBC(byte x, byte y)
         {
-            if (fC) b++;
-            return SUB(a, b);
+            if (fC) y++;
+            return SUB(x, y);
         }
 
-        private ushort SBC(ushort a, ushort b)
+        private ushort SBC(ushort x, ushort y)
         {
-            if (fC) b++;
-            fC = a < b;
-            fH = (a & 0xFFF) < (b & 0xFFF);
-            fPV = a < b;
-            a -= b;
-            f5 = IsBitSet(a, 5);
-            f3 = IsBitSet(a, 3);
-            fS = IsSign16(a);
-            fZ = IsZero(a);
-            fN = true;
-
-            tStates += 15;
-
-            return a;
-        }
-
-        // TODO: Consistent parameter names
-        private byte SUB(byte reg1, byte reg2)
-        {
-            fC = reg1 < reg2;
-            fH = (reg1 & 0x0F) < (reg2 & 0x0F);
-
-            fS = IsSign8(reg1);
+            if (fC) y++;
+            fC = x < y;
+            fH = (x & 0xFFF) < (y & 0xFFF);
 
             // overflow in subtract only occurs when operand signs are different
-            bool overflowCheck = (IsSign8(reg1) != IsSign8(reg2));
+            bool overflowCheck = (IsSign16(x) != IsSign16(y));
 
-            reg1 -= reg2;
-            f5 = IsBitSet(reg1, 5);
-            f3 = IsBitSet(reg1, 3);
-
-            // if a changed polarity then subtract caused an overflow
+            x -= y;
+            f5 = IsBitSet(x, 13);
+            f3 = IsBitSet(x, 11);
+            fS = IsSign16(x);
+            fZ = IsZero(x);
+            fN = true;
+            
+            // if x changed polarity then subtract caused an overflow
             if (overflowCheck)
             {
-                fPV = (fS != IsSign8(reg1));
+                fPV = (fS != IsSign16(x));
             }
             else
             {
                 fPV = false;
             }
 
-            fS = IsSign8(reg1);
-            fZ = IsZero(reg1);
+            tStates += 15;
+
+            return x;
+        }
+
+        // TODO: Consistent parameter names
+        private byte SUB(byte x, byte y)
+        {
+            fC = x < y;
+            fH = (x & 0x0F) < (y & 0x0F);
+
+            fS = IsSign8(x);
+
+            // overflow in subtract only occurs when operand signs are different
+            bool overflowCheck = (IsSign8(x) != IsSign8(y));
+
+            x -= y;
+            f5 = IsBitSet(x, 5);
+            f3 = IsBitSet(x, 3);
+
+            // if x changed polarity then subtract caused an overflow
+            if (overflowCheck)
+            {
+                fPV = (fS != IsSign8(x));
+            }
+            else
+            {
+                fPV = false;
+            }
+
+            fS = IsSign8(x);
+            fZ = IsZero(x);
             fN = true;
 
             tStates += 4;
 
-            return reg1;
+            return x;
         }
 
-        private void CP(byte val)
+        private void CP(byte x)
         {
-            SUB(a, val);
-            f5 = IsBitSet(val, 5);
-            f3 = IsBitSet(val, 3);
+            SUB(a, x);
+            f5 = IsBitSet(x, 5);
+            f3 = IsBitSet(x, 3);
         }
 
         // algorithm from http://worldofspectrum.org/faq/reference/z80reference.htm
@@ -831,14 +871,14 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x3: fZ = !IsBitSet(e, bitToTest); f3 = IsBitSet(e, 3); f5 = IsBitSet(e, 5); fPV = fZ; break;
                 case 0x4: fZ = !IsBitSet(h, bitToTest); f3 = IsBitSet(h, 3); f5 = IsBitSet(h, 5); fPV = fZ; break;
                 case 0x5: fZ = !IsBitSet(l, bitToTest); f3 = IsBitSet(l, 3); f5 = IsBitSet(l, 5); fPV = fZ; break;
-                case 0x6: var val = memory.ReadByte(hl); fZ = !IsBitSet(val, bitToTest); f3 = IsBitSet(val, 3); f5 = IsBitSet(val, 5); break;
+                case 0x6: var val = memory.ReadByte(hl); fZ = !IsBitSet(val, bitToTest); f3 = IsBitSet(val, 3); f5 = IsBitSet(val, 5); fPV = fZ; break;
                 case 0x7: fZ = !IsBitSet(a, bitToTest); f3 = IsBitSet(a, 3); f5 = IsBitSet(a, 5); fPV = fZ; break;
                 default:
                     throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
             }
 
             // undocumented behavior from http://worldofspectrum.org/faq/reference/z80reference.htm
-            fS = ((bitToTest == 7) && (!fZ) && (reg != 0x6));
+            fS = ((bitToTest == 7) && (!fZ));
             fH = true;
             fN = false;
         }

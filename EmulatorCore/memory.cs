@@ -71,22 +71,15 @@ namespace ProjectCambridge.EmulatorCore
             {
                 memory[addr] = val;
             }
-            else
-            {
-                throw new SegmentationFaultException($"Attempted to write a byte to address {addr}, which is in the ROM area.");
-            }
+            // if not, we just ignore the write attempt - it's ROM
         }
 
-        internal void WriteWord(ushort addr, ushort val)
+        public void WriteWord(ushort addr, ushort val)
         {
             if (addr > ROM_TOP - 1 || !IsROMProtected)
             {
                 memory[addr] = (byte)(val & 0x00FF);
                 memory[addr+1] = (byte)((val & 0xFF00) >> 8);
-            }
-            else
-            {
-                throw new SegmentationFaultException($"Attempted to write a word to address {addr}, which is in the ROM area.");
             }
         }
     }

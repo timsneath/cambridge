@@ -41,6 +41,8 @@ namespace ProjectCambridge.EmulatorCore
         public bool iff1;
         public bool iff2;
 
+        public byte im; // Interrupt Mode
+
         public bool fC
         {
             get { return (f & Flags.C) == Flags.C; }

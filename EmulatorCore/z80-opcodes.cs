@@ -877,7 +877,9 @@ namespace ProjectCambridge.EmulatorCore
                     pc = POP(); iff1 = iff2; tStates += 14; break;
 
                 // IM 0
-                case 0x46: tStates += 8; break;
+                case 0x46:
+                case 0x66:
+                    tStates += 8; break;
 
                 // LD I, A
                 case 0x47: i = a; tStates += 9; break;
@@ -913,7 +915,9 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x53: memory.WriteWord(GetNextWord(), de); tStates += 20; break;
 
                 // IM 1
+                case 0x4E:
                 case 0x56:
+                case 0x6E:
                 case 0x76:
                     tStates += 8; break;
 
@@ -987,7 +991,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x7A: hl = ADC(hl, sp); tStates += 4; break;
 
                 // LD SP, (**)
-                case 0x7B: sp = GetNextWord(); tStates += 20; break;
+                case 0x7B: sp = memory.ReadWord(GetNextWord()); tStates += 20; break;
 
                 // LDI
                 case 0xA0: LDI(); break;

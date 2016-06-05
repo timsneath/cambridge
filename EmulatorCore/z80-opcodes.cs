@@ -505,19 +505,19 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xA0: a = AND(a, b); break;
 
                 // AND C
-                case 0xA1: a = AND(a, b); break;
+                case 0xA1: a = AND(a, c); break;
 
                 // AND D
-                case 0xA2: a = AND(a, b); break;
+                case 0xA2: a = AND(a, d); break;
 
                 // AND E
-                case 0xA3: a = AND(a, b); break;
+                case 0xA3: a = AND(a, e); break;
 
                 // AND H
-                case 0xA4: a = AND(a, b); break;
+                case 0xA4: a = AND(a, h); break;
 
                 // AND L
-                case 0xA5: a = AND(a, b); break;
+                case 0xA5: a = AND(a, l); break;
 
                 // AND (HL)
                 case 0xA6: a = AND(a, memory.ReadByte(hl)); tStates += 3; break;
@@ -529,19 +529,19 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xA8: a = XOR(a, b); break;
 
                 // XOR C
-                case 0xA9: a = XOR(a, b); break;
+                case 0xA9: a = XOR(a, c); break;
 
                 // XOR D
-                case 0xAA: a = XOR(a, b); break;
+                case 0xAA: a = XOR(a, d); break;
 
                 // XOR E
-                case 0xAB: a = XOR(a, b); break;
+                case 0xAB: a = XOR(a, e); break;
 
                 // XOR H
-                case 0xAC: a = XOR(a, b); break;
+                case 0xAC: a = XOR(a, h); break;
 
                 // XOR L
-                case 0xAD: a = XOR(a, b); break;
+                case 0xAD: a = XOR(a, l); break;
 
                 // XOR (HL)
                 case 0xAE: a = XOR(a, memory.ReadByte(hl)); tStates += 3; break;
@@ -721,7 +721,9 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE8: if (fPV) { pc = POP(); tStates += 11; } else { tStates += 5; } break;
 
                 // JP (HL)
-                case 0xE9: pc = memory.ReadWord(hl); tStates += 4; break;
+                // note that the brackets in the instruction are an eccentricity, the result 
+                // should be hl rather than the contents of addr(hl)
+                case 0xE9: pc = hl; tStates += 4; break;
 
                 // JP PE, **
                 case 0xEA: if (fPV) { pc = GetNextWord(); } else { pc += 2; } tStates += 10; break;
@@ -775,7 +777,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xFA: if (fS) { pc = GetNextWord(); } tStates += 10; break;
 
                 // EI
-                case 0xFB: tStates += 4; break;
+                case 0xFB: iff1 = true; iff2 = true; tStates += 4; break;
 
                 // CALL M, **
                 case 0xFC: if (fS) { CALL(); } else { pc += 2; tStates += 10; } break;
@@ -814,12 +816,23 @@ namespace ProjectCambridge.EmulatorCore
                 case 3: SET((opCode & 0x38) >> 3, opCode & 0x07); break;
             }
 
+            // Set T-States
             if ((opCode & 0x7) == 0x6)
             {
-                tStates += 15;
+                if ((opCode > 0x40) && (opCode < 0x7F))
+                {
+                    // BIT n, (HL)
+                    tStates += 12;
+                }
+                else
+                {
+                    // all the other instructions involving (HL)
+                    tStates += 15;
+                }
             }
             else
             {
+                // straight register bitwise operation
                 tStates += 8;
             }
         }
@@ -1032,15 +1045,18 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeDDOpcode()
         {
             byte opCode = GetNextByte();
-            ushort addr = 0;
+            ushort addr;
 
             switch (opCode)
             {
+                // NOP
+                case 0x00: tStates += 8; break; // T-State is a guess - I can't find this documented
+
                 // ADD IX, BC
-                case 0x09: ix += bc; tStates += 15; break;
+                case 0x09: ix = ADD(ix, bc); tStates += 4; break;
 
                 // ADD IX, DE
-                case 0x19: ix += de; tStates += 15; break;
+                case 0x19: ix = ADD(ix, de); tStates += 4; break;
 
                 // LD IX, **
                 case 0x21: ix = GetNextWord(); tStates += 14; break;
@@ -1051,8 +1067,17 @@ namespace ProjectCambridge.EmulatorCore
                 // INC IX
                 case 0x23: ix++; tStates += 10; break;
 
+                // INC IXH
+                case 0x24: ixh = INC(ixh); tStates += 4; break;
+
+                // DEC IXH
+                case 0x25: ixh = DEC(ixh); tStates += 4; break;
+
+                // LD IXH, *
+                case 0x26: ixh = GetNextByte(); tStates += 11; break;
+
                 // ADD IX, IX
-                case 0x29: ix += ix; tStates += 15; break;
+                case 0x29: ix = ADD(ix, ix); tStates += 4; break;
 
                 // LD IX, (**)
                 case 0x2A: ix = memory.ReadWord(GetNextWord()); tStates += 20; break;
@@ -1060,91 +1085,220 @@ namespace ProjectCambridge.EmulatorCore
                 // DEC IX
                 case 0x2B: ix--; tStates += 10; break;
 
+                // INC IXH
+                case 0x2C: ixl = INC(ixl); tStates += 4; break;
+
+                // DEC IXH
+                case 0x2D: ixl = DEC(ixl); tStates += 4; break;
+
+                // LD IXH, *
+                case 0x2E: ixl = GetNextByte(); tStates += 11; break;
+
                 // INC (IX+*)
                 case 0x34:
-                    addr = (ushort)(ix + GetNextByte());
+                    addr = DisplacedIX;
                     memory.WriteByte(addr, INC(memory.ReadByte(addr)));
                     tStates += 19;
                     break;
 
                 // DEC (IX+*)
                 case 0x35:
-                    addr = (ushort)(ix + GetNextByte());
+                    addr = DisplacedIX;
                     memory.WriteByte(addr, DEC(memory.ReadByte(addr)));
                     tStates += 19;
                     break;
 
                 // LD (IX+*), *
-                case 0x36: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, GetNextByte()); tStates += 19; break;
+                case 0x36: memory.WriteByte(DisplacedIX, GetNextByte()); tStates += 19; break;
 
                 // ADD IX, SP
-                case 0x39: ix += sp; tStates += 15; break; // TODO: use function
+                case 0x39: ix = ADD(ix, sp); tStates += 4; break;
+
+                // LD B, IXH
+                case 0x44: b = ixh; tStates += 8; break;
+
+                // LD B, IXL
+                case 0x45: b = ixl; tStates += 8; break;
 
                 // LD B, (IX+*)
-                case 0x46: addr = (ushort)(ix + GetNextByte()); b = memory.ReadByte(addr); tStates += 19; break;
+                case 0x46: b = memory.ReadByte(DisplacedIX); tStates += 19; break;
+
+                // LD C, IXH
+                case 0x4C: c = ixh; tStates += 8; break;
+
+                // LD C, IXL
+                case 0x4D: c = ixl; tStates += 8; break;
 
                 // LD C, (IX+*)
-                case 0x4E: addr = (ushort)(ix + GetNextByte()); c = memory.ReadByte(addr); tStates += 19; break;
+                case 0x4E: c = memory.ReadByte(DisplacedIX); tStates += 19; break;
+
+                // LD D, IXH
+                case 0x54: d = ixh; tStates += 8; break;
+
+                // LD D, IXL
+                case 0x55: d = ixl; tStates += 8; break;
 
                 // LD D, (IX+*)
-                case 0x56: addr = (ushort)(ix + GetNextByte()); d = memory.ReadByte(addr); tStates += 19; break;
+                case 0x56: d = memory.ReadByte(DisplacedIX); tStates += 19; break;
+
+                // LD E, IXH
+                case 0x5C: e = ixh; tStates += 8; break;
+
+                // LD E, IXL
+                case 0x5D: e = ixl; tStates += 8; break;
 
                 // LD E, (IX+*)
-                case 0x5E: addr = (ushort)(ix + GetNextByte()); e = memory.ReadByte(addr); tStates += 19; break;
+                case 0x5E: e = memory.ReadByte(DisplacedIX); tStates += 19; break;
+
+                // LD IXH, B
+                case 0x60: ixh = b; tStates += 8; break;
+
+                // LD IXH, C
+                case 0x61: ixh = c; tStates += 8; break;
+
+                // LD IXH, D
+                case 0x62: ixh = d; tStates += 8; break;
+
+                // LD IXH, E
+                case 0x63: ixh = e; tStates += 8; break;
+
+                // LD IXH, IXH
+                case 0x64: tStates += 8; break;
+
+                // LD IXH, IXL
+                case 0x65: ixh = ixl; tStates += 8; break;
 
                 // LD H, (IX+*)
-                case 0x66: addr = (ushort)(ix + GetNextByte()); h = memory.ReadByte(addr); tStates += 19; break;
+                case 0x66: h = memory.ReadByte(DisplacedIX); tStates += 19; break;
+
+                // LD IXH, A
+                case 0x67: ixh = a; tStates += 8; break;
+
+                // LD IXL, B
+                case 0x68: ixl = b; tStates += 8; break;
+
+                // LD IXL, C
+                case 0x69: ixl = c; tStates += 8; break;
+
+                // LD IXL, D
+                case 0x6A: ixl = d; tStates += 8; break;
+
+                // LD IXL, E
+                case 0x6B: ixl = e; tStates += 8; break;
+
+                // LD IXL, IXH
+                case 0x6C: ixl = ixh; tStates += 8; break;
+
+                // LD IXL, IXL
+                case 0x6D: tStates += 8; break;
 
                 // LD L, (IX+*)
-                case 0x6E: addr = (ushort)(ix + GetNextByte()); l = memory.ReadByte(addr); tStates += 19; break;
+                case 0x6E: l = memory.ReadByte(DisplacedIX); tStates += 19; break;
+
+                // LD IXL, A
+                case 0x6F: ixl = a; tStates += 8; break;
 
                 // LD (IX+*), B
-                case 0x70: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, b); tStates += 19; break;
+                case 0x70: memory.WriteByte(DisplacedIX, b); tStates += 19; break;
 
                 // LD (IX+*), C
-                case 0x71: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, c); tStates += 19; break;
+                case 0x71: memory.WriteByte(DisplacedIX, c); tStates += 19; break;
 
                 // LD (IX+*), D
-                case 0x72: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, d); tStates += 19; break;
+                case 0x72: memory.WriteByte(DisplacedIX, d); tStates += 19; break;
 
                 // LD (IX+*), E
-                case 0x73: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, e); tStates += 19; break;
+                case 0x73: memory.WriteByte(DisplacedIX, e); tStates += 19; break;
 
                 // LD (IX+*), H
-                case 0x74: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, h); tStates += 19; break;
+                case 0x74: memory.WriteByte(DisplacedIX, h); tStates += 19; break;
 
                 // LD (IX+*), L
-                case 0x75: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, l); tStates += 19; break;
+                case 0x75: memory.WriteByte(DisplacedIX, l); tStates += 19; break;
 
                 // LD (IX+*), A
-                case 0x77: addr = (ushort)(ix + GetNextByte()); memory.WriteByte(addr, a); tStates += 19; break;
+                case 0x77: memory.WriteByte(DisplacedIX, a); tStates += 19; break;
+
+                // LD A, IXH
+                case 0x7C: a = ixh; tStates += 8; break;
+
+                // LD A, IXL
+                case 0x7D: a = ixl; tStates += 8; break;
 
                 // LD A, (IX+*)
-                case 0x7E: addr = (ushort)(ix + GetNextByte()); a = memory.ReadByte(addr); tStates += 19; break;
+                case 0x7E: a = memory.ReadByte(DisplacedIX); tStates += 19; break;
+
+                // ADD A, IXH
+                case 0x84: a = ADD(a, ixh); tStates += 4; break;
+
+                // ADD A, IXL
+                case 0x85: a = ADD(a, ixl); tStates += 4; break;
 
                 // ADD A, (IX+*)
-                case 0x86: addr = (ushort)(ix + GetNextByte()); a = ADD(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0x86: a = ADD(a, memory.ReadByte(DisplacedIX)); tStates += 15; break;
+
+                // ADC A, IXH
+                case 0x8C: a = ADC(a, ixh); tStates += 4; break;
+
+                // ADC A, IXL
+                case 0x8D: a = ADC(a, ixl); tStates += 4; break;
 
                 // ADC A, (IX+*)
-                case 0x8E: addr = (ushort)(ix + GetNextByte()); a = ADC(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0x8E: a = ADC(a, memory.ReadByte(DisplacedIX)); tStates += 15; break;
+
+                // SUB IXH
+                case 0x94: a = SUB(a, ixh); tStates += 4; break;
+
+                // SUB IXL
+                case 0x95: a = SUB(a, ixl); tStates += 4; break;
 
                 // SUB (IX+*)
-                case 0x96: addr = (ushort)(ix + GetNextByte()); a = SUB(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0x96: a = SUB(a, memory.ReadByte(DisplacedIX)); tStates += 15; break;
+
+                // SBC A, IXH
+                case 0x9C: a = SBC(a, ixh); tStates += 4; break;
+
+                // SBC A, IXL
+                case 0x9D: a = SBC(a, ixl); tStates += 4; break;
 
                 // SBC A, (IX+*)
-                case 0x9E: addr = (ushort)(ix + GetNextByte()); a = SBC(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0x9E: a = SBC(a, memory.ReadByte(DisplacedIX)); tStates += 15; break;
+
+                // AND IXH
+                case 0xA4: a = AND(a, ixh); tStates += 4; break;
+
+                // AND IXL
+                case 0xA5: a = AND(a, ixl); tStates += 4; break;
 
                 // AND (IX+*)
-                case 0xA6: addr = (ushort)(ix + GetNextByte()); a = AND(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0xA6: a = AND(a, memory.ReadByte(DisplacedIX)); tStates += 15; break;
 
                 // XOR (IX+*)
-                case 0xAE: addr = (ushort)(ix + GetNextByte()); a = XOR(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0xAE: a = XOR(a, memory.ReadByte(DisplacedIX)); tStates += 15; break;
+
+                // XOR IXH
+                case 0xAC: a = XOR(a, ixh); tStates += 4; break;
+
+                // XOR IXL
+                case 0xAD: a = XOR(a, ixl); tStates += 4; break;
+
+                // OR IXH
+                case 0xB4: a = OR(a, ixh); tStates += 4; break;
+
+                // OR IXL
+                case 0xB5: a = OR(a, ixl); tStates += 4; break;
 
                 // OR (IX+*)
-                case 0xB6: addr = (ushort)(ix + GetNextByte()); a = OR(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0xB6: a = OR(a, memory.ReadByte(DisplacedIX)); tStates += 15; break;
+
+                // CP IXH
+                case 0xBC: CP(ixh); tStates += 4; break;
+
+                // CP IXL
+                case 0xBD: CP(ixl); tStates += 4; break;
 
                 // CP (IX+*)
-                case 0xBE: addr = (ushort)(ix + GetNextByte()); a = CP(memory.ReadByte(addr)); tStates += 15; break;
+                case 0xBE: CP(memory.ReadByte(DisplacedIX)); tStates += 15; break;
 
                 // bitwise instructions
                 case 0xCB: DecodeDDCBOpCode(); break;
@@ -1159,7 +1313,9 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE5: PUSH(ix); tStates += 15; break;
 
                 // JP (IX)
-                case 0xE9: pc = memory.ReadWord(ix); tStates += 8; break;
+                // note that the brackets in the instruction are an eccentricity, the result 
+                // should be ix rather than the contents of addr(ix)
+                case 0xE9: pc = ix; tStates += 8; break;
 
                 // LD SP, IX
                 case 0xF9: sp = ix; tStates += 10; break;
@@ -1327,15 +1483,18 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeFDOpcode()
         {
             byte opCode = GetNextByte();
-            ushort addr = 0;
+            ushort addr;
 
             switch (opCode)
             {
+                // NOP
+                case 0x00: tStates += 8; break; // T-State is a guess - I can't find this documented
+
                 // ADD IY, BC
-                case 0x09: iy += bc; tStates += 15; break;
+                case 0x09: iy = ADD(iy, bc); tStates += 4; break;
 
                 // ADD IY, DE
-                case 0x19: iy += de; tStates += 15; break;
+                case 0x19: iy = ADD(iy, de); tStates += 4; break;
 
                 // LD IY, **
                 case 0x21: iy = GetNextWord(); tStates += 14; break;
@@ -1346,8 +1505,17 @@ namespace ProjectCambridge.EmulatorCore
                 // INC IY
                 case 0x23: iy++; tStates += 10; break;
 
+                // INC IYH
+                case 0x24: iyh = INC(iyh); tStates += 4; break;
+
+                // DEC IYH
+                case 0x25: iyh = DEC(iyh); tStates += 4; break;
+
+                // LD IYH, *
+                case 0x26: iyh = GetNextByte(); tStates += 11; break;
+
                 // ADD IY, IY
-                case 0x29: iy += iy; tStates += 15; break;
+                case 0x29: iy = ADD(iy, iy); tStates += 4; break;
 
                 // LD IY, (**)
                 case 0x2A: iy = memory.ReadWord(GetNextWord()); tStates += 20; break;
@@ -1355,91 +1523,220 @@ namespace ProjectCambridge.EmulatorCore
                 // DEC IY
                 case 0x2B: iy--; tStates += 10; break;
 
+                // INC IYH
+                case 0x2C: iyl = INC(iyl); tStates += 4; break;
+
+                // DEC IYH
+                case 0x2D: iyl = DEC(iyl); tStates += 4; break;
+
+                // LD IYH, *
+                case 0x2E: iyl = GetNextByte(); tStates += 11; break;
+
                 // INC (IY+*)
                 case 0x34:
-                    addr = (ushort)(iy + GetNextByte());
+                    addr = DisplacedIY;
                     memory.WriteByte(addr, INC(memory.ReadByte(addr)));
                     tStates += 19;
                     break;
 
                 // DEC (IY+*)
                 case 0x35:
-                    addr = (ushort)(iy + GetNextByte());
+                    addr = DisplacedIY;
                     memory.WriteByte(addr, DEC(memory.ReadByte(addr)));
                     tStates += 19;
                     break;
 
                 // LD (IY+*), *
-                case 0x36: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, GetNextByte()); tStates += 19; break;
+                case 0x36: memory.WriteByte(DisplacedIY, GetNextByte()); tStates += 19; break;
 
                 // ADD IY, SP
-                case 0x39: iy += sp; tStates += 15; break;
+                case 0x39: iy = ADD(iy, sp); tStates += 4; break;
+
+                // LD B, IYH
+                case 0x44: b = iyh; tStates += 8; break;
+
+                // LD B, IYL
+                case 0x45: b = iyl; tStates += 8; break;
 
                 // LD B, (IY+*)
-                case 0x46: addr = (ushort)(iy + GetNextByte()); b = memory.ReadByte(addr); tStates += 19; break;
+                case 0x46: b = memory.ReadByte(DisplacedIY); tStates += 19; break;
+
+                // LD C, IYH
+                case 0x4C: c = iyh; tStates += 8; break;
+
+                // LD C, IYL
+                case 0x4D: c = iyl; tStates += 8; break;
 
                 // LD C, (IY+*)
-                case 0x4E: addr = (ushort)(iy + GetNextByte()); c = memory.ReadByte(addr); tStates += 19; break;
+                case 0x4E: c = memory.ReadByte(DisplacedIY); tStates += 19; break;
+
+                // LD D, IYH
+                case 0x54: d = iyh; tStates += 8; break;
+
+                // LD D, IYL
+                case 0x55: d = iyl; tStates += 8; break;
 
                 // LD D, (IY+*)
-                case 0x56: addr = (ushort)(iy + GetNextByte()); d = memory.ReadByte(addr); tStates += 19; break;
+                case 0x56: d = memory.ReadByte(DisplacedIY); tStates += 19; break;
+
+                // LD E, IYH
+                case 0x5C: e = iyh; tStates += 8; break;
+
+                // LD E, IYL
+                case 0x5D: e = iyl; tStates += 8; break;
 
                 // LD E, (IY+*)
-                case 0x5E: addr = (ushort)(iy + GetNextByte()); e = memory.ReadByte(addr); tStates += 19; break;
+                case 0x5E: e = memory.ReadByte(DisplacedIY); tStates += 19; break;
+
+                // LD IYH, B
+                case 0x60: iyh = b; tStates += 8; break;
+
+                // LD IYH, C
+                case 0x61: iyh = c; tStates += 8; break;
+
+                // LD IYH, D
+                case 0x62: iyh = d; tStates += 8; break;
+
+                // LD IYH, E
+                case 0x63: iyh = e; tStates += 8; break;
+
+                // LD IYH, IYH
+                case 0x64: tStates += 8; break;
+
+                // LD IYH, IYL
+                case 0x65: iyh = iyl; tStates += 8; break;
 
                 // LD H, (IY+*)
-                case 0x66: addr = (ushort)(iy + GetNextByte()); h = memory.ReadByte(addr); tStates += 19; break;
+                case 0x66: h = memory.ReadByte(DisplacedIY); tStates += 19; break;
+
+                // LD IYH, A
+                case 0x67: iyh = a; tStates += 8; break;
+
+                // LD IYL, B
+                case 0x68: iyl = b; tStates += 8; break;
+
+                // LD IYL, C
+                case 0x69: iyl = c; tStates += 8; break;
+
+                // LD IYL, D
+                case 0x6A: iyl = d; tStates += 8; break;
+
+                // LD IYL, E
+                case 0x6B: iyl = e; tStates += 8; break;
+
+                // LD IYL, IYH
+                case 0x6C: iyl = iyh; tStates += 8; break;
+
+                // LD IYL, IYL
+                case 0x6D: tStates += 8; break;
 
                 // LD L, (IY+*)
-                case 0x6E: addr = (ushort)(iy + GetNextByte()); l = memory.ReadByte(addr); tStates += 19; break;
+                case 0x6E: l = memory.ReadByte(DisplacedIY); tStates += 19; break;
+
+                // LD IYL, A
+                case 0x6F: iyl = a; tStates += 8; break;
 
                 // LD (IY+*), B
-                case 0x70: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, b); tStates += 19; break;
+                case 0x70: memory.WriteByte(DisplacedIY, b); tStates += 19; break;
 
                 // LD (IY+*), C
-                case 0x71: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, c); tStates += 19; break;
+                case 0x71: memory.WriteByte(DisplacedIY, c); tStates += 19; break;
 
                 // LD (IY+*), D
-                case 0x72: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, d); tStates += 19; break;
+                case 0x72: memory.WriteByte(DisplacedIY, d); tStates += 19; break;
 
                 // LD (IY+*), E
-                case 0x73: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, e); tStates += 19; break;
+                case 0x73: memory.WriteByte(DisplacedIY, e); tStates += 19; break;
 
                 // LD (IY+*), H
-                case 0x74: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, h); tStates += 19; break;
+                case 0x74: memory.WriteByte(DisplacedIY, h); tStates += 19; break;
 
                 // LD (IY+*), L
-                case 0x75: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, l); tStates += 19; break;
+                case 0x75: memory.WriteByte(DisplacedIY, l); tStates += 19; break;
 
                 // LD (IY+*), A
-                case 0x77: addr = (ushort)(iy + GetNextByte()); memory.WriteByte(addr, a); tStates += 19; break;
+                case 0x77: memory.WriteByte(DisplacedIY, a); tStates += 19; break;
+
+                // LD A, IYH
+                case 0x7C: a = iyh; tStates += 8; break;
+
+                // LD A, IYL
+                case 0x7D: a = iyl; tStates += 8; break;
 
                 // LD A, (IY+*)
-                case 0x7E: addr = (ushort)(iy + GetNextByte()); a = memory.ReadByte(addr); tStates += 19; break;
+                case 0x7E: a = memory.ReadByte(DisplacedIY); tStates += 19; break;
+
+                // ADD A, IYH
+                case 0x84: a = ADD(a, iyh); tStates += 4; break;
+
+                // ADD A, IYL
+                case 0x85: a = ADD(a, iyl); tStates += 4; break;
 
                 // ADD A, (IY+*)
-                case 0x86: addr = (ushort)(iy + GetNextByte()); a = ADD(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0x86: a = ADD(a, memory.ReadByte(DisplacedIY)); tStates += 15; break;
+
+                // ADC A, IYH
+                case 0x8C: a = ADC(a, iyh); tStates += 4; break;
+
+                // ADC A, IYL
+                case 0x8D: a = ADC(a, iyl); tStates += 4; break;
 
                 // ADC A, (IY+*)
-                case 0x8E: addr = (ushort)(iy + GetNextByte()); a = ADC(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0x8E: a = ADC(a, memory.ReadByte(DisplacedIY)); tStates += 15; break;
+
+                // SUB IYH
+                case 0x94: a = SUB(a, iyh); tStates += 4; break;
+
+                // SUB IYL
+                case 0x95: a = SUB(a, iyl); tStates += 4; break;
 
                 // SUB (IY+*)
-                case 0x96: addr = (ushort)(iy + GetNextByte()); a = SUB(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0x96: a = SUB(a, memory.ReadByte(DisplacedIY)); tStates += 15; break;
+
+                // SBC A, IYH
+                case 0x9C: a = SBC(a, iyh); tStates += 4; break;
+
+                // SBC A, IYL
+                case 0x9D: a = SBC(a, iyl); tStates += 4; break;
 
                 // SBC A, (IY+*)
-                case 0x9E: addr = (ushort)(iy + GetNextByte()); a = SBC(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0x9E: a = SBC(a, memory.ReadByte(DisplacedIY)); tStates += 15; break;
+
+                // AND IYH
+                case 0xA4: a = AND(a, iyh); tStates += 4; break;
+
+                // AND IYL
+                case 0xA5: a = AND(a, iyl); tStates += 4; break;
 
                 // AND (IY+*)
-                case 0xA6: addr = (ushort)(iy + GetNextByte()); a = AND(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0xA6: a = AND(a, memory.ReadByte(DisplacedIY)); tStates += 15; break;
 
                 // XOR (IY+*)
-                case 0xAE: addr = (ushort)(iy + GetNextByte()); a = XOR(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0xAE: a = XOR(a, memory.ReadByte(DisplacedIY)); tStates += 15; break;
+
+                // XOR IYH
+                case 0xAC: a = XOR(a, iyh); tStates += 4; break;
+
+                // XOR IYL
+                case 0xAD: a = XOR(a, iyl); tStates += 4; break;
+
+                // OR IYH
+                case 0xB4: a = OR(a, iyh); tStates += 4; break;
+
+                // OR IYL
+                case 0xB5: a = OR(a, iyl); tStates += 4; break;
 
                 // OR (IY+*)
-                case 0xB6: addr = (ushort)(iy + GetNextByte()); a = OR(a, memory.ReadByte(addr)); tStates += 15; break;
+                case 0xB6: a = OR(a, memory.ReadByte(DisplacedIY)); tStates += 15; break;
+
+                // CP IYH
+                case 0xBC: CP(iyh); tStates += 4; break;
+
+                // CP IYL
+                case 0xBD: CP(iyl); tStates += 4; break;
 
                 // CP (IY+*)
-                case 0xBE: addr = (ushort)(iy + GetNextByte()); a = CP(memory.ReadByte(addr)); tStates += 15; break;
+                case 0xBE: CP(memory.ReadByte(DisplacedIY)); tStates += 15; break;
 
                 // bitwise instructions
                 case 0xCB: DecodeFDCBOpCode(); break;
@@ -1454,7 +1751,9 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xE5: PUSH(iy); tStates += 15; break;
 
                 // JP (IY)
-                case 0xE9: pc = memory.ReadWord(iy); tStates += 8; break;
+                // note that the brackets in the instruction are an eccentricity, the result 
+                // should be iy rather than the contents of addr(iy)
+                case 0xE9: pc = iy; tStates += 8; break; 
 
                 // LD SP, IY
                 case 0xF9: sp = iy; tStates += 10; break;
@@ -1465,12 +1764,7 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
-        private byte GetNextByte()
-        {
-            var byteRead = memory.ReadByte(pc);
-            pc++;
-            return byteRead;
-        }
+        private byte GetNextByte() => memory.ReadByte(pc++);
 
         private ushort GetNextWord()
         {
@@ -1512,6 +1806,9 @@ namespace ProjectCambridge.EmulatorCore
                     throw new ArgumentOutOfRangeException(nameof(register), register, "Field register must map to a valid Z80 register.");
             }
         }
+
+        private ushort DisplacedIX => (ushort)(ix + (ushort)((sbyte)GetNextByte()));
+        private ushort DisplacedIY => (ushort)(iy + (ushort)((sbyte)GetNextByte()));
 
         private void Swap<T>(ref T x, ref T y)
         {

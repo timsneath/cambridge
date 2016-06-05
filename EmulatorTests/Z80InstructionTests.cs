@@ -45,7 +45,7 @@ namespace ProjectCambridge.EmulatorTests
         {
             LoadInstructions(instructions);
             z80.pc = 0xA000;
-            while (z80.ExecuteNextInstruction()) { }
+            while (!z80.cpuSuspended) { z80.ExecuteNextInstruction(); }
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace ProjectCambridge.EmulatorTests
             Assert.IsTrue(z80.ix == 0);
             Assert.IsTrue(z80.iy == 0);
 
-            Assert.IsTrue(z80.pc == 0xA005);
+            Assert.IsTrue(z80.pc == 0xA004);
         }
 
         [TestCategory("8-Bit Load Group")]

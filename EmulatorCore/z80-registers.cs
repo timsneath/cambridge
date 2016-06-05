@@ -165,6 +165,30 @@ namespace ProjectCambridge.EmulatorCore
             set { h_ = HighByte(value); l_ = LowByte(value); }
         }
 
+        public byte ixh
+        {
+            get { return HighByte(ix); }
+            set { ix = (ushort)((value << 8) + LowByte(ix)); }
+        }
+
+        public byte ixl
+        {
+            get { return LowByte(ix); }
+            set { ix = (ushort)((HighByte(ix) << 8) + value); }
+        }
+
+        public byte iyh
+        {
+            get { return HighByte(iy); }
+            set { iy = (ushort)((value << 8) + LowByte(iy)); }
+        }
+
+        public byte iyl
+        {
+            get { return LowByte(iy); }
+            set { iy = (ushort)((HighByte(iy) << 8) + value); }
+        }
+
 
         public byte HighByte(ushort val) => (byte)((val & 0xFF00) >> 8);
         public byte LowByte(ushort val) => (byte)(val & 0x00FF);

@@ -189,6 +189,10 @@ namespace ProjectCambridge.EmulatorCore
             {
                 fPV = (fS != IsSign8(b));
             }
+            else
+            {
+                fPV = false;
+            }
 
             f5 = IsBitSet(a, 5);
             f3 = IsBitSet(a, 3);
@@ -239,33 +243,44 @@ namespace ProjectCambridge.EmulatorCore
         }
 
         // TODO: Consistent parameter names
-        private byte SUB(byte a, byte b)
+        private byte SUB(byte reg1, byte reg2)
         {
-            fC = a < b;
-            fH = (a & 0x0F) < (b & 0x0F);
+            fC = reg1 < reg2;
+            fH = (reg1 & 0x0F) < (reg2 & 0x0F);
 
-            fS = IsSign8(a);
+            fS = IsSign8(reg1);
 
             // overflow in subtract only occurs when operand signs are different
-            bool overflowCheck = (IsSign8(a) != IsSign8(b));
+            bool overflowCheck = (IsSign8(reg1) != IsSign8(reg2));
 
-            a -= b;
-            f5 = IsBitSet(a, 5);
-            f3 = IsBitSet(a, 3);
+            reg1 -= reg2;
+            f5 = IsBitSet(reg1, 5);
+            f3 = IsBitSet(reg1, 3);
 
             // if a changed polarity then subtract caused an overflow
             if (overflowCheck)
             {
-                fPV = (fS != IsSign8(a));
+                fPV = (fS != IsSign8(reg1));
+            }
+            else
+            {
+                fPV = false;
             }
 
-            fS = IsSign8(a);
-            fZ = IsZero(a);
+            fS = IsSign8(reg1);
+            fZ = IsZero(reg1);
             fN = true;
 
             tStates += 4;
 
-            return a;
+            return reg1;
+        }
+
+        private void CP(byte val)
+        {
+            SUB(a, val);
+            f5 = IsBitSet(val, 5);
+            f3 = IsBitSet(val, 3);
         }
 
         // algorithm from http://worldofspectrum.org/faq/reference/z80reference.htm
@@ -376,20 +391,7 @@ namespace ProjectCambridge.EmulatorCore
         #endregion
 
         #region Logic operations
-        private byte CP(byte v)
-        {
-            var res = (byte)(a - v);
-            fS = IsSign8(v);
-            fZ = (res == 0);
-            fH = IsBitSet(a, 4) != IsBitSet(res, 4);
-            fPV = IsSign8(a) != IsSign8(res);
-            fN = true;
-            fC = a < v;
 
-            tStates += 4;
-
-            return res;
-        }
 
         private void CPD()
         {
@@ -829,7 +831,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x3: fZ = !IsBitSet(e, bitToTest); f3 = IsBitSet(e, 3); f5 = IsBitSet(e, 5); fPV = fZ; break;
                 case 0x4: fZ = !IsBitSet(h, bitToTest); f3 = IsBitSet(h, 3); f5 = IsBitSet(h, 5); fPV = fZ; break;
                 case 0x5: fZ = !IsBitSet(l, bitToTest); f3 = IsBitSet(l, 3); f5 = IsBitSet(l, 5); fPV = fZ; break;
-                case 0x6: fZ = !IsBitSet(memory.ReadByte(hl), bitToTest); break;
+                case 0x6: var val = memory.ReadByte(hl); fZ = !IsBitSet(val, bitToTest); f3 = IsBitSet(val, 3); f5 = IsBitSet(val, 5); break;
                 case 0x7: fZ = !IsBitSet(a, bitToTest); f3 = IsBitSet(a, 3); f5 = IsBitSet(a, 5); fPV = fZ; break;
                 default:
                     throw new ArgumentOutOfRangeException("register", reg, "Field register must map to a valid Z80 register.");
@@ -837,7 +839,6 @@ namespace ProjectCambridge.EmulatorCore
 
             // undocumented behavior from http://worldofspectrum.org/faq/reference/z80reference.htm
             fS = ((bitToTest == 7) && (!fZ) && (reg != 0x6));
-
             fH = true;
             fN = false;
         }

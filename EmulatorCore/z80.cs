@@ -41,6 +41,11 @@ namespace ProjectCambridge.EmulatorCore
             iff2 = false;
             im = 0;
 
+            for (var idx = 0; idx < ports.Length; idx++)
+            {
+                ports[idx] = 0;
+            }
+
             tStates = 0;
             cpuSuspended = false;
         }
@@ -370,7 +375,6 @@ namespace ProjectCambridge.EmulatorCore
         {
             var callAddr = GetNextWord();
 
-            pc += 2;
             PUSH(pc);
 
             pc = callAddr;
@@ -920,6 +924,23 @@ namespace ProjectCambridge.EmulatorCore
         #endregion
 
         #region Port operations
+        private byte IN(byte portNumber)
+        {
+            var readByte = ports[portNumber];
+
+            fS = IsSign8(portNumber);
+            fZ = IsZero(portNumber);
+            fH = false;
+            fPV = IsParity(portNumber);
+            fN = false;
+            f5 = IsBitSet(portNumber, 5);
+            f3 = IsBitSet(portNumber, 3);
+
+            tStates += 12;
+
+            return readByte;
+        }
+
         private void INIR()
         {
             memory.WriteByte(hl, ports[c]);

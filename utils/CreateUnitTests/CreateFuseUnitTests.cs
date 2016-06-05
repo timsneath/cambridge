@@ -89,13 +89,46 @@ namespace ProjectCambridge.EmulatorTests
             var inputLine = 0;
             var expectedLine = 0;
 
+            // These unit tests stress undocumented Z80 opcodes. 
+            var undocumentedOpcodeTests = new List<string>() {"4c", "4e", "54", "5c", "63", "64", "6b", "6c",
+                "6e", "70", "71", "74", "7c", "cb30", "cb31", "cb32", "cb33", "cb34", "cb35", "cb36", "cb37",
+                "dd24", "dd25", "dd26", "dd2c", "dd2d", "dd2e", "dd44", "dd45", "dd4c", "dd4d",
+                "dd54", "dd55", "dd5c", "dd5d", "dd60", "dd61", "dd62", "dd63", "dd64", "dd65", "dd67",
+                "dd68", "dd69", "dd6a", "dd6b", "dd6c", "dd6d", "dd6f", "dd7c", "dd7d", "dd84", "dd85",
+                "dd8c", "dd8d", "dd94", "dd95", "dd9c", "dd9d", "dda4", "dda5", "ddac", "ddad", "ddb4",
+                "ddb5", "ddbc", "ddbd", "ddfd00", "fd24", "fd25", "fd26", "fd2c", "fd2d", "fd2e",
+                "fd44", "fd45", "fd4c", "fd4d",
+                "fd54", "fd55", "fd5c", "fd5d", "fd60", "fd61", "fd62", "fd63", "fd64", "fd65", "fd67",
+                "fd68", "fd69", "fd6a", "fd6b", "fd6c", "fd6d", "fd6f", "fd7c", "fd7d", "fd84", "fd85",
+                "fd8c", "fd8d", "fd94", "fd95", "fd9c", "fd9d", "fda4", "fda5", "fdac", "fdad", "fdb4",
+                "fdb5", "fdbc", "fdbd", "ddcb36", "fdcb36"};
+
+            for (int opCode = 0; opCode < 256; opCode++)
+            {
+                if ((opCode & 0x7) != 0x6)
+                {
+                    undocumentedOpcodeTests.Add(String.Format($"ddcb{opCode:x2}"));
+                    undocumentedOpcodeTests.Add(String.Format($"fdcb{opCode:x2}"));
+                }
+            }
+
             while (inputLine < input.Count)
             {
                 testName = input[inputLine];
-                outputTest.Write(@"        [TestMethod]
-        [TestCategory(""Fuse Tests"")]
-        public void Test_");
+
+                if (undocumentedOpcodeTests.Contains(testName))
+                {
+                    outputTest.WriteLine("        [TestCategory(\"FUSE Undocumented Opcode Tests\")]");
+                }
+                else
+                {
+                    outputTest.WriteLine("        [TestCategory(\"FUSE Opcode Tests\")]");
+                }
+
+                outputTest.WriteLine("        [TestMethod]");
+                outputTest.Write("        public void Test_");
                 outputTest.WriteLine(testName + "()");
+
                 inputLine++;
 
                 outputTest.WriteLine("        {");
@@ -159,7 +192,6 @@ namespace ProjectCambridge.EmulatorTests
                 }
                 expectedLine++;
 
-                // TODO: Check T-States
                 while (expected[expectedLine].StartsWith(" "))
                     expectedLine++;
 
@@ -191,11 +223,20 @@ namespace ProjectCambridge.EmulatorTests
                 outputTest.WriteLine();
                 expectedLine++;
 
-                // for now, ignore memory state
                 while (expected[expectedLine].Length > 0 &&
                     ((expected[expectedLine][0] >= '0' && expected[expectedLine][0] <= '9') ||
                     (expected[expectedLine][0] >= 'a' && expected[expectedLine][0] <= 'f')))
                 {
+                    var peeks = expected[expectedLine].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var addr = ushort.Parse(peeks[0], System.Globalization.NumberStyles.HexNumber);
+                    var idx = 1;
+                    while (peeks[idx] != "-1")
+                    {
+                        outputTest.WriteLine("                Assert.IsTrue(memory.ReadByte(0x" + 
+                            string.Format($"{addr:X4}" + ") == 0x" + peeks[idx] + ");"));
+                        idx++;
+                        addr++;
+                    }
                     expectedLine++;
                 }
 
@@ -205,28 +246,6 @@ namespace ProjectCambridge.EmulatorTests
                 outputTest.Write("        }");
                 outputTest.WriteLine();
                 outputTest.WriteLine();
-
-
-                //// we ignore certain FUSE tests that are incompatible with our test harness
-                //// specifically, we're using HALT right now to end, rather than some number
-                //// of pre-defined T-states
-
-                //// TODO: are these hanging because of HALT or because of infinite loop bugs?
-                //var hangingTests = new string[] {"02", "0a", "18", "20_1", "28_2", "2e", "30_1", "38_2", "c0_1",
-                //    "c2_1", "c3", "c4_1", "c8_2", "ca_2", "cc_1", "cd", "cf", "d0_1", "d2_1", "d4_1", "d7",
-                //    "d8_2", "da_1", "db", "db_1", "db_2", "db_3", "dc_1", "dde9", "df",
-                //    "e0_1", "e2_1", "e4_1", "e7", "e8_2", "e9",
-                //    "ea_1", "ec_1", "ed45", "ed55", "ed65", "ef",
-                //    "f0_1", "f2_1", "f4_1", "f7",
-                //    "f8_2", "fa_1", "fc_1", "fde9", "ff",
-                //    "c9", // RET: this test passes, but it doesn't HALT at the right PC
-                //    "c7" // RST 00h: this test passes, but only after the stack overwrites the instruction
-                //};
-
-                //if (!hangingTests.Contains(testName))
-                //{
-                //    outputClass.Write(outputTest.ToString());
-                //}
 
                 outputClass.Write(outputTest.ToString());
                 outputTest = new StringWriter();

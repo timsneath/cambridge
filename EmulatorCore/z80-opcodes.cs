@@ -774,7 +774,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xF9: sp = hl; tStates += 6; break;
 
                 // JP M, **
-                case 0xFA: if (fS) { pc = GetNextWord(); } tStates += 10; break;
+                case 0xFA: if (fS) { pc = GetNextWord(); } else { pc += 2; } tStates += 10; break;
 
                 // EI
                 case 0xFB: iff1 = true; iff2 = true; tStates += 4; break;
@@ -844,7 +844,7 @@ namespace ProjectCambridge.EmulatorCore
             switch (opCode)
             {
                 // IN B, (C)
-                case 0x40: b = ports[c]; tStates += 12; break;
+                case 0x40: b = IN(c); break;
 
                 // OUT (C), B
                 case 0x41: ports[c] = b; tStates += 12; break;
@@ -885,7 +885,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x47: i = a; tStates += 9; break;
 
                 // IN C, (C)
-                case 0x48: c = ports[c]; tStates += 12; break;
+                case 0x48: c = IN(c); break;
 
                 // OUT C, (C)
                 case 0x49: ports[c] = c; tStates += 12; break;
@@ -903,7 +903,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x4F: r = a; tStates += 9; break;
 
                 // IN D, (C)
-                case 0x50: d = ports[c]; tStates += 12; break;
+                case 0x50: d = IN(c); break;
 
                 // OUT (C), D
                 case 0x51: ports[c] = d; tStates += 12; break;
@@ -925,7 +925,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x57: a = i; fS = IsSign8(i); fZ = IsZero(i); fH = false; fPV = iff2; fN = false; tStates += 9; break;
 
                 // IN E, (C)
-                case 0x58: e = ports[c]; tStates += 12; break;
+                case 0x58: e = IN(c); break;
 
                 // OUT (C), E
                 case 0x59: ports[c] = e; tStates += 12; break;
@@ -946,7 +946,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x5F: a = r; fS = IsSign8(r); fZ = IsZero(r); fH = false; fPV = iff2; fN = false; tStates += 9; break;
 
                 // IN H, (C)
-                case 0x60: h = ports[c]; tStates += 12; break;
+                case 0x60: h = IN(c); break;
 
                 // OUT (C), H
                 case 0x61: ports[c] = h; tStates += 12; break;
@@ -961,7 +961,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x67: RRD(); break;
 
                 // IN L, (C)
-                case 0x68: l = ports[c]; tStates += 12; break;
+                case 0x68: l = IN(c); break;
 
                 // OUT (C), L
                 case 0x69: ports[c] = l; tStates += 12; break;
@@ -982,7 +982,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x73: memory.WriteWord(GetNextWord(), sp); tStates += 20; break;
 
                 // IN A, (C)
-                case 0x78: a = ports[c]; tStates += 12; break;
+                case 0x78: a = IN(c); break;
 
                 // OUT (C), A
                 case 0x79: ports[c] = a; tStates += 12; break;
@@ -1046,6 +1046,7 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
+
         private void DecodeDDOpcode()
         {
             byte opCode = GetNextByte();
@@ -1054,7 +1055,7 @@ namespace ProjectCambridge.EmulatorCore
             switch (opCode)
             {
                 // NOP
-                case 0x00: tStates += 8; break; // T-State is a guess - I can't find this documented
+                case 0x00: tStates += 8; break;
 
                 // ADD IX, BC
                 case 0x09: ix = ADD(ix, bc); tStates += 4; break;

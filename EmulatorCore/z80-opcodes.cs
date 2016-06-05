@@ -1334,7 +1334,7 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeDDCBOpCode()
         {
             // format is DDCB[addr][opcode]
-            ushort addr = (ushort)(ix + GetNextByte());
+            ushort addr = DisplacedIX;
             var opCode = GetNextByte();
 
             // BIT
@@ -1411,7 +1411,7 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeFDCBOpCode()
         {
             // format is FDCB[addr][opcode]
-            ushort addr = (ushort)(iy + GetNextByte());
+            ushort addr = DisplacedIY;
             var opCode = GetNextByte();
 
             // BIT

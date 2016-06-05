@@ -52,14 +52,21 @@ namespace ProjectCambridge.EmulatorTests
         [TestCategory("General-Purpose Arithmetic and CPU Control Groups")]
         public void NOP()
         {
+            var beforeAF = z80.af;
+            var beforeBC = z80.bc;
+            var beforeDE = z80.de;
+            var beforeHL = z80.hl;
+            var beforeIX = z80.ix;
+            var beforeIY = z80.iy;
+
             Execute(0x00, 0x00, 0x00, 0x00);
 
-            Assert.IsTrue(z80.af == 0);
-            Assert.IsTrue(z80.bc == 0);
-            Assert.IsTrue(z80.de == 0);
-            Assert.IsTrue(z80.hl == 0);
-            Assert.IsTrue(z80.ix == 0);
-            Assert.IsTrue(z80.iy == 0);
+            Assert.IsTrue(z80.af == beforeAF);
+            Assert.IsTrue(z80.bc == beforeBC);
+            Assert.IsTrue(z80.de == beforeDE);
+            Assert.IsTrue(z80.hl == beforeHL);
+            Assert.IsTrue(z80.ix == beforeIX);
+            Assert.IsTrue(z80.iy == beforeIY);
 
             Assert.IsTrue(z80.pc == 0xA004);
         }
@@ -1209,6 +1216,7 @@ namespace ProjectCambridge.EmulatorTests
             z80.fH = true;
             z80.fN = true;
             z80.a = 0xE1;
+            z80.fC = false;
             Execute(0x1F);
             Assert.IsTrue(z80.a == 0x70);
             Assert.IsTrue(z80.fC);

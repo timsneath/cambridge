@@ -160,7 +160,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x2D: l = DEC(l); break;
 
                 // LD L, *
-                case 0x2E: tStates += 7; break;
+                case 0x2E: l = GetNextByte(); tStates += 7; break;
 
                 // CPL
                 case 0x2F: CPL(); break;
@@ -172,10 +172,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x31: sp = GetNextWord(); tStates += 10; break;
 
                 // LD (**), A
-                case 0x32: memory.WriteByte(GetNextWord(), a); break;
+                case 0x32: memory.WriteByte(GetNextWord(), a); tStates += 13; break;
 
                 // INC SP
-                case 0x33: sp++; tStates += 13; break;
+                case 0x33: sp++; tStates += 6; break;
 
                 // INC (HL)
                 case 0x34: memory.WriteByte(hl, INC(memory.ReadByte(hl))); tStates += 7; break;
@@ -199,7 +199,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x3A: a = memory.ReadByte(GetNextWord()); tStates += 13; break;
 
                 // DEC SP
-                case 0x3B: sp--; break;
+                case 0x3B: sp--; tStates += 6; break;
 
                 // INC A
                 case 0x3C: a = INC(a); break;
@@ -376,7 +376,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x75: memory.WriteByte(hl, l); tStates += 7; break;
 
                 // HALT
-                case 0x76: tStates += 4; return false;
+                case 0x76: tStates += 4; pc--; cpuSuspended = true; break;
 
                 // LD (HL), A
                 case 0x77: memory.WriteByte(hl, a); tStates += 7; break;
@@ -419,6 +419,9 @@ namespace ProjectCambridge.EmulatorCore
 
                 // ADD A, H
                 case 0x84: a = ADD(a, h); break;
+
+                // ADD A, L
+                case 0x85: a = ADD(a, l); break;
 
                 // ADD A, (HL)
                 case 0x86: a = ADD(a, memory.ReadByte(hl)); tStates += 3; break;
@@ -811,7 +814,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 3: SET((opCode & 0x38) >> 3, opCode & 0x07); break;
             }
 
-            if ((opCode & 0x7) == 0x7)
+            if ((opCode & 0x7) == 0x6)
             {
                 tStates += 15;
             }

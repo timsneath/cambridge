@@ -15,13 +15,14 @@ namespace ProjectCambridge.EmulatorCore
         //    http://z80.info/z80code.htm
 
         private Memory memory;
+        public bool cpuSuspended { get; set; }
         public long tStates { get; set; }
 
-        public Z80(Memory memory, ushort startAddr)
+        public Z80(Memory memory, ushort startAddr = 0)
         {
             this.memory = memory;
-            this.Reset();
-            this.pc = startAddr;
+            Reset();
+            pc = startAddr;
         }
 
         public void Reset()
@@ -31,6 +32,7 @@ namespace ProjectCambridge.EmulatorCore
             ix = iy = pc = sp = 0;
             iff1 = iff2 = false;
             tStates = 0;
+            cpuSuspended = false;
         }
 
         // Algorithm for counting set bits taken from LLVM optimization proposal at: 
@@ -330,10 +332,6 @@ namespace ProjectCambridge.EmulatorCore
             else
             {
                 pc -= (ushort)-jump;
-
-                // if we're going backwards, we also automatically allow for 
-                // the twice-incremented PC
-                // pc -= 2;
             }
 
             tStates += 12;
@@ -342,11 +340,10 @@ namespace ProjectCambridge.EmulatorCore
         private void DJNZ(sbyte relativeAddress)
         {
             b--;
-
             if (b != 0)
             {
                 JR(relativeAddress);
-                tStates += 13;
+                tStates++;
             }
             else
             {

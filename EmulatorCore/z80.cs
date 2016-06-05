@@ -882,7 +882,7 @@ namespace ProjectCambridge.EmulatorCore
         #region Port operations
         private void INIR()
         {
-            memory.WriteByte(hl, 0); // TODO: read from port instead of 0
+            memory.WriteByte(hl, ports[c]);
             hl++;
             b--;
             if (b != 0)
@@ -900,7 +900,7 @@ namespace ProjectCambridge.EmulatorCore
 
         private void OTIR()
         {
-            // TODO: write byte (HL) to port c
+            ports[c] = memory.ReadByte(hl);
             hl++;
             b--;
             if (b != 0)
@@ -918,7 +918,7 @@ namespace ProjectCambridge.EmulatorCore
 
         private void INDR()
         {
-            memory.WriteByte(hl, 0); // TODO: read from port instead of 0
+            memory.WriteByte(hl, ports[c]);
             hl--;
             b--;
             if (b != 0)
@@ -936,7 +936,7 @@ namespace ProjectCambridge.EmulatorCore
 
         private void OTDR()
         {
-            // TODO: write byte (HL) to port c
+            ports[c] = memory.ReadByte(hl);
             hl--;
             b--;
             if (b != 0)

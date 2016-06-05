@@ -655,7 +655,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xD2: if (!fC) { pc = GetNextWord(); } else { pc += 2; } tStates += 10; break;
 
                 // OUT (*), A
-                case 0xD3: output[GetNextByte()] = a; tStates += 11; break;
+                case 0xD3: ports[GetNextByte()] = a; tStates += 11; break;
 
                 // CALL NC, **
                 case 0xD4: if (!fC) { CALL(); } else { pc += 2; tStates += 10; } break;
@@ -678,8 +678,8 @@ namespace ProjectCambridge.EmulatorCore
                 // JP C, **
                 case 0xDA: if (fC) { pc = GetNextWord(); } else { pc += 2; } tStates += 10; break;
 
-                // IN A, (**)
-                case 0xDB: memory.ReadByte(GetNextWord()); tStates += 11; break;
+                // IN A, (*)
+                case 0xDB: a = ports[GetNextByte()]; tStates += 11; break;
 
                 // CALL C, **
                 case 0xDC: if (fC) { CALL(); } else { pc += 2; tStates += 10; } break;
@@ -844,10 +844,10 @@ namespace ProjectCambridge.EmulatorCore
             switch (opCode)
             {
                 // IN B, (C)
-                case 0x40: tStates += 12; break;
+                case 0x40: b = ports[c]; tStates += 12; break;
 
                 // OUT (C), B
-                case 0x41: tStates += 12; break;
+                case 0x41: ports[c] = b; tStates += 12; break;
 
                 // SBC HL, BC
                 case 0x42: hl = SBC(hl, bc); break;
@@ -883,10 +883,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x47: i = a; tStates += 9; break;
 
                 // IN C, (C)
-                case 0x48: tStates += 12; break;
+                case 0x48: c = ports[c]; tStates += 12; break;
 
                 // OUT C, (C)
-                case 0x49: tStates += 12; break;
+                case 0x49: ports[c] = c; tStates += 12; break;
 
                 // ADC HL, BC
                 case 0x4A: hl = ADC(hl, bc); tStates += 4; break;
@@ -901,10 +901,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x4F: r = a; tStates += 9; break;
 
                 // IN D, (C)
-                case 0x50: tStates += 12; break;
+                case 0x50: d = ports[c]; tStates += 12; break;
 
                 // OUT (C), D
-                case 0x51: tStates += 12; break;
+                case 0x51: ports[c] = d; tStates += 12; break;
 
                 // SBC HL, DE
                 case 0x52: hl = SBC(hl, de); break;
@@ -921,10 +921,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x57: a = i; fS = IsSign8(i); fZ = IsZero(i); fH = false; fPV = iff2; fN = false; tStates += 9; break;
 
                 // IN E, (C)
-                case 0x58: tStates += 12; break;
+                case 0x58: e = ports[c]; tStates += 12; break;
 
                 // OUT (C), E
-                case 0x59: tStates += 12; break;
+                case 0x59: ports[c] = e; tStates += 12; break;
 
                 // ADC HL, DE
                 case 0x5A: hl = ADC(hl, de); tStates += 4; break;
@@ -942,10 +942,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x5F: a = r; fS = IsSign8(r); fZ = IsZero(r); fH = false; fPV = iff2; fN = false; tStates += 9; break;
 
                 // IN H, (C)
-                case 0x60: tStates += 12; break;
+                case 0x60: h = ports[c]; tStates += 12; break;
 
                 // OUT (C), H
-                case 0x61: tStates += 12; break;
+                case 0x61: ports[c] = h; tStates += 12; break;
 
                 // SBC HL, HL
                 case 0x62: hl = SBC(hl, hl); break;
@@ -957,10 +957,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x67: RRD(); break;
 
                 // IN L, (C)
-                case 0x68: tStates += 12; break;
+                case 0x68: l = ports[c]; tStates += 12; break;
 
                 // OUT (C), L
-                case 0x69: tStates += 12; break;
+                case 0x69: ports[c] = l; tStates += 12; break;
 
                 // ADC HL, HL
                 case 0x6A: hl = ADC(hl, hl); tStates += 4; break;
@@ -978,10 +978,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x73: memory.WriteWord(GetNextWord(), sp); tStates += 20; break;
 
                 // IN A, (C)
-                case 0x78: tStates += 12; break;
+                case 0x78: a = ports[c]; tStates += 12; break;
 
                 // OUT (C), A
-                case 0x79: tStates += 12; break;
+                case 0x79: ports[c] = a; tStates += 12; break;
 
                 // ADC HL, SP
                 case 0x7A: hl = ADC(hl, sp); tStates += 4; break;

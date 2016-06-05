@@ -96,6 +96,7 @@ namespace ProjectCambridge
 
         private async void ExecuteSpectrumROM_Click(object sender, RoutedEventArgs e)
         {
+            memory = new Memory(ROMProtected: true);
             var rom = new byte[16384];
 
             var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/48.rom"));

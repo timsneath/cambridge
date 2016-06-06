@@ -17,7 +17,7 @@ namespace ProjectCambridge.EmulatorCore
             N = 2,   // add/subtract flag (bit 1)
             P = 4,   // parity/overflow flag (bit 2)
             F3 = 8,  // undocumented flag
-            H = 16,  // half carry flag (bit 4)
+            H = 16,  // half carry flzag (bit 4)
             F5 = 32, // undocumented flag
             Z = 64,  // zero flag (bit 6)
             S = 128  // sign flag (bit 7)
@@ -25,11 +25,28 @@ namespace ProjectCambridge.EmulatorCore
 
         // The main register set can be used individually as 8-bit registers or combined to form 16-bit registers
         public byte a, b, c, d, e, h, l;
-        public Flags f;
+        public byte f
+        {
+            get
+            {
+                return (byte)((fS ? 0x80 : 0x00) | (fZ ? 0x40 : 0x00) | (f5 ? 0x20 : 0x00) | (fH ? 0x10 : 0x00) |
+                 (f3 ? 0x08 : 0x00) | (fPV ? 0x04 : 0x00) | (fN ? 0x02 : 0x00) | (fC ? 0x01 : 0x00));
+            }
+            set
+            {
+                fS = (value & 0x80) == 0x80;
+                fZ = (value & 0x40) == 0x40;
+                f5 = (value & 0x20) == 0x20;
+                fH = (value & 0x10) == 0x10;
+                f3 = (value & 0x08) == 0x08;
+                fPV = (value & 0x04) == 0x04;
+                fN = (value & 0x02) == 0x02;
+                fC = (value & 0x01) == 0x01;
+            }
+        }
 
         // The alternate register set (A', F', B', C', D', E', H', L')
-        public byte a_, b_, c_, d_, e_, h_, l_;
-        public Flags f_;
+        public byte a_, f_, b_, c_, d_, e_, h_, l_;
 
         public byte i; // Interrupt Page Address register
         public byte r; // Memory Refresh register
@@ -43,53 +60,14 @@ namespace ProjectCambridge.EmulatorCore
 
         public byte im; // Interrupt Mode
 
-        public bool fC
-        {
-            get { return (f & Flags.C) == Flags.C; }
-            set { if (value) f |= Flags.C; else f &= ~Flags.C; }
-        }
-
-        public bool fN
-        {
-            get { return (f & Flags.N) == Flags.N; }
-            set { if (value) f |= Flags.N; else f &= ~Flags.N; }
-        }
-
-        public bool fPV
-        {
-            get { return (f & Flags.P) == Flags.P; }
-            set { if (value) f |= Flags.P; else f &= ~Flags.P; }
-        }
-
-        public bool f3
-        {
-            get { return (f & Flags.F3) == Flags.F3; }
-            set { if (value) f |= Flags.F3; else f &= ~Flags.F3; }
-        }
-
-        public bool fH
-        {
-            get { return (f & Flags.H) == Flags.H; }
-            set { if (value) f |= Flags.H; else f &= ~Flags.H; }
-        }
-
-        public bool f5
-        {
-            get { return (f & Flags.F5) == Flags.F5; }
-            set { if (value) f |= Flags.F5; else f &= ~Flags.F5; }
-        }
-
-        public bool fZ
-        {
-            get { return (f & Flags.Z) == Flags.Z; }
-            set { if (value) f |= Flags.Z; else f &= ~Flags.Z; }
-        }
-
-        public bool fS
-        {
-            get { return (f & Flags.S) == Flags.S; }
-            set { if (value) f |= Flags.S; else f &= ~Flags.S; }
-        }
+        public bool fC { get; set; }
+        public bool fN { get; set; }
+        public bool fPV { get; set; }
+        public bool f3 { get; set; }
+        public bool fH { get; set; }
+        public bool f5 { get; set; }
+        public bool fZ { get; set; }
+        public bool fS { get; set; }
 
         public ushort af
         {
@@ -100,7 +78,7 @@ namespace ProjectCambridge.EmulatorCore
             set
             {
                 a = HighByte(value);
-                f = (Flags)LowByte(value);
+                f = LowByte(value);
             }
         }
 
@@ -149,7 +127,7 @@ namespace ProjectCambridge.EmulatorCore
         public ushort af_
         {
             get { return (ushort)((a_ << 8) + f_); }
-            set { a_ = HighByte(value); f_ = (Flags)LowByte(value); }
+            set { a_ = HighByte(value); f_ = LowByte(value); }
         }
         public ushort bc_
         {

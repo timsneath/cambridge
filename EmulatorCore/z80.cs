@@ -432,6 +432,22 @@ namespace ProjectCambridge.EmulatorCore
             var hi = memory.ReadByte(sp++);
             return (ushort)((hi << 8) + lo);
         }
+
+        private void EX_AFAFPrime()
+        {
+            byte temp;
+
+            temp = a;
+            a = a_;
+            a_ = temp;
+
+            temp = f;
+            f = f_;
+            f_ = temp;
+
+
+            tStates += 4;
+        }
         #endregion
 
         #region Logic operations

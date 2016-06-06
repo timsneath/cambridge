@@ -147,5 +147,49 @@ namespace ProjectCambridge
         {
             display.Repaint(memory);
         }
+
+        private async void TimeBootup_Click(object sender, RoutedEventArgs e)
+        {
+            var stopwatch = new System.Diagnostics.Stopwatch();
+
+            memory = new Memory(ROMProtected: true);
+            var rom = new byte[16384];
+
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/48.rom"));
+            var fs = await file.OpenStreamForReadAsync();
+
+            fs.Read(rom, 0, 16384);
+
+            var testElapsedTime = new List<long>();
+            for (int testIter = 0; testIter < 100; testIter++)
+            {
+                memory.Reset();
+                memory.Load(0x0000, rom);
+
+                screenRefreshTimer = new DispatcherTimer();
+                screenRefreshTimer.Tick += screenRefreshTimer_Tick;
+                screenRefreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+
+                screenRefreshTimer.Start();
+                z80 = new Z80(memory, 0x0000);
+
+                stopwatch.Reset();
+                stopwatch.Start();
+
+                while (z80.pc != 0x15ED)
+                {
+                    z80.ExecuteNextInstruction();
+                }
+
+                screenRefreshTimer.Stop();
+                stopwatch.Stop();
+
+                testElapsedTime.Add(stopwatch.ElapsedMilliseconds);
+            }
+
+            testElapsedTime.Sort();
+            var dialog = new Windows.UI.Popups.MessageDialog($"Execution took an average of {testElapsedTime.Average()}ms.\nActual time taken: {string.Join(", ", testElapsedTime.ToArray())}");
+            await dialog.ShowAsync();
+        }
     }
 }

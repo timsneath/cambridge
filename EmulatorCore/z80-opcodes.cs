@@ -44,7 +44,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x07: RLCA(); break;
 
                 // EX AF, AF'
-                case 0x08: Swap(ref a, ref a_); Swap(ref f, ref f_); tStates += 4; break;
+                case 0x08: EX_AFAFPrime(); break;
 
                 // ADD HL, BC
                 case 0x09: hl = ADD(hl, bc); break;
@@ -792,7 +792,6 @@ namespace ProjectCambridge.EmulatorCore
 
             return true;
         }
-
 
         private void DecodeCBOpcode()
         {

@@ -1,4 +1,7 @@
-﻿The FUSE emulator contains a large unit test suite of over 1,300 tests:
+﻿Unit Test Creation
+------------------
+The FUSE emulator contains a large unit test suite of over 1,300 tests,
+which cover both documented and undocumented opcodes:
    http://fuse-emulator.sourceforge.net/ 
 
 The tests are delivered in two files: a tests.in file that contains test 

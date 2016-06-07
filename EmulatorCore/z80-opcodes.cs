@@ -12,7 +12,6 @@ namespace ProjectCambridge.EmulatorCore
         /* 
          * explanations of each command: http://clrhome.org/table/
          * helpful decoder shortcuts: http://z80.info/decoding.htm
-         * and http://z80.info/z80code.txt
          */
         public bool ExecuteNextInstruction()
         {

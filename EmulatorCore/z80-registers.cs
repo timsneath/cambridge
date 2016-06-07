@@ -17,7 +17,7 @@ namespace ProjectCambridge.EmulatorCore
             N = 2,   // add/subtract flag (bit 1)
             P = 4,   // parity/overflow flag (bit 2)
             F3 = 8,  // undocumented flag
-            H = 16,  // half carry flzag (bit 4)
+            H = 16,  // half carry flag (bit 4)
             F5 = 32, // undocumented flag
             Z = 64,  // zero flag (bit 6)
             S = 128  // sign flag (bit 7)

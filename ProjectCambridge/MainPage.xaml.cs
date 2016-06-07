@@ -26,6 +26,7 @@ namespace ProjectCambridge
     {
         Z80 z80;
         Memory memory;
+        Spectrum spectrum;
         Display display;
         DispatcherTimer screenRefreshTimer;
 
@@ -35,7 +36,6 @@ namespace ProjectCambridge
             memory = new Memory();
             display = new Display();
 
-            ZXSpectrumScreen.Source = display.Bitmap;
         }
 
 
@@ -98,6 +98,8 @@ namespace ProjectCambridge
 
         private async void ExecuteSpectrumROM_Click(object sender, RoutedEventArgs e)
         {
+            ZXSpectrumScreen.Source = display.Bitmap;
+
             memory = new Memory(ROMProtected: true);
             var rom = new byte[16384];
 
@@ -190,6 +192,23 @@ namespace ProjectCambridge
             testElapsedTime.Sort();
             var dialog = new Windows.UI.Popups.MessageDialog($"Execution took an average of {testElapsedTime.Average()}ms.\nActual time taken: {string.Join(", ", testElapsedTime.ToArray())}");
             await dialog.ShowAsync();
+        }
+
+        private async void StartEmulator_Click(object sender, RoutedEventArgs e)
+        {
+            spectrum = new Spectrum();
+            await spectrum.InitializeROMAsync();
+            ZXSpectrumScreen.Source = spectrum.DisplayBitmap;
+            await spectrum.Start();
+        }
+
+        private void StopEmulator_Click(object sender, RoutedEventArgs e)
+        {
+            spectrum.Stop();
+        }
+
+        private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
         }
     }
 }

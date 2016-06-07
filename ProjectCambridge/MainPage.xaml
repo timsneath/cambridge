@@ -5,10 +5,13 @@
     xmlns:local="using:ProjectCambridge"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" KeyDown="Page_KeyDown">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Orientation="Vertical">
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout/>
+            </FlyoutBase.AttachedFlyout>
             <Border Margin="10" 
                     BorderThickness="3" BorderBrush="Black" Background="Black"
                     HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -76,6 +79,8 @@
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="RunTest" Click="RunTestCode_Click" Margin="5">Run Test Code</Button>
                 <Button x:Name="ExecuteROM" Click="ExecuteSpectrumROM_Click" Margin="5">Execute Spectrum ROM</Button>
+                <Button x:Name="StartEmulator" Click="StartEmulator_Click" Margin="5">Start Emulator</Button>
+                <Button x:Name="StopEmulator" Click="StopEmulator_Click" Margin="5">Stop Emulator</Button>
                 <Button x:Name="RepaintDisplay" Click="RepaintDisplay_Click" Margin="5">Repaint Display</Button>
                 <Button x:Name="TimeBootup" Click="TimeBootup_Click" Margin="5">Time Bootup</Button>
                 <Button x:Name="DrawTest"  Click="DrawTest_Click" Margin="5">Test Spectrum Display</Button>

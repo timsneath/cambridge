@@ -77,36 +77,48 @@ namespace ProjectCambridge.EmulatorCore
 
         private void LDI()
         {
-            memory.WriteByte(de, memory.ReadByte(hl));
+            var byteRead = memory.ReadByte(hl);
+            memory.WriteByte(de, byteRead);
+
             de++;
             hl++;
             bc--;
+
             fH = false;
             fN = false;
             fPV = (bc != 0);
+            f5 = IsBitSet(byteRead, 5);
+            f3 = IsBitSet(byteRead, 3);
 
             tStates += 16;
         }
 
         private void LDD()
         {
-            memory.WriteByte(de, memory.ReadByte(hl));
+            var byteRead = memory.ReadByte(hl);
+            memory.WriteByte(de, byteRead);
+
             de--;
             hl--;
             bc--;
             fH = false;
             fN = false;
             fPV = (bc != 0);
+            f5 = IsBitSet(byteRead, 5);
+            f3 = IsBitSet(byteRead, 3);
 
             tStates += 16;
         }
 
         private void LDIR()
         {
-            memory.WriteByte(de, memory.ReadByte(hl));
+            var byteRead = memory.ReadByte(hl);
+            memory.WriteByte(de, byteRead);
+
             de++;
             hl++;
             bc--;
+
             if (bc != 0)
             {
                 pc -= 2;
@@ -114,16 +126,20 @@ namespace ProjectCambridge.EmulatorCore
             }
             else
             {
+                f5 = IsBitSet(byteRead, 5);
+                f3 = IsBitSet(byteRead, 3);
                 fH = false;
                 fPV = false;
                 fN = false;
+
                 tStates += 16;
             }
         }
 
         private void LDDR()
         {
-            memory.WriteByte(de, memory.ReadByte(hl));
+            var byteRead = memory.ReadByte(hl);
+            memory.WriteByte(de, byteRead);
             de--;
             hl--;
             bc--;
@@ -134,9 +150,12 @@ namespace ProjectCambridge.EmulatorCore
             }
             else
             {
+                f5 = IsBitSet(byteRead, 5);
+                f3 = IsBitSet(byteRead, 3);
                 fH = false;
                 fPV = false;
                 fN = false;
+
                 tStates += 16;
             }
         }

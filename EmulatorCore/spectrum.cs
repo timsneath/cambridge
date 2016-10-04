@@ -59,7 +59,6 @@ namespace ProjectCambridge.EmulatorCore
                 }
             }
         }
-
         public void Stop()
         {
             cpuStopped = true;
@@ -69,6 +68,11 @@ namespace ProjectCambridge.EmulatorCore
         private void refreshTimer_Tick(object sender, object e)
         {
             display.Repaint(memory);
+        }
+
+        public void SetPort(byte port, byte value)
+        {
+            z80.ports[port] = value;
         }
     }
 }

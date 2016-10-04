@@ -41,11 +41,6 @@ namespace ProjectCambridge.EmulatorCore
             iff2 = false;
             im = 0;
 
-            for (var idx = 0; idx < ports.Length; idx++)
-            {
-                ports[idx] = 0;
-            }
-
             tStates = 0;
             cpuSuspended = false;
         }

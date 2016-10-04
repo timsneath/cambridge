@@ -8,6 +8,6 @@ namespace ProjectCambridge.EmulatorCore
 {
     public partial class Z80
     {
-        byte[] ports = new byte[256];
+        public Dictionary<int, byte> ports = new Dictionary<int, byte>();
     }
 }

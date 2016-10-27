@@ -69,10 +69,5 @@ namespace ProjectCambridge.EmulatorCore
         {
             display.Repaint(memory);
         }
-
-        public void SetPort(byte port, byte value)
-        {
-            z80.ports[port] = value;
-        }
     }
 }

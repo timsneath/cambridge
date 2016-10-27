@@ -209,17 +209,17 @@ namespace ProjectCambridge
 
         private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-      //  IN: Reads keys (bit 0 to bit 4 inclusive)
+            //  IN: Reads keys (bit 0 to bit 4 inclusive)
 
-      //0xfefe  SHIFT, Z, X, C, V            0xeffe  0, 9, 8, 7, 6
-      //0xfdfe  A, S, D, F, G                0xdffe  P, O, I, U, Y
-      //0xfbfe  Q, W, E, R, T                0xbffe  ENTER, L, K, J, H
-      //0xf7fe  1, 2, 3, 4, 5                0x7ffe  SPACE, SYM SHFT, M, N, B
+            //0xfefe  SHIFT, Z, X, C, V            0xeffe  0, 9, 8, 7, 6
+            //0xfdfe  A, S, D, F, G                0xdffe  P, O, I, U, Y
+            //0xfbfe  Q, W, E, R, T                0xbffe  ENTER, L, K, J, H
+            //0xf7fe  1, 2, 3, 4, 5                0x7ffe  SPACE, SYM SHFT, M, N, B
 
-            var key = (byte)e.Key;
+            var key = (char)e.Key;
             if ((key >= 65) && (key <= 90))
             {
-                
+                z80.keyPressed = key;
             }
         }
     }

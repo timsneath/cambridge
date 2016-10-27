@@ -285,7 +285,7 @@ namespace ProjectCambridge.EmulatorCore
             fS = IsSign16(x);
             fZ = IsZero(x);
             fN = true;
-            
+
             // if x changed polarity then subtract caused an overflow
             if (overflowCheck)
             {
@@ -899,7 +899,7 @@ namespace ProjectCambridge.EmulatorCore
         {
             switch (reg)
             {
-                case 0x0: fZ = !IsBitSet(b, bitToTest); f3 = IsBitSet(b, 3); f5 = IsBitSet(b, 5); fPV = fZ;  break;
+                case 0x0: fZ = !IsBitSet(b, bitToTest); f3 = IsBitSet(b, 3); f5 = IsBitSet(b, 5); fPV = fZ; break;
                 case 0x1: fZ = !IsBitSet(c, bitToTest); f3 = IsBitSet(c, 3); f5 = IsBitSet(c, 5); fPV = fZ; break;
                 case 0x2: fZ = !IsBitSet(d, bitToTest); f3 = IsBitSet(d, 3); f5 = IsBitSet(d, 5); fPV = fZ; break;
                 case 0x3: fZ = !IsBitSet(e, bitToTest); f3 = IsBitSet(e, 3); f5 = IsBitSet(e, 5); fPV = fZ; break;
@@ -956,7 +956,9 @@ namespace ProjectCambridge.EmulatorCore
         #region Port operations
         private byte IN(byte portNumber)
         {
-            var readByte = ports[portNumber];
+
+            // TODO: check tstates
+            var readByte = portRead(bc);
 
             fS = IsSign8(portNumber);
             fZ = IsZero(portNumber);
@@ -966,14 +968,18 @@ namespace ProjectCambridge.EmulatorCore
             f5 = IsBitSet(portNumber, 5);
             f3 = IsBitSet(portNumber, 3);
 
-            tStates += 12;
-
             return readByte;
         }
 
+        private void OUT(byte portNumber, byte value)
+        {
+            //TODO: check tstates
+        }
+
+
         private void INIR()
         {
-            memory.WriteByte(hl, ports[c]);
+            memory.WriteByte(hl, portRead(bc));
             hl++;
             b--;
             if (b != 0)
@@ -991,7 +997,7 @@ namespace ProjectCambridge.EmulatorCore
 
         private void OTIR()
         {
-            ports[c] = memory.ReadByte(hl);
+            portWrite(bc, memory.ReadByte(hl));
             hl++;
             b--;
             if (b != 0)
@@ -1009,7 +1015,7 @@ namespace ProjectCambridge.EmulatorCore
 
         private void INDR()
         {
-            memory.WriteByte(hl, ports[c]);
+            memory.WriteByte(hl, portRead(bc));
             hl--;
             b--;
             if (b != 0)
@@ -1027,7 +1033,7 @@ namespace ProjectCambridge.EmulatorCore
 
         private void OTDR()
         {
-            ports[c] = memory.ReadByte(hl);
+            portWrite(bc, memory.ReadByte(hl));
             hl--;
             b--;
             if (b != 0)

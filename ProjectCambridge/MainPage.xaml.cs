@@ -38,7 +38,6 @@ namespace ProjectCambridge
 
         }
 
-
         private async void RunTestCode_Click(object sender, RoutedEventArgs e)
         {
             var code = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x0C, 0x04, 0x76 };
@@ -209,17 +208,9 @@ namespace ProjectCambridge
 
         private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            //  IN: Reads keys (bit 0 to bit 4 inclusive)
-
-            //0xfefe  SHIFT, Z, X, C, V            0xeffe  0, 9, 8, 7, 6
-            //0xfdfe  A, S, D, F, G                0xdffe  P, O, I, U, Y
-            //0xfbfe  Q, W, E, R, T                0xbffe  ENTER, L, K, J, H
-            //0xf7fe  1, 2, 3, 4, 5                0x7ffe  SPACE, SYM SHFT, M, N, B
-
-            var key = (char)e.Key;
-            if ((key >= 65) && (key <= 90))
+            if (spectrum != null)
             {
-                z80.keyPressed = key;
+                spectrum.KeyDown(e.Key);
             }
         }
     }

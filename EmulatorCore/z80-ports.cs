@@ -26,7 +26,7 @@ namespace ProjectCambridge.EmulatorCore
         };
 
         // rough placeholder code
-        // TODO: move Spectrum-specific code out of Z80 class
+        // TODO: move Spectrum-specific code out of Z80 class - lambda? 
         // TODO: genericize this beyond just keyboard
         public byte portRead(int port)
         {

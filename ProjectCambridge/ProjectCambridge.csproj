@@ -160,6 +160,7 @@
     <Content Include="roms\highway.scr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="roms\LICENSE" />
     <Content Include="roms\manic.scr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

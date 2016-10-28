@@ -953,7 +953,7 @@ namespace ProjectCambridge.EmulatorCore
         }
         #endregion
 
-        #region Port operations
+        #region Port operations and interrupts
         private byte IN(byte portNumber)
         {
 
@@ -973,7 +973,8 @@ namespace ProjectCambridge.EmulatorCore
 
         private void OUT(byte portNumber, byte value)
         {
-            //TODO: check tstates
+            // TODO: check tstates
+            // TODO: flags
         }
 
 
@@ -1046,6 +1047,33 @@ namespace ProjectCambridge.EmulatorCore
                 fN = true;
                 fZ = true;
                 tStates += 16;
+            }
+        }
+
+        // TODO: These settings seem to be ZX Spectrum-specific? If so, move to Spectrum class
+        public void Interrupt()
+        {
+            switch(im)
+            {
+                case 0:
+                    // Not used on a ZX Spectrum
+                    break;
+
+                case 1:
+                    pc = 0x0038;
+                    break;
+
+                case 2:
+                    var interruptVectorTableAddress = (ushort)(i << 8);
+
+                    // TODO: use data bus to subselect IM 2 location
+
+                    pc = memory.ReadWord(interruptVectorTableAddress);
+
+                    break;
+
+                default:
+                    throw new IndexOutOfRangeException("Interrupt mode out of range. Can be value 0, 1, or 2.");
             }
         }
         #endregion

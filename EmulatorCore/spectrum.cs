@@ -81,6 +81,7 @@ namespace ProjectCambridge.EmulatorCore
 
         private void refreshTimer_Tick(object sender, object e)
         {
+            z80.Interrupt();
             display.Repaint(memory);
         }
 

@@ -875,6 +875,7 @@ namespace ProjectCambridge.EmulatorCore
                 // IM 0
                 case 0x46:
                 case 0x66:
+                    im = 0;
                     tStates += 8; break;
 
                 // LD I, A
@@ -915,6 +916,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0x56:
                 case 0x6E:
                 case 0x76:
+                    im = 1;
                     tStates += 8; break;
 
                 // LD A, I
@@ -935,6 +937,7 @@ namespace ProjectCambridge.EmulatorCore
                 // IM 2
                 case 0x5E:
                 case 0x7E:
+                    im = 2;
                     tStates += 8;
                     break;
 

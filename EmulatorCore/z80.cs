@@ -996,6 +996,7 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
+        // TODO: this is wrong or INDR is wrong - they are clones of one another
         private void OTIR()
         {
             portWrite(bc, memory.ReadByte(hl));
@@ -1032,6 +1033,7 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
+        // TODO: this is wrong or INDR is wrong - they are clones of one another
         private void OTDR()
         {
             portWrite(bc, memory.ReadByte(hl));

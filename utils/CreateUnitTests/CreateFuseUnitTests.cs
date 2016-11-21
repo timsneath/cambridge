@@ -57,27 +57,29 @@ namespace ProjectCambridge.EmulatorTests
                                    ushort af_, ushort bc_, ushort de_, ushort hl_,
                                    ushort ix, ushort iy, ushort sp, ushort pc)
         {
-            Assert.IsTrue(z80.af == af);
-            Assert.IsTrue(z80.bc == bc);
-            Assert.IsTrue(z80.de == de);
-            Assert.IsTrue(z80.hl == hl);
-            Assert.IsTrue(z80.af_ == af_);
-            Assert.IsTrue(z80.bc_ == bc_);
-            Assert.IsTrue(z80.de_ == de_);
-            Assert.IsTrue(z80.hl_ == hl_);
-            Assert.IsTrue(z80.ix == ix);
-            Assert.IsTrue(z80.iy == iy);
-            Assert.IsTrue(z80.sp == sp);
-            Assert.IsTrue(z80.pc == pc);
-        }
+            Assert.IsTrue(z80.af == af, $""Register AF is 0x{z80.af:x4}, was expected to be 0x{af:x4}."");
+            Assert.IsTrue(z80.bc == bc, $""Register BC is 0x{z80.bc:x4}, was expected to be 0x{bc:x4}."");
+            Assert.IsTrue(z80.de == de, $""Register DE is 0x{z80.de:x4}, was expected to be 0x{de:x4}."");
+            Assert.IsTrue(z80.hl == hl, $""Register HL is 0x{z80.hl:x4}, was expected to be 0x{hl:x4}."");
+            Assert.IsTrue(z80.af_ == af_, $""Register AF' is 0x{z80.af_:x4}, was expected to be 0x{af_:x4}."");
+            Assert.IsTrue(z80.bc_ == bc_, $""Register BC' is 0x{z80.bc_:x4}, was expected to be 0x{bc_:x4}."");
+            Assert.IsTrue(z80.de_ == de_, $""Register DE' is 0x{z80.de_:x4}, was expected to be 0x{de_:x4}."");
+            Assert.IsTrue(z80.hl_ == hl_, $""Register HL' is 0x{z80.hl_:x4}, was expected to be 0x{hl_:x4}."");
+            Assert.IsTrue(z80.ix == ix, $""Register IX is 0x{z80.ix:x4}, was expected to be 0x{ix:x4}."");
+            Assert.IsTrue(z80.iy == iy, $""Register IY is 0x{z80.iy:x4}, was expected to be 0x{iy:x4}."");
+            Assert.IsTrue(z80.sp == sp, $""Register SP is 0x{z80.sp:x4}, was expected to be 0x{sp:x4}."");
+            Assert.IsTrue(z80.pc == pc, $""Register PC is 0x{z80.pc:x4}, was expected to be 0x{pc:x4}."");
+        }                                                                                   
 
         private void AssertSpecial(byte i, byte r, bool iff1, bool iff2, long tStates)
         {
-            Assert.IsTrue(z80.i == i);
-            //Assert.IsTrue(z80.r == r); // TODO: r is magic and we haven't done magic yet
-            Assert.IsTrue(z80.iff1 == iff1);
-            Assert.IsTrue(z80.iff2 == iff2);
-            Assert.IsTrue(z80.tStates == tStates);
+            Assert.IsTrue(z80.i == i, $""Register I is 0x{z80.i:x2}, was expected to be 0x{i:x2}."");
+            // TODO: r is magic and we haven't done magic yet
+            //Assert.IsTrue(z80.r == r, $""Register R is 0x{z80.r:x2}, was expected to be 0x{r:x2}."");
+
+            Assert.IsTrue(z80.iff1 == iff1, $""Register IFF1 is {z80.iff1}, was expected to be {iff1}."");
+            Assert.IsTrue(z80.iff2 == iff2, $""Register IFF2 is {z80.iff2}, was expected to be {iff2}."");
+            Assert.IsTrue(z80.tStates == tStates, $""tstates are {z80.tStates}, was expected to be {tStates}."");
         }
 ");
             outputClass.WriteLine();

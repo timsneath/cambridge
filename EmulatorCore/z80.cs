@@ -973,8 +973,8 @@ namespace ProjectCambridge.EmulatorCore
 
         private void OUT(byte portNumber, byte value)
         {
-            // TODO: check tstates
-            // TODO: flags
+            // TODO: write value to portNumber
+            tStates += 11;
         }
 
 

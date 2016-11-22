@@ -12,6 +12,8 @@ namespace ProjectCambridge.Utilities
         static void Main(string[] args)
         {
 
+            const bool INCLUDE_UNDOCUMENTED_OPCODE_UNIT_TESTS = false;
+
             var outputClass = new StringWriter();
             var outputTest = new StringWriter();
             string testName = "";
@@ -234,7 +236,7 @@ namespace ProjectCambridge.EmulatorTests
                     var idx = 1;
                     while (peeks[idx] != "-1")
                     {
-                        outputTest.WriteLine("                Assert.IsTrue(memory.ReadByte(0x" + 
+                        outputTest.WriteLine("                Assert.IsTrue(memory.ReadByte(0x" +
                             string.Format($"{addr:X4}" + ") == 0x" + peeks[idx] + ");"));
                         idx++;
                         addr++;
@@ -249,7 +251,10 @@ namespace ProjectCambridge.EmulatorTests
                 outputTest.WriteLine();
                 outputTest.WriteLine();
 
-                outputClass.Write(outputTest.ToString());
+                if (!undocumentedOpcodeTests.Contains(testName) || INCLUDE_UNDOCUMENTED_OPCODE_UNIT_TESTS)
+                {
+                    outputClass.Write(outputTest.ToString());
+                }
                 outputTest = new StringWriter();
             }
 

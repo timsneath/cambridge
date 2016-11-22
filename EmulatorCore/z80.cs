@@ -291,7 +291,7 @@ namespace ProjectCambridge.EmulatorCore
             {
                 fPV = (fS != IsSign16(x));
             }
-            else
+            else 
             {
                 fPV = false;
             }
@@ -723,6 +723,8 @@ namespace ProjectCambridge.EmulatorCore
             fC = IsSign8(reg);
             reg <<= 1;
 
+            if (bit0) reg = (byte)SetBit(reg, 0);
+
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
@@ -730,8 +732,6 @@ namespace ProjectCambridge.EmulatorCore
             f3 = IsBitSet(reg, 3);
             fPV = IsParity(reg);
             fN = false;
-
-            if (bit0) reg = (byte)SetBit(reg, 0);
 
             return reg;
         }
@@ -745,13 +745,13 @@ namespace ProjectCambridge.EmulatorCore
             fC = IsSign8(a);
             a <<= 1;
 
+            if (bit0) a = (byte)SetBit(a, 0);
+
             f5 = IsBitSet(a, 5);
             f3 = IsBitSet(a, 3);
 
             fH = false;
             fN = false;
-
-            if (bit0) a = (byte)SetBit(a, 0);
 
             tStates += 4;
         }
@@ -763,6 +763,8 @@ namespace ProjectCambridge.EmulatorCore
             fC = IsBitSet(reg, 0);
             reg >>= 1;
 
+            if (bit7) reg = (byte)SetBit(reg, 7);
+
             fS = IsSign8(reg);
             fZ = IsZero(reg);
             fH = false;
@@ -770,8 +772,6 @@ namespace ProjectCambridge.EmulatorCore
             f3 = IsBitSet(reg, 3);
             fPV = IsParity(reg);
             fN = false;
-
-            if (bit7) reg = (byte)SetBit(reg, 7);
 
             return reg;
         }
@@ -783,13 +783,13 @@ namespace ProjectCambridge.EmulatorCore
             fC = IsBitSet(a, 0);
             a >>= 1;
 
+            if (bit7) { a = SetBit(a, 7); }
+
             f5 = IsBitSet(a, 5);
             f3 = IsBitSet(a, 3);
 
             fH = false;
             fN = false;
-
-            if (bit7) { a = SetBit(a, 7); }
 
             tStates += 4;
         }
@@ -1008,7 +1008,48 @@ namespace ProjectCambridge.EmulatorCore
             return portNumber;
         }
 
+        private void INI()
+        {
+            memory.WriteByte(hl, portRead(bc));
+            hl++;
+            b--;
 
+            fN = true;
+
+            tStates += 16;
+        }
+
+        private void OUTI()
+        {
+            portWrite(c, memory.ReadByte(hl));
+            hl++;
+            b--;
+
+            fN = true;
+
+            tStates += 16;
+        }
+        private void IND()
+        {
+            memory.WriteByte(hl, portRead(bc));
+            hl--;
+            b--;
+
+            fN = true;
+
+            tStates += 16;
+        }
+
+        private void OUTD()
+        {
+            portWrite(c, memory.ReadByte(hl));
+            hl--;
+            b--;
+
+            fN = true;
+
+            tStates += 16;
+        }
 
         private void INIR()
         {
@@ -1028,7 +1069,6 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
-        // TODO: this is wrong or INDR is wrong - they are clones of one another
         private void OTIR()
         {
             portWrite(bc, memory.ReadByte(hl));
@@ -1065,7 +1105,6 @@ namespace ProjectCambridge.EmulatorCore
             }
         }
 
-        // TODO: this is wrong or INDR is wrong - they are clones of one another
         private void OTDR()
         {
             portWrite(bc, memory.ReadByte(hl));

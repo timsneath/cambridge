@@ -974,6 +974,12 @@ namespace ProjectCambridge.EmulatorCore
                 // RLD
                 case 0x6F: RLD(); break;
 
+                // IN (C)
+                case 0x70: IN(c); break;
+
+                // OUT (C), 0
+                case 0x71: OUT(c, 0); tStates += 12; break;
+
                 // SBC HL, SP
                 case 0x72: hl = SBC(hl, sp); break;
 
@@ -999,10 +1005,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xA1: CPI(); break;
 
                 // INI
-                case 0xA2: tStates += 16; break;
+                case 0xA2: INI(); break;
 
                 // OUTI
-                case 0xA3: tStates += 16; break;
+                case 0xA3: OUTI(); break;
 
                 // LDD
                 case 0xA8: LDD(); break;
@@ -1011,10 +1017,10 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xA9: CPD(); break;
 
                 // IND
-                case 0xAA: tStates += 16; break;
+                case 0xAA: IND(); break;
 
                 // OUTD
-                case 0xAB: tStates += 16; break;
+                case 0xAB: OUTD(); break;
 
                 // LDIR
                 case 0xB0: LDIR(); break;
@@ -1340,11 +1346,17 @@ namespace ProjectCambridge.EmulatorCore
             if ((opCode >= 0x40) && (opCode <= 0x7F))
             {
                 var val = memory.ReadByte(addr);
-                fZ = !IsBitSet(val, (opCode & 0x38) >> 3);
+                var bit = ((opCode & 0x38) >> 3);
+                fZ = !IsBitSet(val, bit);
+                fPV = !IsBitSet(val, bit); // undocumented, but same as fZ
                 fH = true;
                 fN = false;
-                f5 = IsBitSet(val, 5);
-                f3 = IsBitSet(val, 3);
+                f5 = IsBitSet(addr >> 8, 5);
+                f3 = IsBitSet(addr >> 8, 3);
+                if (bit == 7)
+                {
+                    fS = IsSign8(val);
+                }
                 tStates += 20;
                 return;
             }
@@ -1417,11 +1429,17 @@ namespace ProjectCambridge.EmulatorCore
             if ((opCode >= 0x40) && (opCode <= 0x7F))
             {
                 var val = memory.ReadByte(addr);
-                fZ = !IsBitSet(val, (opCode & 0x38) >> 3);
+                var bit = ((opCode & 0x38) >> 3);
+                fZ = !IsBitSet(val, bit);
+                fPV = !IsBitSet(val, bit); // undocumented, but same as fZ
                 fH = true;
                 fN = false;
-                f5 = IsBitSet(val, 5);
-                f3 = IsBitSet(val, 3);
+                f5 = IsBitSet(addr >> 8, 5);
+                f3 = IsBitSet(addr >> 8, 3);
+                if (bit == 7)
+                {
+                    fS = IsSign8(val);
+                }
                 tStates += 20;
                 return;
             }

@@ -871,24 +871,48 @@ namespace ProjectCambridge.EmulatorCore
 
         private void RLD()
         {
-            byte pHL = memory.ReadByte(hl);
-            byte new_pHL = (byte)((pHL & 0x0F) << 4);
+            byte old_pHL = memory.ReadByte(hl);
+
+            byte new_pHL = (byte)((old_pHL & 0x0F) << 4);
             new_pHL += (byte)(a & 0x0F);
+
             a = (byte)(a & 0xF0);
-            a += (byte)((pHL & 0xF0) >> 4);
+            a += (byte)((old_pHL & 0xF0) >> 4);
+
             memory.WriteByte(hl, new_pHL);
+
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
+            fS = IsSign8(a);
+            fZ = IsZero(a);
+            fH = false;
+            fPV = IsParity(a);
+            fN = false;
 
             tStates += 18;
         }
 
         private void RRD()
         {
-            byte pHL = memory.ReadByte(hl);
+            byte old_pHL = memory.ReadByte(hl);
+
             byte new_pHL = (byte)((a & 0x0F) << 4);
-            new_pHL += (byte)((pHL & 0xF0) >> 4);
+            new_pHL += (byte)((old_pHL & 0xF0) >> 4);
+
             a = (byte)(a & 0xF0);
-            a += (byte)(pHL & 0x0F);
+            a += (byte)(old_pHL & 0x0F);
+
             memory.WriteByte(hl, new_pHL);
+
+            f5 = IsBitSet(a, 5);
+            f3 = IsBitSet(a, 3);
+
+            fS = IsSign8(a);
+            fZ = IsZero(a);
+            fH = false;
+            fPV = IsParity(a);
+            fN = false;
 
             tStates += 18;
         }
@@ -956,8 +980,6 @@ namespace ProjectCambridge.EmulatorCore
         #region Port operations and interrupts
         private byte IN(byte portNumber)
         {
-
-            // TODO: check tstates
             var readByte = portRead(bc);
 
             fS = IsSign8(portNumber);
@@ -965,8 +987,8 @@ namespace ProjectCambridge.EmulatorCore
             fH = false;
             fPV = IsParity(portNumber);
             fN = false;
-            f5 = IsBitSet(portNumber, 5);
-            f3 = IsBitSet(portNumber, 3);
+            f5 = IsBitSet(readByte, 5);
+            f3 = IsBitSet(readByte, 3);
 
             return readByte;
         }
@@ -974,8 +996,18 @@ namespace ProjectCambridge.EmulatorCore
         private void OUT(byte portNumber, byte value)
         {
             // TODO: write value to portNumber
-            tStates += 11;
         }
+
+        private void OUTA(byte portNumber, byte value)
+        {
+            // TODO: write value to portNumber
+        }
+
+        private byte INA(byte portNumber)
+        {
+            return portNumber;
+        }
+
 
 
         private void INIR()

@@ -652,7 +652,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xD2: if (!fC) { pc = GetNextWord(); } else { pc += 2; } tStates += 10; break;
 
                 // OUT (*), A
-                case 0xD3: OUT(GetNextByte(), a); break;
+                case 0xD3: OUTA(GetNextByte(), a); tStates += 11; break;
 
                 // CALL NC, **
                 case 0xD4: if (!fC) { CALL(); } else { pc += 2; tStates += 10; } break;
@@ -676,7 +676,7 @@ namespace ProjectCambridge.EmulatorCore
                 case 0xDA: if (fC) { pc = GetNextWord(); } else { pc += 2; } tStates += 10; break;
 
                 // IN A, (*)
-                case 0xDB: a = IN(GetNextByte()); tStates += 11; break;
+                case 0xDB: INA(GetNextByte()); tStates += 11; break;
 
                 // CALL C, **
                 case 0xDC: if (fC) { CALL(); } else { pc += 2; tStates += 10; } break;
@@ -840,7 +840,7 @@ namespace ProjectCambridge.EmulatorCore
             switch (opCode)
             {
                 // IN B, (C)
-                case 0x40: b = IN(c); tStates += 11; break;
+                case 0x40: IN(c); tStates += 12; break;
 
                 // OUT (C), B
                 case 0x41: OUT(c, b); tStates += 12; break;

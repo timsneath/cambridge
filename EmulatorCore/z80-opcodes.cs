@@ -16,6 +16,8 @@ namespace ProjectCambridge.EmulatorCore
         public bool ExecuteNextInstruction()
         {
             byte opCode = GetNextByte();
+            r++;
+
             switch (opCode)
             {
                 // NOP
@@ -795,6 +797,7 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeCBOpcode()
         {
             byte opCode = GetNextByte();
+            r++;
 
             // first two bits of opCode determine function:
             switch (opCode >> 6)
@@ -836,6 +839,7 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeEDOpcode()
         {
             byte opCode = GetNextByte();
+            r++;
 
             switch (opCode)
             {
@@ -1055,6 +1059,8 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeDDOpcode()
         {
             byte opCode = GetNextByte();
+            r++;
+
             ushort addr;
 
             switch (opCode)
@@ -1505,6 +1511,8 @@ namespace ProjectCambridge.EmulatorCore
         private void DecodeFDOpcode()
         {
             byte opCode = GetNextByte();
+            r++;
+
             ushort addr;
 
             switch (opCode)

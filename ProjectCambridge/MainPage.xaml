@@ -101,14 +101,12 @@
             <TextBox x:Name="Instructions" Header="Instructions"/>
 
             <TextBlock Margin="0,20,0,5">Emulator Commands</TextBlock>
-            <VariableSizedWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="5"
+            <VariableSizedWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3"
                                    Margin="20,0,0,0">
-                <Button x:Name="RunTest" Click="RunTestCode_Click" Margin="5">Run Test Code</Button>
-                <Button x:Name="ExecuteROM" Click="ExecuteSpectrumROM_Click" Margin="5">Execute ROM</Button>
                 <Button x:Name="StartEmulator" Click="StartEmulator_Click" Margin="5">Start Emulator</Button>
                 <Button x:Name="StopEmulator" Click="StopEmulator_Click" Margin="5">Stop Emulator</Button>
-                <Button x:Name="RepaintDisplay" Click="RepaintDisplay_Click" Margin="5">Repaint</Button>
                 <Button x:Name="TimeBootup" Click="TimeBootup_Click" Margin="5">Time Bootup</Button>
+                <Button x:Name="RunTest" Click="RunTestCode_Click" Margin="5">Run Test Code</Button>
                 <Button x:Name="DrawTest"  Click="DrawTest_Click" Margin="5">Test Display</Button>
                 <Button x:Name="RomTest" Click="ScreenTest_Click" Margin="5">Test Load Screen</Button>
             </VariableSizedWrapGrid>

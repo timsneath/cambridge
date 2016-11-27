@@ -17,8 +17,6 @@ using Windows.UI.Xaml.Navigation;
 
 using ProjectCambridge.EmulatorCore;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 // TODO: A lot of the logic here will ultimately reside in EmulatorCore\spectrum.cs
 namespace ProjectCambridge
 {
@@ -33,13 +31,13 @@ namespace ProjectCambridge
         public MainPage()
         {
             this.InitializeComponent();
-            memory = new Memory();
-            display = new Display();
-
         }
 
         private async void RunTestCode_Click(object sender, RoutedEventArgs e)
         {
+            memory = new Memory();
+            display = new Display();
+
             var code = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x0C, 0x04, 0x76 };
 
             memory.Load(0xA000, code);
@@ -95,39 +93,9 @@ namespace ProjectCambridge
             FlagZ.IsChecked = z80.fZ;
         }
 
-        private async void ExecuteSpectrumROM_Click(object sender, RoutedEventArgs e)
-        {
-            ZXSpectrumScreen.Source = display.Bitmap;
-
-            memory = new Memory(ROMProtected: true);
-            var rom = new byte[16384];
-
-            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///roms/48.rom"));
-            var fs = await file.OpenStreamForReadAsync();
-
-            fs.Read(rom, 0, 16384);
-            memory.Reset();
-            memory.Load(0x0000, rom);
-
-            screenRefreshTimer = new DispatcherTimer();
-            screenRefreshTimer.Tick += screenRefreshTimer_Tick;
-            screenRefreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
-
-            screenRefreshTimer.Start();
-
-            z80 = new Z80(memory, 0x0000);
-            UpdateRegisterDebugDisplay();
-
-            await Execute();
-        }
-
-        private void screenRefreshTimer_Tick(object sender, object e)
-        {
-            display.Repaint(memory);
-        }
-
         private void DrawTest_Click(object sender, RoutedEventArgs e)
         {
+            display = new Display();
             display.ShowTestImage();
         }
 
@@ -141,11 +109,6 @@ namespace ProjectCambridge
             fs.Read(ram, 0, 6912);
             memory.Load(0x4000, ram);
 
-            display.Repaint(memory);
-        }
-
-        private void RepaintDisplay_Click(object sender, RoutedEventArgs e)
-        {
             display.Repaint(memory);
         }
 
@@ -168,7 +131,7 @@ namespace ProjectCambridge
                 memory.Load(0x0000, rom);
 
                 screenRefreshTimer = new DispatcherTimer();
-                screenRefreshTimer.Tick += screenRefreshTimer_Tick;
+                screenRefreshTimer.Tick += (_, __) => display.Repaint(memory);
                 screenRefreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
 
                 screenRefreshTimer.Start();

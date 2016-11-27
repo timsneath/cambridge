@@ -261,8 +261,8 @@ namespace ProjectCambridge.EmulatorTests
             var oldCarry = z80.fC;
             z80.r = 0x07;
             Execute(0xED, 0x5F);
-            Assert.IsTrue(z80.a == 0x07);
-            Assert.IsTrue(z80.r == 0x07);
+            Assert.IsTrue(z80.a == 0x08);
+            Assert.IsTrue(z80.r == 0x08);
             Assert.IsFalse(z80.fS);
             Assert.IsFalse(z80.fZ);
             Assert.IsFalse(z80.fH);
@@ -289,7 +289,7 @@ namespace ProjectCambridge.EmulatorTests
         {
             z80.a = 0xDE;
             Execute(0xED, 0x4F);
-            Assert.IsTrue(z80.r == 0xDE);
+            Assert.IsTrue(z80.r == 0xDF);
             Assert.IsTrue(z80.a == 0xDE);
         }
 

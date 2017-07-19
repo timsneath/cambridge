@@ -87,8 +87,8 @@ namespace ProjectCambridge.EmulatorTests
             outputClass.WriteLine();
             outputClass.WriteLine();
 
-            var input = File.ReadAllLines(@"c:\code\fuse\z80\tests\tests.in").ToList();
-            var expected = File.ReadAllLines(@"c:\code\fuse\z80\tests\tests.expected").ToList();
+            var input = File.ReadAllLines(@"fuse_tests\tests.in").ToList();
+            var expected = File.ReadAllLines(@"fuse_tests\tests.expected").ToList();
 
             var inputLine = 0;
             var expectedLine = 0;

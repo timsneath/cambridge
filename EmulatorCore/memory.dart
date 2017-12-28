@@ -16,9 +16,48 @@
 // to the RAM is shared between the processor and the ULA. The ULA has
 // priority access when the screen is being drawn.
 
+import 'dart:typed_data';
+
+import 'utility.dart';
+
+// TODO: Should Memory extend Uint8List rather than encapsulating it?
+
 class Memory {
   static const romTop = 0x3FFF;
   static const ramTop = 0xFFFF;
 
-  bool isRomProtected;
+  bool isRomProtected = true;
+
+  // We treat the memory space as a list of ints from 0x0000 to ramTop.
+  var memory = new Uint8List(ramTop + 1);
+
+  void Reset() {
+    if (isRomProtected) {
+      memory.fillRange(romTop + 1, ramTop - romTop, 0);
+    } else {
+      memory.fillRange(0, ramTop + 1, 0);
+    }
+  }
+
+  void Load(int start, Uint8List loadData) {
+    memory.fillRange(start, loadData);
+  }
+
+  int ReadByte(int address) => memory[address];
+  int ReadWord(int address) => (memory[address + 1] << 8) + memory[address];
+
+  // As with a real device, no exception thrown if an attempt is made to
+  // write to ROM - the request is just ignored
+  void WriteByte(int address, int value) {
+    if (address > romTop || !isRomProtected) {
+      memory[address] = value;
+    }
+  }
+
+  void WriteWord(int address, int value) {
+    if (address > romTop || !isRomProtected) {
+      memory[address] = lowByte(value);
+      memory[address + 1] = highByte(value);
+    }
+  }
 }

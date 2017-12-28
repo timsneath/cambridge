@@ -1,0 +1,5 @@
+name: cambridge
+version: 0.9.0
+author: Tim Sneath <tim@sneath.org>
+dependencies:
+  test: "^0.12.29+1"

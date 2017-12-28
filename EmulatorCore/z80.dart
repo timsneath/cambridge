@@ -41,9 +41,28 @@ class Z80 {
   int im; // Interrupt Mode
 
   int get af => a * 256 + f;
+  set af(num value) {
+    a = highByte(value);
+    f = lowByte(value);
+  }
+
   int get bc => b * 256 + c;
+  set bc(num value) {
+    b = highByte(value);
+    c = lowByte(value);
+  }
+
   int get de => d * 256 + e;
+  set de(num value) {
+    d = highByte(value);
+    e = lowByte(value);
+  }
+
   int get hl => h * 256 + l;
+  set hl(num value) {
+    h = highByte(value);
+    l = lowByte(value);
+  }
 
   int get ixh => ix & 0xFF00 >> 8;
   int get ixl => ix & 0x00FF;
@@ -59,4 +78,7 @@ class Z80 {
   bool get fF5 => f & flags['F5'] == flags['F5'];
   bool get fZ => f & flags['Z'] == flags['Z'];
   bool get fS => f & flags['S'] == flags['S'];
+
+  int highByte(int value) => (value & 0xFF00) >> 8;
+  int lowByte(int value) => value & 0x00FF;
 }

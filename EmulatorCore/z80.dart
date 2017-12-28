@@ -9,6 +9,8 @@
 // and here:
 //    http://z80.info/z80code.htm
 
+import 'utility.dart';
+
 class Z80 {
   // REGISTERS
   final flags = const {
@@ -78,7 +80,4 @@ class Z80 {
   bool get fF5 => f & flags['F5'] == flags['F5'];
   bool get fZ => f & flags['Z'] == flags['Z'];
   bool get fS => f & flags['S'] == flags['S'];
-
-  int highByte(int value) => (value & 0xFF00) >> 8;
-  int lowByte(int value) => value & 0x00FF;
 }

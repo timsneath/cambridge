@@ -17,15 +17,18 @@ void main() {
     expect(lowByte(0xDEADBEEF), equals(0xEF));
   });
 
-  test("Parity test 1", () {
+  test("Parity test", () {
     expect(isParity(0x7F7F), equals(true));
-  });
-
-  test("Parity test 2", () {
     expect(isParity(0xFFFE), equals(false));
-  });
-
-  test("Parity test 3", () {
     expect(isParity(0x0000), equals(true));
   });
+
+  test("IsBitSet test", () {
+    expect(IsBitSet(0xF000, 15), equals(true));
+    expect(IsBitSet(0xF000, 7), equals(false));
+    expect(IsBitSet(0x0001, 0), equals(true));
+    expect(IsBitSet(0xFF, 20), equals(false));
+  });
+
+  // TODO: Write more utility tests
 }

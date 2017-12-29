@@ -79,24 +79,31 @@ class Z80 {
     a = highByte(value);
     f = lowByte(value);
   }
+  int get af_ => a_ * 256 + f_;
 
   int get bc => b * 256 + c;
   set bc(num value) {
     b = highByte(value);
     c = lowByte(value);
   }
+  int get bc_ => b_ * 256 + c_;
+
 
   int get de => d * 256 + e;
   set de(num value) {
     d = highByte(value);
     e = lowByte(value);
   }
+  int get de_ => d_ * 256 + e_;
+
 
   int get hl => h * 256 + l;
   set hl(num value) {
     h = highByte(value);
     l = lowByte(value);
   }
+  int get hl_ => h_ * 256 + l_;
+
 
   int get ixh => ix & 0xFF00 >> 8;
   int get ixl => ix & 0x00FF;

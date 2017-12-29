@@ -30,5 +30,12 @@ void main() {
     expect(isBitSet(0xFF, 20), equals(false));
   });
 
+  test("Set bit", () {
+    int x = 0;
+    x = setBit(x, 5);
+    expect(isBitSet(x, 5), equals(true));
+    expect(x, equals(0x20));
+  });
+
   // TODO: Write more utility tests
 }

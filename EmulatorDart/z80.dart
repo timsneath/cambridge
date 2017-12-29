@@ -56,7 +56,7 @@ class Z80 {
     'S': 0x80 // sign flag (bit 7)
   };
 
-  // Core registers
+   // Core registers
   int a, f, b, c, d, e, h, l;
   int ix, iy;
 
@@ -124,14 +124,14 @@ class Z80 {
   bool get fZ => f & flags['Z'] == flags['Z'];
   bool get fS => f & flags['S'] == flags['S'];
 
-  set fC(bool value) => f = value ? f & flags['C'] : f & ~flags['C'];
-  set fN(bool value) => f = value ? f & flags['N'] : f & ~flags['N'];
-  set fPV(bool value) => f = value ? f & flags['P'] : f & ~flags['P'];
-  set f3(bool value) => f = value ? f & flags['F3'] : f & ~flags['F3'];
-  set fH(bool value) => f = value ? f & flags['H'] : f & ~flags['H'];
-  set f5(bool value) => f = value ? f & flags['F5'] : f & ~flags['F5'];
-  set fZ(bool value) => f = value ? f & flags['Z'] : f & ~flags['Z'];
-  set fS(bool value) => f = value ? f & flags['S'] : f & ~flags['S'];
+  set fC(bool value) => f = (value ? (f | flags['C']) : (f & ~flags['C']));
+  set fN(bool value) => f = (value ? (f | flags['N']) : (f & ~flags['N']));
+  set fPV(bool value) => f = (value ? (f | flags['P']) : (f & ~flags['P']));
+  set f3(bool value) => f = (value ? (f | flags['F3']) : (f & ~flags['F3']));
+  set fH(bool value) => f = (value ? (f | flags['H']) : (f & ~flags['H']));
+  set f5(bool value) => f = (value ? (f | flags['F5']) : (f & ~flags['F5']));
+  set fZ(bool value) => f = (value ? (f | flags['Z']) : (f & ~flags['Z']));
+  set fS(bool value) => f = (value ? (f | flags['S']) : (f & ~flags['S']));
 
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
   // INSTRUCTIONS

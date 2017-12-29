@@ -253,3 +253,6 @@ ModelManifest.xml
 /utils/CreateUnitTests/fuse_tests
 
 .DS_Store
+
+# This file is automatically produced from github.com/timsneath/cambridge-tests
+EmulatorDart/test/fuse_unit_test.dart

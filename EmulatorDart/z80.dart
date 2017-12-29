@@ -9,9 +9,38 @@
 // and here:
 //    http://z80.info/z80code.htm
 
+import 'memory.dart';
 import 'utility.dart';
 
 class Z80 {
+  Memory memory;
+  bool cpuSuspended;
+  int tStates;
+
+  Z80(this.memory, {int startAddress = 0}) {
+    Reset();
+    pc = startAddress;
+  }
+
+  void Reset() {
+    // Initial register states are set per section 2.4 of
+    //  http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
+    af = 0xFFFF;
+    bc = 0xFFFF;
+    de = 0xFFFF;
+    hl = 0xFFFF;
+    ix = 0xFFFF;
+    iy = 0xFFFF;
+    sp = 0xFFFF;
+    pc = 0x0000;
+    iff1 = false;
+    iff2 = false;
+    im = 0;
+
+    tStates = 0;
+    cpuSuspended = false;
+  }
+
   // REGISTERS
   final flags = const {
     'C': 0x01, // carry flag (bit 0)

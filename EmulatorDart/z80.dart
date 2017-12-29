@@ -36,6 +36,7 @@ class Z80 {
     iff1 = false;
     iff2 = false;
     im = 0;
+    r = 0xFF;
 
     tStates = 0;
     cpuSuspended = false;
@@ -81,6 +82,10 @@ class Z80 {
   }
 
   int get af_ => a_ * 256 + f_;
+  set af_(num value) {
+    a_ = highByte(value);
+    f_ = lowByte(value);
+  }
 
   int get bc => b * 256 + c;
   set bc(num value) {
@@ -89,6 +94,10 @@ class Z80 {
   }
 
   int get bc_ => b_ * 256 + c_;
+  set bc_(num value) {
+    b_ = highByte(value);
+    c_ = lowByte(value);
+  }
 
   int get de => d * 256 + e;
   set de(num value) {
@@ -97,6 +106,10 @@ class Z80 {
   }
 
   int get de_ => d_ * 256 + e_;
+  set de_(num value) {
+    d_ = highByte(value);
+    e_ = lowByte(value);
+  }
 
   int get hl => h * 256 + l;
   set hl(num value) {
@@ -105,6 +118,10 @@ class Z80 {
   }
 
   int get hl_ => h_ * 256 + l_;
+  set hl_(num value) {
+    h_ = highByte(value);
+    l_ = lowByte(value);
+  }
 
   int get ixh => ix & 0xFF00 >> 8;
   int get ixl => ix & 0x00FF;
@@ -641,7 +658,7 @@ class Z80 {
     // rotates register r to the left
     // bit 7 is copied to carry and to bit 0
     fC = isSign8(reg);
-    reg <<= 1;
+    reg = (reg << 1) % 0x100;
     if (fC) reg = setBit(reg, 0);
 
     f5 = isBitSet(reg, 5);
@@ -1158,12 +1175,74 @@ class Z80 {
   }
 
   int displacedIX() => (ix + getNextByte());
-  int displacedIY() => (ix + getNextByte());
+  int displacedIY() => (iy + getNextByte());
 
   int portRead(int bc) => 0;
   void portWrite(int addr, int value) {}
 
-  void rot(int a, int b) {}
+  void rot(int operation, int register) {
+    var rotFunction;
+
+    switch (operation) {
+      case 0x00:
+        rotFunction = RLC;
+        break;
+      case 0x01:
+        rotFunction = RRC;
+        break;
+      case 0x02:
+        rotFunction = RL;
+        break;
+      case 0x03:
+        rotFunction = RR;
+        break;
+      case 0x04:
+        rotFunction = SLA;
+        break;
+      case 0x05:
+        rotFunction = SRA;
+        break;
+      case 0x06:
+        rotFunction = SLL;
+        break;
+      case 0x07:
+        rotFunction = SRL;
+        break;
+      default:
+        throw new Exception(
+            "Operation $operation must map to a valid rotation operation.");
+    }
+
+    switch (register) {
+      case 0x00:
+        b = rotFunction(b);
+        break;
+      case 0x01:
+        c = rotFunction(c);
+        break;
+      case 0x02:
+        d = rotFunction(d);
+        break;
+      case 0x03:
+        e = rotFunction(e);
+        break;
+      case 0x04:
+        h = rotFunction(h);
+        break;
+      case 0x05:
+        l = rotFunction(l);
+        break;
+      case 0x06:
+        memory.writeByte(hl, rotFunction(memory.readByte(hl)));
+        break;
+      case 0x07:
+        a = rotFunction(a);
+        break;
+      default:
+        throw new Exception(
+            "Field register ${register} must map to a valid Z80 register.");
+    }
+  }
 
   void DecodeCBOpcode() {
     int opCode = getNextByte();
@@ -2846,7 +2925,7 @@ class Z80 {
 
   bool executeNextInstruction() {
     var opCode = getNextByte();
-    r++;
+    r = (r + 1) % 0x100;
 
     switch (opCode) {
       // NOP

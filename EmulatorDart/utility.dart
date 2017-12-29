@@ -1,5 +1,10 @@
+// High or low byte of a 16-bit value
 int highByte(int value) => (value & 0xFF00) >> 8;
 int lowByte(int value) => value & 0x00FF;
+
+// Calculates 2s complement of an 8-bit or 16-bit value
+int twocomp8(int value) => -(value & 0x80) + (value & ~0x80);
+int twocomp16(int value) => -(value & 0x8000) + (value & ~0x8000);
 
 // Algorithm for counting set bits taken from LLVM optimization proposal at:
 //    https://llvm.org/bugs/show_bug.cgi?id=1488

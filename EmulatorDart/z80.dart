@@ -423,11 +423,9 @@ class Z80 {
   }
 
   void JR(int jump) {
-    if (jump >= 0) {
-      pc += jump;
-    } else {
-      pc -= -jump;
-    }
+    // jump is treated as signed byte from -128 to 127
+    jump = twocomp8(jump);
+    pc = (pc + jump) % 0x10000;
 
     tStates += 12;
   }
@@ -438,7 +436,7 @@ class Z80 {
       JR(relativeAddress);
       tStates++;
     } else {
-      pc++;
+      pc = (pc + 1) % 0x10000;
       tStates += 8;
     }
   }
@@ -661,7 +659,7 @@ class Z80 {
     // rotates register A to the left
     // bit 7 is copied to carry and to bit 0
     fC = isSign8(a);
-    a <<= 1;
+    a = (a << 1) % 0x100;
     if (fC) a = setBit(a, 0);
     f5 = isBitSet(a, 5);
     f3 = isBitSet(a, 3);

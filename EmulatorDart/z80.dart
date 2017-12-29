@@ -217,11 +217,7 @@ class Z80 {
   int INC(int reg) {
     var oldReg = reg;
     fPV = (reg == 0x7F);
-    if (reg == 0xFF) {
-      reg = 0x00;
-    } else {
-      reg++;
-    }
+    reg = (reg + 1) % 256;
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
     fS = isSign8(reg);
@@ -237,11 +233,7 @@ class Z80 {
   int DEC(int reg) {
     var oldReg = reg;
     fPV = (reg == 0x80);
-    if (reg == 0x00) {
-      reg = 0xFF;
-    } else {
-      reg--;
-    }
+    reg = (reg - 1) % 256;
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
     fS = isSign8(reg);

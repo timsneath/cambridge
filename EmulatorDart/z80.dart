@@ -217,7 +217,7 @@ class Z80 {
   int INC(int reg) {
     var oldReg = reg;
     fPV = (reg == 0x7F);
-    reg = (reg + 1) % 256;
+    reg = (reg + 1) % 0x100;
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
     fS = isSign8(reg);
@@ -233,7 +233,7 @@ class Z80 {
   int DEC(int reg) {
     var oldReg = reg;
     fPV = (reg == 0x80);
-    reg = (reg - 1) % 256;
+    reg = (reg - 1) % 0x100;
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
     fS = isSign8(reg);
@@ -277,7 +277,7 @@ class Z80 {
     bool overflowCheck = (isSign8(a) == isSign8(b));
 
     fC = a + b > 0xFF;
-    a = (a + b) % 256;
+    a = (a + b) % 0x100;
     fS = isSign8(a);
 
     // if polarity is now different then add caused an overflow
@@ -300,7 +300,7 @@ class Z80 {
   int ADD16(int a, int b) {
     fH = (((a & 0xFFF) + (b & 0xFFF)) & 0x1000) == 0x1000;
     fC = a + b > 0xFFFF;
-    a += b;
+    a = (a + b) % 0x10000;
     f5 = isBitSet(a, 13);
     f3 = isBitSet(a, 11);
     fN = false;

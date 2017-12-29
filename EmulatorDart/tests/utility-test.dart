@@ -24,10 +24,10 @@ void main() {
   });
 
   test("IsBitSet test", () {
-    expect(IsBitSet(0xF000, 15), equals(true));
-    expect(IsBitSet(0xF000, 7), equals(false));
-    expect(IsBitSet(0x0001, 0), equals(true));
-    expect(IsBitSet(0xFF, 20), equals(false));
+    expect(isBitSet(0xF000, 15), equals(true));
+    expect(isBitSet(0xF000, 7), equals(false));
+    expect(isBitSet(0x0001, 0), equals(true));
+    expect(isBitSet(0xFF, 20), equals(false));
   });
 
   // TODO: Write more utility tests

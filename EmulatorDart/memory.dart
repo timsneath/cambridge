@@ -33,7 +33,7 @@ class Memory {
   // implementation detail, and all external interfaces are as int.
   var memory = new Uint8List(ramTop + 1);
 
-  void Reset() {
+  void reset() {
     if (isRomProtected) {
       memory.fillRange(romTop + 1, ramTop - romTop, 0);
     } else {
@@ -41,7 +41,7 @@ class Memory {
     }
   }
 
-  void Load(int start, List<int> loadData) {
+  void load(int start, List<int> loadData) {
     // TODO: this method is primarily used for loading roms, so we
     // ignore the isRomProtected flag. We should do a better job of the
     // semantics here though.
@@ -50,19 +50,19 @@ class Memory {
     memory.setRange(start, start + loadData8.length, loadData8);
   }
 
-  int ReadByte(int address) => memory[address] & 0xFF;
-  int ReadWord(int address) => (memory[address + 1] << 8) + memory[address];
+  int readByte(int address) => memory[address] & 0xFF;
+  int readWord(int address) => (memory[address + 1] << 8) + memory[address];
 
   // As with a real device, no exception thrown if an attempt is made to
   // write to ROM - the request is just ignored
-  void WriteByte(int address, int value) {
+  void writeByte(int address, int value) {
     if (address > romTop || !isRomProtected) {
       // coerce to 8-bit, just in case
       memory[address] = value & 0xFF;
     }
   }
 
-  void WriteWord(int address, int value) {
+  void writeWord(int address, int value) {
     if (address > romTop || !isRomProtected) {
       memory[address] = lowByte(value);
       memory[address + 1] = highByte(value);

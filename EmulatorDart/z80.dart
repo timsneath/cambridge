@@ -515,8 +515,8 @@ class Z80 {
     fZ = (a == val);
     fN = true;
     fPV = (bc - 1 != 0);
-    hl++;
-    bc--;
+    hl = (hl + 1) % 0x10000;
+    bc = (bc - 1) % 0x10000;
 
     tStates += 16;
   }
@@ -528,8 +528,8 @@ class Z80 {
     fZ = (a == val);
     fN = true;
     fPV = (bc - 1 != 0);
-    hl++;
-    bc--;
+    hl = (hl + 1) % 0x10000;
+    bc = (bc - 1) % 0x10000;
 
     if ((bc != 0) && (a != val)) {
       pc -= 2;
@@ -595,7 +595,7 @@ class Z80 {
     fC = (a != 0x00);
 
     a = ~a;
-    a++;
+    a = (a + 1) % 0x100;
 
     f5 = isBitSet(a, 5);
     f3 = isBitSet(a, 3);

@@ -277,7 +277,7 @@ class Z80 {
     bool overflowCheck = (isSign8(a) == isSign8(b));
 
     fC = a + b > 0xFF;
-    a += b;
+    a = (a + b) % 256;
     fS = isSign8(a);
 
     // if polarity is now different then add caused an overflow

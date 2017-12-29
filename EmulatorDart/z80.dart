@@ -247,12 +247,12 @@ class Z80 {
   }
 
   int ADC8(int a, int b) {
-    if (fC) b++;
+    if (fC) b = (b + 1) % 0x100;
     return ADD8(a, b);
   }
 
   int ADC16(int a, int b) {
-    if (fC) b++;
+    if (fC) b = (b + 1) % 0x10000;
 
     // overflow in add only occurs when operand polarities are the same
     bool overflowCheck = (isSign16(a) == isSign16(b));
@@ -311,19 +311,19 @@ class Z80 {
   }
 
   int SBC8(int x, int y) {
-    if (fC) y++;
+    if (fC) y = (y + 1) % 0x100;
     return SUB8(x, y);
   }
 
   int SBC16(int x, int y) {
-    if (fC) y++;
+    if (fC) y = (y + 1) % 0x10000;
     fC = x < y;
     fH = (x & 0xFFF) < (y & 0xFFF);
 
     // overflow in subtract only occurs when operand signs are different
     bool overflowCheck = (isSign16(x) != isSign16(y));
 
-    x -= y;
+    x = (x - y) % 0x10000;
     f5 = isBitSet(x, 13);
     f3 = isBitSet(x, 11);
     fS = isSign16(x);
@@ -352,7 +352,7 @@ class Z80 {
     // overflow in subtract only occurs when operand signs are different
     bool overflowCheck = (isSign8(x) != isSign8(y));
 
-    x -= y;
+    x = (x - y) % 0x100;
     f5 = isBitSet(x, 5);
     f3 = isBitSet(x, 3);
 

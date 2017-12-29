@@ -26,12 +26,14 @@ class Memory {
   static const romTop = 0x3FFF;
   static const ramTop = 0xFFFF;
 
-  bool isRomProtected = true;
+  bool isRomProtected;
 
   // We treat the memory space as a list of unsigned bytes from 0x0000 to
   // ramTop. For convenience, we treat the typed data format as an internal
   // implementation detail, and all external interfaces are as int.
   var memory = new Uint8List(ramTop + 1);
+
+  Memory(this.isRomProtected);
 
   void reset() {
     if (isRomProtected) {

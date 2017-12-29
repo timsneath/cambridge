@@ -1297,7 +1297,7 @@ class Z80 {
           break;
 
         default:
-          throw new Exception("Opcode DDCB**$opCode not understood. ");
+          throw new Exception("Opcode DDCB**${toHex16(opCode)} not understood. ");
       }
       ;
 
@@ -1837,7 +1837,7 @@ class Z80 {
         break;
 
       default:
-        throw new Exception("Opcode DD$opCode not understood. ");
+        throw new Exception("Opcode DD${toHex16(opCode)} not understood. ");
     }
   }
 
@@ -2206,7 +2206,7 @@ class Z80 {
         break;
 
       default:
-        throw new Exception("Opcode ED$opCode not understood. ");
+        throw new Exception("Opcode ED${toHex16(opCode)} not understood. ");
     }
   }
 
@@ -2299,7 +2299,7 @@ class Z80 {
           break;
 
         default:
-          throw new Exception("Opcode FDCB**$opCode not understood. ");
+          throw new Exception("Opcode FDCB**${toHex16(opCode)} not understood. ");
       }
       ;
 
@@ -2839,7 +2839,7 @@ class Z80 {
         break;
 
       default:
-        throw new Exception("Opcode FD$opCode not understood. ");
+        throw new Exception("Opcode FD${toHex16(opCode)} not understood. ");
     }
   }
 

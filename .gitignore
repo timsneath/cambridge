@@ -251,3 +251,5 @@ ModelManifest.xml
 /ProjectCambridge/fuse_tests
 /EmulatorTests/FuseUnitTests.cs
 /utils/CreateUnitTests/fuse_tests
+
+.DS_Store

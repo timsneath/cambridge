@@ -2835,7 +2835,7 @@ class Z80 {
         throw new Exception("Opcode FD$opCode not understood. ");
     }
 
-    bool ExecuteNextInstruction() {
+    bool executeNextInstruction() {
       var opCode = getNextByte();
       r++;
 

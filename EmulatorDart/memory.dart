@@ -28,7 +28,9 @@ class Memory {
 
   bool isRomProtected = true;
 
-  // We treat the memory space as a list of ints from 0x0000 to ramTop.
+  // We treat the memory space as a list of unsigned bytes from 0x0000 to
+  // ramTop. For convenience, we treat the typed data format as an internal
+  // implementation detail, and all external interfaces are as int.
   var memory = new Uint8List(ramTop + 1);
 
   void Reset() {
@@ -39,18 +41,24 @@ class Memory {
     }
   }
 
-  void Load(int start, Uint8List loadData) {
-    memory.fillRange(start, loadData);
+  void Load(int start, List<int> loadData) {
+    // TODO: this method is primarily used for loading roms, so we
+    // ignore the isRomProtected flag. We should do a better job of the
+    // semantics here though.
+    var loadData8 = new Uint8List.fromList(loadData);
+
+    memory.setRange(start, start + loadData8.length, loadData8);
   }
 
-  int ReadByte(int address) => memory[address];
+  int ReadByte(int address) => memory[address] & 0xFF;
   int ReadWord(int address) => (memory[address + 1] << 8) + memory[address];
 
   // As with a real device, no exception thrown if an attempt is made to
   // write to ROM - the request is just ignored
   void WriteByte(int address, int value) {
     if (address > romTop || !isRomProtected) {
-      memory[address] = value;
+      // coerce to 8-bit, just in case
+      memory[address] = value & 0xFF;
     }
   }
 

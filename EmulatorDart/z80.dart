@@ -433,7 +433,7 @@ class Z80 {
   }
 
   void DJNZ(int relativeAddress) {
-    b--;
+    b = (b - 1) % 0x100;
     if (b != 0) {
       JR(relativeAddress);
       tStates++;
@@ -484,8 +484,8 @@ class Z80 {
     fZ = (a == val);
     fN = true;
     fPV = (bc - 1 != 0);
-    hl--;
-    bc--;
+    hl = (hl - 1) % 0x10000;
+    bc = (bc - 1) % 0x10000;
 
     tStates += 16;
   }
@@ -497,8 +497,8 @@ class Z80 {
     fZ = (a == val);
     fN = true;
     fPV = (bc - 1 != 0);
-    hl--;
-    bc--;
+    hl = (hl - 1) % 0x10000;
+    bc = (bc - 1) % 0x10000;
 
     if ((bc != 0) && (a != val)) {
       pc -= 2;

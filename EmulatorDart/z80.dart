@@ -627,7 +627,7 @@ class Z80 {
 
   // TODO: Organize these into the same groups as the Z80 manual
   void CPL() {
-    a = ~a;
+    a = onecomp8(a);
     f5 = isBitSet(a, 5);
     f3 = isBitSet(a, 3);
     fH = true;
@@ -723,7 +723,7 @@ class Z80 {
     bool bit0 = fC;
 
     fC = isSign8(reg);
-    reg <<= 1;
+    reg = (reg << 1) % 0x100;
 
     if (bit0) reg = setBit(reg, 0);
 
@@ -744,7 +744,7 @@ class Z80 {
     bool bit0 = fC;
 
     fC = isSign8(a);
-    a <<= 1;
+    a = (a << 1) % 0x100;
 
     if (bit0) a = setBit(a, 0);
 
@@ -797,7 +797,7 @@ class Z80 {
 
   int SLA(int reg) {
     fC = isSign8(reg);
-    reg <<= 1;
+    reg = (reg << 1) % 0x100;
 
     f5 = isBitSet(reg, 5);
     f3 = isBitSet(reg, 3);
@@ -834,7 +834,7 @@ class Z80 {
   int SLL(int reg) {
     // technically, SLL is undocumented
     fC = isBitSet(reg, 7);
-    reg <<= 1;
+    reg = (reg << 1) % 0x100;
     reg = setBit(reg, 0);
 
     f5 = isBitSet(reg, 5);
@@ -969,7 +969,8 @@ class Z80 {
             "Field register $reg must map to a valid Z80 register.");
     }
 
-    // undocumented behavior from http://worldofspectrum.org/faq/reference/z80reference.htm
+    // undocumented behavior from 
+    //   http://worldofspectrum.org/faq/reference/z80reference.htm
     fS = ((bitToTest == 7) && (!fZ));
     fH = true;
     fN = false;

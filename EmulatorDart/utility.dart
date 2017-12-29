@@ -6,6 +6,10 @@ int lowByte(int value) => value & 0x00FF;
 int twocomp8(int value) => -(value & 0x80) + (value & ~0x80);
 int twocomp16(int value) => -(value & 0x8000) + (value & ~0x8000);
 
+// Calculate 1s complement of an 8-bit or 16-bit value
+int onecomp8(int value) => (~value).toSigned(8) % 0x100;
+int onecomp16(int value) => (~value).toSigned(16) % 0x10000;
+
 // Algorithm for counting set bits taken from LLVM optimization proposal at:
 //    https://llvm.org/bugs/show_bug.cgi?id=1488
 bool isParity(int value) {

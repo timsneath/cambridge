@@ -412,9 +412,9 @@ class Z80 {
     }
 
     if (!fN) {
-      a += correctionFactor;
+      a = (a + correctionFactor) % 0x100;
     } else {
-      a -= correctionFactor;
+      a = (a - correctionFactor) % 0x100;
     }
 
     fH = ((oldA & 0x10) ^ (a & 0x10)) == 0x10;

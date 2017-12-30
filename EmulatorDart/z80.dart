@@ -159,9 +159,9 @@ class Z80 {
     var byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
 
-    de++;
-    hl++;
-    bc--;
+    de = (de + 1) % 0x10000;
+    hl = (hl + 1) % 0x10000;
+    bc = (bc - 1) % 0x10000;
 
     fH = false;
     fN = false;
@@ -176,9 +176,9 @@ class Z80 {
     var byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
 
-    de--;
-    hl--;
-    bc--;
+    de = (de - 1) % 0x10000;
+    hl = (hl - 1) % 0x10000;
+    bc = (bc - 1) % 0x10000;
     fH = false;
     fN = false;
     fPV = (bc != 0);
@@ -192,12 +192,12 @@ class Z80 {
     var byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
 
-    de++;
-    hl++;
-    bc--;
+    de = (de + 1) % 0x10000;
+    hl = (hl + 1) % 0x10000;
+    bc = (bc - 1) % 0x10000;;
 
     if (bc != 0) {
-      pc -= 2;
+      pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
       f5 = isBitSet(byteRead, 5);
@@ -213,11 +213,12 @@ class Z80 {
   void LDDR() {
     var byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
-    de--;
-    hl--;
-    bc--;
+
+    de = (de - 1) % 0x10000;
+    hl = (hl - 1) % 0x10000;
+    bc = (bc - 1) % 0x10000;
     if (bc > 0) {
-      pc -= 2;
+      pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
       f5 = isBitSet(byteRead, 5);
@@ -547,7 +548,7 @@ class Z80 {
     bc = (bc - 1) % 0x10000;
 
     if ((bc != 0) && (a != val)) {
-      pc -= 2;
+      pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
       tStates += 16;
@@ -611,7 +612,6 @@ class Z80 {
 
     a = ~a;
     a = (a + 1) % 0x100;
-
     f5 = isBitSet(a, 5);
     f3 = isBitSet(a, 3);
 
@@ -867,6 +867,7 @@ class Z80 {
   }
 
   void RLD() {
+    // TODO: Overflow condition for this and RRD
     int old_pHL = memory.readByte(hl);
 
     int new_pHL = ((old_pHL & 0x0F) << 4);
@@ -1069,8 +1070,8 @@ class Z80 {
 
   void INI() {
     memory.writeByte(hl, portRead(bc));
-    hl++;
-    b--;
+    hl = (hl + 1) % 0x10000;
+    b = (b - 1) % 0x100;
 
     fN = true;
 
@@ -1079,8 +1080,8 @@ class Z80 {
 
   void OUTI() {
     portWrite(c, memory.readByte(hl));
-    hl++;
-    b--;
+    hl = (hl + 1) % 0x10000;
+    b = (b - 1) % 0x100;
 
     fN = true;
 
@@ -1089,8 +1090,8 @@ class Z80 {
 
   void IND() {
     memory.writeByte(hl, portRead(bc));
-    hl--;
-    b--;
+    hl = (hl - 1) % 0x10000;
+    b = (b - 1) % 0x100;
 
     fN = true;
 
@@ -1099,8 +1100,8 @@ class Z80 {
 
   void OUTD() {
     portWrite(c, memory.readByte(hl));
-    hl--;
-    b--;
+    hl = (hl - 1) % 0x10000;
+    b = (b - 1) % 0x100;
 
     fN = true;
 
@@ -1109,8 +1110,8 @@ class Z80 {
 
   void INIR() {
     memory.writeByte(hl, portRead(bc));
-    hl++;
-    b--;
+    hl = (hl + 1) % 0x10000;
+    b = (b - 1) % 0x100;
     if (b != 0) {
       pc -= 2;
       tStates += 21;
@@ -1123,8 +1124,8 @@ class Z80 {
 
   void OTIR() {
     portWrite(bc, memory.readByte(hl));
-    hl++;
-    b--;
+    hl = (hl + 1) % 0x10000;
+    b = (b - 1) % 0x100;
     if (b != 0) {
       pc -= 2;
       tStates += 21;
@@ -1137,8 +1138,8 @@ class Z80 {
 
   void INDR() {
     memory.writeByte(hl, portRead(bc));
-    hl--;
-    b--;
+    hl = (hl - 1) % 0x10000;
+    b = (b - 1) % 0x100;
     if (b != 0) {
       pc -= 2;
       tStates += 21;
@@ -1151,8 +1152,8 @@ class Z80 {
 
   void OTDR() {
     portWrite(bc, memory.readByte(hl));
-    hl--;
-    b--;
+    hl = (hl - 1) % 0x10000;
+    b = (b - 1) % 0x100;
     if (b != 0) {
       pc -= 2;
       tStates += 21;

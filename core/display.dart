@@ -37,7 +37,7 @@ class Display {
     // display is 192 lines of 32 bytes
     for (int y = 0; y < 192; y++) {
       for (int x = 0; x < 32; x++) {
-        idx = 4 * (y * 256 + (x * 8));
+        idx = (y * 256 + (x * 8));
 
         // Screen address can be calculated as follows:
         //
@@ -85,7 +85,7 @@ class Display {
         // apply state to the display
         for (int bit = 7; bit >= 0; bit--) {
           bool isBitSet = (pixel8 & (1 << bit)) == 1 << bit;
-          display[idx++] = (isBitSet ? inkColor.value : paperColor.value);
+          display[idx] = (isBitSet ? inkColor.value : paperColor.value);
         }
       }
     }

@@ -1,13 +1,14 @@
+// keyboard.dart -- keyboard input for ZX Spectrum
 
-        // // http://www.animatez.co.uk/computers/zx-spectrum/keyboard/ 
-        // private readonly Dictionary<int, char[]> ZXSPECTRUM_KEYMAP = new Dictionary<int, char[]>
-        // {
-        //     { 0xFEFE, new char[] { '*', 'Z', 'X', 'C', 'V' } },
-        //     { 0xFDFE, new char[] { 'A', 'S', 'D', 'F', 'G' } },
-        //     { 0xFBFE, new char[] { 'Q', 'W', 'E', 'R', 'T' } },
-        //     { 0xF7FE, new char[] { '1', '2', '3', '4', '5' } },
-        //     { 0xEFFE, new char[] { '0', '9', '8', '7', '6' } },
-        //     { 0xDFFE, new char[] { 'P', 'O', 'I', 'U', 'Y' } },
-        //     { 0xBFFE, new char[] { '*', 'L', 'K', 'J', 'H' } },
-        //     { 0x7FFE, new char[] { ' ', '*', 'M', 'N', 'B' } }
-        // };
+// http://www.animatez.co.uk/computers/zx-spectrum/keyboard/ 
+final KeyMap = 
+{
+     0xFEFE: [ '*', 'Z', 'X', 'C', 'V' ],
+     0xFDFE: [ 'A', 'S', 'D', 'F', 'G' ],
+     0xFBFE: [ 'Q', 'W', 'E', 'R', 'T' ],
+     0xF7FE: [ '1', '2', '3', '4', '5' ],
+     0xEFFE: [ '0', '9', '8', '7', '6' ],
+     0xDFFE: [ 'P', 'O', 'I', 'U', 'Y' ],
+     0xBFFE: [ '*', 'L', 'K', 'J', 'H' ],
+     0x7FFE: [ ' ', '*', 'M', 'N', 'B' ]
+};

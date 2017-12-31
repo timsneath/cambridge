@@ -1,3 +1,8 @@
+// display_test.dart -- test display system
+
+// Run tests with 
+//   pub run test test/display_test.dart --no-color > test/results_display_test.txt
+
 import 'package:test/test.dart';
 
 import 'dart:typed_data';

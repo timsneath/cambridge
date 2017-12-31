@@ -1,5 +1,5 @@
-name: project_cambridge
-description: A new Flutter project.
+name: ui
+description: Project Cambridge
 
 dependencies:
   flutter:

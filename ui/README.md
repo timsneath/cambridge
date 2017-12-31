@@ -1,6 +1,6 @@
-# project_cambridge
+# ui
 
-A new Flutter project.
+Project Cambridge
 
 ## Getting Started
 

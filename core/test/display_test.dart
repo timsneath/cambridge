@@ -8,7 +8,7 @@ import '../memory.dart';
 
 main() {
   test('Basic display test', () {
-    var memory = new Memory();
+    var memory = new Memory(false);
     var z80 = new Z80(memory, startAddress: 0xA000);
     z80.reset();
     

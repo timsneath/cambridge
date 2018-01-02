@@ -194,7 +194,8 @@ class Z80 {
 
     de = (de + 1) % 0x10000;
     hl = (hl + 1) % 0x10000;
-    bc = (bc - 1) % 0x10000;;
+    bc = (bc - 1) % 0x10000;
+    ;
 
     if (bc != 0) {
       pc = (pc - 2) % 0x10000;
@@ -270,7 +271,9 @@ class Z80 {
   }
 
   int ADC16(int a, int b) {
-    if (fC) b = (b + 1) % 0x10000;
+    if (fC) {
+      b = (b + 1) % 0x10000;
+    }
 
     // overflow in add only occurs when operand polarities are the same
     bool overflowCheck = (isSign16(a) == isSign16(b));
@@ -329,12 +332,16 @@ class Z80 {
   }
 
   int SBC8(int x, int y) {
-    if (fC) y = (y + 1) % 0x100;
+    if (fC) {
+      y = (y + 1) % 0x100;
+    }
     return SUB8(x, y);
   }
 
   int SBC16(int x, int y) {
-    if (fC) y = (y + 1) % 0x10000;
+    if (fC) {
+      y = (y + 1) % 0x10000;
+    }
     fC = x < y;
     fH = (x & 0xFFF) < (y & 0xFFF);
 
@@ -970,7 +977,7 @@ class Z80 {
             "Field register $reg must map to a valid Z80 register.");
     }
 
-    // undocumented behavior from 
+    // undocumented behavior from
     //   http://worldofspectrum.org/faq/reference/z80reference.htm
     fS = ((bitToTest == 7) && (!fZ));
     fH = true;

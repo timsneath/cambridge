@@ -5,8 +5,6 @@
 
 import 'package:test/test.dart';
 
-import 'dart:typed_data';
-
 import '../display.dart';
 import '../z80.dart';
 import '../memory.dart';

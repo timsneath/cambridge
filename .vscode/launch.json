@@ -8,7 +8,7 @@
             "name": "Dart command line",
             "type": "dart-cli",
             "request": "launch",
-            "program": "${workspaceRoot}/EmulatorDart/test/z80instruction-test.dart"
+            "program": "${workspaceRoot}/core/main.dart"
         }
     ]
 }

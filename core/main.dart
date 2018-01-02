@@ -7,7 +7,7 @@ void main() {
   Memory memory = new Memory(true);
   Z80 z80 = new Z80(memory);
 
-  var rom = new File('z80.rom').readAsBytesSync();
+  var rom = new File('roms/48.rom').readAsBytesSync();
   memory.load(0x0000, rom);
 
   int instructionsExecuted = 0;

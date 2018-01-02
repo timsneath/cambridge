@@ -13,6 +13,7 @@ class Spectrum extends StatefulWidget {
 class _SpectrumState extends State<Spectrum> {
   Z80 z80;
   Memory memory;
+  int instructionCounter = 0;
 
   @override
   void initState() {
@@ -28,17 +29,29 @@ class _SpectrumState extends State<Spectrum> {
     super.dispose();
   }
 
+  void execute1000() {
+    setState(() {
+      while (instructionCounter++ % 0x1000 != 0) {
+        z80.executeNextInstruction();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
       ),
+      floatingActionButton: new FloatingActionButton(
+        child: new Icon(Icons.arrow_forward),
+        onPressed: execute1000,
+      ),
       body: new Center(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Text(toHex16(z80.af)) // yeah - we're wired up :)
+            new Text(toHex16(z80.pc)) // yeah - we're wired up :)
           ],
         ),
       ),

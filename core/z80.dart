@@ -33,10 +33,9 @@ class Z80 {
     iy = 0xFFFF;
     sp = 0xFFFF;
     pc = 0x0000;
-    iff1 = false;
-    iff2 = false;
+    iff1 = iff2 = false;
     im = 0;
-    r = 0xFF;
+    i = r = 0xFF;
 
     tStates = 0;
     cpuSuspended = false;

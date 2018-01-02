@@ -44,18 +44,16 @@ class Memory {
     }
   }
 
-  void load(int start, List<int> loadData) {
-    // TODO: this method is primarily used for loading roms and testing, so we
-    // ignore the isRomProtected flag. We should do a better job of the
-    // semantics here though.
+  void load(int start, List<int> loadData, {ignoreRomProtection: false}) {
+    // TODO: honor ignoreRomProtection flag
     var loadData8 = new Uint8List.fromList(loadData);
 
     memory.setRange(start, start + loadData8.length, loadData8);
   }
 
-  void loadSpectrum48KRom() {
-    var rom = new File('/Users/timsneath/git/cambridge/spectrum/roms/48.rom').readAsBytesSync();
-    load(0x0000, rom);
+  void loadSpectrumRom(String romLocation) {
+    var rom = new File(romLocation).readAsBytesSync();
+    load(0x0000, rom, ignoreRomProtection: true);
   }
 
   int readByte(int address) => memory[address] & 0xFF;

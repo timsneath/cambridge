@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spectrum/spectrum.dart';
 
 class Spectrum extends StatefulWidget {
@@ -15,13 +16,11 @@ class _SpectrumState extends State<Spectrum> {
   Memory memory;
   int instructionCounter = 0;
 
-  @override
-  void initState() {
-    super.initState();
+  _SpectrumState() {
     memory = new Memory(true);
-    memory.loadSpectrum48KRom();
     z80 = new Z80(memory, startAddress: 0x0000);
   }
+
 
   @override
   void dispose() {
@@ -29,12 +28,19 @@ class _SpectrumState extends State<Spectrum> {
     super.dispose();
   }
 
-  void execute1000() {
-    setState(() {
-      while (instructionCounter++ % 0x1000 != 0) {
-        z80.executeNextInstruction();
-      }
-    });
+  execute1000() async {
+    if (instructionCounter == 0) {
+      ByteData rom = await rootBundle.load('roms/48.rom');
+      memory.load(0x0000, rom.buffer.asUint8List());
+      z80.reset();
+      instructionCounter++;
+    } else {
+      setState(() {
+        while (instructionCounter++ % 0x10000 != 0) {
+          z80.executeNextInstruction();
+        }
+      });
+    }
   }
 
   @override
@@ -51,7 +57,9 @@ class _SpectrumState extends State<Spectrum> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Text(toHex16(z80.pc)) // yeah - we're wired up :)
+            new Text(z80 == null
+                ? 'null'
+                : toHex16(z80.pc)) // yeah - we're wired up :)
           ],
         ),
       ),

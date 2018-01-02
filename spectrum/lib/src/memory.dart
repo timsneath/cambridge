@@ -16,6 +16,7 @@
 // to the RAM is shared between the processor and the ULA. The ULA has
 // priority access when the screen is being drawn.
 
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'utility.dart';
@@ -44,12 +45,17 @@ class Memory {
   }
 
   void load(int start, List<int> loadData) {
-    // TODO: this method is primarily used for loading roms, so we
+    // TODO: this method is primarily used for loading roms and testing, so we
     // ignore the isRomProtected flag. We should do a better job of the
     // semantics here though.
     var loadData8 = new Uint8List.fromList(loadData);
 
     memory.setRange(start, start + loadData8.length, loadData8);
+  }
+
+  void loadSpectrum48KRom() {
+    var rom = new File('/Users/timsneath/git/cambridge/spectrum/roms/48.rom').readAsBytesSync();
+    load(0x0000, rom);
   }
 
   int readByte(int address) => memory[address] & 0xFF;

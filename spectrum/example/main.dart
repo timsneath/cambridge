@@ -1,14 +1,12 @@
 import 'dart:io';
 
-import 'z80.dart';
-import 'memory.dart';
-import 'utility.dart';
+import 'package:spectrum/spectrum.dart';
 
-void main() {
+main() {
   Memory memory = new Memory(true);
   Z80 z80 = new Z80(memory);
 
-  var rom = new File('core/roms/48.rom').readAsBytesSync();
+  var rom = new File('spectrum/roms/48.rom').readAsBytesSync();
   memory.load(0x0000, rom);
 
   int instructionsExecuted = 0;

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../core/memory.dart';
-import '../../core/z80.dart';
-import '../../core/display.dart';
+import 'package:spectrum/spectrum.dart';
 
 class Spectrum extends StatefulWidget {
   Spectrum({Key key, this.title}) : super(key: key);
@@ -21,6 +18,7 @@ class _SpectrumState extends State<Spectrum> {
   void initState() {
     super.initState();
     memory = new Memory(true);
+    memory.loadSpectrum48KRom();
     z80 = new Z80(memory, startAddress: 0x0000);
   }
 
@@ -40,7 +38,7 @@ class _SpectrumState extends State<Spectrum> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Image.memory(Display.imageBuffer(memory)),
+            new Text(toHex16(z80.af)) // yeah - we're wired up :)
           ],
         ),
       ),

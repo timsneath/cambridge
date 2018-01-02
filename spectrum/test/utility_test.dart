@@ -1,6 +1,10 @@
-import 'package:test/test.dart';
+// utility_test.dart -- test utility methods
 
-import '../utility.dart';
+// Run tests with 
+//   pub run test test/utility_test.dart --no-color > test/results_utility_test.txt
+
+import 'package:test/test.dart';
+import 'package:spectrum/spectrum.dart';
 
 void main() {
   test("High byte test 1", () {

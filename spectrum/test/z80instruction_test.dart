@@ -1,7 +1,10 @@
+// z80instruction_test.dart -- test a common set of Z80 instructions against Zilog spec
+
+// Run tests with 
+//   pub run test test/z80instruction_test.dart --no-color > test/results_z80instruction_test.txt
+
 import 'package:test/test.dart';
-import '../z80.dart';
-import '../memory.dart';
-import '../utility.dart';
+import 'package:spectrum/spectrum.dart';
 
 Memory memory = new Memory(false);
 Z80 z80 = new Z80(memory, startAddress: 0xA000);

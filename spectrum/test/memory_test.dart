@@ -1,6 +1,10 @@
-import 'package:test/test.dart';
+// memory_test.dart -- test display system
 
-import '../memory.dart';
+// Run tests with 
+//   pub run test test/memory_test.dart --no-color > test/results_memory_test.txt
+
+import 'package:test/test.dart';
+import 'package:spectrum/spectrum.dart';
 
 main() {
   test("Basic memory test", () {

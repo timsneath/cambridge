@@ -1,7 +1,10 @@
-import 'package:test/test.dart';
+// z80core_test.dart -- test most basic functions of Z80 emulation
 
-import '../z80.dart';
-import '../memory.dart';
+// Run tests with 
+//   pub run test test/z80core_test.dart --no-color > test/results_z80core_test.txt
+
+import 'package:test/test.dart';
+import 'package:spectrum/spectrum.dart';
 
 void main() {
   test("Initialization test", () {

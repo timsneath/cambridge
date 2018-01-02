@@ -8,9 +8,7 @@
 //   pub run test test/fuse_unit_test.dart -x undocumented --no-color > test/results.txt
 
 import 'package:test/test.dart';
-import '../z80.dart';
-import '../memory.dart';
-import '../utility.dart';
+import 'package:spectrum/spectrum.dart';
 
 Memory memory = new Memory(false);
 Z80 z80 = new Z80(memory, startAddress: 0xA000);

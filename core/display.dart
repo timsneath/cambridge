@@ -30,7 +30,7 @@ final SpectrumColors = <int, SpectrumColor>{
 };
 
 class Display {
-  Uint8List imageBuffer(Memory memory) {
+  static Uint8List imageBuffer(Memory memory) {
     Uint8List display = new Uint8List(256 * 192);
     int idx;
 

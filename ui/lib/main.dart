@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'spectrum.dart';
 
 void main() => runApp(new ProjectCambridge());
@@ -12,7 +13,7 @@ class ProjectCambridge extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new Spectrum(title: 'Flutter Demo Home Page'),
+      home: new Spectrum(title: 'Project Cambridge'),
     );
   }
 }

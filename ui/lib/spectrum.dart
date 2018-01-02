@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../core/memory.dart';
+import '../../core/z80.dart';
+import '../../core/display.dart';
+
 class Spectrum extends StatefulWidget {
   Spectrum({Key key, this.title}) : super(key: key);
 
@@ -10,6 +14,22 @@ class Spectrum extends StatefulWidget {
 }
 
 class _SpectrumState extends State<Spectrum> {
+  Z80 z80;
+  Memory memory;
+
+  @override
+  void initState() {
+    super.initState();
+    memory = new Memory(true);
+    z80 = new Z80(memory, startAddress: 0x0000);
+  }
+
+  @override
+  void dispose() {
+    memory = null;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -20,9 +40,7 @@ class _SpectrumState extends State<Spectrum> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Text(
-              'You have pushed the button this many times:',
-            ),
+            new Image.memory(Display.imageBuffer(memory)),
           ],
         ),
       ),

@@ -14,11 +14,15 @@ void main() {
   int instructionsExecuted = 0;
 
   while(!z80.cpuSuspended) {
+    // assert(z80.b != null);
+
     z80.executeNextInstruction();
 
     if (instructionsExecuted++ % 0x1000 == 0)
     {
       print("Program Counter: ${toHex16(z80.pc)}");
     }
+
+    // assert(z80.b != null);
   }
 }

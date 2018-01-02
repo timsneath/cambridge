@@ -25,10 +25,10 @@ class Z80 {
   void reset() {
     // Initial register states are set per section 2.4 of
     //  http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
-    af = 0xFFFF;
-    bc = 0xFFFF;
-    de = 0xFFFF;
-    hl = 0xFFFF;
+    af = af_ = 0xFFFF;
+    bc = bc_ = 0xFFFF;
+    de = de_ = 0xFFFF;
+    hl = hl_ = 0xFFFF;
     ix = 0xFFFF;
     iy = 0xFFFF;
     sp = 0xFFFF;

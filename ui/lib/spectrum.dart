@@ -63,6 +63,14 @@ class _SpectrumState extends State<Spectrum> {
     displayFrame = img;
   }
 
+  loadTestScreenshot() async {
+    ByteData screen = await rootBundle.load('assets/AticAtac.scr');
+    setState(() {
+      memory.load(0x4000, screen.buffer.asUint8List());
+      createSpectrumFrame();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -71,7 +79,7 @@ class _SpectrumState extends State<Spectrum> {
       ),
       floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.arrow_forward),
-        onPressed: executeBatch,
+        onPressed: loadTestScreenshot,
       ),
       body: new Center(
         child: new Column(

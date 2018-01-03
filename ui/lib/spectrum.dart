@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image/image.dart' as image2;
+import 'package:image/image.dart' as Image2;
 import 'package:spectrum/spectrum.dart';
 
 class Spectrum extends StatefulWidget {
@@ -48,17 +48,9 @@ class _SpectrumState extends State<Spectrum> {
   }
 
   createSpectrumFrame() {
-    var frame = new image2.Image(Display.Width, Display.Height);
-    final buffer = Display.imageBuffer(memory);
+    var frame = new Image2.Image.fromBytes(Display.Width, Display.Height, Display.imageBuffer(memory), Image2.Image.RGBA);
 
-    for (int x = 0; x < Display.Width; x++) {
-      for (int y = 0; y < Display.Height; y++) {
-        SpectrumColor c = new SpectrumColor(buffer[x * Display.Height + y]);
-        frame.setPixelRGBA(x, y, c.red, c.green, c.blue);
-      }
-    }
-
-    final jpg = image2.encodeJpg(frame, quality: 100);
+    final jpg = Image2.encodeJpg(frame, quality: 100);
     final img = new Image.memory(jpg);
     displayFrame = img;
   }

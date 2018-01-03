@@ -17,4 +17,4 @@ doc/api/
 core/test/fuse_unit_test.dart
 
 # Not licensed for distribution - for test purposes only:
-AticAtac.scr
+*.scr

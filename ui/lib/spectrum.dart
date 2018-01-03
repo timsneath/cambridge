@@ -49,7 +49,7 @@ class _SpectrumState extends State<Spectrum> {
   }
 
   loadTestScreenshot() async {
-    ByteData screen = await rootBundle.load('assets/AticAtac.scr');
+    ByteData screen = await rootBundle.load('assets/google.scr');
     setState(() {
       memory.load(0x4000, screen.buffer.asUint8List());
       createSpectrumFrame();
@@ -100,6 +100,7 @@ class _SpectrumState extends State<Spectrum> {
                         style: new TextStyle(color: Colors.black87)))),
             new ButtonTheme.bar(
                 child: new ButtonBar(
+                  alignment: MainAxisAlignment.center,
               children: <Widget>[
                 new FlatButton(
                     child: new Text('TEST SCREEN'),

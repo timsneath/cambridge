@@ -5,11 +5,6 @@ import 'dart:typed_data';
 import 'memory.dart';
 import 'spectrumcolor.dart';
 
-// use Image.memory to display this in a Flutter app?
-//   https://docs.flutter.io/flutter/widgets/Image/Image.memory.html
-
-// also ref:
-//   https://github.com/brendan-duncan/image/blob/master/lib/src/draw/draw_pixel.dart
 final SpectrumColors = <int, SpectrumColor>{
   0x00: const SpectrumColor.fromRGB(0x00, 0x00, 0x00), // black
   0x01: const SpectrumColor.fromRGB(0x00, 0x00, 0xCD), // blue
@@ -56,18 +51,18 @@ class Display {
         // where 1 = ink color and 0 = paper color
 
         // transform (x, y) coordinates to appropriate memory location
-        var y7y6 = (y & 0xC0) >> 6;
-        var y5y4y3 = (y & 0x38) >> 3;
-        var y2y1y0 = y & 0x07;
-        var hi = 0x40 | (y7y6 << 3) | y2y1y0;
-        var lo = (y5y4y3 << 5) | x;
-        var addr = (hi << 8) + lo;
+        final y7y6 = (y & 0xC0) >> 6;
+        final y5y4y3 = (y & 0x38) >> 3;
+        final y2y1y0 = y & 0x07;
+        final hi = 0x40 | (y7y6 << 3) | y2y1y0;
+        final lo = (y5y4y3 << 5) | x;
+        final addr = (hi << 8) + lo;
 
         assert(addr >= 0x4000);
         assert(addr < 0x5800);
 
         // read in the 8 pixels of monochrome data
-        var pixel8 = memory.readByte(addr);
+        final pixel8 = memory.readByte(addr);
 
         // identify current ink / paper color for this pixel location
 
@@ -77,15 +72,15 @@ class Display {
         //    F  B  P2 P1 P0 I2 I1 I0
         //
         //  for 8x8 cells starting at 0x5800 (array of 32 x 24)
-        var color = memory.readByte((0x5800 + ((y ~/ 8) * 32 + x)));
-        var paperColor =
+        final color = memory.readByte((0x5800 + ((y ~/ 8) * 32 + x)));
+        final paperColor =
             SpectrumColors[((color & 0x78) >> 3)]; // 0x78 = 01111000
         var inkColorAsByte = ((color & 0x07)); // 0x07 = 00000111
         if ((color & 0x40) == 0x40) // bright on (i.e. 0x40 = 01000000)
         {
           inkColorAsByte |= 0x08;
         }
-        var inkColor = SpectrumColors[inkColorAsByte];
+        final inkColor = SpectrumColors[inkColorAsByte];
 
         // apply state to the display
         for (int bit = 7; bit >= 0; bit--) {
@@ -93,7 +88,7 @@ class Display {
           display[idx++] = (isBitSet ? inkColor.blue : paperColor.blue);
           display[idx++] = (isBitSet ? inkColor.green : paperColor.green);
           display[idx++] = (isBitSet ? inkColor.red : paperColor.red);          
-          display[idx++] = 0xFF;          
+          display[idx++] = 0xFF;
         }
       }
     }

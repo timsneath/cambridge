@@ -29,7 +29,6 @@ flutter:
   assets:
     - assets/blank.jpg
     - assets/AticAtac.scr
-    - assets/Rasputin.scr
     - roms/48.rom
 
   # An image asset can refer to one or more resolution-specific "variants", see

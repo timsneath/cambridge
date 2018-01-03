@@ -102,15 +102,12 @@ class _SpectrumState extends State<Spectrum> {
                 child: new ButtonBar(
               children: <Widget>[
                 new FlatButton(
-                    // padding: const EdgeInsets.all(4.0),
-                    child: new Text('Test screen'),
+                    child: new Text('TEST SCREEN'),
                     onPressed: loadTestScreenshot),
                 new FlatButton(
-                    child: new Text('Reset'), onPressed: resetEmulator),
+                    child: new Text('RESET'), onPressed: resetEmulator),
                 new FlatButton(
-                    // padding: const EdgeInsets.all(4.0),
-                    child: new Text('Step forward 65536 instructions'),
-                    onPressed: executeBatch)
+                    child: new Text('STEP FORWARD'), onPressed: executeBatch)
               ],
             ))
           ],

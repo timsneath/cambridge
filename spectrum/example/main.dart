@@ -6,7 +6,8 @@ main() {
   Memory memory = new Memory(true);
   Z80 z80 = new Z80(memory);
 
-  var rom = new File('spectrum/roms/48.rom').readAsBytesSync();
+  print(Directory.current);
+  var rom = new File('../ui/roms/48.rom').readAsBytesSync();
   memory.load(0x0000, rom);
 
   int instructionsExecuted = 0;

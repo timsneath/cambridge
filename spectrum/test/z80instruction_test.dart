@@ -55,6 +55,19 @@ main() {
     expect(z80.pc, equals(0xA004));
   });
 
+  test('f3_5', () {
+    for (int i=0; i <= 0xFF; i++) {
+      z80.f = 0;
+      z80.f3 = isBitSet(i, 3);
+      z80.f5 = isBitSet(i, 5);
+      int f1 = z80.f;
+      z80.f = 0;
+      z80.f3_5 = i;
+      int f2= z80.f;
+      expect(f2, f1);
+    }
+  });
+
   test('LD_H_E', () {
     z80.h = 0x8A;
     z80.e = 0x10;

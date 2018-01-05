@@ -12,6 +12,15 @@
 import 'memory.dart';
 import 'utility.dart';
 
+const C = 1 << 0; // carry flag (bit 0)
+const N = 1 << 1; // add/subtract flag (bit 1)
+const P = 1 << 2; // parity/overflow flag (bit 2)
+const F3 = 1 << 3; // undocumented flag
+const H = 1 << 4; // half carry flag (bit 4)
+const F5 = 1 << 5; // undocumented flag
+const Z = 1 << 6; // zero flag (bit 6)
+const S = 1 << 7; // sign flag (bit 7)
+
 class Z80 {
   Memory memory;
   bool cpuSuspended;
@@ -45,16 +54,6 @@ class Z80 {
   // REGISTERS
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 
-  final flags = const {
-    'C': 0x01, // carry flag (bit 0)
-    'N': 0x02, // add/subtract flag (bit 1)
-    'P': 0x04, // parity/overflow flag (bit 2)
-    'F3': 0x08, // undocumented flag
-    'H': 0x10, // half carry flag (bit 4)
-    'F5': 0x20, // undocumented flag
-    'Z': 0x40, // zero flag (bit 6)
-    'S': 0x80 // sign flag (bit 7)
-  };
 
   // Core registers
   int a, f, b, c, d, e, h, l;
@@ -132,23 +131,23 @@ class Z80 {
   set iyh(int value) => iy = (value << 8) + iyl;
   set iyl(int value) => iy = (iyh << 8) + value;
 
-  bool get fC => f & flags['C'] == flags['C'];
-  bool get fN => f & flags['N'] == flags['N'];
-  bool get fPV => f & flags['P'] == flags['P'];
-  bool get f3 => f & flags['F3'] == flags['F3'];
-  bool get fH => f & flags['H'] == flags['H'];
-  bool get f5 => f & flags['F5'] == flags['F5'];
-  bool get fZ => f & flags['Z'] == flags['Z'];
-  bool get fS => f & flags['S'] == flags['S'];
+  bool get fC => f & C == C;
+  bool get fN => f & N == N;
+  bool get fPV => f & P == P;
+  bool get f3 => f & F3 == F3;
+  bool get fH => f & H == H;
+  bool get f5 => f & F5 == F5;
+  bool get fZ => f & Z == Z;
+  bool get fS => f & S == S;
 
-  set fC(bool value) => f = (value ? (f | flags['C']) : (f & ~flags['C']));
-  set fN(bool value) => f = (value ? (f | flags['N']) : (f & ~flags['N']));
-  set fPV(bool value) => f = (value ? (f | flags['P']) : (f & ~flags['P']));
-  set f3(bool value) => f = (value ? (f | flags['F3']) : (f & ~flags['F3']));
-  set fH(bool value) => f = (value ? (f | flags['H']) : (f & ~flags['H']));
-  set f5(bool value) => f = (value ? (f | flags['F5']) : (f & ~flags['F5']));
-  set fZ(bool value) => f = (value ? (f | flags['Z']) : (f & ~flags['Z']));
-  set fS(bool value) => f = (value ? (f | flags['S']) : (f & ~flags['S']));
+  set fC(bool value) => f = (value ? (f | C) : (f & ~C));
+  set fN(bool value) => f = (value ? (f | N) : (f & ~N));
+  set fPV(bool value) => f = (value ? (f | P) : (f & ~P));
+  set f3(bool value) => f = (value ? (f | F3) : (f & ~F3));
+  set fH(bool value) => f = (value ? (f | H) : (f & ~H));
+  set f5(bool value) => f = (value ? (f | F5) : (f & ~F5));
+  set fZ(bool value) => f = (value ? (f | Z) : (f & ~Z));
+  set fS(bool value) => f = (value ? (f | S) : (f & ~S));
 
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
   // INSTRUCTIONS

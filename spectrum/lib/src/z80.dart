@@ -152,7 +152,7 @@ class Z80 {
   set fS(bool value) => f = (value ? (f | S) : (f & ~S));
 
   // Copies 3th and 5th bits of r into f
-  set f3_5(int r) => f = (f & ~F3_5) | (r & F3_5);
+  void fCpBits3_5(int r) => f = (f & ~F3_5) | (r & F3_5);
 
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
   // INSTRUCTIONS
@@ -169,7 +169,7 @@ class Z80 {
     fH = false;
     fN = false;
     fPV = (bc != 0);
-    f3_5 = byteRead;
+    fCpBits3_5(byteRead);
 
     tStates += 16;
   }
@@ -184,7 +184,7 @@ class Z80 {
     fH = false;
     fN = false;
     fPV = (bc != 0);
-    f3_5 = byteRead;
+    fCpBits3_5(byteRead);
 
     tStates += 16;
   }
@@ -202,7 +202,7 @@ class Z80 {
       pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
-      f3_5 = byteRead;
+      fCpBits3_5(byteRead);
       fH = false;
       fPV = false;
       fN = false;
@@ -222,7 +222,7 @@ class Z80 {
       pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
-      f3_5 = byteRead;
+      fCpBits3_5(byteRead);
       fH = false;
       fPV = false;
       fN = false;
@@ -239,7 +239,7 @@ class Z80 {
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
     fS = isSign8(reg);
-    f3_5 = reg;
+    fCpBits3_5(reg);
     fN = false;
 
     tStates += 4;
@@ -254,7 +254,7 @@ class Z80 {
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
     fS = isSign8(reg);
-    f3_5 = reg;
+    fCpBits3_5(reg);
     fN = true;
 
     tStates += 4;
@@ -304,7 +304,7 @@ class Z80 {
     } else {
       fPV = false;
     }
-    f3_5 = a;
+    fCpBits3_5(a);
     fZ = isZero(a);
     fN = false;
 
@@ -373,7 +373,7 @@ class Z80 {
     bool overflowCheck = (isSign8(x) != isSign8(y));
 
     x = (x - y) % 0x100;
-    f3_5 = x;
+    fCpBits3_5(x);
 
     // if x changed polarity then subtract caused an overflow
     if (overflowCheck) {
@@ -393,7 +393,7 @@ class Z80 {
 
   void CP(int x) {
     SUB8(a, x);
-    f3_5 = x;
+    fCpBits3_5(x);
   }
 
   // algorithm from http://worldofspectrum.org/faq/reference/z80reference.htm
@@ -419,7 +419,7 @@ class Z80 {
     }
 
     fH = ((oldA & 0x10) ^ (a & 0x10)) == 0x10;
-    f3_5 = a;
+    fCpBits3_5(a);
 
     fS = isSign8(a);
     fZ = isZero(a);
@@ -559,7 +559,7 @@ class Z80 {
     fS = isSign8(a);
     fZ = isZero(a);
     fH = false;
-    f3_5 = a;
+    fCpBits3_5(a);
 
     fPV = isParity(a);
     fN = false;
@@ -575,7 +575,7 @@ class Z80 {
     fS = isSign8(a);
     fZ = isZero(a);
     fH = false;
-    f3_5 = a;
+    fCpBits3_5(a);
     fPV = isParity(a);
     fN = false;
     fC = false;
@@ -590,7 +590,7 @@ class Z80 {
     fS = isSign8(a);
     fZ = isZero(a);
     fH = true;
-    f3_5 = a;
+    fCpBits3_5(a);
     fPV = isParity(a);
     fN = false;
     fC = false;
@@ -607,7 +607,7 @@ class Z80 {
 
     a = ~a;
     a = (a + 1) % 0x100;
-    f3_5 = a;
+    fCpBits3_5(a);
 
     fS = isSign8(a);
     fZ = isZero(a);
@@ -622,7 +622,7 @@ class Z80 {
   // TODO: Organize these into the same groups as the Z80 manual
   void CPL() {
     a = onecomp8(a);
-    f3_5 = a;
+    fCpBits3_5(a);
     fH = true;
     fN = true;
 
@@ -630,14 +630,14 @@ class Z80 {
   }
 
   void SCF() {
-    f3_5 = a;
+    fCpBits3_5(a);
     fH = false;
     fN = false;
     fC = true;
   }
 
   void CCF() {
-    f3_5 = a;
+    fCpBits3_5(a);
     fH = fC;
     fN = false;
     fC = !fC;
@@ -651,7 +651,7 @@ class Z80 {
     fC = isSign8(reg);
     reg = (reg << 1) % 0x100;
     if (fC) reg = setBit(reg, 0);
-    f3_5 = reg;
+    fCpBits3_5(reg);
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
@@ -667,7 +667,7 @@ class Z80 {
     fC = isSign8(a);
     a = (a << 1) % 0x100;
     if (fC) a = setBit(a, 0);
-    f3_5 = a;
+    fCpBits3_5(a);
     fH = false;
     fN = false;
 
@@ -678,7 +678,7 @@ class Z80 {
     fC = isBitSet(reg, 0);
     reg >>= 1;
     if (fC) reg = setBit(reg, 7);
-    f3_5 = reg;
+    fCpBits3_5(reg);
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
@@ -692,7 +692,7 @@ class Z80 {
     fC = isBitSet(a, 0);
     a >>= 1;
     if (fC) a = setBit(a, 7);
-    f3_5 = a;
+    fCpBits3_5(a);
 
     fH = false;
     fN = false;
@@ -713,7 +713,7 @@ class Z80 {
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
-    f3_5 = reg;
+    fCpBits3_5(reg);
     fPV = isParity(reg);
     fN = false;
 
@@ -729,7 +729,7 @@ class Z80 {
     a = (a << 1) % 0x100;
 
     if (bit0) a = setBit(a, 0);
-    f3_5 = a;
+    fCpBits3_5(a);
     fH = false;
     fN = false;
 
@@ -747,7 +747,7 @@ class Z80 {
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
-    f3_5 = reg;
+    fCpBits3_5(reg);
     fPV = isParity(reg);
     fN = false;
 
@@ -763,7 +763,7 @@ class Z80 {
     if (bit7) {
       a = setBit(a, 7);
     }
-    f3_5 = a;
+    fCpBits3_5(a);
     fH = false;
     fN = false;
 
@@ -774,7 +774,7 @@ class Z80 {
     fC = isSign8(reg);
     reg = (reg << 1) % 0x100;
 
-    f3_5 = reg;
+    fCpBits3_5(reg);
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
@@ -791,7 +791,7 @@ class Z80 {
     reg >>= 1;
 
     if (bit7) reg = setBit(reg, 7);
-    f3_5 = reg;
+    fCpBits3_5(reg);
 
     fS = isSign8(reg);
     fZ = isZero(reg);
@@ -808,7 +808,7 @@ class Z80 {
     reg = (reg << 1) % 0x100;
     reg = setBit(reg, 0);
 
-    f3_5 = reg;
+    fCpBits3_5(reg);
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
@@ -822,7 +822,7 @@ class Z80 {
     fC = isBitSet(reg, 0);
     reg >>= 1;
     reg = resetBit(reg, 7);
-    f3_5 = reg;
+    fCpBits3_5(reg);
 
     fS = isSign8(reg);
     fZ = isZero(reg);
@@ -845,7 +845,7 @@ class Z80 {
 
     memory.writeByte(hl, new_pHL);
 
-    f3_5 = a;
+    fCpBits3_5(a);
     fS = isSign8(a);
     fZ = isZero(a);
     fH = false;
@@ -866,7 +866,7 @@ class Z80 {
 
     memory.writeByte(hl, new_pHL);
 
-    f3_5 = a;
+    fCpBits3_5(a);
     fS = isSign8(a);
     fZ = isZero(a);
     fH = false;
@@ -881,43 +881,43 @@ class Z80 {
     switch (reg) {
       case 0x0:
         fZ = !isBitSet(b, bitToTest);
-        f3_5 = b;
+        fCpBits3_5(b);
         fPV = fZ;
         break;
       case 0x1:
         fZ = !isBitSet(c, bitToTest);
-        f3_5 = c;
+        fCpBits3_5(c);
         fPV = fZ;
         break;
       case 0x2:
         fZ = !isBitSet(d, bitToTest);
-        f3_5 = d;
+        fCpBits3_5(d);
         fPV = fZ;
         break;
       case 0x3:
         fZ = !isBitSet(e, bitToTest);
-        f3_5 = e;
+        fCpBits3_5(e);
         fPV = fZ;
         break;
       case 0x4:
         fZ = !isBitSet(h, bitToTest);
-        f3_5 = h;
+        fCpBits3_5(h);
         fPV = fZ;
         break;
       case 0x5:
         fZ = !isBitSet(l, bitToTest);
-        f3_5 = l;
+        fCpBits3_5(l);
         fPV = fZ;
         break;
       case 0x6:
         var val = memory.readByte(hl);
         fZ = !isBitSet(val, bitToTest);
-        f3_5 = val;
+        fCpBits3_5(val);
         fPV = fZ;
         break;
       case 0x7:
         fZ = !isBitSet(a, bitToTest);
-        f3_5 = a;
+        fCpBits3_5(a);
         fPV = fZ;
         break;
       default:
@@ -1005,7 +1005,7 @@ class Z80 {
     fH = false;
     fPV = isParity(portNumber);
     fN = false;
-    f3_5 = readByte;
+    fCpBits3_5(readByte);
 
     return readByte;
   }
@@ -1255,7 +1255,7 @@ class Z80 {
       fPV = !isBitSet(val, bit); // undocumented, but same as fZ
       fH = true;
       fN = false;
-      f3_5 = addr >> 8;
+      fCpBits3_5(addr >> 8);
       if (bit == 7) {
         fS = isSign8(val);
       }
@@ -2257,7 +2257,7 @@ class Z80 {
       fPV = !isBitSet(val, bit); // undocumented, but same as fZ
       fH = true;
       fN = false;
-      f3_5 = addr >> 8;
+      fCpBits3_5(addr >> 8);
       if (bit == 7) {
         fS = isSign8(val);
       }

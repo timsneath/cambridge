@@ -57,14 +57,16 @@ main() {
 
   test('f3_5', () {
     for (int i=0; i <= 0xFF; i++) {
-      z80.f = 0;
-      z80.f3 = isBitSet(i, 3);
-      z80.f5 = isBitSet(i, 5);
-      int f1 = z80.f;
-      z80.f = 0;
-      z80.f3_5 = i;
-      int f2= z80.f;
-      expect(f2, f1);
+      for (int j=0; j <= 0xFF; j++) {
+        z80.f = j;
+        z80.f3 = isBitSet(i, 3);
+        z80.f5 = isBitSet(i, 5);
+        int f1 = z80.f;
+        z80.f = j;
+        z80.fCpBits3_5(i);
+        int f2 = z80.f;
+        expect(f2, f1);
+      }
     }
   });
 

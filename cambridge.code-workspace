@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../cambridge-tests"
+		},
+		{
+			"path": "ui"
+		},
+		{
+			"path": "spectrum"
+		}
+	],
+	"settings": {}
+}

@@ -39,6 +39,11 @@ main() {
     expect(mem.readByte(0xABCE), equals(0xDE));
   });
 
+  // test("ReadByte fails on attempt to read beyond ramTop", () {
+  //   var mem = new Memory(true);
+  //   expect(() => mem.readByte(0xFFFF + 1), throwsA("IndexError"));
+  // });
+
   test("Load memory appropriately", () {
     var mem = new Memory(true);
     mem.load(

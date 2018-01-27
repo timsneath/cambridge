@@ -83,35 +83,37 @@ class _SpectrumState extends State<Spectrum> {
         title: new Text(widget.title),
       ),
       body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            displayFrame, // the Spectrum screen itself
-            new Text(z80 == null
-                ? 'null'
-                : 'Program Counter: ${toHex16(z80.pc)}'), // yeah - we're wired up :)
-            new Container(
-                padding: const EdgeInsets.all(40.0),
-                child: new RichText(
-                    text: new TextSpan(
-                        text:
-                            "Not yet updating the screen frame-by-frame. Use the last button below to manually advance the emulator. You'll need to press it about 10 times to fully advance through the boot process.",
-                        style: new TextStyle(color: Colors.black87)))),
-            new ButtonTheme.bar(
-                child: new ButtonBar(
-                  alignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new FlatButton(
-                    child: new Text('TEST SCREEN'),
-                    onPressed: loadTestScreenshot),
-                new FlatButton(
-                    child: new Text('RESET'), onPressed: resetEmulator),
-                new FlatButton(
-                    child: new Text('STEP FORWARD'), onPressed: executeBatch)
-              ],
-            ))
-          ],
+        child: new Container(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              displayFrame, // the Spectrum screen itself
+              new Text(z80 == null
+                  ? 'null'
+                  : 'Program Counter: ${toHex16(z80.pc)}'), // yeah - we're wired up :)
+              new Container(
+                  padding: const EdgeInsets.all(40.0),
+                  child: new RichText(
+                      text: new TextSpan(
+                          text:
+                              "Not yet updating the screen frame-by-frame. Use the last button below to manually advance the emulator. You'll need to press it about 10 times to fully advance through the boot process.",
+                          style: new TextStyle(color: Colors.black87)))),
+              new ButtonTheme.bar(
+                  child: new ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new FlatButton(
+                      child: new Text('TEST SCREEN'),
+                      onPressed: loadTestScreenshot),
+                  new FlatButton(
+                      child: new Text('RESET'), onPressed: resetEmulator),
+                  new FlatButton(
+                      child: new Text('STEP FORWARD'), onPressed: executeBatch)
+                ],
+              ))
+            ],
+          ),
         ),
       ),
     );

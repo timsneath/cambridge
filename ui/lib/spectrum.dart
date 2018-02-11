@@ -72,7 +72,8 @@ class _SpectrumState extends State<Spectrum> {
         Display.imageBuffer(memory), Image2.Image.RGBA);
 
     final jpg = Image2.encodeJpg(frame, quality: 100);
-    final img = new Image.memory(jpg);
+    final img = new Image.memory(jpg,
+        width: Display.Width.toDouble(), height: Display.Height.toDouble());
     displayFrame = img;
   }
 

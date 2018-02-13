@@ -12,6 +12,17 @@
 import 'memory.dart';
 import 'utility.dart';
 
+// Flag constants
+const C = 1 << 0; // carry flag (bit 0)
+const N = 1 << 1; // add/subtract flag (bit 1)
+const P = 1 << 2; // parity/overflow flag (bit 2)
+const F3 = 1 << 3; // undocumented flag
+const H = 1 << 4; // half carry flag (bit 4)
+const F5 = 1 << 5; // undocumented flag
+const Z = 1 << 6; // zero flag (bit 6)
+const S = 1 << 7; // sign flag (bit 7)
+const F3_5 = F3 | F5;
+
 class Z80 {
   Memory memory;
   bool cpuSuspended;
@@ -45,16 +56,6 @@ class Z80 {
   // REGISTERS
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 
-  final flags = const {
-    'C': 0x01, // carry flag (bit 0)
-    'N': 0x02, // add/subtract flag (bit 1)
-    'P': 0x04, // parity/overflow flag (bit 2)
-    'F3': 0x08, // undocumented flag
-    'H': 0x10, // half carry flag (bit 4)
-    'F5': 0x20, // undocumented flag
-    'Z': 0x40, // zero flag (bit 6)
-    'S': 0x80 // sign flag (bit 7)
-  };
 
   // Core registers
   int a, f, b, c, d, e, h, l;
@@ -132,23 +133,26 @@ class Z80 {
   set iyh(int value) => iy = (value << 8) + iyl;
   set iyl(int value) => iy = (iyh << 8) + value;
 
-  bool get fC => f & flags['C'] == flags['C'];
-  bool get fN => f & flags['N'] == flags['N'];
-  bool get fPV => f & flags['P'] == flags['P'];
-  bool get f3 => f & flags['F3'] == flags['F3'];
-  bool get fH => f & flags['H'] == flags['H'];
-  bool get f5 => f & flags['F5'] == flags['F5'];
-  bool get fZ => f & flags['Z'] == flags['Z'];
-  bool get fS => f & flags['S'] == flags['S'];
+  bool get fC => f & C == C;
+  bool get fN => f & N == N;
+  bool get fPV => f & P == P;
+  bool get f3 => f & F3 == F3;
+  bool get fH => f & H == H;
+  bool get f5 => f & F5 == F5;
+  bool get fZ => f & Z == Z;
+  bool get fS => f & S == S;
 
-  set fC(bool value) => f = (value ? (f | flags['C']) : (f & ~flags['C']));
-  set fN(bool value) => f = (value ? (f | flags['N']) : (f & ~flags['N']));
-  set fPV(bool value) => f = (value ? (f | flags['P']) : (f & ~flags['P']));
-  set f3(bool value) => f = (value ? (f | flags['F3']) : (f & ~flags['F3']));
-  set fH(bool value) => f = (value ? (f | flags['H']) : (f & ~flags['H']));
-  set f5(bool value) => f = (value ? (f | flags['F5']) : (f & ~flags['F5']));
-  set fZ(bool value) => f = (value ? (f | flags['Z']) : (f & ~flags['Z']));
-  set fS(bool value) => f = (value ? (f | flags['S']) : (f & ~flags['S']));
+  set fC(bool value) => f = (value ? (f | C) : (f & ~C));
+  set fN(bool value) => f = (value ? (f | N) : (f & ~N));
+  set fPV(bool value) => f = (value ? (f | P) : (f & ~P));
+  set f3(bool value) => f = (value ? (f | F3) : (f & ~F3));
+  set fH(bool value) => f = (value ? (f | H) : (f & ~H));
+  set f5(bool value) => f = (value ? (f | F5) : (f & ~F5));
+  set fZ(bool value) => f = (value ? (f | Z) : (f & ~Z));
+  set fS(bool value) => f = (value ? (f | S) : (f & ~S));
+
+  // Copies 3th and 5th bits of r into f
+  void fCpBits3_5(int r) => f = (f & ~F3_5) | (r & F3_5);
 
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
   // INSTRUCTIONS
@@ -165,8 +169,7 @@ class Z80 {
     fH = false;
     fN = false;
     fPV = (bc != 0);
-    f5 = isBitSet(byteRead, 5);
-    f3 = isBitSet(byteRead, 3);
+    fCpBits3_5(byteRead);
 
     tStates += 16;
   }
@@ -181,8 +184,7 @@ class Z80 {
     fH = false;
     fN = false;
     fPV = (bc != 0);
-    f5 = isBitSet(byteRead, 5);
-    f3 = isBitSet(byteRead, 3);
+    fCpBits3_5(byteRead);
 
     tStates += 16;
   }
@@ -200,8 +202,7 @@ class Z80 {
       pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
-      f5 = isBitSet(byteRead, 5);
-      f3 = isBitSet(byteRead, 3);
+      fCpBits3_5(byteRead);
       fH = false;
       fPV = false;
       fN = false;
@@ -221,8 +222,7 @@ class Z80 {
       pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
-      f5 = isBitSet(byteRead, 5);
-      f3 = isBitSet(byteRead, 3);
+      fCpBits3_5(byteRead);
       fH = false;
       fPV = false;
       fN = false;
@@ -239,8 +239,7 @@ class Z80 {
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
     fS = isSign8(reg);
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
+    fCpBits3_5(reg);
     fN = false;
 
     tStates += 4;
@@ -255,8 +254,7 @@ class Z80 {
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
     fS = isSign8(reg);
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
+    fCpBits3_5(reg);
     fN = true;
 
     tStates += 4;
@@ -306,9 +304,7 @@ class Z80 {
     } else {
       fPV = false;
     }
-
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
     fZ = isZero(a);
     fN = false;
 
@@ -377,8 +373,7 @@ class Z80 {
     bool overflowCheck = (isSign8(x) != isSign8(y));
 
     x = (x - y) % 0x100;
-    f5 = isBitSet(x, 5);
-    f3 = isBitSet(x, 3);
+    fCpBits3_5(x);
 
     // if x changed polarity then subtract caused an overflow
     if (overflowCheck) {
@@ -398,8 +393,7 @@ class Z80 {
 
   void CP(int x) {
     SUB8(a, x);
-    f5 = isBitSet(x, 5);
-    f3 = isBitSet(x, 3);
+    fCpBits3_5(x);
   }
 
   // algorithm from http://worldofspectrum.org/faq/reference/z80reference.htm
@@ -425,8 +419,7 @@ class Z80 {
     }
 
     fH = ((oldA & 0x10) ^ (a & 0x10)) == 0x10;
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
 
     fS = isSign8(a);
     fZ = isZero(a);
@@ -566,8 +559,7 @@ class Z80 {
     fS = isSign8(a);
     fZ = isZero(a);
     fH = false;
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
 
     fPV = isParity(a);
     fN = false;
@@ -583,9 +575,7 @@ class Z80 {
     fS = isSign8(a);
     fZ = isZero(a);
     fH = false;
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
-
+    fCpBits3_5(a);
     fPV = isParity(a);
     fN = false;
     fC = false;
@@ -600,8 +590,7 @@ class Z80 {
     fS = isSign8(a);
     fZ = isZero(a);
     fH = true;
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
     fPV = isParity(a);
     fN = false;
     fC = false;
@@ -618,8 +607,7 @@ class Z80 {
 
     a = ~a;
     a = (a + 1) % 0x100;
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
 
     fS = isSign8(a);
     fZ = isZero(a);
@@ -634,8 +622,7 @@ class Z80 {
   // TODO: Organize these into the same groups as the Z80 manual
   void CPL() {
     a = onecomp8(a);
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
     fH = true;
     fN = true;
 
@@ -643,16 +630,14 @@ class Z80 {
   }
 
   void SCF() {
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
     fH = false;
     fN = false;
     fC = true;
   }
 
   void CCF() {
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
     fH = fC;
     fN = false;
     fC = !fC;
@@ -666,9 +651,7 @@ class Z80 {
     fC = isSign8(reg);
     reg = (reg << 1) % 0x100;
     if (fC) reg = setBit(reg, 0);
-
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
+    fCpBits3_5(reg);
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
@@ -684,9 +667,7 @@ class Z80 {
     fC = isSign8(a);
     a = (a << 1) % 0x100;
     if (fC) a = setBit(a, 0);
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
-
+    fCpBits3_5(a);
     fH = false;
     fN = false;
 
@@ -697,9 +678,7 @@ class Z80 {
     fC = isBitSet(reg, 0);
     reg >>= 1;
     if (fC) reg = setBit(reg, 7);
-
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
+    fCpBits3_5(reg);
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
@@ -713,9 +692,7 @@ class Z80 {
     fC = isBitSet(a, 0);
     a >>= 1;
     if (fC) a = setBit(a, 7);
-
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
+    fCpBits3_5(a);
 
     fH = false;
     fN = false;
@@ -736,8 +713,7 @@ class Z80 {
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
+    fCpBits3_5(reg);
     fPV = isParity(reg);
     fN = false;
 
@@ -753,10 +729,7 @@ class Z80 {
     a = (a << 1) % 0x100;
 
     if (bit0) a = setBit(a, 0);
-
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
-
+    fCpBits3_5(a);
     fH = false;
     fN = false;
 
@@ -774,8 +747,7 @@ class Z80 {
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
+    fCpBits3_5(reg);
     fPV = isParity(reg);
     fN = false;
 
@@ -791,10 +763,7 @@ class Z80 {
     if (bit7) {
       a = setBit(a, 7);
     }
-
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
-
+    fCpBits3_5(a);
     fH = false;
     fN = false;
 
@@ -805,9 +774,7 @@ class Z80 {
     fC = isSign8(reg);
     reg = (reg << 1) % 0x100;
 
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
-
+    fCpBits3_5(reg);
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
@@ -824,9 +791,7 @@ class Z80 {
     reg >>= 1;
 
     if (bit7) reg = setBit(reg, 7);
-
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
+    fCpBits3_5(reg);
 
     fS = isSign8(reg);
     fZ = isZero(reg);
@@ -843,9 +808,7 @@ class Z80 {
     reg = (reg << 1) % 0x100;
     reg = setBit(reg, 0);
 
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
-
+    fCpBits3_5(reg);
     fS = isSign8(reg);
     fZ = isZero(reg);
     fH = false;
@@ -859,9 +822,7 @@ class Z80 {
     fC = isBitSet(reg, 0);
     reg >>= 1;
     reg = resetBit(reg, 7);
-
-    f5 = isBitSet(reg, 5);
-    f3 = isBitSet(reg, 3);
+    fCpBits3_5(reg);
 
     fS = isSign8(reg);
     fZ = isZero(reg);
@@ -884,9 +845,7 @@ class Z80 {
 
     memory.writeByte(hl, new_pHL);
 
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
-
+    fCpBits3_5(a);
     fS = isSign8(a);
     fZ = isZero(a);
     fH = false;
@@ -907,9 +866,7 @@ class Z80 {
 
     memory.writeByte(hl, new_pHL);
 
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
-
+    fCpBits3_5(a);
     fS = isSign8(a);
     fZ = isZero(a);
     fH = false;
@@ -924,51 +881,43 @@ class Z80 {
     switch (reg) {
       case 0x0:
         fZ = !isBitSet(b, bitToTest);
-        f3 = isBitSet(b, 3);
-        f5 = isBitSet(b, 5);
+        fCpBits3_5(b);
         fPV = fZ;
         break;
       case 0x1:
         fZ = !isBitSet(c, bitToTest);
-        f3 = isBitSet(c, 3);
-        f5 = isBitSet(c, 5);
+        fCpBits3_5(c);
         fPV = fZ;
         break;
       case 0x2:
         fZ = !isBitSet(d, bitToTest);
-        f3 = isBitSet(d, 3);
-        f5 = isBitSet(d, 5);
+        fCpBits3_5(d);
         fPV = fZ;
         break;
       case 0x3:
         fZ = !isBitSet(e, bitToTest);
-        f3 = isBitSet(e, 3);
-        f5 = isBitSet(e, 5);
+        fCpBits3_5(e);
         fPV = fZ;
         break;
       case 0x4:
         fZ = !isBitSet(h, bitToTest);
-        f3 = isBitSet(h, 3);
-        f5 = isBitSet(h, 5);
+        fCpBits3_5(h);
         fPV = fZ;
         break;
       case 0x5:
         fZ = !isBitSet(l, bitToTest);
-        f3 = isBitSet(l, 3);
-        f5 = isBitSet(l, 5);
+        fCpBits3_5(l);
         fPV = fZ;
         break;
       case 0x6:
         var val = memory.readByte(hl);
         fZ = !isBitSet(val, bitToTest);
-        f3 = isBitSet(val, 3);
-        f5 = isBitSet(val, 5);
+        fCpBits3_5(val);
         fPV = fZ;
         break;
       case 0x7:
         fZ = !isBitSet(a, bitToTest);
-        f3 = isBitSet(a, 3);
-        f5 = isBitSet(a, 5);
+        fCpBits3_5(a);
         fPV = fZ;
         break;
       default:
@@ -1056,8 +1005,7 @@ class Z80 {
     fH = false;
     fPV = isParity(portNumber);
     fN = false;
-    f5 = isBitSet(readByte, 5);
-    f3 = isBitSet(readByte, 3);
+    fCpBits3_5(readByte);
 
     return readByte;
   }
@@ -1307,8 +1255,7 @@ class Z80 {
       fPV = !isBitSet(val, bit); // undocumented, but same as fZ
       fH = true;
       fN = false;
-      f5 = isBitSet(addr >> 8, 5);
-      f3 = isBitSet(addr >> 8, 3);
+      fCpBits3_5(addr >> 8);
       if (bit == 7) {
         fS = isSign8(val);
       }
@@ -2310,8 +2257,7 @@ class Z80 {
       fPV = !isBitSet(val, bit); // undocumented, but same as fZ
       fH = true;
       fN = false;
-      f5 = isBitSet(addr >> 8, 5);
-      f3 = isBitSet(addr >> 8, 3);
+      fCpBits3_5(addr >> 8);
       if (bit == 7) {
         fS = isSign8(val);
       }

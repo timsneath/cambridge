@@ -18,7 +18,7 @@ bool isParity(int value) {
   for (; value != 0; count++) {
     value &= value - 1; // clear the least significant bit set
   }
-  return (count % 2 == 0);
+  return (count & 1 == 0);
 }
 
 bool isBitSet(int value, int bit) => (value & (1 << bit)) == 1 << bit;

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'spectrum.dart';
 
-void main() => runApp(new ProjectCambridge());
+void main() => runApp(ProjectCambridge());
 
 class ProjectCambridge extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Project Cambridge',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new Spectrum(title: 'Project Cambridge'),
+      home: Spectrum(title: 'Project Cambridge'),
     );
   }
 }

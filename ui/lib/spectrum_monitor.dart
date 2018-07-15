@@ -8,12 +8,12 @@ class SpectrumMonitor extends StatefulWidget {
   final String title;
 
   @override
-  _SpectrumMonitorState createState() => new _SpectrumMonitorState();
+  _SpectrumMonitorState createState() => _SpectrumMonitorState();
 }
 
 class _SpectrumMonitorState extends State<SpectrumMonitor> {
   @override
-    Widget build(BuildContext context) {
-      return new Text('Insert thing of beauty here.');
-    }
+  Widget build(BuildContext context) {
+    return Text('Insert thing of beauty here.');
+  }
 }

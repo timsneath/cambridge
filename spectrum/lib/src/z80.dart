@@ -972,7 +972,7 @@ class Z80 {
         fPV = fZ;
         break;
       default:
-        throw new Exception(
+        throw Exception(
             "Field register $reg must map to a valid Z80 register.");
     }
 
@@ -1010,7 +1010,7 @@ class Z80 {
         a = resetBit(a, bitToReset);
         break;
       default:
-        throw new Exception(
+        throw Exception(
             "Field register $reg must map to a valid Z80 register.");
     }
   }
@@ -1042,7 +1042,7 @@ class Z80 {
         a = setBit(a, bitToSet);
         break;
       default:
-        throw new Exception(
+        throw Exception(
             "Field register $reg must map to a valid Z80 register.");
     }
   }
@@ -1217,7 +1217,7 @@ class Z80 {
         rotFunction = SRL;
         break;
       default:
-        throw new Exception(
+        throw Exception(
             "Operation $operation must map to a valid rotation operation.");
     }
 
@@ -1247,7 +1247,7 @@ class Z80 {
         a = rotFunction(a);
         break;
       default:
-        throw new Exception(
+        throw Exception(
             "Field register ${register} must map to a valid Z80 register.");
     }
   }
@@ -1383,8 +1383,7 @@ class Z80 {
           break;
 
         default:
-          throw new Exception(
-              "Opcode DDCB**${toHex16(opCode)} not understood. ");
+          throw Exception("Opcode DDCB**${toHex16(opCode)} not understood. ");
       }
       ;
 
@@ -1924,7 +1923,7 @@ class Z80 {
         break;
 
       default:
-        throw new Exception("Opcode DD${toHex16(opCode)} not understood. ");
+        throw Exception("Opcode DD${toHex16(opCode)} not understood. ");
     }
   }
 
@@ -2293,7 +2292,7 @@ class Z80 {
         break;
 
       default:
-        throw new Exception("Opcode ED${toHex16(opCode)} not understood. ");
+        throw Exception("Opcode ED${toHex16(opCode)} not understood. ");
     }
   }
 
@@ -2386,8 +2385,7 @@ class Z80 {
           break;
 
         default:
-          throw new Exception(
-              "Opcode FDCB**${toHex16(opCode)} not understood. ");
+          throw Exception("Opcode FDCB**${toHex16(opCode)} not understood. ");
       }
       ;
 
@@ -2927,7 +2925,7 @@ class Z80 {
         break;
 
       default:
-        throw new Exception("Opcode FD${toHex16(opCode)} not understood. ");
+        throw Exception("Opcode FD${toHex16(opCode)} not understood. ");
     }
   }
 

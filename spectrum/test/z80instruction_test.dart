@@ -1,13 +1,13 @@
 // z80instruction_test.dart -- test a common set of Z80 instructions against Zilog spec
 
-// Run tests with 
+// Run tests with
 //   pub run test test/z80instruction_test.dart --no-color > test/results_z80instruction_test.txt
 
 import 'package:test/test.dart';
 import 'package:spectrum/spectrum.dart';
 
-Memory memory = new Memory(false);
-Z80 z80 = new Z80(memory, startAddress: 0xA000);
+Memory memory = Memory(false);
+Z80 z80 = Z80(memory, startAddress: 0xA000);
 
 void poke(int addr, int val) => memory.writeByte(addr, val);
 int peek(int addr) => memory.readByte(addr);
@@ -207,8 +207,8 @@ main() {
     z80.r = 0x07;
     execute([0xED, 0x5F]);
     expect(z80.a, equals(z80.r));
-    // TODO: some confusion whether this should result in 8 or 9 
-    // expect(z80.r, equals(0x08)); 
+    // TODO: some confusion whether this should result in 8 or 9
+    // expect(z80.r, equals(0x08));
     expect(z80.fS, equals(false));
     expect(z80.fZ, equals(false));
     expect(z80.fH, equals(false));
@@ -660,7 +660,8 @@ main() {
     poke(0x1005, 0x22);
     execute([0xDD, 0x86, 0x05]);
     expect(z80.a, equals(0x33));
-    expect(z80.fS || z80.fZ || z80.fH || z80.fPV || z80.fN || z80.fC, equals(false));
+    expect(z80.fS || z80.fZ || z80.fH || z80.fPV || z80.fN || z80.fC,
+        equals(false));
   });
 
   test('ADD_A_IYd', () // ADD A, (IY + d)
@@ -670,7 +671,8 @@ main() {
     poke(0x1005, 0x22);
     execute([0xFD, 0x86, 0x05]);
     expect(z80.a, equals(0x33));
-    expect(z80.fS || z80.fZ || z80.fH || z80.fPV || z80.fN || z80.fC, equals(false));
+    expect(z80.fS || z80.fZ || z80.fH || z80.fPV || z80.fN || z80.fC,
+        equals(false));
   });
 
   test('ADC_A_pHL', () // ADC A, (HL)
@@ -681,7 +683,8 @@ main() {
     poke(0x6666, 0x10);
     execute([0x8E]);
     expect(z80.a, equals(0x27));
-    expect(z80.fS || z80.fZ || z80.fH || z80.fPV || z80.fN || z80.fC, equals(false));
+    expect(z80.fS || z80.fZ || z80.fH || z80.fPV || z80.fN || z80.fC,
+        equals(false));
   });
 
   test('SUB_D', () // SUB D

@@ -1,6 +1,6 @@
 // spectrumcolor.dart -- color system for ZX Spectrum
 
-// Based on Color from dart:ui, and values are compatible with Color, but 
+// Based on Color from dart:ui, and values are compatible with Color, but
 // assumes alpha channel is always opaque (since ZX Spectrum has no concept
 // of transparency). Separating it out also enables use without taking a
 // dependency on Flutter.
@@ -9,7 +9,9 @@ class SpectrumColor {
   const SpectrumColor(int value) : value = value | 0xFF000000 & 0xFFFFFFFF;
 
   const SpectrumColor.fromRGB(int r, int g, int b)
-      : value = (((0xFF << 24) | (r & 0xFF) << 16) | ((g & 0xFF) << 8) | ((b & 0xFF) << 0)) &
+      : value = (((0xFF << 24) | (r & 0xFF) << 16) |
+                ((g & 0xFF) << 8) |
+                ((b & 0xFF) << 0)) &
             0xFFFFFF;
 
   final int value;
@@ -30,5 +32,6 @@ class SpectrumColor {
   int get hashCode => value.hashCode;
 
   @override
-  String toString() => "SpectrumColor(0x${value.toRadixString(16).padLeft(6, '0')})";
+  String toString() =>
+      "SpectrumColor(0x${value.toRadixString(16).padLeft(6, '0')})";
 }

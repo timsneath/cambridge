@@ -32,7 +32,7 @@ class Memory {
   // We treat the memory space as a list of unsigned bytes from 0x0000 to
   // ramTop. For convenience, we treat the typed data format as an internal
   // implementation detail, and all external interfaces are as int.
-  var memory = new Uint8List(ramTop + 1);
+  var memory = Uint8List(ramTop + 1);
 
   Memory(this.isRomProtected);
 
@@ -44,15 +44,15 @@ class Memory {
     }
   }
 
-  void load(int start, List<int> loadData, {ignoreRomProtection: false}) {
+  void load(int start, List<int> loadData, {ignoreRomProtection = false}) {
     // TODO: honor ignoreRomProtection flag
-    var loadData8 = new Uint8List.fromList(loadData);
+    var loadData8 = Uint8List.fromList(loadData);
 
     memory.setRange(start, start + loadData8.length, loadData8);
   }
 
   void loadSpectrumRom(String romLocation) {
-    var rom = new File(romLocation).readAsBytesSync();
+    var rom = File(romLocation).readAsBytesSync();
     load(0x0000, rom, ignoreRomProtection: true);
   }
 

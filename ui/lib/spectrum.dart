@@ -10,7 +10,7 @@ class Spectrum extends StatefulWidget {
   final String title;
 
   @override
-  _SpectrumState createState() => new _SpectrumState();
+  _SpectrumState createState() => _SpectrumState();
 }
 
 class _SpectrumState extends State<Spectrum> {
@@ -20,9 +20,9 @@ class _SpectrumState extends State<Spectrum> {
   Image displayFrame;
 
   _SpectrumState() {
-    memory = new Memory(true);
-    z80 = new Z80(memory, startAddress: 0x0000);
-    displayFrame = new Image.asset('assets/blank.jpg');
+    memory = Memory(true);
+    z80 = Z80(memory, startAddress: 0x0000);
+    displayFrame = Image.asset('assets/blank.jpg');
   }
 
   @override
@@ -60,19 +60,19 @@ class _SpectrumState extends State<Spectrum> {
     ByteData rom = await rootBundle.load('roms/48.rom');
 
     setState(() {
-      memory = new Memory(true);
-      z80 = new Z80(memory, startAddress: 0x0000);
+      memory = Memory(true);
+      z80 = Z80(memory, startAddress: 0x0000);
       memory.load(0x0000, rom.buffer.asUint8List());
-      displayFrame = new Image.asset('assets/blank.jpg');
+      displayFrame = Image.asset('assets/blank.jpg');
     });
   }
 
   createSpectrumFrame() {
-    var frame = new Image2.Image.fromBytes(Display.Width, Display.Height,
+    var frame = Image2.Image.fromBytes(Display.Width, Display.Height,
         Display.imageBuffer(memory), Image2.Image.RGBA);
 
     final jpg = Image2.encodeJpg(frame, quality: 100);
-    final img = new Image.memory(jpg,
+    final img = Image.memory(jpg,
         width: Display.Width.toDouble(),
         height: Display.Height.toDouble(),
         gaplessPlayback: true);
@@ -81,38 +81,38 @@ class _SpectrumState extends State<Spectrum> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
       ),
-      body: new Center(
-        child: new Container(
-          child: new Column(
+      body: Center(
+        child: Container(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               displayFrame, // the Spectrum screen itself
-              new Text(z80 == null
+              Text(z80 == null
                   ? 'null'
-                  : 'Program Counter: ${toHex16(z80.pc)}'), // yeah - we're wired up :)
-              new Container(
+                  : 'Program Counter: ${toHex16(
+                      z80.pc)}'), // yeah - we're wired up :)
+              Container(
                   padding: const EdgeInsets.all(40.0),
-                  child: new RichText(
-                      text: new TextSpan(
+                  child: RichText(
+                      text: TextSpan(
                           text:
                               "Not yet updating the screen frame-by-frame. Use the last button below to manually advance the emulator. You'll need to press it about 10 times to fully advance through the boot process.",
-                          style: new TextStyle(color: Colors.black87)))),
-              new ButtonTheme.bar(
-                  child: new ButtonBar(
-                    alignment: MainAxisAlignment.center,
+                          style: TextStyle(color: Colors.black87)))),
+              ButtonTheme.bar(
+                  child: ButtonBar(
+                alignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new FlatButton(
-                      child: new Text('TEST SCREEN'),
+                  FlatButton(
+                      child: Text('TEST SCREEN'),
                       onPressed: loadTestScreenshot),
-                  new FlatButton(
-                      child: new Text('RESET'), onPressed: resetEmulator),
-                  new FlatButton(
-                      child: new Text('STEP FORWARD'), onPressed: executeBatch)
+                  FlatButton(child: Text('RESET'), onPressed: resetEmulator),
+                  FlatButton(
+                      child: Text('STEP FORWARD'), onPressed: executeBatch)
                 ],
               ))
             ],

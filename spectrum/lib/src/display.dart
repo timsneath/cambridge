@@ -25,13 +25,12 @@ final SpectrumColors = <int, SpectrumColor>{
 };
 
 class Display {
-
   // standard dimensions of a ZX spectrum display
   static int get Width => 256;
   static int get Height => 192;
 
   static Uint8List imageBuffer(Memory memory) {
-    Uint8List display = new Uint8List(256 * 192 * 4);
+    Uint8List display = Uint8List(256 * 192 * 4);
     int idx;
 
     // display is configured as 192 lines of 32 bytes
@@ -87,7 +86,7 @@ class Display {
           bool isBitSet = (pixel8 & (1 << bit)) == 1 << bit;
           display[idx++] = (isBitSet ? inkColor.red : paperColor.red);
           display[idx++] = (isBitSet ? inkColor.green : paperColor.green);
-          display[idx++] = (isBitSet ? inkColor.blue : paperColor.blue);          
+          display[idx++] = (isBitSet ? inkColor.blue : paperColor.blue);
           display[idx++] = 0xFF;
         }
       }

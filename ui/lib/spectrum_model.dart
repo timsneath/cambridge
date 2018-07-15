@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -16,6 +17,9 @@ class SpectrumModel extends Model {
     _memory = Memory(true);
     _z80 = Z80(_memory, startAddress: 0x0000);
   }
+
+  static SpectrumModel of(BuildContext context) =>
+      ModelFinder<SpectrumModel>().of(context);
 
   void executeInstruction() async {
     if (_instructionCounter == 0) {

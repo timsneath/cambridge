@@ -87,3 +87,7 @@ ui/ios/Flutter/flutter_assets/
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+ui/ios/Flutter/flutter_assets/isolate_snapshot_data
+ui/ios/Flutter/flutter_assets/kernel_blob.bin
+ui/ios/Flutter/flutter_assets/platform.dill
+ui/ios/Flutter/flutter_assets/vm_snapshot_data

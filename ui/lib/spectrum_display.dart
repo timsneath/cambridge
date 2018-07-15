@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as ImageLibrary;
+import 'package:scoped_model/scoped_model.dart';
 
 import 'package:spectrum/spectrum.dart';
 import 'spectrum_model.dart';
@@ -33,6 +34,9 @@ class SpectrumDisplayState extends State<SpectrumDisplay> {
     }
   }
 
-  Widget build(BuildContext context) =>
-      createSpectrumFrame(SpectrumModel.of(context).memory);
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SpectrumModel>(
+      builder: (context, child, model) => createSpectrumFrame(model.memory),
+    );
+  }
 }

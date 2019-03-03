@@ -19,7 +19,7 @@ class SpectrumModel extends Model {
   }
 
   static SpectrumModel of(BuildContext context) =>
-      ModelFinder<SpectrumModel>().of(context);
+      ScopedModel.of<SpectrumModel>(context);
 
   void executeInstruction() async {
     if (_instructionCounter == 0) {

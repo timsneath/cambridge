@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as ImageLibrary;
 import 'package:scoped_model/scoped_model.dart';
 
-import 'package:spectrum/spectrum.dart';
 import 'spectrum_model.dart';
+import 'memory.dart';
+import 'display.dart';
 
 // This object represents the screen of the ZX Spectrum
 class SpectrumDisplay extends StatefulWidget {
@@ -20,13 +21,13 @@ class SpectrumDisplayState extends State<SpectrumDisplay> {
 
   Image createSpectrumFrame(Memory memory) {
     if (memory != null) {
-      var frame = ImageLibrary.Image.fromBytes(Display.Width, Display.Height,
+      var frame = ImageLibrary.Image.fromBytes(Display.width, Display.height,
           Display.imageBuffer(memory), ImageLibrary.Image.RGBA);
 
       final jpg = ImageLibrary.encodeJpg(frame, quality: 100);
       final img = Image.memory(jpg,
-          width: Display.Width.toDouble(),
-          height: Display.Height.toDouble(),
+          width: Display.width.toDouble(),
+          height: Display.height.toDouble(),
           gaplessPlayback: true);
       return img;
     } else {

@@ -1,7 +1,7 @@
 // keyboard.dart -- keyboard input for ZX Spectrum
 
 // http://www.animatez.co.uk/computers/zx-spectrum/keyboard/
-final KeyMap = {
+final keyMap = {
   0xFEFE: ['*', 'Z', 'X', 'C', 'V'],
   0xFDFE: ['A', 'S', 'D', 'F', 'G'],
   0xFBFE: ['Q', 'W', 'E', 'R', 'T'],

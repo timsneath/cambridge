@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:spectrum/spectrum.dart';
 import 'spectrum_model.dart';
 import 'spectrum_display.dart';
+import 'utility.dart';
 
 void main() => runApp(ProjectCambridge());
 

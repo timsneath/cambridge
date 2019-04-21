@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'memory.dart';
 import 'spectrumcolor.dart';
 
-final SpectrumColors = <int, SpectrumColor>{
+final spectrumColors = <int, SpectrumColor>{
   0x00: const SpectrumColor.fromRGB(0x00, 0x00, 0x00), // black
   0x01: const SpectrumColor.fromRGB(0x00, 0x00, 0xCD), // blue
   0x02: const SpectrumColor.fromRGB(0xCD, 0x00, 0x00), // red
@@ -26,8 +26,8 @@ final SpectrumColors = <int, SpectrumColor>{
 
 class Display {
   // standard dimensions of a ZX spectrum display
-  static int get Width => 256;
-  static int get Height => 192;
+  static int get width => 256;
+  static int get height => 192;
 
   static Uint8List imageBuffer(Memory memory) {
     Uint8List display = Uint8List(256 * 192 * 4);
@@ -73,13 +73,13 @@ class Display {
         //  for 8x8 cells starting at 0x5800 (array of 32 x 24)
         final color = memory.readByte((0x5800 + ((y ~/ 8) * 32 + x)));
         final paperColor =
-            SpectrumColors[((color & 0x78) >> 3)]; // 0x78 = 01111000
+            spectrumColors[((color & 0x78) >> 3)]; // 0x78 = 01111000
         var inkColorAsByte = ((color & 0x07)); // 0x07 = 00000111
         if ((color & 0x40) == 0x40) // bright on (i.e. 0x40 = 01000000)
         {
           inkColorAsByte |= 0x08;
         }
-        final inkColor = SpectrumColors[inkColorAsByte];
+        final inkColor = spectrumColors[inkColorAsByte];
 
         // apply state to the display
         for (int bit = 7; bit >= 0; bit--) {

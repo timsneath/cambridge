@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'z80.dart';
-import 'memory.dart';
+import 'zxspectrum/z80.dart';
+import 'zxspectrum/memory.dart';
 
 class SpectrumModel extends Model {
   Z80 _z80;

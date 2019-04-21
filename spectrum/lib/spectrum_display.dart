@@ -3,8 +3,8 @@ import 'package:image/image.dart' as ImageLibrary;
 import 'package:scoped_model/scoped_model.dart';
 
 import 'spectrum_model.dart';
-import 'memory.dart';
-import 'display.dart';
+import 'zxspectrum/memory.dart';
+import 'zxspectrum/display.dart';
 
 // This object represents the screen of the ZX Spectrum
 class SpectrumDisplay extends StatefulWidget {

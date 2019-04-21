@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'spectrum_model.dart';
-import 'spectrum_display.dart';
+import 'package:flutter/services.dart';
+import 'dart:typed_data';
+import 'monitor_widget.dart';
+import 'zxspectrum/z80.dart';
+import 'zxspectrum/memory.dart';
 import 'zxspectrum/utility.dart';
 
 void main() => runApp(ProjectCambridge());
@@ -10,78 +12,105 @@ class ProjectCambridge extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<SpectrumModel>(
-      model: SpectrumModel(),
-      child: MaterialApp(
-        title: 'Project Cambridge',
-        theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
-        ),
-        home: HomePage(title: 'Project Cambridge'),
+    return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: CambridgeHomePage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  HomePageState createState() => HomePageState();
+class CambridgeHomePage extends StatefulWidget {
+  @override
+  _CambridgeHomePageState createState() => _CambridgeHomePageState();
 }
 
-class HomePageState extends State<HomePage> {
-  SpectrumDisplay spectrum;
+class _CambridgeHomePageState extends State<CambridgeHomePage> {
+  Z80 z80;
+  Memory memory;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   spectrum = SpectrumDisplay();
-  // }
+  int instructionCounter = 0;
+
+  @override
+  initState() {
+    super.initState();
+    memory = Memory(true);
+    z80 = Z80(memory, startAddress: 0x0000);
+  }
+
+  void loadTestScreenshot() async {
+    ByteData screen = await rootBundle.load('assets/google.scr');
+
+    setState(() {
+      memory.load(0x4000, screen.buffer.asUint8List());
+    });
+  }
+
+  void resetEmulator() async {
+    ByteData rom = await rootBundle.load('roms/48.rom');
+
+    memory = Memory(true);
+    z80 = Z80(memory, startAddress: 0x0000);
+    setState(() {
+      memory.load(0x0000, rom.buffer.asUint8List());
+    });
+  }
+
+  void executeInstruction() async {
+    if (instructionCounter == 0) {
+      ByteData rom = await rootBundle.load('roms/48.rom');
+      memory.load(0x0000, rom.buffer.asUint8List());
+      z80.reset();
+      instructionCounter++;
+    } else {
+      while (instructionCounter++ % 0x10000 != 0) {
+        setState(() {
+          z80.executeNextInstruction();
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Project Cambridge'),
       ),
       body: Center(
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SpectrumDisplay(), // the Spectrum screen itself
-              ScopedModelDescendant<SpectrumModel>(
-                builder: (context, child, model) => Text(model.z80 == null
-                    ? 'null'
-                    : 'Program Counter: ${toHex16(model.z80.pc)}'),
-              ), // yeah - we're wired up :)
+            children: [
+              Monitor(memory: memory),
+              Text('Program Counter: ${toHex16(z80.pc)}'),
               Container(
-                  padding: const EdgeInsets.all(40.0),
-                  child: RichText(
-                      text: TextSpan(
-                          text:
-                              "Not yet updating the screen frame-by-frame. Use the last button below to manually advance the emulator. You'll need to press it about 10 times to fully advance through the boot process.",
-                          style: TextStyle(color: Colors.black87)))),
-              ButtonTheme.bar(
-                child: ScopedModelDescendant<SpectrumModel>(
-                  builder: (context, child, model) => ButtonBar(
-                        alignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          FlatButton(
-                              child: Text('TEST SCREEN'),
-                              onPressed: model.loadTestScreenshot),
-                          FlatButton(
-                              child: Text('RESET'),
-                              onPressed: model.resetEmulator),
-                          FlatButton(
-                              child: Text('STEP FORWARD'),
-                              onPressed: model.executeInstruction),
-                        ],
-                      ),
+                padding: const EdgeInsets.all(40.0),
+                child: RichText(
+                  text: TextSpan(
+                    text:
+                        "Not yet updating the screen frame-by-frame. Use the last button below to manually advance the emulator. You'll need to press it about 10 times to fully advance through the boot process.",
+                    style: TextStyle(color: Colors.black87),
+                  ),
                 ),
+              ),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text('TEST SCREEN'),
+                    onPressed: loadTestScreenshot,
+                  ),
+                  FlatButton(
+                    child: Text('RESET'),
+                    onPressed: resetEmulator,
+                  ),
+                  FlatButton(
+                    child: Text('STEP'),
+                    onPressed: executeInstruction,
+                  ),
+                ],
               ),
             ],
           ),

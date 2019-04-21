@@ -1,11 +1,11 @@
-// display.dart -- implements an attached screen buffer
+// displaybuffer.dart -- implements an attached screen buffer
 
 import 'dart:typed_data';
 
 import 'memory.dart';
 import 'spectrumcolor.dart';
 
-class Display {
+class DisplayBuffer {
   // standard dimensions of a ZX spectrum display
   static int get width => 256;
   static int get height => 192;

@@ -1,10 +1,22 @@
-name: spectrum
-description: Library providing the common components of the ZX Spectrum.
-version: 0.9.2
-author: Tim Sneath <tim@sneath.org>
+name: ui
+description: Project Cambridge
 
-environment:
-  sdk: '>=2.0.0-dev.63.0 <3.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: "^0.1.2"
+  image: "^2.0.7"
+  scoped_model: "^1.0.1"
+  spectrum:
+    path: ../spectrum
 
 dev_dependencies:
-  test: "^1.2.0"
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/blank.jpg
+    - assets/google.scr
+    - roms/48.rom

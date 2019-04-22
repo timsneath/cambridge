@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'zxspectrum/memory.dart';
 import 'zxspectrum/displaybuffer.dart';
 
-const int width = 256;
-const int height = 192;
+const int screenWidth = 256;
+const int screenHeight = 192;
 
 // This object represents the screen of the ZX Spectrum
 class Monitor extends StatefulWidget {
@@ -22,8 +22,8 @@ class MonitorState extends State<Monitor> {
   Image displayFrame;
 
   Widget build(BuildContext context) {
-    var bitmapImage = BitmapHeader(width, height)
-        .appendBitmap(DisplayBuffer.imageBuffer(widget.memory));
+    var bitmapImage =
+        BitmapHeader().appendBitmap(DisplayBuffer.imageBuffer(widget.memory));
 
     return Image.memory(
       bitmapImage,
@@ -34,26 +34,28 @@ class MonitorState extends State<Monitor> {
   }
 }
 
-// from https://stackoverflow.com/questions/51315442/use-ui-decodeimagefromlist-to-display-an-image-created-from-a-list-of-bytes/51316489
+// Adapted from
+//   https://stackoverflow.com/questions/51315442/use-ui-decodeimagefromlist-to-display-an-image-created-from-a-list-of-bytes/51316489
 class BitmapHeader {
-  int _width; // NOTE: width must be multiple of 4 as no account is made for bitmap padding
-  int _height;
-
-  Uint8List _bmp;
+  Uint8List bmp;
   int headerSize = 54;
 
-  BitmapHeader(this._width, this._height) : assert(_width & 3 == 0) {
-    int fileLength = headerSize + _width * _height * 4; // header + bitmap
-    _bmp = new Uint8List(fileLength);
-    ByteData bd = _bmp.buffer.asByteData();
-    // bd.setUint16(0, 0x424d, Endian.little);
-    bd.setUint8(0, 0x42); // header field: BM
-    bd.setUint8(1, 0x4d);
+  // Bitmap header format documented here:
+  //   https://en.wikipedia.org/wiki/BMP_file_format
+  // Bitmap file header is 10 bytes long, followed by a 40 byte BITMAPINFOHEADER
+  // that describes the bitmap itself
+  BitmapHeader() {
+    final fileLength =
+        headerSize + screenWidth * screenHeight * 4; // header + bitmap
+    bmp = Uint8List(fileLength);
+    ByteData bd = bmp.buffer.asByteData();
+    bd.setUint16(0, 0x424d); // header field: BM
     bd.setUint32(2, fileLength, Endian.little); // file length
     bd.setUint32(10, headerSize, Endian.little); // start of the bitmap
+
     bd.setUint32(14, 40, Endian.little); // info header size
-    bd.setUint32(18, _width, Endian.little);
-    bd.setUint32(22, -_height, Endian.little); // top down, not bottom up
+    bd.setUint32(18, screenWidth, Endian.little);
+    bd.setUint32(22, -screenHeight, Endian.little); // top down, not bottom up
     bd.setUint16(26, 1, Endian.little); // planes
     bd.setUint32(28, 32, Endian.little); // bpp
     bd.setUint32(30, 0, Endian.little); // compression
@@ -63,9 +65,9 @@ class BitmapHeader {
 
   /// Insert the provided bitmap after the header and return the whole BMP
   Uint8List appendBitmap(Uint8List bitmap) {
-    int size = _width * _height * 4;
+    int size = screenWidth * screenHeight * 4;
     assert(bitmap.length == size);
-    _bmp.setRange(headerSize, headerSize + size, bitmap);
-    return _bmp;
+    bmp.setRange(headerSize, headerSize + size, bitmap);
+    return bmp;
   }
 }

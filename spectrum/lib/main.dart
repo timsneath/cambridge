@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:typed_data';
-import 'monitor_widget.dart';
-import 'zxspectrum/z80.dart';
-import 'zxspectrum/memory.dart';
-import 'zxspectrum/utility.dart';
+import 'monitor.dart';
+import 'spectrum/z80.dart';
+import 'spectrum/memory.dart';
+import 'spectrum/utility.dart';
 
 void main() => runApp(ProjectCambridge());
 

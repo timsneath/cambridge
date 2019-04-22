@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import 'zxspectrum/memory.dart';
-import 'zxspectrum/displaybuffer.dart';
+import 'spectrum/memory.dart';
+import 'spectrum/displaybuffer.dart';
 
 const int screenWidth = 256;
 const int screenHeight = 192;

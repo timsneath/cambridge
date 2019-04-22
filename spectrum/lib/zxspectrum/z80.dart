@@ -12,6 +12,9 @@
 import 'memory.dart';
 import 'utility.dart';
 
+// We use register names for the fields and we don't fuss too much about this.
+// ignore_for_file: non_constant_identifier_names
+
 class Z80 {
   Memory memory;
   bool cpuSuspended;
@@ -194,7 +197,6 @@ class Z80 {
     de = (de + 1) % 0x10000;
     hl = (hl + 1) % 0x10000;
     bc = (bc - 1) % 0x10000;
-    ;
 
     if (bc != 0) {
       pc = (pc - 2) % 0x10000;
@@ -1248,7 +1250,7 @@ class Z80 {
         break;
       default:
         throw Exception(
-            "Field register ${register} must map to a valid Z80 register.");
+            "Field register $register must map to a valid Z80 register.");
     }
   }
 
@@ -1385,7 +1387,6 @@ class Z80 {
         default:
           throw Exception("Opcode DDCB**${toHex16(opCode)} not understood. ");
       }
-      ;
 
       tStates += 23;
     }
@@ -2387,7 +2388,6 @@ class Z80 {
         default:
           throw Exception("Opcode FDCB**${toHex16(opCode)} not understood. ");
       }
-      ;
 
       tStates += 23;
     }

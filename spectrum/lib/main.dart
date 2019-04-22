@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'dart:typed_data';
 import 'monitor.dart';
@@ -9,7 +10,6 @@ import 'spectrum/utility.dart';
 void main() => runApp(ProjectCambridge());
 
 class ProjectCambridge extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,6 +29,7 @@ class CambridgeHomePage extends StatefulWidget {
 class _CambridgeHomePageState extends State<CambridgeHomePage> {
   Z80 z80;
   Memory memory;
+  Ticker ticker;
 
   int instructionCounter = 0;
 
@@ -37,6 +38,22 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
     super.initState();
     memory = Memory(true);
     z80 = Z80(memory, startAddress: 0x0000);
+    ticker = Ticker(onTick);
+  }
+
+  void onTick(Duration elapsed) async {
+    if (instructionCounter == 0) {
+      ByteData rom = await rootBundle.load('roms/48.rom');
+      memory.load(0x0000, rom.buffer.asUint8List());
+      z80.reset();
+      instructionCounter++;
+    } else {
+      while (instructionCounter++ % 0x1000 != 0) {
+        setState(() {
+          z80.executeNextInstruction();
+        });
+      }
+    }
   }
 
   void loadTestScreenshot() async {
@@ -85,16 +102,6 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
             children: [
               Monitor(memory: memory),
               Text('Program Counter: ${toHex16(z80.pc)}'),
-              Container(
-                padding: const EdgeInsets.all(40.0),
-                child: RichText(
-                  text: TextSpan(
-                    text:
-                        "Not yet updating the screen frame-by-frame. Use the last button below to manually advance the emulator. You'll need to press it about 10 times to fully advance through the boot process.",
-                    style: TextStyle(color: Colors.black87),
-                  ),
-                ),
-              ),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -109,6 +116,19 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
                   FlatButton(
                     child: Text('STEP'),
                     onPressed: executeInstruction,
+                  ),
+                ],
+              ),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text('START TICKER'),
+                    onPressed: () => ticker.start(),
+                  ),
+                  FlatButton(
+                    child: Text('STOP TICKER'),
+                    onPressed: () => ticker.stop(),
                   ),
                 ],
               ),

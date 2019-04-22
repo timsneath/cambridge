@@ -11,6 +11,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/blank.jpg
     - assets/google.scr
     - roms/48.rom

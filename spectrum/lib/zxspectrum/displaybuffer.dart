@@ -65,9 +65,9 @@ class DisplayBuffer {
         // apply state to the display
         for (int bit = 7; bit >= 0; bit--) {
           bool isBitSet = (pixel8 & (1 << bit)) == 1 << bit;
-          display[idx++] = (isBitSet ? inkColor.red : paperColor.red);
-          display[idx++] = (isBitSet ? inkColor.green : paperColor.green);
           display[idx++] = (isBitSet ? inkColor.blue : paperColor.blue);
+          display[idx++] = (isBitSet ? inkColor.green : paperColor.green);
+          display[idx++] = (isBitSet ? inkColor.red : paperColor.red);
           display[idx++] = 0xFF;
         }
       }

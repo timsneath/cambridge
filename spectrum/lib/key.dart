@@ -128,13 +128,13 @@ class Keyboard extends StatelessWidget {
               Keycap(
                   mainKeycap: 'Y',
                   belowKeycap: '[',
-                  aboveKeycap: 'STR\$',
+                  aboveKeycap: 'STR \$',
                   commandKeycap: 'RETURN',
                   redKeycap: 'AND'),
               Keycap(
                   mainKeycap: 'U',
                   belowKeycap: ']',
-                  aboveKeycap: 'CHR\$',
+                  aboveKeycap: 'CHR \$',
                   commandKeycap: 'IF',
                   redKeycap: 'OR'),
               Keycap(
@@ -151,7 +151,7 @@ class Keyboard extends StatelessWidget {
               //     redKeycap: ':'),
               // Keycap(
               //     mainKeycap: 'P',
-              //     belowKeycap: '(c)',
+              //     belowKeycap: '©',
               //     aboveKeycap: 'TAB',
               //     commandKeycap: 'PRINT',
               //     redKeycap: '\"'),
@@ -195,16 +195,16 @@ class Keyboard extends StatelessWidget {
                   belowKeycap: 'CIRCLE',
                   aboveKeycap: 'SQR',
                   commandKeycap: 'GOSUB',
-                  redKeycap: '†'),
+                  redKeycap: '↑'),
               Keycap(
                   mainKeycap: 'J',
-                  belowKeycap: 'VAL\$',
+                  belowKeycap: 'VAL \$',
                   aboveKeycap: 'VAL',
                   commandKeycap: 'LOAD',
                   redKeycap: '-'),
               Keycap(
                   mainKeycap: 'K',
-                  belowKeycap: 'SCREEN\$',
+                  belowKeycap: 'SCREEN \$',
                   aboveKeycap: 'LEN',
                   commandKeycap: 'LIST',
                   redKeycap: '+'),
@@ -235,13 +235,13 @@ class Keyboard extends StatelessWidget {
               Keycap(
                   mainKeycap: 'C',
                   belowKeycap: 'PAPER',
-                  aboveKeycap: 'LPRINT',
+                  aboveKeycap: 'L PRINT',
                   commandKeycap: 'CONT',
                   redKeycap: '?'),
               Keycap(
                   mainKeycap: 'V',
                   belowKeycap: 'FLASH',
-                  aboveKeycap: 'LLIST',
+                  aboveKeycap: 'L LIST',
                   commandKeycap: 'CLS',
                   redKeycap: '/'),
               Keycap(
@@ -253,7 +253,7 @@ class Keyboard extends StatelessWidget {
               Keycap(
                   mainKeycap: 'N',
                   belowKeycap: 'OVER',
-                  aboveKeycap: 'INKEY\$',
+                  aboveKeycap: 'IN KEY \$',
                   commandKeycap: 'NEXT',
                   redKeycap: ','),
               Keycap(

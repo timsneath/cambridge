@@ -51,11 +51,6 @@ class Memory {
     memory.setRange(start, start + loadData8.length, loadData8);
   }
 
-  void loadSpectrumRom(String romLocation) {
-    var rom = File(romLocation).readAsBytesSync();
-    load(0x0000, rom, ignoreRomProtection: true);
-  }
-
   int readByte(int address) => memory[address] & 0xFF;
   int readWord(int address) => (memory[address + 1] << 8) + memory[address];
 

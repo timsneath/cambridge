@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'dart:typed_data';
 import 'monitor.dart';
+import 'key.dart';
 import 'spectrum/z80.dart';
 import 'spectrum/memory.dart';
 import 'spectrum/utility.dart';
@@ -132,6 +133,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
                   ),
                 ],
               ),
+              Keyboard(),
             ],
           ),
         ),

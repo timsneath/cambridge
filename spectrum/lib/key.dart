@@ -57,7 +57,10 @@ class Keycap extends StatelessWidget {
                         Text(
                           this.redKeycap,
                           style: TextStyle(color: Colors.red[900]),
+                      
+
                         ),
+                        Container(height: 2),
                         Text(
                           this.commandKeycap,
                           style: TextStyle(color: Colors.white),

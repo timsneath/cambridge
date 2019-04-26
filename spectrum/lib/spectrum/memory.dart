@@ -16,7 +16,6 @@
 // to the RAM is shared between the processor and the ULA. The ULA has
 // priority access when the screen is being drawn.
 
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'utility.dart';

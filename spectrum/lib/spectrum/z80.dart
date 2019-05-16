@@ -1065,15 +1065,15 @@ class Z80 {
   }
 
   void OUT(int portNumber, int value) {
-    // TODO: write value to portNumber
+    portWrite(portNumber, value);
   }
 
   void OUTA(int portNumber, int value) {
-    // TODO: write value to portNumber
+    portWrite(portNumber, value);
   }
 
   int INA(int portNumber) {
-    return portNumber;
+    return portRead(portNumber);
   }
 
   void INI() {
@@ -1187,8 +1187,14 @@ class Z80 {
   int displacedIX() => (ix + getNextByte());
   int displacedIY() => (iy + getNextByte());
 
-  int portRead(int bc) => 0;
-  void portWrite(int addr, int value) {}
+  int portRead(int bc) {
+    print('Z80: Reading port $bc');
+    return 0;
+  }
+
+  void portWrite(int addr, int value) {
+    print('Z80: Writing $addr, $value');
+  }
 
   void rot(int operation, int register) {
     var rotFunction;

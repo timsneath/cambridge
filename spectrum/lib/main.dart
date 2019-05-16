@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'dart:typed_data';
-import 'monitor.dart';
-import 'key.dart';
+
 import 'spectrum/z80.dart';
 import 'spectrum/memory.dart';
+import 'spectrum/spectrumcolor.dart';
 import 'spectrum/utility.dart';
+
+import 'monitor.dart';
+import 'key.dart';
 
 void main() => runApp(ProjectCambridge());
 
@@ -31,6 +34,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
   Z80 z80;
   Memory memory;
   Ticker ticker;
+  SpectrumColor border;
 
   int instructionCounter = 0;
 
@@ -101,7 +105,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Monitor(memory: memory),
+              Monitor(memory: memory, border: border),
               Text('Program Counter: ${toHex16(z80.pc)}'),
               ButtonBar(
                 alignment: MainAxisAlignment.center,

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:spectrum/spectrum/spectrumcolor.dart';
 
 import 'spectrum/memory.dart';
 import 'spectrum/displaybuffer.dart';
@@ -10,9 +11,10 @@ const int screenHeight = 192;
 
 // This object represents the screen of the ZX Spectrum
 class Monitor extends StatefulWidget {
-  Monitor({Key key, this.memory}) : super(key: key);
+  Monitor({Key key, this.memory, this.border}) : super(key: key);
 
   final Memory memory;
+  final SpectrumColor border;
 
   @override
   MonitorState createState() => MonitorState();
@@ -25,11 +27,17 @@ class MonitorState extends State<Monitor> {
     var bitmapImage =
         BitmapHeader().appendBitmap(DisplayBuffer.imageBuffer(widget.memory));
 
-    return Image.memory(
-      bitmapImage,
-      width: DisplayBuffer.width.toDouble(),
-      height: DisplayBuffer.height.toDouble(),
-      gaplessPlayback: true,
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: spectrumColors[0x07].toColor(), width: 20),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Image.memory(
+        bitmapImage,  
+        width: DisplayBuffer.width.toDouble(),
+        height: DisplayBuffer.height.toDouble(),
+        gaplessPlayback: true,
+      ),
     );
   }
 }

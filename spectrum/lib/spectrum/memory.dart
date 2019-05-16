@@ -20,8 +20,6 @@ import 'dart:typed_data';
 
 import 'utility.dart';
 
-// TODO: Should Memory extend Uint8List rather than encapsulating it?
-
 class Memory {
   static const romTop = 0x3FFF;
   static const ramTop = 0xFFFF;

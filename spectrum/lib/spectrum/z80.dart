@@ -44,6 +44,13 @@ class Z80 {
     cpuSuspended = false;
   }
 
+  void activateInterrupt() {
+    if (im == 1) {
+      PUSH(pc);
+      pc = 0x0038;
+    }
+  }
+
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
   // REGISTERS
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
@@ -1188,15 +1195,15 @@ class Z80 {
   int displacedIY() => (iy + getNextByte());
 
   int portRead(int bc) {
-    print('Z80: Reading port $bc');
+    print('Z80: Reading port ${toHex32(bc)}');
     return 0;
   }
 
   void portWrite(int addr, int value) {
     if (addr == 0xFE) {
-      print('Writing border color $value');
+      print('Writing border color ${toHex16(value)}');
     } else {
-      print('Z80: Writing $addr, $value');
+      print('Z80: Writing ${toHex32(addr)}, ${toHex16(value)}');
     }
   }
 
@@ -1995,6 +2002,7 @@ class Z80 {
       case 0x46:
       case 0x66:
         im = 0;
+        print('IM 0');
         tStates += 8;
         break;
 
@@ -2066,6 +2074,7 @@ class Z80 {
       case 0x6E:
       case 0x76:
         im = 1;
+        print('IM 1');
         tStates += 8;
         break;
 
@@ -2107,6 +2116,7 @@ class Z80 {
       case 0x5E:
       case 0x7E:
         im = 2;
+        print('IM 2');
         tStates += 8;
         break;
 

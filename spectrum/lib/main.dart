@@ -37,7 +37,7 @@ class CambridgeHomePage extends StatefulWidget {
 class _CambridgeHomePageState extends State<CambridgeHomePage> {
   Ticker ticker;
 
-  int instructionCounter = 0;
+  bool isRomLoaded = false;
 
   @override
   initState() {
@@ -48,18 +48,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
   }
 
   void onTick(Duration elapsed) async {
-    if (instructionCounter == 0) {
-      ByteData rom = await rootBundle.load('roms/48.rom');
-      memory.load(0x0000, rom.buffer.asUint8List());
-      z80.reset();
-      instructionCounter++;
-    } else {
-      while (instructionCounter++ % 0x1000 != 0) {
-        setState(() {
-          z80.executeNextInstruction();
-        });
-      }
-    }
+    executeFrame();
   }
 
   void loadTestScreenshot() async {
@@ -80,18 +69,20 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
     });
   }
 
-  void executeInstruction() async {
-    if (instructionCounter == 0) {
+  void executeFrame() async {
+    if (!isRomLoaded) {
       ByteData rom = await rootBundle.load('roms/48.rom');
       memory.load(0x0000, rom.buffer.asUint8List());
+      isRomLoaded = true;
       z80.reset();
-      instructionCounter++;
     } else {
-      while (instructionCounter++ % 0x10000 != 0) {
+      while (z80.tStates < 14336) {
         setState(() {
           z80.executeNextInstruction();
         });
       }
+      z80.activateInterrupt();
+      z80.tStates = 0;
     }
   }
 
@@ -121,7 +112,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
                   ),
                   FlatButton(
                     child: Text('STEP'),
-                    onPressed: executeInstruction,
+                    onPressed: executeFrame,
                   ),
                 ],
               ),

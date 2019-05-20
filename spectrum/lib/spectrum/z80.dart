@@ -1193,7 +1193,11 @@ class Z80 {
   }
 
   void portWrite(int addr, int value) {
-    print('Z80: Writing $addr, $value');
+    if (addr == 0xFE) {
+      print('Writing border color $value');
+    } else {
+      print('Z80: Writing $addr, $value');
+    }
   }
 
   void rot(int operation, int register) {

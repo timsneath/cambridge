@@ -1,5 +1,8 @@
 // spectrumcolor.dart -- color system for ZX Spectrum
 
+// TODO: This is a mess. Should be able to pass in a value from 0x00 to 0x0F
+// and should be a automatic return value for spectrumColor.BrightBlue etc.
+
 // Based on Color from dart:ui, and values are compatible with Color, but
 // assumes alpha channel is always opaque (since ZX Spectrum has no concept
 // of transparency).

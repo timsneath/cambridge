@@ -5,11 +5,15 @@ import 'dart:typed_data';
 
 import 'spectrum/z80.dart';
 import 'spectrum/memory.dart';
-import 'spectrum/spectrumcolor.dart';
 import 'spectrum/utility.dart';
+import 'spectrum/display.dart';
 
 import 'monitor.dart';
 import 'key.dart';
+
+Z80 z80;
+Memory memory;
+Display display;
 
 void main() => runApp(ProjectCambridge());
 
@@ -31,10 +35,7 @@ class CambridgeHomePage extends StatefulWidget {
 }
 
 class _CambridgeHomePageState extends State<CambridgeHomePage> {
-  Z80 z80;
-  Memory memory;
   Ticker ticker;
-  SpectrumColor border;
 
   int instructionCounter = 0;
 
@@ -105,7 +106,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Monitor(memory: memory, border: border),
+              Monitor(),
               Text('Program Counter: ${toHex16(z80.pc)}'),
               ButtonBar(
                 alignment: MainAxisAlignment.center,

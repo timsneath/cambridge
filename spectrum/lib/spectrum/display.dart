@@ -106,13 +106,13 @@ class Display {
         //  for 8x8 cells starting at 0x5800 (array of 32 x 24)
         final color = memory.readByte((0x5800 + ((y ~/ 8) * 32 + x)));
         final paperColor =
-            spectrumColors[((color & 0x78) >> 3)]; // 0x78 = 01111000
+            SpectrumColor(((color & 0x78) >> 3)); // 0x78 = 01111000
         var inkColorAsByte = ((color & 0x07)); // 0x07 = 00000111
         if ((color & 0x40) == 0x40) // bright on (i.e. 0x40 = 01000000)
         {
           inkColorAsByte |= 0x08;
         }
-        final inkColor = spectrumColors[inkColorAsByte];
+        final inkColor = SpectrumColor(inkColorAsByte);
 
         // apply state to the display
         for (int bit = 7; bit >= 0; bit--) {

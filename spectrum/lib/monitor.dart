@@ -13,10 +13,11 @@ class MonitorState extends State<Monitor> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-            color: spectrumColors[Display.borderColor]?.toColor() ??
-                Colors.deepOrange,
-            width: 20),
+        boxShadow: [
+          BoxShadow(color: Colors.grey, offset: Offset(20, 20), blurRadius: 20),
+        ],
+        border:
+            Border.all(color: SpectrumColor(Display.borderColor), width: 20),
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Image.memory(

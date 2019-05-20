@@ -20,7 +20,8 @@ class Keycap extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: GestureDetector(
-        onTap: () => print(this.mainKeycap),
+        onTapDown: (TapDownDetails details) => print('${this.mainKeycap} down'),
+        onTapUp: (TapUpDetails details) => print('${this.mainKeycap} up'),
         child: Container(
           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
           color: Colors.black,
@@ -57,8 +58,6 @@ class Keycap extends StatelessWidget {
                         Text(
                           this.redKeycap,
                           style: TextStyle(color: Colors.red[900]),
-                      
-
                         ),
                         Container(height: 2),
                         Text(

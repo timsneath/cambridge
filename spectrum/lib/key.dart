@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spectrum/spectrum/keyboard.dart';
+import 'package:spectrum/spectrum/utility.dart';
+import 'package:spectrum/spectrum/ports.dart';
 
 class Keycap extends StatelessWidget {
   final String mainKeycap;
@@ -20,8 +23,8 @@ class Keycap extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: GestureDetector(
-        onTapDown: (TapDownDetails details) => print('${this.mainKeycap} down'),
-        onTapUp: (TapUpDetails details) => print('${this.mainKeycap} up'),
+        onTapDown: (TapDownDetails details) => keyPressed(),
+        onTapUp: (TapUpDetails details) => keyReleased(),
         child: Container(
           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
           color: Colors.black,
@@ -84,6 +87,41 @@ class Keycap extends StatelessWidget {
       ),
     );
   }
+
+  void keyPressed() {
+    // naive implementation that only allows for a single keypress
+    final port = keyPortMap(this.mainKeycap);
+
+    if (port != null) {
+      // set all keyboard bits high at first
+      inputPorts.setUint8(0xFEFE, 0xFF);
+      inputPorts.setUint8(0xFDFE, 0xFF);
+      inputPorts.setUint8(0xFBFE, 0xFF);
+      inputPorts.setUint8(0xF7FE, 0xFF);
+      inputPorts.setUint8(0xEFFE, 0xFF);
+      inputPorts.setUint8(0xDFFE, 0xFF);
+      inputPorts.setUint8(0xBFFE, 0xFF);
+      inputPorts.setUint8(0x7FFE, 0xFF);
+
+      final data = keyValueMap(port, this.mainKeycap);
+      print(
+          '${this.mainKeycap} down -- writing ${toHex16(data)} to port ${toHex32(port)}');
+      inputPorts.setUint8(port, data);
+    } else {
+      print('Port not found for ${this.mainKeycap}');
+    }
+  }
+
+  void keyReleased() {
+    inputPorts.setUint8(0xFEFE, 0xFF);
+    inputPorts.setUint8(0xFDFE, 0xFF);
+    inputPorts.setUint8(0xFBFE, 0xFF);
+    inputPorts.setUint8(0xF7FE, 0xFF);
+    inputPorts.setUint8(0xEFFE, 0xFF);
+    inputPorts.setUint8(0xDFFE, 0xFF);
+    inputPorts.setUint8(0xBFFE, 0xFF);
+    inputPorts.setUint8(0x7FFE, 0xFF);
+  }
 }
 
 class Keyboard extends StatelessWidget {
@@ -92,8 +130,6 @@ class Keyboard extends StatelessWidget {
     return Container(
       color: Colors.black,
       child: Table(
-        defaultColumnWidth: FlexColumnWidth(1),
-        defaultVerticalAlignment: TableCellVerticalAlignment.top,
         children: <TableRow>[
           TableRow(
             children: <Widget>[

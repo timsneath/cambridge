@@ -11,6 +11,7 @@
 
 import 'memory.dart';
 import 'utility.dart';
+import 'ports.dart';
 
 // We use register names for the fields and we don't fuss too much about this.
 // ignore_for_file: non_constant_identifier_names
@@ -1195,8 +1196,10 @@ class Z80 {
   int displacedIY() => (iy + getNextByte());
 
   int portRead(int bc) {
-    print('Z80: Reading port ${toHex32(bc)}');
-    return 0;
+    int result = inputPorts.getUint8(bc);
+
+    print('Z80: Reading port ${toHex32(bc)} gives ${toHex16(result)}.');
+    return result;
   }
 
   void portWrite(int addr, int value) {

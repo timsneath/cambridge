@@ -26,6 +26,7 @@ class ULA {
   // See http://www.breakintoprogram.co.uk/computers/zx-spectrum/keyboard
   static void keyPressed(String keycap) {
     // naive implementation that only allows for a single keypress
+    // TODO: add pressed keys to a stack so can use shift key
     final port = keyPortMap(keycap);
 
     if (port != null) {

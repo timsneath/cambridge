@@ -30,3 +30,7 @@ bool isZero(int value) => value == 0;
 
 String toHex16(int value) => value.toRadixString(16).padLeft(2, '0');
 String toHex32(int value) => value.toRadixString(16).padLeft(4, '0');
+
+String toBin8(int value) => value.toRadixString(2).padLeft(8, '0');
+String toBin16(int value) => value.toRadixString(2).padLeft(16, '0');
+String toBin32(int value) => value.toRadixString(2).padLeft(32, '0');

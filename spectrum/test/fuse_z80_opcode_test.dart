@@ -4,7 +4,7 @@
 // which cover both documented and undocumented opcodes:
 //   http://fuse-emulator.sourceforge.net/ 
 
-// Run tests with `flutter test`
+// Run tests with `flutter test --plain-name=OPCODE` (for documented tests)
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spectrum/spectrum/z80.dart';
@@ -39,7 +39,10 @@ void loadRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
 
 void checkRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
     int hl_, int ix, int iy, int sp, int pc) {
-  expect(z80.af, equals(af), reason: "Register AF mismatch");
+  expect(highByte(z80.af), equals(highByte(af)), reason: "Register A mismatch");
+  expect(lowByte(z80.af), equals(lowByte(af)),
+      reason:
+          "Register AF mismatch: expected ${toBin8(lowByte(af))}, actual ${toBin8(lowByte(z80.af))}");
   expect(z80.bc, equals(bc), reason: "Register BC mismatch");
   expect(z80.de, equals(de), reason: "Register DE mismatch");
   expect(z80.hl, equals(hl), reason: "Register HL mismatch");
@@ -54,14 +57,14 @@ void checkRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
 }
 
 void checkSpecialRegisters(int i, int r, bool iff1, bool iff2, int tStates) {
-  expect(z80.i, equals(i));
+  expect(z80.i, equals(i), reason: "Register I mismatch");
 
   // TODO: r is magic and we haven't done magic yet
   // expect(z80.r, equals(r));
 
-  expect(z80.iff1, equals(iff1));
-  expect(z80.iff2, equals(iff2));
-  expect(z80.tStates, equals(tStates));
+  expect(z80.iff1, equals(iff1), reason: "Register IFF1 mismatch");
+  expect(z80.iff2, equals(iff2), reason: "Register IFF2 mismatch");
+  expect(z80.tStates, equals(tStates), reason: "tStates mismatch");
 }
 
 main() {
@@ -83,7 +86,7 @@ main() {
     poke(0x0000, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -106,7 +109,7 @@ main() {
     poke(0x0002, 0x34);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -127,7 +130,7 @@ main() {
     poke(0x0000, 0x02);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -149,7 +152,7 @@ main() {
     poke(0x0000, 0x02);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -171,7 +174,7 @@ main() {
     poke(0x0000, 0x03);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -192,7 +195,7 @@ main() {
     poke(0x0000, 0x04);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -213,7 +216,7 @@ main() {
     poke(0x0000, 0x05);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -235,7 +238,7 @@ main() {
     poke(0x0001, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -256,7 +259,7 @@ main() {
     poke(0x0000, 0x07);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -277,7 +280,7 @@ main() {
     poke(0x0000, 0x08);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -298,7 +301,7 @@ main() {
     poke(0x0000, 0x09);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -320,7 +323,7 @@ main() {
     poke(0x0001, 0xde);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -342,7 +345,7 @@ main() {
     poke(0x1234, 0x56);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -363,7 +366,7 @@ main() {
     poke(0x0000, 0x0b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -384,7 +387,7 @@ main() {
     poke(0x0000, 0x0c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -405,7 +408,7 @@ main() {
     poke(0x0000, 0x0d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -427,7 +430,7 @@ main() {
     poke(0x0001, 0xf0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -448,7 +451,7 @@ main() {
     poke(0x0000, 0x0f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -472,7 +475,7 @@ main() {
     poke(0x0003, 0x0c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 132) {
+    while (z80.tStates < 132) {
       z80.executeNextInstruction();
     }
 
@@ -495,7 +498,7 @@ main() {
     poke(0x0002, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -516,7 +519,7 @@ main() {
     poke(0x0000, 0x12);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -538,7 +541,7 @@ main() {
     poke(0x0000, 0x13);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -559,7 +562,7 @@ main() {
     poke(0x0000, 0x14);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -580,7 +583,7 @@ main() {
     poke(0x0000, 0x15);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -602,7 +605,7 @@ main() {
     poke(0x0001, 0x12);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -623,7 +626,7 @@ main() {
     poke(0x0000, 0x17);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -645,7 +648,7 @@ main() {
     poke(0x0001, 0x40);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -666,7 +669,7 @@ main() {
     poke(0x0000, 0x19);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -688,7 +691,7 @@ main() {
     poke(0x8000, 0x13);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -709,7 +712,7 @@ main() {
     poke(0x0000, 0x1b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -730,7 +733,7 @@ main() {
     poke(0x0000, 0x1c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -751,7 +754,7 @@ main() {
     poke(0x0000, 0x1d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -773,7 +776,7 @@ main() {
     poke(0x0001, 0xef);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -794,7 +797,7 @@ main() {
     poke(0x0000, 0x1f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -816,7 +819,7 @@ main() {
     poke(0x0001, 0x40);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -838,7 +841,7 @@ main() {
     poke(0x0001, 0x40);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -861,7 +864,7 @@ main() {
     poke(0x0002, 0xed);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -884,7 +887,7 @@ main() {
     poke(0x0002, 0xc3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -907,7 +910,7 @@ main() {
     poke(0x0000, 0x23);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -928,7 +931,7 @@ main() {
     poke(0x0000, 0x24);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -949,7 +952,7 @@ main() {
     poke(0x0000, 0x25);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -971,7 +974,7 @@ main() {
     poke(0x0001, 0x3a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -992,7 +995,7 @@ main() {
     poke(0x0000, 0x27);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1013,7 +1016,7 @@ main() {
     poke(0x0000, 0x27);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1035,7 +1038,7 @@ main() {
     poke(0x0001, 0x8e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1057,7 +1060,7 @@ main() {
     poke(0x0001, 0x8e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1078,7 +1081,7 @@ main() {
     poke(0x0000, 0x29);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1103,7 +1106,7 @@ main() {
     poke(0xac46, 0xde);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1124,7 +1127,7 @@ main() {
     poke(0x0000, 0x2b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1145,7 +1148,7 @@ main() {
     poke(0x0000, 0x2c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1166,7 +1169,7 @@ main() {
     poke(0x0000, 0x2d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1188,7 +1191,7 @@ main() {
     poke(0x0001, 0x18);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1209,7 +1212,7 @@ main() {
     poke(0x0000, 0x2f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1231,7 +1234,7 @@ main() {
     poke(0x0001, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1253,7 +1256,7 @@ main() {
     poke(0x0001, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1276,7 +1279,7 @@ main() {
     poke(0x0002, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1299,7 +1302,7 @@ main() {
     poke(0x0002, 0xad);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1323,7 +1326,7 @@ main() {
     poke(0x0002, 0x12);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1345,7 +1348,7 @@ main() {
     poke(0x0000, 0x33);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1367,7 +1370,7 @@ main() {
     poke(0xfe1d, 0xfd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1390,7 +1393,7 @@ main() {
     poke(0x470c, 0x82);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1413,7 +1416,7 @@ main() {
     poke(0x0001, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1435,7 +1438,7 @@ main() {
     poke(0x0000, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1456,7 +1459,7 @@ main() {
     poke(0x0000, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1477,7 +1480,7 @@ main() {
     poke(0x0000, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1498,7 +1501,7 @@ main() {
     poke(0x0000, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1520,7 +1523,7 @@ main() {
     poke(0x0001, 0x66);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1542,7 +1545,7 @@ main() {
     poke(0x0001, 0x66);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1563,7 +1566,7 @@ main() {
     poke(0x0000, 0x39);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1587,7 +1590,7 @@ main() {
     poke(0x9952, 0x28);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1608,7 +1611,7 @@ main() {
     poke(0x0000, 0x3b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1629,7 +1632,7 @@ main() {
     poke(0x0000, 0x3c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1650,7 +1653,7 @@ main() {
     poke(0x0000, 0x3d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1672,7 +1675,7 @@ main() {
     poke(0x0001, 0xd6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1693,7 +1696,7 @@ main() {
     poke(0x0000, 0x3f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1715,7 +1718,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1737,7 +1740,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1759,7 +1762,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1781,7 +1784,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1803,7 +1806,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1825,7 +1828,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1847,7 +1850,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1869,7 +1872,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1891,7 +1894,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1913,7 +1916,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1935,7 +1938,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1957,7 +1960,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -1979,7 +1982,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2001,7 +2004,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2023,7 +2026,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2045,7 +2048,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2067,7 +2070,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2089,7 +2092,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2111,7 +2114,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2133,7 +2136,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2155,7 +2158,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2177,7 +2180,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2199,7 +2202,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2221,7 +2224,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2243,7 +2246,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2265,7 +2268,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2287,7 +2290,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2309,7 +2312,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2331,7 +2334,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2353,7 +2356,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2375,7 +2378,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2397,7 +2400,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2419,7 +2422,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2441,7 +2444,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2463,7 +2466,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2485,7 +2488,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2507,7 +2510,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2529,7 +2532,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2551,7 +2554,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2573,7 +2576,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2595,7 +2598,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2617,7 +2620,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2639,7 +2642,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2661,7 +2664,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2683,7 +2686,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2705,7 +2708,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2727,7 +2730,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2749,7 +2752,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2771,7 +2774,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2794,7 +2797,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2817,7 +2820,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2840,7 +2843,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2863,7 +2866,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2886,7 +2889,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2909,7 +2912,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2931,7 +2934,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2954,7 +2957,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2976,7 +2979,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -2998,7 +3001,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3020,7 +3023,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3042,7 +3045,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3064,7 +3067,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3086,7 +3089,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3108,7 +3111,7 @@ main() {
     poke(0xa169, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3130,7 +3133,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3152,7 +3155,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3174,7 +3177,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3196,7 +3199,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3218,7 +3221,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3240,7 +3243,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3262,7 +3265,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3284,7 +3287,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3306,7 +3309,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3328,7 +3331,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3350,7 +3353,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3372,7 +3375,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3394,7 +3397,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3416,7 +3419,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3438,7 +3441,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3460,7 +3463,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3482,7 +3485,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3504,7 +3507,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3526,7 +3529,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3548,7 +3551,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3570,7 +3573,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3592,7 +3595,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3614,7 +3617,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3636,7 +3639,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3658,7 +3661,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3680,7 +3683,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3702,7 +3705,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3724,7 +3727,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3746,7 +3749,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3768,7 +3771,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3790,7 +3793,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3812,7 +3815,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3834,7 +3837,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3856,7 +3859,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3878,7 +3881,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3900,7 +3903,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3922,7 +3925,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3944,7 +3947,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3966,7 +3969,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -3988,7 +3991,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4010,7 +4013,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4032,7 +4035,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4054,7 +4057,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4076,7 +4079,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4098,7 +4101,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4120,7 +4123,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4142,7 +4145,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4164,7 +4167,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4186,7 +4189,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4208,7 +4211,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4230,7 +4233,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4252,7 +4255,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4274,7 +4277,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4296,7 +4299,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4318,7 +4321,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4340,7 +4343,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4362,7 +4365,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4384,7 +4387,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4406,7 +4409,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4428,7 +4431,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4450,7 +4453,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4472,7 +4475,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4494,7 +4497,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4516,7 +4519,7 @@ main() {
     poke(0xdca6, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4539,7 +4542,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4562,7 +4565,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4585,7 +4588,7 @@ main() {
     poke(0x4144, 0xe8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4608,7 +4611,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4631,7 +4634,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4654,7 +4657,7 @@ main() {
     poke(0x0002, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4677,7 +4680,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4702,7 +4705,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4723,7 +4726,7 @@ main() {
     poke(0x0000, 0xc5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4747,7 +4750,7 @@ main() {
     poke(0x0001, 0x6f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4768,7 +4771,7 @@ main() {
     poke(0x6d33, 0xc7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4793,7 +4796,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4816,7 +4819,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4839,7 +4842,7 @@ main() {
     poke(0x887f, 0x11);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4862,7 +4865,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4885,7 +4888,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4908,7 +4911,7 @@ main() {
     poke(0xa806, 0x76);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4931,7 +4934,7 @@ main() {
     poke(0xef65, 0xfb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4954,7 +4957,7 @@ main() {
     poke(0xa7f2, 0x4a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -4977,7 +4980,7 @@ main() {
     poke(0xca71, 0xe7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5000,7 +5003,7 @@ main() {
     poke(0x67b0, 0xcd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5023,7 +5026,7 @@ main() {
     poke(0xcb32, 0x1b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5046,7 +5049,7 @@ main() {
     poke(0x5b04, 0xd4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5070,7 +5073,7 @@ main() {
     poke(0xdcaa, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5093,7 +5096,7 @@ main() {
     poke(0x2ee2, 0x53);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5116,7 +5119,7 @@ main() {
     poke(0x59c6, 0x9e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5139,7 +5142,7 @@ main() {
     poke(0x63ad, 0x96);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5162,7 +5165,7 @@ main() {
     poke(0x0289, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5185,7 +5188,7 @@ main() {
     poke(0x34d9, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5208,7 +5211,7 @@ main() {
     poke(0x519a, 0x7a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5231,7 +5234,7 @@ main() {
     poke(0x543e, 0xd2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5255,7 +5258,7 @@ main() {
     poke(0x070b, 0x86);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5278,7 +5281,7 @@ main() {
     poke(0x0d74, 0x3d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5301,7 +5304,7 @@ main() {
     poke(0xed42, 0xb7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5324,7 +5327,7 @@ main() {
     poke(0x29c6, 0x88);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5347,7 +5350,7 @@ main() {
     poke(0x3ed7, 0xea);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5370,7 +5373,7 @@ main() {
     poke(0x7c9a, 0x0f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5393,7 +5396,7 @@ main() {
     poke(0x03e2, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5416,7 +5419,7 @@ main() {
     poke(0x684e, 0xc3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5440,7 +5443,7 @@ main() {
     poke(0x0fa2, 0x23);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5463,7 +5466,7 @@ main() {
     poke(0x9596, 0xb6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5486,7 +5489,7 @@ main() {
     poke(0x71c8, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5509,7 +5512,7 @@ main() {
     poke(0x5279, 0x26);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5532,7 +5535,7 @@ main() {
     poke(0xe8b4, 0xb9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5555,7 +5558,7 @@ main() {
     poke(0x311d, 0x11);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5578,7 +5581,7 @@ main() {
     poke(0xe451, 0x47);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5601,7 +5604,7 @@ main() {
     poke(0x00ef, 0x91);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5625,7 +5628,7 @@ main() {
     poke(0xace7, 0x82);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5648,7 +5651,7 @@ main() {
     poke(0xccb6, 0x1a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5671,7 +5674,7 @@ main() {
     poke(0x37a8, 0xdd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5694,7 +5697,7 @@ main() {
     poke(0x0641, 0x4d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5717,7 +5720,7 @@ main() {
     poke(0xaa59, 0xc1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5740,7 +5743,7 @@ main() {
     poke(0x84b6, 0x80);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5763,7 +5766,7 @@ main() {
     poke(0x85bc, 0xef);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5786,7 +5789,7 @@ main() {
     poke(0x283a, 0xee);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5810,7 +5813,7 @@ main() {
     poke(0x5ea2, 0xbd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5833,7 +5836,7 @@ main() {
     poke(0x021b, 0x90);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5856,7 +5859,7 @@ main() {
     poke(0xc306, 0x5c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5879,7 +5882,7 @@ main() {
     poke(0x3473, 0x34);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5902,7 +5905,7 @@ main() {
     poke(0xb78a, 0xab);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5925,7 +5928,7 @@ main() {
     poke(0x1e7b, 0x2c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5948,7 +5951,7 @@ main() {
     poke(0x78ea, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5971,7 +5974,7 @@ main() {
     poke(0x24bf, 0xb5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -5995,7 +5998,7 @@ main() {
     poke(0x5c65, 0xc9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6018,7 +6021,7 @@ main() {
     poke(0x656b, 0x32);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6041,7 +6044,7 @@ main() {
     poke(0x75a4, 0x0c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6064,7 +6067,7 @@ main() {
     poke(0x5e56, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6087,7 +6090,7 @@ main() {
     poke(0x038f, 0xba);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6110,7 +6113,7 @@ main() {
     poke(0xfb38, 0x07);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6133,7 +6136,7 @@ main() {
     poke(0x7861, 0x72);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6156,7 +6159,7 @@ main() {
     poke(0x6d38, 0xf1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6180,7 +6183,7 @@ main() {
     poke(0x6e56, 0xf8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6203,7 +6206,7 @@ main() {
     poke(0x4ff2, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6226,7 +6229,7 @@ main() {
     poke(0x3c17, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6249,7 +6252,7 @@ main() {
     poke(0xf1b1, 0x6e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6272,7 +6275,7 @@ main() {
     poke(0x7419, 0x11);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6295,7 +6298,7 @@ main() {
     poke(0x2ad8, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6318,7 +6321,7 @@ main() {
     poke(0x46cd, 0xf9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6341,7 +6344,7 @@ main() {
     poke(0xa96c, 0xa0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6365,7 +6368,7 @@ main() {
     poke(0x77f0, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6388,7 +6391,7 @@ main() {
     poke(0x505f, 0x59);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6411,7 +6414,7 @@ main() {
     poke(0x7be9, 0xf7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6434,7 +6437,7 @@ main() {
     poke(0x551f, 0xc9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6457,7 +6460,7 @@ main() {
     poke(0xbab4, 0x76);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6480,7 +6483,7 @@ main() {
     poke(0x5b92, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6503,7 +6506,7 @@ main() {
     poke(0x409b, 0x64);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6526,7 +6529,7 @@ main() {
     poke(0x6131, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6549,7 +6552,7 @@ main() {
     poke(0x6131, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6572,7 +6575,7 @@ main() {
     poke(0x6131, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6595,7 +6598,7 @@ main() {
     poke(0x6131, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6618,7 +6621,7 @@ main() {
     poke(0x6131, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6641,7 +6644,7 @@ main() {
     poke(0x6131, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6663,7 +6666,7 @@ main() {
     poke(0x0001, 0x47);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6686,7 +6689,7 @@ main() {
     poke(0x8a8c, 0x0e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6709,7 +6712,7 @@ main() {
     poke(0x6de0, 0x8c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6732,7 +6735,7 @@ main() {
     poke(0xa040, 0x5f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6755,7 +6758,7 @@ main() {
     poke(0x77a4, 0x96);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6778,7 +6781,7 @@ main() {
     poke(0x40ca, 0x8a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6801,7 +6804,7 @@ main() {
     poke(0x6d5d, 0xe7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6824,7 +6827,7 @@ main() {
     poke(0x158d, 0xe0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6847,7 +6850,7 @@ main() {
     poke(0xada3, 0x5b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6869,7 +6872,7 @@ main() {
     poke(0x0001, 0x4f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6892,7 +6895,7 @@ main() {
     poke(0x0bcc, 0xa3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6915,7 +6918,7 @@ main() {
     poke(0x84d2, 0x6a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6938,7 +6941,7 @@ main() {
     poke(0xaafc, 0xa6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6961,7 +6964,7 @@ main() {
     poke(0xac44, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -6984,7 +6987,7 @@ main() {
     poke(0x7c75, 0xab);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7007,7 +7010,7 @@ main() {
     poke(0x1999, 0x98);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7030,7 +7033,7 @@ main() {
     poke(0xfb4b, 0x0b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7053,7 +7056,7 @@ main() {
     poke(0xbbf9, 0x10);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7075,7 +7078,7 @@ main() {
     poke(0x0001, 0x57);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7098,7 +7101,7 @@ main() {
     poke(0xda50, 0x30);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7121,7 +7124,7 @@ main() {
     poke(0x1479, 0xa0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7144,7 +7147,7 @@ main() {
     poke(0x2075, 0xc1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7167,7 +7170,7 @@ main() {
     poke(0xd99b, 0xe8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7190,7 +7193,7 @@ main() {
     poke(0x1691, 0xc7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7213,7 +7216,7 @@ main() {
     poke(0x13e9, 0xae);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7236,7 +7239,7 @@ main() {
     poke(0xee49, 0xa6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7259,7 +7262,7 @@ main() {
     poke(0x349a, 0x3c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7281,7 +7284,7 @@ main() {
     poke(0x0001, 0x5f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7304,7 +7307,7 @@ main() {
     poke(0x6133, 0x90);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7327,7 +7330,7 @@ main() {
     poke(0x5273, 0x0a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7350,7 +7353,7 @@ main() {
     poke(0x7c44, 0x77);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7373,7 +7376,7 @@ main() {
     poke(0x8cc5, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7396,7 +7399,7 @@ main() {
     poke(0x84ca, 0xe6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7419,7 +7422,7 @@ main() {
     poke(0xea94, 0x0c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7442,7 +7445,7 @@ main() {
     poke(0x427a, 0xee);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7465,7 +7468,7 @@ main() {
     poke(0xa44f, 0xd2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7487,7 +7490,7 @@ main() {
     poke(0x0001, 0x67);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7510,7 +7513,7 @@ main() {
     poke(0x394d, 0x10);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7533,7 +7536,7 @@ main() {
     poke(0xddd2, 0x16);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7556,7 +7559,7 @@ main() {
     poke(0x1dba, 0x8a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7579,7 +7582,7 @@ main() {
     poke(0x4e09, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7602,7 +7605,7 @@ main() {
     poke(0x1ca9, 0x86);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7625,7 +7628,7 @@ main() {
     poke(0x5605, 0x2b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7648,7 +7651,7 @@ main() {
     poke(0xd9ad, 0x4e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7671,7 +7674,7 @@ main() {
     poke(0xd8ba, 0x31);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7693,7 +7696,7 @@ main() {
     poke(0x0001, 0x6f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7716,7 +7719,7 @@ main() {
     poke(0x4d34, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7739,7 +7742,7 @@ main() {
     poke(0xf913, 0xcf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7762,7 +7765,7 @@ main() {
     poke(0x42fe, 0x24);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7785,7 +7788,7 @@ main() {
     poke(0xad11, 0x3b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7808,7 +7811,7 @@ main() {
     poke(0x2ecc, 0xe0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7831,7 +7834,7 @@ main() {
     poke(0x983d, 0xfa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7854,7 +7857,7 @@ main() {
     poke(0xd18d, 0x11);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7877,7 +7880,7 @@ main() {
     poke(0xbc71, 0x18);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7899,7 +7902,7 @@ main() {
     poke(0x0001, 0x77);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7922,7 +7925,7 @@ main() {
     poke(0x736d, 0x36);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7945,7 +7948,7 @@ main() {
     poke(0xc76a, 0x1f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7968,7 +7971,7 @@ main() {
     poke(0x39e8, 0x98);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -7991,7 +7994,7 @@ main() {
     poke(0xd9af, 0xed);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8014,7 +8017,7 @@ main() {
     poke(0x6bd0, 0xa5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8037,7 +8040,7 @@ main() {
     poke(0x063b, 0x34);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8060,7 +8063,7 @@ main() {
     poke(0x5f9b, 0x97);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8083,7 +8086,7 @@ main() {
     poke(0xa25e, 0xd7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8105,7 +8108,7 @@ main() {
     poke(0x0001, 0x7f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8128,7 +8131,7 @@ main() {
     poke(0x185b, 0xf1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8151,7 +8154,7 @@ main() {
     poke(0xa706, 0x0a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8174,7 +8177,7 @@ main() {
     poke(0x6616, 0x74);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8197,7 +8200,7 @@ main() {
     poke(0x4572, 0x2f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8220,7 +8223,7 @@ main() {
     poke(0xae9a, 0x16);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8243,7 +8246,7 @@ main() {
     poke(0xd6c0, 0x72);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8266,7 +8269,7 @@ main() {
     poke(0xdda0, 0x8a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8289,7 +8292,7 @@ main() {
     poke(0x1b48, 0x62);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8312,7 +8315,7 @@ main() {
     poke(0xdfc5, 0xde);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8335,7 +8338,7 @@ main() {
     poke(0x674d, 0x5f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8358,7 +8361,7 @@ main() {
     poke(0x1bd7, 0xf2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8381,7 +8384,7 @@ main() {
     poke(0xb98e, 0x2f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8404,7 +8407,7 @@ main() {
     poke(0x4a07, 0x3f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8427,7 +8430,7 @@ main() {
     poke(0xdaef, 0x0c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8450,7 +8453,7 @@ main() {
     poke(0xbd72, 0x13);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8473,7 +8476,7 @@ main() {
     poke(0x63a7, 0xd4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8496,7 +8499,7 @@ main() {
     poke(0x1c1a, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8519,7 +8522,7 @@ main() {
     poke(0xc73c, 0xa2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8542,7 +8545,7 @@ main() {
     poke(0x97e0, 0x5e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8565,7 +8568,7 @@ main() {
     poke(0x83d0, 0x2b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8588,7 +8591,7 @@ main() {
     poke(0x2234, 0xa0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8611,7 +8614,7 @@ main() {
     poke(0xd6a6, 0xd0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8634,7 +8637,7 @@ main() {
     poke(0x36ff, 0xcd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8657,7 +8660,7 @@ main() {
     poke(0x3324, 0x21);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8680,7 +8683,7 @@ main() {
     poke(0x97bc, 0x75);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8703,7 +8706,7 @@ main() {
     poke(0x5d5e, 0xa4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8726,7 +8729,7 @@ main() {
     poke(0x8bec, 0x0b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8749,7 +8752,7 @@ main() {
     poke(0xdcb2, 0x09);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8772,7 +8775,7 @@ main() {
     poke(0x2bd6, 0xd3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8795,7 +8798,7 @@ main() {
     poke(0xc7a0, 0x75);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8818,7 +8821,7 @@ main() {
     poke(0x0800, 0xcd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8841,7 +8844,7 @@ main() {
     poke(0x3a65, 0x2a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8865,7 +8868,7 @@ main() {
     poke(0x72f6, 0x72);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8888,7 +8891,7 @@ main() {
     poke(0xc80d, 0xc0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8911,7 +8914,7 @@ main() {
     poke(0xd0ba, 0xbd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8934,7 +8937,7 @@ main() {
     poke(0x6fc0, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8957,7 +8960,7 @@ main() {
     poke(0x6666, 0x8e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -8980,7 +8983,7 @@ main() {
     poke(0x8bb1, 0xbb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9003,7 +9006,7 @@ main() {
     poke(0x88ca, 0x4f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9026,7 +9029,7 @@ main() {
     poke(0xe70d, 0x27);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9049,7 +9052,7 @@ main() {
     poke(0xc77b, 0xff);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9072,7 +9075,7 @@ main() {
     poke(0xc9e7, 0x46);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9095,7 +9098,7 @@ main() {
     poke(0xce0b, 0x39);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9118,7 +9121,7 @@ main() {
     poke(0xfed5, 0xb0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9141,7 +9144,7 @@ main() {
     poke(0x0812, 0xf2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9164,7 +9167,7 @@ main() {
     poke(0xffaa, 0x09);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9187,7 +9190,7 @@ main() {
     poke(0xae15, 0x30);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9210,7 +9213,7 @@ main() {
     poke(0x190e, 0x66);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9234,7 +9237,7 @@ main() {
     poke(0x5877, 0x62);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9257,7 +9260,7 @@ main() {
     poke(0xc3ba, 0x4c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9280,7 +9283,7 @@ main() {
     poke(0x1190, 0xe3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9303,7 +9306,7 @@ main() {
     poke(0x6ff5, 0x04);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9326,7 +9329,7 @@ main() {
     poke(0x5cb1, 0x43);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9349,7 +9352,7 @@ main() {
     poke(0xe1bb, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9372,7 +9375,7 @@ main() {
     poke(0x4bba, 0x70);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9395,7 +9398,7 @@ main() {
     poke(0x4fab, 0xa5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9418,7 +9421,7 @@ main() {
     poke(0xd4a2, 0xf2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9441,7 +9444,7 @@ main() {
     poke(0xd249, 0xc4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9464,7 +9467,7 @@ main() {
     poke(0x5dee, 0xcc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9487,7 +9490,7 @@ main() {
     poke(0x34c9, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9510,7 +9513,7 @@ main() {
     poke(0xcb30, 0xf4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9533,7 +9536,7 @@ main() {
     poke(0x7b6e, 0x45);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9556,7 +9559,7 @@ main() {
     poke(0x10b8, 0x35);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9579,7 +9582,7 @@ main() {
     poke(0x77d5, 0xea);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9603,7 +9606,7 @@ main() {
     poke(0x15de, 0x1d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9626,7 +9629,7 @@ main() {
     poke(0xb3a1, 0x5c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9649,7 +9652,7 @@ main() {
     poke(0x3343, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9672,7 +9675,7 @@ main() {
     poke(0xe1f3, 0x14);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9695,7 +9698,7 @@ main() {
     poke(0x8f3a, 0x81);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9718,7 +9721,7 @@ main() {
     poke(0x5876, 0x9d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9741,7 +9744,7 @@ main() {
     poke(0x4107, 0xcc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9764,7 +9767,7 @@ main() {
     poke(0xf0be, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9788,7 +9791,7 @@ main() {
     poke(0x583f, 0x58);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9811,7 +9814,7 @@ main() {
     poke(0x7cf3, 0x75);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9834,7 +9837,7 @@ main() {
     poke(0x72db, 0x87);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9857,7 +9860,7 @@ main() {
     poke(0xfbc7, 0x1a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9880,7 +9883,7 @@ main() {
     poke(0xf70d, 0xa1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9903,7 +9906,7 @@ main() {
     poke(0x18fd, 0xfe);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9926,7 +9929,7 @@ main() {
     poke(0x2602, 0x2d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9949,7 +9952,7 @@ main() {
     poke(0x8ec6, 0xbf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9972,7 +9975,7 @@ main() {
     poke(0x98a0, 0xd4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -9995,7 +9998,7 @@ main() {
     poke(0x1724, 0x30);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10018,7 +10021,7 @@ main() {
     poke(0x47f4, 0xc7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10041,7 +10044,7 @@ main() {
     poke(0x7528, 0x4f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10064,7 +10067,7 @@ main() {
     poke(0x5fba, 0x3a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10087,7 +10090,7 @@ main() {
     poke(0xbf2e, 0x71);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10110,7 +10113,7 @@ main() {
     poke(0x8a77, 0x52);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10133,7 +10136,7 @@ main() {
     poke(0x6029, 0xb7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10156,7 +10159,7 @@ main() {
     poke(0x290a, 0x42);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10179,7 +10182,7 @@ main() {
     poke(0x6d7e, 0x6e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10202,7 +10205,7 @@ main() {
     poke(0xefc6, 0x5b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10225,7 +10228,7 @@ main() {
     poke(0x1c87, 0xb9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10248,7 +10251,7 @@ main() {
     poke(0xbc48, 0xef);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10271,7 +10274,7 @@ main() {
     poke(0xb125, 0x0e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10294,7 +10297,7 @@ main() {
     poke(0x5b9f, 0x94);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10317,7 +10320,7 @@ main() {
     poke(0xba03, 0x93);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10341,7 +10344,7 @@ main() {
     poke(0x0fa1, 0xc5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10364,7 +10367,7 @@ main() {
     poke(0x3744, 0x54);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10387,7 +10390,7 @@ main() {
     poke(0x5334, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10410,7 +10413,7 @@ main() {
     poke(0x3a4c, 0x47);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10433,7 +10436,7 @@ main() {
     poke(0x2e78, 0x48);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10456,7 +10459,7 @@ main() {
     poke(0x0978, 0x84);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10479,7 +10482,7 @@ main() {
     poke(0xb48f, 0xcf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10502,7 +10505,7 @@ main() {
     poke(0x9f9b, 0xf6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10525,7 +10528,7 @@ main() {
     poke(0xf2e0, 0xcf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10548,7 +10551,7 @@ main() {
     poke(0x4a05, 0xe6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10571,7 +10574,7 @@ main() {
     poke(0xa4d0, 0xb2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10594,7 +10597,7 @@ main() {
     poke(0xf32a, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10617,7 +10620,7 @@ main() {
     poke(0x1a1a, 0x21);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10640,7 +10643,7 @@ main() {
     poke(0xba08, 0x82);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10663,7 +10666,7 @@ main() {
     poke(0x2dec, 0xcb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10686,7 +10689,7 @@ main() {
     poke(0xe90d, 0xf1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10709,7 +10712,7 @@ main() {
     poke(0x2c39, 0xc8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10732,7 +10735,7 @@ main() {
     poke(0x6ff5, 0xf6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10755,7 +10758,7 @@ main() {
     poke(0x5e1c, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10778,7 +10781,7 @@ main() {
     poke(0x9819, 0xe4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10801,7 +10804,7 @@ main() {
     poke(0x263f, 0xa1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10824,7 +10827,7 @@ main() {
     poke(0x75d9, 0x3f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10847,7 +10850,7 @@ main() {
     poke(0x47e6, 0xce);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10870,7 +10873,7 @@ main() {
     poke(0xa9bc, 0xb1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10894,7 +10897,7 @@ main() {
     poke(0x188c, 0x6c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10917,7 +10920,7 @@ main() {
     poke(0xd2b0, 0xcb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10940,7 +10943,7 @@ main() {
     poke(0x0730, 0xae);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10963,7 +10966,7 @@ main() {
     poke(0xed03, 0x27);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -10986,7 +10989,7 @@ main() {
     poke(0xd1ae, 0xf2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11009,7 +11012,7 @@ main() {
     poke(0x500f, 0x94);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11032,7 +11035,7 @@ main() {
     poke(0x28c5, 0xab);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11055,7 +11058,7 @@ main() {
     poke(0x3a24, 0xc3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11078,7 +11081,7 @@ main() {
     poke(0xe3f2, 0x25);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11101,7 +11104,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11126,7 +11129,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11149,7 +11152,7 @@ main() {
     poke(0x0002, 0x3a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11173,7 +11176,7 @@ main() {
     poke(0x0001, 0xb2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11194,7 +11197,7 @@ main() {
     poke(0x6d33, 0xcf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11219,7 +11222,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11242,7 +11245,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11265,7 +11268,7 @@ main() {
     poke(0x4144, 0xe8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11288,7 +11291,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11311,7 +11314,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11333,7 +11336,7 @@ main() {
     poke(0x0001, 0xed);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11355,7 +11358,7 @@ main() {
     poke(0x0001, 0xec);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11377,7 +11380,7 @@ main() {
     poke(0x0001, 0xed);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11399,7 +11402,7 @@ main() {
     poke(0x0001, 0xff);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11421,7 +11424,7 @@ main() {
     poke(0x0001, 0xec);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11444,7 +11447,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11469,7 +11472,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11490,7 +11493,7 @@ main() {
     poke(0x0000, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11514,7 +11517,7 @@ main() {
     poke(0x0001, 0xdf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11535,7 +11538,7 @@ main() {
     poke(0x6d33, 0xd7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11560,7 +11563,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11583,7 +11586,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11604,7 +11607,7 @@ main() {
     poke(0x0000, 0xd9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11627,7 +11630,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11650,7 +11653,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11672,7 +11675,7 @@ main() {
     poke(0x0001, 0xe3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11694,7 +11697,7 @@ main() {
     poke(0x0001, 0xe2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11716,7 +11719,7 @@ main() {
     poke(0x0001, 0xe3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11738,7 +11741,7 @@ main() {
     poke(0x0001, 0xe2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11761,7 +11764,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11786,7 +11789,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11809,7 +11812,7 @@ main() {
     poke(0x0002, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 9) {
+    while (z80.tStates < 9) {
       z80.executeNextInstruction();
     }
 
@@ -11831,7 +11834,7 @@ main() {
     poke(0x0001, 0x09);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11853,7 +11856,7 @@ main() {
     poke(0x0001, 0x19);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11877,7 +11880,7 @@ main() {
     poke(0x0003, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11901,7 +11904,7 @@ main() {
     poke(0x0003, 0xad);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11925,7 +11928,7 @@ main() {
     poke(0x0001, 0x23);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11947,7 +11950,7 @@ main() {
     poke(0x0001, 0x24);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11969,7 +11972,7 @@ main() {
     poke(0x0001, 0x25);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -11992,7 +11995,7 @@ main() {
     poke(0x0002, 0xad);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12014,7 +12017,7 @@ main() {
     poke(0x0001, 0x29);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12040,7 +12043,7 @@ main() {
     poke(0x40bd, 0x30);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12062,7 +12065,7 @@ main() {
     poke(0x0001, 0x2b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12084,7 +12087,7 @@ main() {
     poke(0x0001, 0x2c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12106,7 +12109,7 @@ main() {
     poke(0x0001, 0x2d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12129,7 +12132,7 @@ main() {
     poke(0x0002, 0x1c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12153,7 +12156,7 @@ main() {
     poke(0xde8f, 0x57);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12178,7 +12181,7 @@ main() {
     poke(0xc793, 0xf7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12203,7 +12206,7 @@ main() {
     poke(0x0003, 0xb5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12226,7 +12229,7 @@ main() {
     poke(0x0001, 0x39);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12248,7 +12251,7 @@ main() {
     poke(0x0001, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12270,7 +12273,7 @@ main() {
     poke(0x0001, 0x45);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12294,7 +12297,7 @@ main() {
     poke(0x5d2f, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12316,7 +12319,7 @@ main() {
     poke(0x0001, 0x4c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12338,7 +12341,7 @@ main() {
     poke(0x0001, 0x4d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12362,7 +12365,7 @@ main() {
     poke(0xd979, 0x76);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12384,7 +12387,7 @@ main() {
     poke(0x0001, 0x54);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12406,7 +12409,7 @@ main() {
     poke(0x0001, 0x55);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12430,7 +12433,7 @@ main() {
     poke(0xa2fa, 0xde);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12452,7 +12455,7 @@ main() {
     poke(0x0001, 0x5c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12474,7 +12477,7 @@ main() {
     poke(0x0001, 0x5d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12498,7 +12501,7 @@ main() {
     poke(0x8cc1, 0xce);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12520,7 +12523,7 @@ main() {
     poke(0x0001, 0x60);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12542,7 +12545,7 @@ main() {
     poke(0x0001, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12564,7 +12567,7 @@ main() {
     poke(0x0001, 0x62);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12586,7 +12589,7 @@ main() {
     poke(0x0001, 0x63);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12608,7 +12611,7 @@ main() {
     poke(0x0001, 0x64);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12630,7 +12633,7 @@ main() {
     poke(0x0001, 0x65);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12654,7 +12657,7 @@ main() {
     poke(0xce12, 0x03);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12676,7 +12679,7 @@ main() {
     poke(0x0001, 0x67);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12698,7 +12701,7 @@ main() {
     poke(0x0001, 0x68);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12720,7 +12723,7 @@ main() {
     poke(0x0001, 0x69);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12742,7 +12745,7 @@ main() {
     poke(0x0001, 0x6a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12764,7 +12767,7 @@ main() {
     poke(0x0001, 0x6b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12786,7 +12789,7 @@ main() {
     poke(0x0001, 0x6c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12808,7 +12811,7 @@ main() {
     poke(0x0001, 0x6d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12832,7 +12835,7 @@ main() {
     poke(0xc674, 0x6b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12854,7 +12857,7 @@ main() {
     poke(0x0001, 0x6f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12877,7 +12880,7 @@ main() {
     poke(0x0002, 0xf6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12901,7 +12904,7 @@ main() {
     poke(0x0002, 0x23);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12925,7 +12928,7 @@ main() {
     poke(0x0002, 0x93);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12949,7 +12952,7 @@ main() {
     poke(0x0002, 0x57);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12973,7 +12976,7 @@ main() {
     poke(0x0002, 0xb9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -12997,7 +13000,7 @@ main() {
     poke(0x0002, 0x30);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13021,7 +13024,7 @@ main() {
     poke(0x0002, 0x8c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13044,7 +13047,7 @@ main() {
     poke(0x0001, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13066,7 +13069,7 @@ main() {
     poke(0x0001, 0x7d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13090,7 +13093,7 @@ main() {
     poke(0x1cb0, 0x57);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13112,7 +13115,7 @@ main() {
     poke(0x0001, 0x84);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13134,7 +13137,7 @@ main() {
     poke(0x0001, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13158,7 +13161,7 @@ main() {
     poke(0xb576, 0x5b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13180,7 +13183,7 @@ main() {
     poke(0x0001, 0x8c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13202,7 +13205,7 @@ main() {
     poke(0x0001, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13226,7 +13229,7 @@ main() {
     poke(0xbbbc, 0x32);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13248,7 +13251,7 @@ main() {
     poke(0x0001, 0x94);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13270,7 +13273,7 @@ main() {
     poke(0x0001, 0x95);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13294,7 +13297,7 @@ main() {
     poke(0x2cc5, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13316,7 +13319,7 @@ main() {
     poke(0x0001, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13338,7 +13341,7 @@ main() {
     poke(0x0001, 0x9d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13362,7 +13365,7 @@ main() {
     poke(0xb4e0, 0xb5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13384,7 +13387,7 @@ main() {
     poke(0x0001, 0xa4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13406,7 +13409,7 @@ main() {
     poke(0x0001, 0xa5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13430,7 +13433,7 @@ main() {
     poke(0x7ed6, 0xc7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13452,7 +13455,7 @@ main() {
     poke(0x0001, 0xac);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13474,7 +13477,7 @@ main() {
     poke(0x0001, 0xad);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13498,7 +13501,7 @@ main() {
     poke(0xe97b, 0xc3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13520,7 +13523,7 @@ main() {
     poke(0x0001, 0xb4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13542,7 +13545,7 @@ main() {
     poke(0x0001, 0xb5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13566,7 +13569,7 @@ main() {
     poke(0xc6a0, 0x1c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13588,7 +13591,7 @@ main() {
     poke(0x0001, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13610,7 +13613,7 @@ main() {
     poke(0x0001, 0xbd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13634,7 +13637,7 @@ main() {
     poke(0x937a, 0x5b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13659,7 +13662,7 @@ main() {
     poke(0x1dae, 0xa1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13685,7 +13688,7 @@ main() {
     poke(0x28b4, 0xe3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13711,7 +13714,7 @@ main() {
     poke(0xc727, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13737,7 +13740,7 @@ main() {
     poke(0x0466, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13763,7 +13766,7 @@ main() {
     poke(0x5991, 0x68);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13789,7 +13792,7 @@ main() {
     poke(0x0076, 0x95);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13815,7 +13818,7 @@ main() {
     poke(0x5428, 0x97);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13841,7 +13844,7 @@ main() {
     poke(0x9845, 0xae);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13867,7 +13870,7 @@ main() {
     poke(0xef4a, 0xda);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13893,7 +13896,7 @@ main() {
     poke(0x9d46, 0x6f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13919,7 +13922,7 @@ main() {
     poke(0x1f37, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13945,7 +13948,7 @@ main() {
     poke(0xcd03, 0x92);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13971,7 +13974,7 @@ main() {
     poke(0xbfe4, 0x0d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -13997,7 +14000,7 @@ main() {
     poke(0x88a1, 0x1f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14023,7 +14026,7 @@ main() {
     poke(0xfd0f, 0xad);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14049,7 +14052,7 @@ main() {
     poke(0x749e, 0xf8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14075,7 +14078,7 @@ main() {
     poke(0xbbf1, 0x45);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14101,7 +14104,7 @@ main() {
     poke(0x17f4, 0xd9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14127,7 +14130,7 @@ main() {
     poke(0xc0a1, 0xe2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14153,7 +14156,7 @@ main() {
     poke(0x5ac3, 0xa7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14179,7 +14182,7 @@ main() {
     poke(0x0954, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14205,7 +14208,7 @@ main() {
     poke(0xedf0, 0x0e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14231,7 +14234,7 @@ main() {
     poke(0x1703, 0x5b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14257,7 +14260,7 @@ main() {
     poke(0xb8e5, 0x7e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14283,7 +14286,7 @@ main() {
     poke(0xa197, 0x90);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14309,7 +14312,7 @@ main() {
     poke(0xf08a, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14335,7 +14338,7 @@ main() {
     poke(0xde0d, 0xcc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14361,7 +14364,7 @@ main() {
     poke(0xb7c8, 0x91);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14387,7 +14390,7 @@ main() {
     poke(0xfef8, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14413,7 +14416,7 @@ main() {
     poke(0x5b9d, 0xf3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14439,7 +14442,7 @@ main() {
     poke(0x7582, 0x91);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14465,7 +14468,7 @@ main() {
     poke(0x1d43, 0xb4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14491,7 +14494,7 @@ main() {
     poke(0xdc21, 0x0e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14517,7 +14520,7 @@ main() {
     poke(0x3432, 0xf7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14543,7 +14546,7 @@ main() {
     poke(0xbd82, 0x9f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14569,7 +14572,7 @@ main() {
     poke(0x229e, 0xe0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14595,7 +14598,7 @@ main() {
     poke(0x31d9, 0xc3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14621,7 +14624,7 @@ main() {
     poke(0xcc24, 0xeb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14647,7 +14650,7 @@ main() {
     poke(0x651f, 0x89);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14673,7 +14676,7 @@ main() {
     poke(0x1f2c, 0xac);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14699,7 +14702,7 @@ main() {
     poke(0x9951, 0x24);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14725,7 +14728,7 @@ main() {
     poke(0x2083, 0x82);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14751,7 +14754,7 @@ main() {
     poke(0x94dd, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14777,7 +14780,7 @@ main() {
     poke(0xb441, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14803,7 +14806,7 @@ main() {
     poke(0xfe54, 0x81);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14829,7 +14832,7 @@ main() {
     poke(0xb488, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14855,7 +14858,7 @@ main() {
     poke(0x6a15, 0x05);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14881,7 +14884,7 @@ main() {
     poke(0x7a03, 0xf2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14907,7 +14910,7 @@ main() {
     poke(0xeec7, 0x32);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14933,7 +14936,7 @@ main() {
     poke(0xf276, 0xcd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14959,7 +14962,7 @@ main() {
     poke(0x577f, 0xe2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -14985,7 +14988,7 @@ main() {
     poke(0xef75, 0x0b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15011,7 +15014,7 @@ main() {
     poke(0xab91, 0xef);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15037,7 +15040,7 @@ main() {
     poke(0xead3, 0x8f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15063,7 +15066,7 @@ main() {
     poke(0x12e2, 0x02);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15089,7 +15092,7 @@ main() {
     poke(0x503d, 0x3d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15115,7 +15118,7 @@ main() {
     poke(0xf623, 0x5e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15141,7 +15144,7 @@ main() {
     poke(0xa871, 0x83);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15167,7 +15170,7 @@ main() {
     poke(0x259e, 0x89);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15193,7 +15196,7 @@ main() {
     poke(0x700d, 0xa9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15219,7 +15222,7 @@ main() {
     poke(0xf51c, 0xd0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15245,7 +15248,7 @@ main() {
     poke(0x02de, 0x58);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15271,7 +15274,7 @@ main() {
     poke(0x7854, 0x5d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15297,7 +15300,7 @@ main() {
     poke(0x34b9, 0x04);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15323,7 +15326,7 @@ main() {
     poke(0x8bbe, 0xe7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15348,7 +15351,7 @@ main() {
     poke(0xce21, 0x75);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15373,7 +15376,7 @@ main() {
     poke(0xf058, 0x90);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15398,7 +15401,7 @@ main() {
     poke(0xe872, 0x6b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15423,7 +15426,7 @@ main() {
     poke(0xedf2, 0x62);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15448,7 +15451,7 @@ main() {
     poke(0xa2c0, 0x55);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15473,7 +15476,7 @@ main() {
     poke(0xa381, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15498,7 +15501,7 @@ main() {
     poke(0x52a1, 0x6a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15523,7 +15526,7 @@ main() {
     poke(0x2759, 0xa8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15548,7 +15551,7 @@ main() {
     poke(0x415a, 0x26);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15573,7 +15576,7 @@ main() {
     poke(0xc026, 0xb5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15598,7 +15601,7 @@ main() {
     poke(0xc1e9, 0x18);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15623,7 +15626,7 @@ main() {
     poke(0x86e3, 0x63);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15648,7 +15651,7 @@ main() {
     poke(0x7d3f, 0x60);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15673,7 +15676,7 @@ main() {
     poke(0xea8e, 0x3b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15698,7 +15701,7 @@ main() {
     poke(0x884b, 0x4c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15723,7 +15726,7 @@ main() {
     poke(0xdb04, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15748,7 +15751,7 @@ main() {
     poke(0x84ca, 0x1c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15773,7 +15776,7 @@ main() {
     poke(0x6198, 0x53);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15798,7 +15801,7 @@ main() {
     poke(0xae28, 0xd6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15823,7 +15826,7 @@ main() {
     poke(0xf052, 0x5d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15848,7 +15851,7 @@ main() {
     poke(0xf2da, 0x03);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15873,7 +15876,7 @@ main() {
     poke(0x6d87, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15898,7 +15901,7 @@ main() {
     poke(0x5839, 0x1d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15923,7 +15926,7 @@ main() {
     poke(0x69c9, 0x0f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15948,7 +15951,7 @@ main() {
     poke(0x9170, 0x10);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15973,7 +15976,7 @@ main() {
     poke(0x0db1, 0xbe);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -15998,7 +16001,7 @@ main() {
     poke(0x6282, 0x67);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16023,7 +16026,7 @@ main() {
     poke(0x9e22, 0xc9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16048,7 +16051,7 @@ main() {
     poke(0xd192, 0x0d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16073,7 +16076,7 @@ main() {
     poke(0xed76, 0xa7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16098,7 +16101,7 @@ main() {
     poke(0xdf85, 0x9e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16123,7 +16126,7 @@ main() {
     poke(0x3307, 0x2e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16148,7 +16151,7 @@ main() {
     poke(0x3673, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16173,7 +16176,7 @@ main() {
     poke(0x0aa5, 0xea);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16198,7 +16201,7 @@ main() {
     poke(0xe6f2, 0x83);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16223,7 +16226,7 @@ main() {
     poke(0xed6c, 0x52);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16248,7 +16251,7 @@ main() {
     poke(0x77e0, 0xf5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16273,7 +16276,7 @@ main() {
     poke(0xee78, 0x70);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16298,7 +16301,7 @@ main() {
     poke(0xee78, 0x06);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16323,7 +16326,7 @@ main() {
     poke(0xe919, 0x20);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16348,7 +16351,7 @@ main() {
     poke(0x33dc, 0x4f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16373,7 +16376,7 @@ main() {
     poke(0x86e9, 0x1c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16398,7 +16401,7 @@ main() {
     poke(0x188c, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16423,7 +16426,7 @@ main() {
     poke(0x3e7f, 0x2a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16448,7 +16451,7 @@ main() {
     poke(0xe2f1, 0x41);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16473,7 +16476,7 @@ main() {
     poke(0x3038, 0x3f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16498,7 +16501,7 @@ main() {
     poke(0xfbd9, 0x56);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16523,7 +16526,7 @@ main() {
     poke(0x03e1, 0x74);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16548,7 +16551,7 @@ main() {
     poke(0x1b2a, 0x08);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16573,7 +16576,7 @@ main() {
     poke(0xce47, 0x08);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16598,7 +16601,7 @@ main() {
     poke(0x6454, 0x3c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16623,7 +16626,7 @@ main() {
     poke(0x7dc9, 0xbe);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16648,7 +16651,7 @@ main() {
     poke(0x6108, 0xcf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16673,7 +16676,7 @@ main() {
     poke(0x7efd, 0x1e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16698,7 +16701,7 @@ main() {
     poke(0x05b6, 0x97);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16723,7 +16726,7 @@ main() {
     poke(0x9407, 0x76);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16748,7 +16751,7 @@ main() {
     poke(0x41a1, 0xb8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16773,7 +16776,7 @@ main() {
     poke(0x0ae8, 0xeb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16798,7 +16801,7 @@ main() {
     poke(0x4fc8, 0x22);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16823,7 +16826,7 @@ main() {
     poke(0x6821, 0x3a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16848,7 +16851,7 @@ main() {
     poke(0xb04a, 0x2c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16873,7 +16876,7 @@ main() {
     poke(0xcf3f, 0xf2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16898,7 +16901,7 @@ main() {
     poke(0x5f37, 0xa2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16923,7 +16926,7 @@ main() {
     poke(0xad35, 0x30);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16948,7 +16951,7 @@ main() {
     poke(0xbdfd, 0x24);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16973,7 +16976,7 @@ main() {
     poke(0x5e0e, 0x51);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -16999,7 +17002,7 @@ main() {
     poke(0x344f, 0x01);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17025,7 +17028,7 @@ main() {
     poke(0x016a, 0xb0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17050,7 +17053,7 @@ main() {
     poke(0x0c0f, 0xde);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17075,7 +17078,7 @@ main() {
     poke(0x1121, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17100,7 +17103,7 @@ main() {
     poke(0xede8, 0xc4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17125,7 +17128,7 @@ main() {
     poke(0x8729, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17150,7 +17153,7 @@ main() {
     poke(0x8f69, 0xcf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17176,7 +17179,7 @@ main() {
     poke(0x39b3, 0xea);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17202,7 +17205,7 @@ main() {
     poke(0x16e7, 0x8a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17228,7 +17231,7 @@ main() {
     poke(0xc68a, 0x3e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17254,7 +17257,7 @@ main() {
     poke(0x22b2, 0x9e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17280,7 +17283,7 @@ main() {
     poke(0xd2f2, 0x03);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17306,7 +17309,7 @@ main() {
     poke(0x4079, 0x96);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17332,7 +17335,7 @@ main() {
     poke(0xb505, 0x46);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17358,7 +17361,7 @@ main() {
     poke(0xc998, 0x83);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17383,7 +17386,7 @@ main() {
     poke(0x91b1, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17408,7 +17411,7 @@ main() {
     poke(0xac31, 0x93);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17433,7 +17436,7 @@ main() {
     poke(0x5e95, 0xb7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17459,7 +17462,7 @@ main() {
     poke(0xfb5a, 0xc6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17485,7 +17488,7 @@ main() {
     poke(0x7a56, 0xae);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17511,7 +17514,7 @@ main() {
     poke(0x840e, 0x23);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17536,7 +17539,7 @@ main() {
     poke(0x03fa, 0x58);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17562,7 +17565,7 @@ main() {
     poke(0x0a6a, 0xce);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17588,7 +17591,7 @@ main() {
     poke(0x6832, 0xa8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17614,7 +17617,7 @@ main() {
     poke(0x0686, 0x62);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17639,7 +17642,7 @@ main() {
     poke(0x84cf, 0x1b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17665,7 +17668,7 @@ main() {
     poke(0xe92f, 0xe8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17691,7 +17694,7 @@ main() {
     poke(0xd870, 0xee);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17717,7 +17720,7 @@ main() {
     poke(0xe5f4, 0xa6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17742,7 +17745,7 @@ main() {
     poke(0xa2f2, 0x39);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17768,7 +17771,7 @@ main() {
     poke(0x45b0, 0xd2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17794,7 +17797,7 @@ main() {
     poke(0x6299, 0xa1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17819,7 +17822,7 @@ main() {
     poke(0x043b, 0x04);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17844,7 +17847,7 @@ main() {
     poke(0xfe50, 0x27);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17869,7 +17872,7 @@ main() {
     poke(0x7b1d, 0x6b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17894,7 +17897,7 @@ main() {
     poke(0xae42, 0x8f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17919,7 +17922,7 @@ main() {
     poke(0x5eba, 0x87);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17944,7 +17947,7 @@ main() {
     poke(0xe81f, 0x7e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17970,7 +17973,7 @@ main() {
     poke(0x0f7a, 0x1f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -17995,7 +17998,7 @@ main() {
     poke(0x66e6, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18020,7 +18023,7 @@ main() {
     poke(0x6698, 0xeb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18046,7 +18049,7 @@ main() {
     poke(0xa4a1, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18071,7 +18074,7 @@ main() {
     poke(0xef3e, 0x76);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18097,7 +18100,7 @@ main() {
     poke(0xb374, 0x5a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18122,7 +18125,7 @@ main() {
     poke(0x35db, 0x15);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18147,7 +18150,7 @@ main() {
     poke(0x591e, 0x1e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18172,7 +18175,7 @@ main() {
     poke(0xad58, 0x46);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18198,7 +18201,7 @@ main() {
     poke(0xe840, 0x48);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18224,7 +18227,7 @@ main() {
     poke(0x53d9, 0x06);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18249,7 +18252,7 @@ main() {
     poke(0x50d1, 0xdd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18275,7 +18278,7 @@ main() {
     poke(0x145a, 0xd6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18301,7 +18304,7 @@ main() {
     poke(0x8787, 0x8c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18326,7 +18329,7 @@ main() {
     poke(0x60f3, 0x54);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18352,7 +18355,7 @@ main() {
     poke(0x0c09, 0x87);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18378,7 +18381,7 @@ main() {
     poke(0x05ba, 0xc8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18404,7 +18407,7 @@ main() {
     poke(0xf566, 0x30);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18429,7 +18432,7 @@ main() {
     poke(0xbd20, 0xc9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18455,7 +18458,7 @@ main() {
     poke(0x634e, 0x28);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18480,7 +18483,7 @@ main() {
     poke(0xe37d, 0xdd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18506,7 +18509,7 @@ main() {
     poke(0x5920, 0xe8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18532,7 +18535,7 @@ main() {
     poke(0x175a, 0xe2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18558,7 +18561,7 @@ main() {
     poke(0x792e, 0x92);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18584,7 +18587,7 @@ main() {
     poke(0xdcc3, 0x1c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18610,7 +18613,7 @@ main() {
     poke(0x0c7f, 0x30);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18636,7 +18639,7 @@ main() {
     poke(0x5458, 0xdd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18661,7 +18664,7 @@ main() {
     poke(0x7a7b, 0x27);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18686,7 +18689,7 @@ main() {
     poke(0xba35, 0x20);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18712,7 +18715,7 @@ main() {
     poke(0xaaf0, 0xb8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18738,7 +18741,7 @@ main() {
     poke(0x64c3, 0x94);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18764,7 +18767,7 @@ main() {
     poke(0x6edf, 0x8f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18789,7 +18792,7 @@ main() {
     poke(0xb66b, 0xb9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18815,7 +18818,7 @@ main() {
     poke(0xa811, 0x7e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18840,7 +18843,7 @@ main() {
     poke(0xa3eb, 0x73);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18865,7 +18868,7 @@ main() {
     poke(0x1fbf, 0x72);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18890,7 +18893,7 @@ main() {
     poke(0x535f, 0x1c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18916,7 +18919,7 @@ main() {
     poke(0x0298, 0x10);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18942,7 +18945,7 @@ main() {
     poke(0xc5b2, 0xb5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18968,7 +18971,7 @@ main() {
     poke(0xadc2, 0x51);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -18994,7 +18997,7 @@ main() {
     poke(0x1058, 0x2c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19019,7 +19022,7 @@ main() {
     poke(0xb93d, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19044,7 +19047,7 @@ main() {
     poke(0xd9f3, 0x60);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19070,7 +19073,7 @@ main() {
     poke(0xef7e, 0x5e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19095,7 +19098,7 @@ main() {
     poke(0x8dfd, 0x71);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19121,7 +19124,7 @@ main() {
     poke(0x5eed, 0x73);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19147,7 +19150,7 @@ main() {
     poke(0xe6a5, 0x60);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19173,7 +19176,7 @@ main() {
     poke(0xb35b, 0x96);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19199,7 +19202,7 @@ main() {
     poke(0x2694, 0xef);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19224,7 +19227,7 @@ main() {
     poke(0x2d60, 0x82);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19250,7 +19253,7 @@ main() {
     poke(0x2bca, 0x10);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19276,7 +19279,7 @@ main() {
     poke(0x7ea7, 0x45);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19302,7 +19305,7 @@ main() {
     poke(0x5930, 0x20);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19328,7 +19331,7 @@ main() {
     poke(0x89e6, 0x5e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19353,7 +19356,7 @@ main() {
     poke(0xd216, 0x72);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19379,7 +19382,7 @@ main() {
     poke(0x1cad, 0x46);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19405,7 +19408,7 @@ main() {
     poke(0xb95f, 0x75);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19430,7 +19433,7 @@ main() {
     poke(0xeed5, 0x72);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19455,7 +19458,7 @@ main() {
     poke(0x7eba, 0x34);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19480,7 +19483,7 @@ main() {
     poke(0x9586, 0x34);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19505,7 +19508,7 @@ main() {
     poke(0x6aa2, 0x2e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19531,7 +19534,7 @@ main() {
     poke(0xd88b, 0x4c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19557,7 +19560,7 @@ main() {
     poke(0x2a0e, 0xeb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19583,7 +19586,7 @@ main() {
     poke(0x4bcc, 0xba);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19608,7 +19611,7 @@ main() {
     poke(0x7267, 0x0a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19634,7 +19637,7 @@ main() {
     poke(0xa7ed, 0x5f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19660,7 +19663,7 @@ main() {
     poke(0x1703, 0xf3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19685,7 +19688,7 @@ main() {
     poke(0xdde8, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19711,7 +19714,7 @@ main() {
     poke(0xf730, 0x6b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19736,7 +19739,7 @@ main() {
     poke(0x6c06, 0xbd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19761,7 +19764,7 @@ main() {
     poke(0xcc98, 0x11);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19787,7 +19790,7 @@ main() {
     poke(0x13ef, 0xad);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19813,7 +19816,7 @@ main() {
     poke(0x47fa, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19838,7 +19841,7 @@ main() {
     poke(0xc956, 0x21);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19864,7 +19867,7 @@ main() {
     poke(0x1d9c, 0xe4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19889,7 +19892,7 @@ main() {
     poke(0x173d, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19914,7 +19917,7 @@ main() {
     poke(0xeba3, 0xc5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19939,7 +19942,7 @@ main() {
     poke(0xdcd5, 0xa2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19965,7 +19968,7 @@ main() {
     poke(0x2fe1, 0xa9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -19991,7 +19994,7 @@ main() {
     poke(0x42d8, 0x28);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20017,7 +20020,7 @@ main() {
     poke(0xd8e4, 0x14);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20043,7 +20046,7 @@ main() {
     poke(0x9494, 0xfe);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20068,7 +20071,7 @@ main() {
     poke(0x3402, 0x02);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20094,7 +20097,7 @@ main() {
     poke(0x60da, 0x10);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20120,7 +20123,7 @@ main() {
     poke(0x3ef8, 0xc2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20145,7 +20148,7 @@ main() {
     poke(0x41a1, 0xa1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20170,7 +20173,7 @@ main() {
     poke(0x0628, 0x2b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20195,7 +20198,7 @@ main() {
     poke(0x5960, 0x09);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20219,7 +20222,7 @@ main() {
     poke(0x57be, 0x3f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20243,7 +20246,7 @@ main() {
     poke(0x0001, 0xe5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20267,7 +20270,7 @@ main() {
     poke(0x0001, 0xe9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20289,7 +20292,7 @@ main() {
     poke(0x0001, 0xf9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20313,7 +20316,7 @@ main() {
     poke(0x0003, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 13) {
+    while (z80.tStates < 13) {
       z80.executeNextInstruction();
     }
 
@@ -20335,7 +20338,7 @@ main() {
     poke(0x0001, 0xa1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20356,7 +20359,7 @@ main() {
     poke(0x6d33, 0xdf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20381,7 +20384,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20404,7 +20407,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20427,7 +20430,7 @@ main() {
     poke(0x4144, 0xe8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20450,7 +20453,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20473,7 +20476,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20496,7 +20499,7 @@ main() {
     poke(0x0374, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20521,7 +20524,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20546,7 +20549,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20567,7 +20570,7 @@ main() {
     poke(0x0000, 0xe5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20591,7 +20594,7 @@ main() {
     poke(0x0001, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20612,7 +20615,7 @@ main() {
     poke(0x6d33, 0xe7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20637,7 +20640,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20660,7 +20663,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20681,7 +20684,7 @@ main() {
     poke(0x0000, 0xe9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20704,7 +20707,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20727,7 +20730,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20748,7 +20751,7 @@ main() {
     poke(0x0000, 0xeb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20771,7 +20774,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20796,7 +20799,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20818,7 +20821,7 @@ main() {
     poke(0x0001, 0x40);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20840,7 +20843,7 @@ main() {
     poke(0x0001, 0x41);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20862,7 +20865,7 @@ main() {
     poke(0x0001, 0x42);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20886,7 +20889,7 @@ main() {
     poke(0x0003, 0x54);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20910,7 +20913,7 @@ main() {
     poke(0x0001, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20934,7 +20937,7 @@ main() {
     poke(0x3101, 0x22);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20956,7 +20959,7 @@ main() {
     poke(0x0001, 0x46);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -20978,7 +20981,7 @@ main() {
     poke(0x0001, 0x47);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21000,7 +21003,7 @@ main() {
     poke(0x0001, 0x48);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21022,7 +21025,7 @@ main() {
     poke(0x0001, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21044,7 +21047,7 @@ main() {
     poke(0x0001, 0x4a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21070,7 +21073,7 @@ main() {
     poke(0xa41b, 0xd4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21092,7 +21095,7 @@ main() {
     poke(0x0001, 0x4c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21116,7 +21119,7 @@ main() {
     poke(0x680f, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21138,7 +21141,7 @@ main() {
     poke(0x0001, 0x4e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21160,7 +21163,7 @@ main() {
     poke(0x0001, 0x4f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21182,7 +21185,7 @@ main() {
     poke(0x0001, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21204,7 +21207,7 @@ main() {
     poke(0x0001, 0x51);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21226,7 +21229,7 @@ main() {
     poke(0x0001, 0x52);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21250,7 +21253,7 @@ main() {
     poke(0x0003, 0x21);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21274,7 +21277,7 @@ main() {
     poke(0x0001, 0x54);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21298,7 +21301,7 @@ main() {
     poke(0xd4b5, 0xc9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21320,7 +21323,7 @@ main() {
     poke(0x0001, 0x56);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21342,7 +21345,7 @@ main() {
     poke(0x0001, 0x57);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21364,7 +21367,7 @@ main() {
     poke(0x0001, 0x58);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21386,7 +21389,7 @@ main() {
     poke(0x0001, 0x59);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21408,7 +21411,7 @@ main() {
     poke(0x0001, 0x5a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21434,7 +21437,7 @@ main() {
     poke(0x9f05, 0x4d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21456,7 +21459,7 @@ main() {
     poke(0x0001, 0x5c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21480,7 +21483,7 @@ main() {
     poke(0x5309, 0xe0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21502,7 +21505,7 @@ main() {
     poke(0x0001, 0x5e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21524,7 +21527,7 @@ main() {
     poke(0x0001, 0x5f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21546,7 +21549,7 @@ main() {
     poke(0x0001, 0x60);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21568,7 +21571,7 @@ main() {
     poke(0x0001, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21590,7 +21593,7 @@ main() {
     poke(0x0001, 0x62);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21614,7 +21617,7 @@ main() {
     poke(0x0003, 0x65);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21638,7 +21641,7 @@ main() {
     poke(0x0001, 0x64);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21662,7 +21665,7 @@ main() {
     poke(0xf208, 0x0e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21684,7 +21687,7 @@ main() {
     poke(0x0001, 0x66);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21707,7 +21710,7 @@ main() {
     poke(0xb9de, 0x93);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21730,7 +21733,7 @@ main() {
     poke(0x0001, 0x68);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21752,7 +21755,7 @@ main() {
     poke(0x0001, 0x69);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21774,7 +21777,7 @@ main() {
     poke(0x0001, 0x6a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21800,7 +21803,7 @@ main() {
     poke(0x6199, 0xbe);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21822,7 +21825,7 @@ main() {
     poke(0x0001, 0x6c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21846,7 +21849,7 @@ main() {
     poke(0x5cd4, 0x73);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21868,7 +21871,7 @@ main() {
     poke(0x0001, 0x6e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21891,7 +21894,7 @@ main() {
     poke(0x403c, 0xc4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21914,7 +21917,7 @@ main() {
     poke(0x0001, 0x70);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21936,7 +21939,7 @@ main() {
     poke(0x0001, 0x71);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21958,7 +21961,7 @@ main() {
     poke(0x0001, 0x72);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -21982,7 +21985,7 @@ main() {
     poke(0x0003, 0x79);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22006,7 +22009,7 @@ main() {
     poke(0x0001, 0x74);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22030,7 +22033,7 @@ main() {
     poke(0x7d01, 0x4f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22052,7 +22055,7 @@ main() {
     poke(0x0001, 0x76);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22074,7 +22077,7 @@ main() {
     poke(0x0001, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22096,7 +22099,7 @@ main() {
     poke(0x0001, 0x79);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22118,7 +22121,7 @@ main() {
     poke(0x0001, 0x7a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22144,7 +22147,7 @@ main() {
     poke(0x8c51, 0x48);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22166,7 +22169,7 @@ main() {
     poke(0x0001, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22190,7 +22193,7 @@ main() {
     poke(0x66f1, 0xfb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22212,7 +22215,7 @@ main() {
     poke(0x0001, 0x7e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22235,7 +22238,7 @@ main() {
     poke(0xd097, 0xb7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22259,7 +22262,7 @@ main() {
     poke(0x3bc3, 0xb4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22281,7 +22284,7 @@ main() {
     poke(0x0001, 0xa2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22304,7 +22307,7 @@ main() {
     poke(0x0001, 0xa2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22327,7 +22330,7 @@ main() {
     poke(0x0001, 0xa2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22350,7 +22353,7 @@ main() {
     poke(0x0001, 0xa2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22374,7 +22377,7 @@ main() {
     poke(0x32fa, 0xb3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22397,7 +22400,7 @@ main() {
     poke(0x01ff, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22420,7 +22423,7 @@ main() {
     poke(0x0100, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22443,7 +22446,7 @@ main() {
     poke(0x0107, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22466,7 +22469,7 @@ main() {
     poke(0x01ff, 0x80);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22489,7 +22492,7 @@ main() {
     poke(0x01fd, 0x12);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22512,7 +22515,7 @@ main() {
     poke(0x01fe, 0x12);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22535,7 +22538,7 @@ main() {
     poke(0x01ff, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22558,7 +22561,7 @@ main() {
     poke(0x01fe, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22581,7 +22584,7 @@ main() {
     poke(0x01ff, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22604,7 +22607,7 @@ main() {
     poke(0x01ff, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22627,7 +22630,7 @@ main() {
     poke(0x01ff, 0x00);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22650,7 +22653,7 @@ main() {
     poke(0x12e8, 0xd8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22674,7 +22677,7 @@ main() {
     poke(0x0dbe, 0x89);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22696,7 +22699,7 @@ main() {
     poke(0x0001, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22719,7 +22722,7 @@ main() {
     poke(0x0001, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22742,7 +22745,7 @@ main() {
     poke(0x0001, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22765,7 +22768,7 @@ main() {
     poke(0x0001, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22789,7 +22792,7 @@ main() {
     poke(0x199f, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22812,7 +22815,7 @@ main() {
     poke(0x007a, 0x7f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22835,7 +22838,7 @@ main() {
     poke(0x00f1, 0xcd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -22873,7 +22876,7 @@ main() {
     poke(0x559d, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 331) {
+    while (z80.tStates < 331) {
       z80.executeNextInstruction();
     }
 
@@ -22913,7 +22916,7 @@ main() {
     poke(0x8001, 0x34);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 37) {
+    while (z80.tStates < 37) {
       z80.executeNextInstruction();
     }
 
@@ -22939,7 +22942,7 @@ main() {
     poke(0x8001, 0x34);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 16) {
+    while (z80.tStates < 16) {
       z80.executeNextInstruction();
     }
 
@@ -22970,7 +22973,7 @@ main() {
     poke(0x982c, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 79) {
+    while (z80.tStates < 79) {
       z80.executeNextInstruction();
     }
 
@@ -23000,7 +23003,7 @@ main() {
     poke(0x982c, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 79) {
+    while (z80.tStates < 79) {
       z80.executeNextInstruction();
     }
 
@@ -23030,7 +23033,7 @@ main() {
     poke(0x982c, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 21) {
+    while (z80.tStates < 21) {
       z80.executeNextInstruction();
     }
 
@@ -23052,7 +23055,7 @@ main() {
     poke(0x0001, 0xb2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 205) {
+    while (z80.tStates < 205) {
       z80.executeNextInstruction();
     }
 
@@ -23084,7 +23087,7 @@ main() {
     poke(0x0001, 0xb2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 21) {
+    while (z80.tStates < 21) {
       z80.executeNextInstruction();
     }
 
@@ -23110,7 +23113,7 @@ main() {
     poke(0x1d7e, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 58) {
+    while (z80.tStates < 58) {
       z80.executeNextInstruction();
     }
 
@@ -23135,7 +23138,7 @@ main() {
     poke(0x1d7e, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 21) {
+    while (z80.tStates < 21) {
       z80.executeNextInstruction();
     }
 
@@ -23165,7 +23168,7 @@ main() {
     poke(0x4dcf, 0x0a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 163) {
+    while (z80.tStates < 163) {
       z80.executeNextInstruction();
     }
 
@@ -23197,7 +23200,7 @@ main() {
     poke(0x6af0, 0x70);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 37) {
+    while (z80.tStates < 37) {
       z80.executeNextInstruction();
     }
 
@@ -23223,7 +23226,7 @@ main() {
     poke(0x6af0, 0x70);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 16) {
+    while (z80.tStates < 16) {
       z80.executeNextInstruction();
     }
 
@@ -23254,7 +23257,7 @@ main() {
     poke(0xc749, 0x6c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 163) {
+    while (z80.tStates < 163) {
       z80.executeNextInstruction();
     }
 
@@ -23284,7 +23287,7 @@ main() {
     poke(0xc749, 0x6c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 163) {
+    while (z80.tStates < 163) {
       z80.executeNextInstruction();
     }
 
@@ -23314,7 +23317,7 @@ main() {
     poke(0xc749, 0x6c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 21) {
+    while (z80.tStates < 21) {
       z80.executeNextInstruction();
     }
 
@@ -23336,7 +23339,7 @@ main() {
     poke(0x0001, 0xba);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 121) {
+    while (z80.tStates < 121) {
       z80.executeNextInstruction();
     }
 
@@ -23364,7 +23367,7 @@ main() {
     poke(0x0001, 0xba);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 21) {
+    while (z80.tStates < 21) {
       z80.executeNextInstruction();
     }
 
@@ -23391,7 +23394,7 @@ main() {
     poke(0x1dd0, 0xb6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 79) {
+    while (z80.tStates < 79) {
       z80.executeNextInstruction();
     }
 
@@ -23417,7 +23420,7 @@ main() {
     poke(0x1dd0, 0xb6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 21) {
+    while (z80.tStates < 21) {
       z80.executeNextInstruction();
     }
 
@@ -23439,7 +23442,7 @@ main() {
     poke(0x0001, 0xd0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23460,7 +23463,7 @@ main() {
     poke(0x6d33, 0xef);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23485,7 +23488,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23508,7 +23511,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23531,7 +23534,7 @@ main() {
     poke(0x4144, 0xe8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23554,7 +23557,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23577,7 +23580,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23598,7 +23601,7 @@ main() {
     poke(0x0000, 0xf3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23621,7 +23624,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23646,7 +23649,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23667,7 +23670,7 @@ main() {
     poke(0x0000, 0xf5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23691,7 +23694,7 @@ main() {
     poke(0x0001, 0xa7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23712,7 +23715,7 @@ main() {
     poke(0x6d33, 0xf7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23737,7 +23740,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23760,7 +23763,7 @@ main() {
     poke(0x43f8, 0xaf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23781,7 +23784,7 @@ main() {
     poke(0x0000, 0xf9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23804,7 +23807,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23827,7 +23830,7 @@ main() {
     poke(0x0002, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23848,7 +23851,7 @@ main() {
     poke(0x0000, 0xfb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23871,7 +23874,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23896,7 +23899,7 @@ main() {
     poke(0x0002, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23918,7 +23921,7 @@ main() {
     poke(0x0001, 0x09);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23940,7 +23943,7 @@ main() {
     poke(0x0001, 0x19);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23964,7 +23967,7 @@ main() {
     poke(0x0003, 0x47);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -23988,7 +23991,7 @@ main() {
     poke(0x0003, 0xe2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24012,7 +24015,7 @@ main() {
     poke(0x0001, 0x23);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24034,7 +24037,7 @@ main() {
     poke(0x0001, 0x24);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24056,7 +24059,7 @@ main() {
     poke(0x0001, 0x25);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24079,7 +24082,7 @@ main() {
     poke(0x0002, 0x77);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24101,7 +24104,7 @@ main() {
     poke(0x0001, 0x29);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24127,7 +24130,7 @@ main() {
     poke(0xf992, 0xbf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24149,7 +24152,7 @@ main() {
     poke(0x0001, 0x2b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24171,7 +24174,7 @@ main() {
     poke(0x0001, 0x2c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24193,7 +24196,7 @@ main() {
     poke(0x0001, 0x2d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24216,7 +24219,7 @@ main() {
     poke(0x0002, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24240,7 +24243,7 @@ main() {
     poke(0xef7c, 0xe0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24265,7 +24268,7 @@ main() {
     poke(0xae71, 0xa6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24290,7 +24293,7 @@ main() {
     poke(0x0003, 0xc5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24313,7 +24316,7 @@ main() {
     poke(0x0001, 0x39);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24335,7 +24338,7 @@ main() {
     poke(0x0001, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24357,7 +24360,7 @@ main() {
     poke(0x0001, 0x45);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24381,7 +24384,7 @@ main() {
     poke(0x3b49, 0xc9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24403,7 +24406,7 @@ main() {
     poke(0x0001, 0x4c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24425,7 +24428,7 @@ main() {
     poke(0x0001, 0x4d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24449,7 +24452,7 @@ main() {
     poke(0xbc01, 0x9d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24471,7 +24474,7 @@ main() {
     poke(0x0001, 0x54);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24493,7 +24496,7 @@ main() {
     poke(0x0001, 0x55);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24517,7 +24520,7 @@ main() {
     poke(0xfd70, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24539,7 +24542,7 @@ main() {
     poke(0x0001, 0x5c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24561,7 +24564,7 @@ main() {
     poke(0x0001, 0x5d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24585,7 +24588,7 @@ main() {
     poke(0x8a70, 0x8c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24607,7 +24610,7 @@ main() {
     poke(0x0001, 0x60);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24629,7 +24632,7 @@ main() {
     poke(0x0001, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24651,7 +24654,7 @@ main() {
     poke(0x0001, 0x62);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24673,7 +24676,7 @@ main() {
     poke(0x0001, 0x63);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24695,7 +24698,7 @@ main() {
     poke(0x0001, 0x64);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24717,7 +24720,7 @@ main() {
     poke(0x0001, 0x65);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24741,7 +24744,7 @@ main() {
     poke(0x5aa4, 0x77);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24763,7 +24766,7 @@ main() {
     poke(0x0001, 0x67);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24785,7 +24788,7 @@ main() {
     poke(0x0001, 0x68);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24807,7 +24810,7 @@ main() {
     poke(0x0001, 0x69);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24829,7 +24832,7 @@ main() {
     poke(0x0001, 0x6a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24851,7 +24854,7 @@ main() {
     poke(0x0001, 0x6b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24873,7 +24876,7 @@ main() {
     poke(0x0001, 0x6c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24895,7 +24898,7 @@ main() {
     poke(0x0001, 0x6d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24919,7 +24922,7 @@ main() {
     poke(0xb11b, 0xf8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24941,7 +24944,7 @@ main() {
     poke(0x0001, 0x6f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24964,7 +24967,7 @@ main() {
     poke(0x0002, 0x53);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -24988,7 +24991,7 @@ main() {
     poke(0x0002, 0xb4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25012,7 +25015,7 @@ main() {
     poke(0x0002, 0xe3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25036,7 +25039,7 @@ main() {
     poke(0x0002, 0x17);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25060,7 +25063,7 @@ main() {
     poke(0x0002, 0xf6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25084,7 +25087,7 @@ main() {
     poke(0x0002, 0xab);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25108,7 +25111,7 @@ main() {
     poke(0x0002, 0xf7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25131,7 +25134,7 @@ main() {
     poke(0x0001, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25153,7 +25156,7 @@ main() {
     poke(0x0001, 0x7d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25177,7 +25180,7 @@ main() {
     poke(0xd443, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25199,7 +25202,7 @@ main() {
     poke(0x0001, 0x84);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25221,7 +25224,7 @@ main() {
     poke(0x0001, 0x85);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25245,7 +25248,7 @@ main() {
     poke(0x8b01, 0xe1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25267,7 +25270,7 @@ main() {
     poke(0x0001, 0x8c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25289,7 +25292,7 @@ main() {
     poke(0x0001, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25313,7 +25316,7 @@ main() {
     poke(0x1b1a, 0xc0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25335,7 +25338,7 @@ main() {
     poke(0x0001, 0x94);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25357,7 +25360,7 @@ main() {
     poke(0x0001, 0x95);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25381,7 +25384,7 @@ main() {
     poke(0xc0e0, 0x7b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25403,7 +25406,7 @@ main() {
     poke(0x0001, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25425,7 +25428,7 @@ main() {
     poke(0x0001, 0x9d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25449,7 +25452,7 @@ main() {
     poke(0xf665, 0xf3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25471,7 +25474,7 @@ main() {
     poke(0x0001, 0xa4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25493,7 +25496,7 @@ main() {
     poke(0x0001, 0xa5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25517,7 +25520,7 @@ main() {
     poke(0x65ee, 0x95);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25539,7 +25542,7 @@ main() {
     poke(0x0001, 0xac);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25561,7 +25564,7 @@ main() {
     poke(0x0001, 0xad);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25585,7 +25588,7 @@ main() {
     poke(0x8201, 0xcb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25607,7 +25610,7 @@ main() {
     poke(0x0001, 0xb4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25629,7 +25632,7 @@ main() {
     poke(0x0001, 0xb5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25653,7 +25656,7 @@ main() {
     poke(0xdfb8, 0x64);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25675,7 +25678,7 @@ main() {
     poke(0x0001, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25697,7 +25700,7 @@ main() {
     poke(0x0001, 0xbd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25721,7 +25724,7 @@ main() {
     poke(0xa9d6, 0xc0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25746,7 +25749,7 @@ main() {
     poke(0x2781, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25772,7 +25775,7 @@ main() {
     poke(0x5bfd, 0xcb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25798,7 +25801,7 @@ main() {
     poke(0x3e06, 0x58);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25824,7 +25827,7 @@ main() {
     poke(0x5821, 0x1a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25850,7 +25853,7 @@ main() {
     poke(0x50d8, 0x92);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25876,7 +25879,7 @@ main() {
     poke(0xb279, 0x66);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25902,7 +25905,7 @@ main() {
     poke(0xff99, 0xf1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25928,7 +25931,7 @@ main() {
     poke(0x080f, 0xae);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25954,7 +25957,7 @@ main() {
     poke(0x615c, 0x83);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -25980,7 +25983,7 @@ main() {
     poke(0x197a, 0x27);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26006,7 +26009,7 @@ main() {
     poke(0xeed7, 0x19);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26032,7 +26035,7 @@ main() {
     poke(0xc69b, 0xf2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26058,7 +26061,7 @@ main() {
     poke(0x8c74, 0xae);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26084,7 +26087,7 @@ main() {
     poke(0xfe3e, 0x1b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26110,7 +26113,7 @@ main() {
     poke(0xf22f, 0xf7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26136,7 +26139,7 @@ main() {
     poke(0xce4d, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26162,7 +26165,7 @@ main() {
     poke(0x431c, 0x1c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26188,7 +26191,7 @@ main() {
     poke(0x9d0b, 0x5e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26214,7 +26217,7 @@ main() {
     poke(0x8598, 0xa7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26240,7 +26243,7 @@ main() {
     poke(0xe74b, 0xb3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26266,7 +26269,7 @@ main() {
     poke(0xd900, 0x06);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26292,7 +26295,7 @@ main() {
     poke(0x2d92, 0x12);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26318,7 +26321,7 @@ main() {
     poke(0xf0d7, 0x89);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26344,7 +26347,7 @@ main() {
     poke(0x1f9d, 0xb8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26370,7 +26373,7 @@ main() {
     poke(0x31d6, 0xfa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26396,7 +26399,7 @@ main() {
     poke(0x4cd0, 0x4b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26422,7 +26425,7 @@ main() {
     poke(0x414b, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26448,7 +26451,7 @@ main() {
     poke(0x71c6, 0xb8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26474,7 +26477,7 @@ main() {
     poke(0xdee8, 0x8f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26500,7 +26503,7 @@ main() {
     poke(0xd68e, 0xb7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26526,7 +26529,7 @@ main() {
     poke(0xda72, 0x25);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26552,7 +26555,7 @@ main() {
     poke(0x2110, 0x04);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26578,7 +26581,7 @@ main() {
     poke(0xda9f, 0x89);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26604,7 +26607,7 @@ main() {
     poke(0xdeb1, 0x23);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26630,7 +26633,7 @@ main() {
     poke(0x88c0, 0xd4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26656,7 +26659,7 @@ main() {
     poke(0x524a, 0x65);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26682,7 +26685,7 @@ main() {
     poke(0xafb2, 0x7e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26708,7 +26711,7 @@ main() {
     poke(0x238f, 0x26);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26734,7 +26737,7 @@ main() {
     poke(0xd4a1, 0xbf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26760,7 +26763,7 @@ main() {
     poke(0x8d9b, 0xa7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26786,7 +26789,7 @@ main() {
     poke(0xaac6, 0x5d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26812,7 +26815,7 @@ main() {
     poke(0x03c0, 0x84);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26838,7 +26841,7 @@ main() {
     poke(0xabe0, 0xdd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26864,7 +26867,7 @@ main() {
     poke(0x4adf, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26890,7 +26893,7 @@ main() {
     poke(0xccb7, 0x3c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26916,7 +26919,7 @@ main() {
     poke(0xe545, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26942,7 +26945,7 @@ main() {
     poke(0x4303, 0xad);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26968,7 +26971,7 @@ main() {
     poke(0x16e1, 0x18);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -26994,7 +26997,7 @@ main() {
     poke(0xd661, 0xa5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27020,7 +27023,7 @@ main() {
     poke(0xbfd0, 0xf1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27046,7 +27049,7 @@ main() {
     poke(0x5aa3, 0x59);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27072,7 +27075,7 @@ main() {
     poke(0x19e3, 0xda);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27098,7 +27101,7 @@ main() {
     poke(0x5668, 0xd4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27124,7 +27127,7 @@ main() {
     poke(0x0169, 0x0b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27150,7 +27153,7 @@ main() {
     poke(0x1ab8, 0x3c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27176,7 +27179,7 @@ main() {
     poke(0xe7b7, 0x9f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27202,7 +27205,7 @@ main() {
     poke(0xd024, 0x0d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27228,7 +27231,7 @@ main() {
     poke(0xf4b2, 0xf5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27254,7 +27257,7 @@ main() {
     poke(0xcb20, 0xa8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27280,7 +27283,7 @@ main() {
     poke(0xd268, 0xb2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27306,7 +27309,7 @@ main() {
     poke(0xa7bd, 0x96);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27332,7 +27335,7 @@ main() {
     poke(0xe53d, 0xfb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27358,7 +27361,7 @@ main() {
     poke(0xb2ff, 0x50);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27384,7 +27387,7 @@ main() {
     poke(0xc1cd, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27410,7 +27413,7 @@ main() {
     poke(0x41d0, 0x0d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27435,7 +27438,7 @@ main() {
     poke(0x0397, 0xe9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27460,7 +27463,7 @@ main() {
     poke(0x9f57, 0xa8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27485,7 +27488,7 @@ main() {
     poke(0x1fd9, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27510,7 +27513,7 @@ main() {
     poke(0xf4f6, 0x89);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27535,7 +27538,7 @@ main() {
     poke(0x937a, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27560,7 +27563,7 @@ main() {
     poke(0x633d, 0xfe);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27585,7 +27588,7 @@ main() {
     poke(0x6da4, 0xd6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27610,7 +27613,7 @@ main() {
     poke(0xabed, 0xb0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27635,7 +27638,7 @@ main() {
     poke(0x3e6f, 0xa9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27660,7 +27663,7 @@ main() {
     poke(0xe82d, 0xda);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27685,7 +27688,7 @@ main() {
     poke(0x8829, 0x4e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27710,7 +27713,7 @@ main() {
     poke(0x7f10, 0x70);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27735,7 +27738,7 @@ main() {
     poke(0xa799, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27760,7 +27763,7 @@ main() {
     poke(0xe1e8, 0xaa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27785,7 +27788,7 @@ main() {
     poke(0x1c95, 0x18);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27810,7 +27813,7 @@ main() {
     poke(0xc7ca, 0xfe);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27835,7 +27838,7 @@ main() {
     poke(0x341b, 0x13);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27860,7 +27863,7 @@ main() {
     poke(0x8af3, 0x87);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27885,7 +27888,7 @@ main() {
     poke(0x7eb2, 0xe4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27910,7 +27913,7 @@ main() {
     poke(0x5b73, 0x07);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27935,7 +27938,7 @@ main() {
     poke(0xb506, 0x46);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27960,7 +27963,7 @@ main() {
     poke(0x69a1, 0xdf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -27985,7 +27988,7 @@ main() {
     poke(0xa3f7, 0x6c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28010,7 +28013,7 @@ main() {
     poke(0x1ee2, 0xf6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28035,7 +28038,7 @@ main() {
     poke(0xfb01, 0x6f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28060,7 +28063,7 @@ main() {
     poke(0x7b40, 0x6e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28085,7 +28088,7 @@ main() {
     poke(0x3143, 0xb1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28110,7 +28113,7 @@ main() {
     poke(0x54b2, 0xe3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28135,7 +28138,7 @@ main() {
     poke(0x3b60, 0xef);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28160,7 +28163,7 @@ main() {
     poke(0xe147, 0x17);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28185,7 +28188,7 @@ main() {
     poke(0xf7c6, 0xe2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28210,7 +28213,7 @@ main() {
     poke(0x8bc9, 0xb9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28235,7 +28238,7 @@ main() {
     poke(0x92a2, 0x28);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28260,7 +28263,7 @@ main() {
     poke(0x7e4e, 0x1a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28285,7 +28288,7 @@ main() {
     poke(0x1707, 0x3b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28310,7 +28313,7 @@ main() {
     poke(0xb36b, 0x8c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28335,7 +28338,7 @@ main() {
     poke(0x8a2b, 0x08);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28360,7 +28363,7 @@ main() {
     poke(0x68e5, 0x90);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28385,7 +28388,7 @@ main() {
     poke(0x653d, 0x15);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28410,7 +28413,7 @@ main() {
     poke(0x0388, 0x83);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28435,7 +28438,7 @@ main() {
     poke(0xa5e5, 0x01);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28460,7 +28463,7 @@ main() {
     poke(0x936c, 0x33);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28485,7 +28488,7 @@ main() {
     poke(0xaa4e, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28510,7 +28513,7 @@ main() {
     poke(0x86c7, 0x25);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28535,7 +28538,7 @@ main() {
     poke(0x62b8, 0xe3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28560,7 +28563,7 @@ main() {
     poke(0x41a3, 0x1e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28585,7 +28588,7 @@ main() {
     poke(0x006e, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28610,7 +28613,7 @@ main() {
     poke(0x3e41, 0xc9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28635,7 +28638,7 @@ main() {
     poke(0x99c1, 0x3e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28660,7 +28663,7 @@ main() {
     poke(0xfcc9, 0x4f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28685,7 +28688,7 @@ main() {
     poke(0xf652, 0x31);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28710,7 +28713,7 @@ main() {
     poke(0x5e95, 0xfe);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28735,7 +28738,7 @@ main() {
     poke(0x6115, 0x21);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28760,7 +28763,7 @@ main() {
     poke(0x6676, 0x3a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28785,7 +28788,7 @@ main() {
     poke(0x8843, 0xd8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28810,7 +28813,7 @@ main() {
     poke(0xff48, 0xec);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28835,7 +28838,7 @@ main() {
     poke(0x1cd1, 0x87);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28860,7 +28863,7 @@ main() {
     poke(0xd965, 0xb3);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28885,7 +28888,7 @@ main() {
     poke(0x0a9a, 0xbd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28910,7 +28913,7 @@ main() {
     poke(0xd362, 0x1b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28935,7 +28938,7 @@ main() {
     poke(0xabda, 0x8a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28960,7 +28963,7 @@ main() {
     poke(0x94c4, 0x9e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -28985,7 +28988,7 @@ main() {
     poke(0xce0b, 0x47);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29010,7 +29013,7 @@ main() {
     poke(0x9198, 0xa9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29036,7 +29039,7 @@ main() {
     poke(0x82fa, 0xfa);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29061,7 +29064,7 @@ main() {
     poke(0x5d74, 0x9d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29087,7 +29090,7 @@ main() {
     poke(0x3772, 0xd5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29113,7 +29116,7 @@ main() {
     poke(0xf16d, 0xea);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29138,7 +29141,7 @@ main() {
     poke(0x049f, 0xe0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29163,7 +29166,7 @@ main() {
     poke(0x2ace, 0x36);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29188,7 +29191,7 @@ main() {
     poke(0x24c3, 0x65);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29214,7 +29217,7 @@ main() {
     poke(0xc5e1, 0xd6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29240,7 +29243,7 @@ main() {
     poke(0x09c4, 0xb0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29265,7 +29268,7 @@ main() {
     poke(0xd4cb, 0xd8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29290,7 +29293,7 @@ main() {
     poke(0xc70b, 0xdc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29315,7 +29318,7 @@ main() {
     poke(0xa199, 0x67);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29341,7 +29344,7 @@ main() {
     poke(0x5632, 0x9a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29367,7 +29370,7 @@ main() {
     poke(0x4c43, 0x7f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29393,7 +29396,7 @@ main() {
     poke(0x6b25, 0x59);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29418,7 +29421,7 @@ main() {
     poke(0xd7f2, 0x70);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29443,7 +29446,7 @@ main() {
     poke(0x4791, 0x0e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29469,7 +29472,7 @@ main() {
     poke(0x3145, 0xf6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29495,7 +29498,7 @@ main() {
     poke(0x2992, 0x38);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29520,7 +29523,7 @@ main() {
     poke(0xfdb1, 0x48);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29545,7 +29548,7 @@ main() {
     poke(0xe706, 0xeb);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29570,7 +29573,7 @@ main() {
     poke(0xe66d, 0xfc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29596,7 +29599,7 @@ main() {
     poke(0x18e3, 0x9d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29622,7 +29625,7 @@ main() {
     poke(0x4392, 0x15);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29647,7 +29650,7 @@ main() {
     poke(0xd8e4, 0xb5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29672,7 +29675,7 @@ main() {
     poke(0xd6b3, 0x9d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29698,7 +29701,7 @@ main() {
     poke(0xcaa1, 0x95);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29723,7 +29726,7 @@ main() {
     poke(0x03d1, 0x78);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29749,7 +29752,7 @@ main() {
     poke(0xc06d, 0x53);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29774,7 +29777,7 @@ main() {
     poke(0x41a8, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29799,7 +29802,7 @@ main() {
     poke(0x9d99, 0x89);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29825,7 +29828,7 @@ main() {
     poke(0xd703, 0xd4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29851,7 +29854,7 @@ main() {
     poke(0x66f9, 0xec);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29876,7 +29879,7 @@ main() {
     poke(0x04cd, 0x47);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29901,7 +29904,7 @@ main() {
     poke(0xad7c, 0x59);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29927,7 +29930,7 @@ main() {
     poke(0xc133, 0xc5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29952,7 +29955,7 @@ main() {
     poke(0xf141, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -29977,7 +29980,7 @@ main() {
     poke(0x9469, 0xbc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30003,7 +30006,7 @@ main() {
     poke(0x7a2a, 0x2e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30028,7 +30031,7 @@ main() {
     poke(0x0cef, 0xb7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30054,7 +30057,7 @@ main() {
     poke(0x0f7f, 0x8f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30079,7 +30082,7 @@ main() {
     poke(0xb3dc, 0x3a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30105,7 +30108,7 @@ main() {
     poke(0x8e77, 0x1f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30130,7 +30133,7 @@ main() {
     poke(0x0548, 0x9c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30155,7 +30158,7 @@ main() {
     poke(0x94dd, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30181,7 +30184,7 @@ main() {
     poke(0x0c29, 0xa9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30207,7 +30210,7 @@ main() {
     poke(0x26f8, 0x44);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30232,7 +30235,7 @@ main() {
     poke(0xa125, 0x76);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30258,7 +30261,7 @@ main() {
     poke(0xf31a, 0x79);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30284,7 +30287,7 @@ main() {
     poke(0x341c, 0x7b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30310,7 +30313,7 @@ main() {
     poke(0x523e, 0x37);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30335,7 +30338,7 @@ main() {
     poke(0x4cdc, 0xe9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30361,7 +30364,7 @@ main() {
     poke(0x8f2d, 0x0f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30386,7 +30389,7 @@ main() {
     poke(0x1e50, 0x13);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30411,7 +30414,7 @@ main() {
     poke(0x0069, 0x38);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30436,7 +30439,7 @@ main() {
     poke(0xd0b8, 0x17);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30461,7 +30464,7 @@ main() {
     poke(0xb889, 0xb4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30487,7 +30490,7 @@ main() {
     poke(0x3877, 0xd6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30513,7 +30516,7 @@ main() {
     poke(0xe305, 0x6e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30538,7 +30541,7 @@ main() {
     poke(0xaf04, 0xcf);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30564,7 +30567,7 @@ main() {
     poke(0xdeb7, 0x8d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30590,7 +30593,7 @@ main() {
     poke(0x3cd7, 0xa1);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30616,7 +30619,7 @@ main() {
     poke(0xbde4, 0xac);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30642,7 +30645,7 @@ main() {
     poke(0x2b3b, 0xec);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30668,7 +30671,7 @@ main() {
     poke(0xbcee, 0xee);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30694,7 +30697,7 @@ main() {
     poke(0x5ab9, 0xc2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30720,7 +30723,7 @@ main() {
     poke(0xe6c0, 0x4f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30745,7 +30748,7 @@ main() {
     poke(0x5c99, 0x61);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30770,7 +30773,7 @@ main() {
     poke(0x0264, 0xcd);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30795,7 +30798,7 @@ main() {
     poke(0x76b2, 0x82);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30821,7 +30824,7 @@ main() {
     poke(0xf2a9, 0xd7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30846,7 +30849,7 @@ main() {
     poke(0xc422, 0xe9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30872,7 +30875,7 @@ main() {
     poke(0x8ba3, 0xb7);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30897,7 +30900,7 @@ main() {
     poke(0x51aa, 0x90);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30923,7 +30926,7 @@ main() {
     poke(0x9ad0, 0x70);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30949,7 +30952,7 @@ main() {
     poke(0x1526, 0x4e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30974,7 +30977,7 @@ main() {
     poke(0xbb8a, 0x66);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -30999,7 +31002,7 @@ main() {
     poke(0xb8d8, 0x45);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31025,7 +31028,7 @@ main() {
     poke(0xc30c, 0x7a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31050,7 +31053,7 @@ main() {
     poke(0x3ba7, 0x20);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31076,7 +31079,7 @@ main() {
     poke(0x8c76, 0xb9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31102,7 +31105,7 @@ main() {
     poke(0xc04c, 0x51);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31128,7 +31131,7 @@ main() {
     poke(0x0ac5, 0xe0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31154,7 +31157,7 @@ main() {
     poke(0x94ae, 0x7d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31179,7 +31182,7 @@ main() {
     poke(0x8650, 0x98);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31205,7 +31208,7 @@ main() {
     poke(0x6a6c, 0x7c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31230,7 +31233,7 @@ main() {
     poke(0x3669, 0x95);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31255,7 +31258,7 @@ main() {
     poke(0x43b4, 0xd8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31280,7 +31283,7 @@ main() {
     poke(0x0a7c, 0xf4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31306,7 +31309,7 @@ main() {
     poke(0xd0d8, 0x6b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31331,7 +31334,7 @@ main() {
     poke(0x8ca3, 0x15);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31357,7 +31360,7 @@ main() {
     poke(0x599e, 0x15);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31383,7 +31386,7 @@ main() {
     poke(0x1e09, 0x28);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31408,7 +31411,7 @@ main() {
     poke(0xc9f7, 0x41);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31434,7 +31437,7 @@ main() {
     poke(0xea56, 0xef);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31459,7 +31462,7 @@ main() {
     poke(0x155d, 0xb9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31484,7 +31487,7 @@ main() {
     poke(0x0dde, 0x16);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31509,7 +31512,7 @@ main() {
     poke(0xe4ec, 0xc2);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31535,7 +31538,7 @@ main() {
     poke(0xad72, 0xba);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31560,7 +31563,7 @@ main() {
     poke(0x54d6, 0x7b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31585,7 +31588,7 @@ main() {
     poke(0xa507, 0x4c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31611,7 +31614,7 @@ main() {
     poke(0x8b7c, 0x45);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31637,7 +31640,7 @@ main() {
     poke(0xb5a8, 0xa6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31663,7 +31666,7 @@ main() {
     poke(0x0a64, 0xd0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31689,7 +31692,7 @@ main() {
     poke(0xa883, 0x2f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31714,7 +31717,7 @@ main() {
     poke(0x7526, 0x1b);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31740,7 +31743,7 @@ main() {
     poke(0x23e1, 0x47);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31766,7 +31769,7 @@ main() {
     poke(0xd2de, 0x49);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31792,7 +31795,7 @@ main() {
     poke(0x0f03, 0x10);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31818,7 +31821,7 @@ main() {
     poke(0x42be, 0xd0);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31844,7 +31847,7 @@ main() {
     poke(0x22ca, 0x09);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31870,7 +31873,7 @@ main() {
     poke(0xeee3, 0x2c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31896,7 +31899,7 @@ main() {
     poke(0x47b2, 0xdc);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31921,7 +31924,7 @@ main() {
     poke(0xeac3, 0x5e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31946,7 +31949,7 @@ main() {
     poke(0x7dc8, 0x0c);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31972,7 +31975,7 @@ main() {
     poke(0x306c, 0x0e);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -31998,7 +32001,7 @@ main() {
     poke(0x6b74, 0xf8);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32023,7 +32026,7 @@ main() {
     poke(0xc670, 0x5d);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32048,7 +32051,7 @@ main() {
     poke(0x5727, 0x66);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32073,7 +32076,7 @@ main() {
     poke(0xdece, 0x7a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32099,7 +32102,7 @@ main() {
     poke(0x9a13, 0xc6);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32124,7 +32127,7 @@ main() {
     poke(0xbd82, 0xf4);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32149,7 +32152,7 @@ main() {
     poke(0xf82f, 0xed);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32174,7 +32177,7 @@ main() {
     poke(0x6679, 0x65);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32200,7 +32203,7 @@ main() {
     poke(0x5d50, 0x27);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32226,7 +32229,7 @@ main() {
     poke(0x4dd7, 0x4a);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32252,7 +32255,7 @@ main() {
     poke(0x2ad1, 0x97);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32276,7 +32279,7 @@ main() {
     poke(0x716f, 0x92);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32300,7 +32303,7 @@ main() {
     poke(0x1a39, 0x0f);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32324,7 +32327,7 @@ main() {
     poke(0x0001, 0xe5);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32348,7 +32351,7 @@ main() {
     poke(0x0001, 0xe9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32370,7 +32373,7 @@ main() {
     poke(0x0001, 0xf9);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32392,7 +32395,7 @@ main() {
     poke(0x0001, 0x82);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 
@@ -32413,7 +32416,7 @@ main() {
     poke(0x6d33, 0xff);
 
     // Execute machine for tState cycles
-    while(z80.tStates < 1) {
+    while (z80.tStates < 1) {
       z80.executeNextInstruction();
     }
 

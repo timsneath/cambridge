@@ -465,6 +465,7 @@ class Z80 {
   }
 
   void DJNZ(int relativeAddress) {
+    print('Opcode 0x10 (DJNZ) fails unit test');
     b = (b - 1) % 0x100;
     if (b != 0) {
       JR(relativeAddress);
@@ -969,6 +970,7 @@ class Z80 {
         fPV = fZ;
         break;
       case 0x6:
+        print('Opcode 0xCBxx (BIT x, (hl)) fails unit test');
         var val = memory.readByte(hl);
         fZ = !isBitSet(val, bitToTest);
         f3 = isBitSet(val, 3);
@@ -3296,7 +3298,6 @@ class Z80 {
       // ADD HL, SP
       case 0x39:
         hl = ADD16(hl, sp);
-        tStates += 11;
         break;
 
       // LD A, (**)

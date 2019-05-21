@@ -19,8 +19,8 @@ final keyMap = <int, List<String>>{
   0xF7FE: ['1', '2', '3', '4', '5'],
   0xEFFE: ['0', '9', '8', '7', '6'],
   0xDFFE: ['P', 'O', 'I', 'U', 'Y'],
-  0xBFFE: ['*', 'L', 'K', 'J', 'H'],
-  0x7FFE: [' ', '*', 'M', 'N', 'B']
+  0xBFFE: ['ENTER', 'L', 'K', 'J', 'H'],
+  0x7FFE: ['SPACE', 'SYMBL', 'M', 'N', 'B']
 };
 
 // Gets the port that maps to the keycap

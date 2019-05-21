@@ -1,4 +1,4 @@
-package org.sneath.ui
+package org.sneath.spectrum
 
 import android.os.Bundle
 

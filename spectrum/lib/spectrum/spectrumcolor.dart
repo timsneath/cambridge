@@ -7,13 +7,25 @@
 import 'dart:ui';
 
 class SpectrumColor extends Color {
-  SpectrumColor(int value) : super(spectrumColors[value]);
+  @deprecated
+  const SpectrumColor(int value) : super(value | 0xFF000000);
 
-  SpectrumColor.fromName(SpectrumColors value) : super(spectrumColors[value.index]);
+  @deprecated
+  const SpectrumColor.fromARGB(int a, int r, int g, int b)
+      : super.fromARGB(0xFF, r, g, b);
+
+  @deprecated
+  const SpectrumColor.fromRGBO(int r, int g, int b, double opacity)
+      : super.fromRGBO(r, g, b, 1.0);
+
+  SpectrumColor.fromByteValue(int value) : super(spectrumColors[value]);
+
+  SpectrumColor.fromName(SpectrumColors value)
+      : super(spectrumColors[value.index]);
 
   @override
-  String toString() => 
-      "SpectrumColor(0x${value.toRadixString(16).padLeft(6, '0')})";
+  String toString() =>
+      "SpectrumColor(0x${(value & 0x00FFFFFF).toRadixString(16).padLeft(6, '0')})";
 }
 
 const spectrumColors = <int, int>{
@@ -26,13 +38,13 @@ const spectrumColors = <int, int>{
   0x06: 0xFFCDCD00, // yellow
   0x07: 0xFFCDCDCD, // gray
   0x08: 0xFF000000, // black
-  0x09: 0xFF0000FF,  // bright blue
-  0x0A: 0xFFFF0000,  // bright red
-  0x0B: 0xFFFF00FF,  // bright magenta
-  0x0C: 0xFF00FF00,  // bright green
-  0x0D: 0xFF00FFFF,  // bright cyan
-  0x0E: 0xFFFFFF00,  // bright yellow
-  0x0F: 0xFFFFFFFF,  // white
+  0x09: 0xFF0000FF, // bright blue
+  0x0A: 0xFFFF0000, // bright red
+  0x0B: 0xFFFF00FF, // bright magenta
+  0x0C: 0xFF00FF00, // bright green
+  0x0D: 0xFF00FFFF, // bright cyan
+  0x0E: 0xFFFFFF00, // bright yellow
+  0x0F: 0xFFFFFFFF, // white
 };
 
 enum SpectrumColors {

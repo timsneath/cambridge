@@ -3,10 +3,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'dart:typed_data';
 
-import 'spectrum/z80.dart';
-import 'spectrum/memory.dart';
-import 'spectrum/utility.dart';
-import 'spectrum/display.dart';
+import 'package:spectrum/spectrum/z80.dart';
+import 'package:spectrum/spectrum/memory.dart';
+import 'package:spectrum/spectrum/utility.dart';
+import 'package:spectrum/spectrum/display.dart';
+import 'package:spectrum/spectrum/ula.dart';
 
 import 'monitor.dart';
 import 'key.dart';
@@ -44,6 +45,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
     super.initState();
     memory = Memory(true);
     z80 = Z80(memory, startAddress: 0x0000);
+    ULA.reset();
     ticker = Ticker(onTick);
   }
 
@@ -64,6 +66,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
 
     memory = Memory(true);
     z80 = Z80(memory, startAddress: 0x0000);
+    ULA.reset();
     setState(() {
       memory.load(0x0000, rom.buffer.asUint8List());
     });

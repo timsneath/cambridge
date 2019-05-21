@@ -5,18 +5,16 @@ import 'dart:typed_data';
 import 'package:spectrum/main.dart';
 import 'spectrumcolor.dart';
 
-// Class that provides a front-end to the raw memory that represents the 
+// Class that provides a front-end to the raw memory that represents the
 // ZX Spectrum display
 class Display {
   // standard dimensions of a ZX spectrum display
   static int get screenWidth => 256;
   static int get screenHeight => 192;
 
-  static int borderColor = 0x00; // 0x00 is black, 0x0F is white
-
   // Returns the current display from memory as a BMP image formatted as a
   // Uint8List
-  // 
+  //
   // Adapted from
   //   https://stackoverflow.com/questions/51315442/use-ui-decodeimagefromlist-to-display-an-image-created-from-a-list-of-bytes/51316489
   static Uint8List get bmpImage {
@@ -24,16 +22,16 @@ class Display {
 
     final fileLength =
         bmpHeaderSize + screenWidth * screenHeight * 4; // header + bitmap
-    
+
     var bitmap = Uint8List(fileLength);
-    
+
     // Set the header
-    // 
+    //
     // Bitmap header format documented here:
     //   https://en.wikipedia.org/wiki/BMP_file_format
     //
-    // Bitmap file header is 10 bytes long, followed by a 40 byte 
-    // BITMAPINFOHEADER that describes the bitmap itself    
+    // Bitmap file header is 10 bytes long, followed by a 40 byte
+    // BITMAPINFOHEADER that describes the bitmap itself
     ByteData bd = bitmap.buffer.asByteData();
     bd.setUint16(0, 0x424d); // header field: BM
     bd.setUint32(2, fileLength, Endian.little); // file length
@@ -59,9 +57,9 @@ class Display {
     return bitmap;
   }
 
-  // Returns a simple BGRA imagebuffer from memory, converting the 
+  // Returns a simple BGRA imagebuffer from memory, converting the
   // ZX Spectrum in-memory display model into a raw list of color values starting
-  // at (0,0) and ending at (255,191). 
+  // at (0,0) and ending at (255,191).
   static Uint8List imageBuffer() {
     Uint8List buffer = Uint8List(256 * 192 * 4);
     int idx;
@@ -105,14 +103,14 @@ class Display {
         //
         //  for 8x8 cells starting at 0x5800 (array of 32 x 24)
         final color = memory.readByte((0x5800 + ((y ~/ 8) * 32 + x)));
-        final paperColor =
-            SpectrumColor(((color & 0x78) >> 3)); // 0x78 = 01111000
+        final paperColor = SpectrumColor.fromByteValue(
+            ((color & 0x78) >> 3)); // 0x78 = 01111000
         var inkColorAsByte = ((color & 0x07)); // 0x07 = 00000111
         if ((color & 0x40) == 0x40) // bright on (i.e. 0x40 = 01000000)
         {
           inkColorAsByte |= 0x08;
         }
-        final inkColor = SpectrumColor(inkColorAsByte);
+        final inkColor = SpectrumColor.fromByteValue(inkColorAsByte);
 
         // apply state to the display
         for (int bit = 7; bit >= 0; bit--) {

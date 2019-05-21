@@ -9,9 +9,9 @@
 // and here:
 //    http://z80.info/z80code.htm
 
-import 'memory.dart';
-import 'utility.dart';
-import 'ports.dart';
+import 'package:spectrum/spectrum/memory.dart';
+import 'package:spectrum/spectrum/utility.dart';
+import 'package:spectrum/spectrum/ula.dart';
 
 // We use register names for the fields and we don't fuss too much about this.
 // ignore_for_file: non_constant_identifier_names
@@ -1196,15 +1196,18 @@ class Z80 {
   int displacedIY() => (iy + getNextByte());
 
   int portRead(int bc) {
-    int result = inputPorts.getUint8(bc);
+    int result = ULA.inputPorts.getUint8(bc);
 
-    print('Z80: Reading port ${toHex32(bc)} gives ${toHex16(result)}.');
+    // if (result != 0xFF) {
+    //   print('Z80: Reading port ${toHex32(bc)} gives ${toHex16(result)}.');
+    // }
     return result;
   }
 
   void portWrite(int addr, int value) {
     if (addr == 0xFE) {
       print('Writing border color ${toHex16(value)}');
+      ULA.screenBorder = value;
     } else {
       print('Z80: Writing ${toHex32(addr)}, ${toHex16(value)}');
     }

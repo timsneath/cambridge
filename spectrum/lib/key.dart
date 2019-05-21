@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spectrum/spectrum/keyboard.dart';
-import 'package:spectrum/spectrum/utility.dart';
-import 'package:spectrum/spectrum/ports.dart';
+import 'package:spectrum/spectrum/ula.dart';
 
 class Keycap extends StatelessWidget {
   final String mainKeycap;
@@ -9,6 +7,8 @@ class Keycap extends StatelessWidget {
   final String redKeycap;
   final String belowKeycap;
   final String aboveKeycap;
+
+  bool get isNumericKey => int.tryParse(mainKeycap) != null;
 
   Keycap(
       {this.mainKeycap = '',
@@ -23,8 +23,8 @@ class Keycap extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: GestureDetector(
-        onTapDown: (TapDownDetails details) => keyPressed(),
-        onTapUp: (TapUpDetails details) => keyReleased(),
+        onTapDown: (TapDownDetails details) => ULA.keyPressed(this.mainKeycap),
+        onTapUp: (TapUpDetails details) => ULA.keyReleased(),
         child: Container(
           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
           color: Colors.black,
@@ -36,7 +36,9 @@ class Keycap extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                 child: Text(
                   this.aboveKeycap,
-                  style: TextStyle(color: Colors.green),
+                  style: isNumericKey
+                      ? TextStyle(color: Colors.white)
+                      : TextStyle(color: Colors.green),
                 ),
               ),
 
@@ -60,12 +62,16 @@ class Keycap extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           this.redKeycap,
-                          style: TextStyle(color: Colors.red[900]),
+                          style: isNumericKey
+                              ? TextStyle(color: Colors.white)
+                              : TextStyle(color: Colors.red[900]),
                         ),
                         Container(height: 2),
                         Text(
                           this.commandKeycap,
-                          style: TextStyle(color: Colors.white),
+                          style: isNumericKey
+                              ? TextStyle(color: Colors.red[900])
+                              : TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -86,41 +92,6 @@ class Keycap extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void keyPressed() {
-    // naive implementation that only allows for a single keypress
-    final port = keyPortMap(this.mainKeycap);
-
-    if (port != null) {
-      // set all keyboard bits high at first
-      inputPorts.setUint8(0xFEFE, 0xFF);
-      inputPorts.setUint8(0xFDFE, 0xFF);
-      inputPorts.setUint8(0xFBFE, 0xFF);
-      inputPorts.setUint8(0xF7FE, 0xFF);
-      inputPorts.setUint8(0xEFFE, 0xFF);
-      inputPorts.setUint8(0xDFFE, 0xFF);
-      inputPorts.setUint8(0xBFFE, 0xFF);
-      inputPorts.setUint8(0x7FFE, 0xFF);
-
-      final data = keyValueMap(port, this.mainKeycap);
-      print(
-          '${this.mainKeycap} down -- writing ${toHex16(data)} to port ${toHex32(port)}');
-      inputPorts.setUint8(port, data);
-    } else {
-      print('Port not found for ${this.mainKeycap}');
-    }
-  }
-
-  void keyReleased() {
-    inputPorts.setUint8(0xFEFE, 0xFF);
-    inputPorts.setUint8(0xFDFE, 0xFF);
-    inputPorts.setUint8(0xFBFE, 0xFF);
-    inputPorts.setUint8(0xF7FE, 0xFF);
-    inputPorts.setUint8(0xEFFE, 0xFF);
-    inputPorts.setUint8(0xDFFE, 0xFF);
-    inputPorts.setUint8(0xBFFE, 0xFF);
-    inputPorts.setUint8(0x7FFE, 0xFF);
   }
 }
 

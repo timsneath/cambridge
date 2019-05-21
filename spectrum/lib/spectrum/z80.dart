@@ -970,11 +970,14 @@ class Z80 {
         fPV = fZ;
         break;
       case 0x6:
-        print('Opcode 0xCBxx (BIT x, (hl)) fails unit test');
         var val = memory.readByte(hl);
         fZ = !isBitSet(val, bitToTest);
-        f3 = isBitSet(val, 3);
-        f5 = isBitSet(val, 5);
+        // NOTE: undocumented bits 3 and 5 for this instruction come from an
+        // internal register 'W' that is highly undocumented. This really
+        // doesn't matter too much, I don't think. See the following for more:
+        //   http://www.omnimaga.org/asm-language/bit-n-(hl)-flags/
+        f3 = isBitSet(highByte(hl), 3);
+        f5 = isBitSet(highByte(hl), 5);
         fPV = fZ;
         break;
       case 0x7:
@@ -1194,8 +1197,23 @@ class Z80 {
     return wordRead;
   }
 
-  int displacedIX() => (ix + getNextByte());
-  int displacedIY() => (iy + getNextByte());
+  int displacedIX() {
+    final displ = getNextByte();
+    if (displ > 0x7F) {
+      return ix + twocomp8(displ);
+    } else {
+      return ix + displ;
+    }
+  }
+
+  int displacedIY() {
+    final displ = getNextByte();
+    if (displ > 0x7F) {
+      return iy + twocomp8(displ);
+    } else {
+      return iy + displ;
+    }
+  }
 
   int portRead(int bc) {
     int result = ULA.inputPorts.getUint8(bc);

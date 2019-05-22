@@ -28,6 +28,7 @@ bool isSign8(int value) => (value & 0x80) == 0x80;
 bool isSign16(int value) => (value & 0x8000) == 0x8000;
 bool isZero(int value) => value == 0;
 
+String toHex8(int value) => value.toRadixString(16).padLeft(1, '0');
 String toHex16(int value) => value.toRadixString(16).padLeft(2, '0');
 String toHex32(int value) => value.toRadixString(16).padLeft(4, '0');
 

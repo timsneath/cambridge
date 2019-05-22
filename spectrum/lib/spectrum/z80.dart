@@ -2345,7 +2345,7 @@ class Z80 {
     }
   }
 
-  void decodeFDCBOpCode() {
+  void DecodeFDCBOpCode() {
     // format is FDCB[addr][opcode]
     int addr = displacedIY();
     var opCode = getNextByte();
@@ -2937,7 +2937,7 @@ class Z80 {
 
       // bitwise instructions
       case 0xCB:
-        decodeFDCBOpCode();
+        DecodeFDCBOpCode();
         break;
 
       // POP IY

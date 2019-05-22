@@ -3,7 +3,7 @@
 import 'dart:typed_data';
 
 import 'package:spectrum/main.dart';
-import 'spectrumcolor.dart';
+import 'package:spectrum/spectrum/spectrumcolor.dart';
 
 // Class that provides a front-end to the raw memory that represents the
 // ZX Spectrum display

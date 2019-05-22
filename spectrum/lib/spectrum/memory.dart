@@ -18,7 +18,7 @@
 
 import 'dart:typed_data';
 
-import 'utility.dart';
+import 'package:spectrum/spectrum/utility.dart';
 
 class Memory {
   static const romTop = 0x3FFF;

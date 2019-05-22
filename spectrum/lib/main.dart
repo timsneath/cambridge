@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -8,16 +9,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 
-import 'dart:typed_data';
-
 import 'package:spectrum/spectrum/z80.dart';
 import 'package:spectrum/spectrum/memory.dart';
 import 'package:spectrum/spectrum/utility.dart';
 import 'package:spectrum/spectrum/display.dart';
 import 'package:spectrum/spectrum/ula.dart';
-
-import 'monitor.dart';
-import 'key.dart';
+import 'package:spectrum/monitor.dart';
+import 'package:spectrum/key.dart';
 
 Z80 z80;
 Memory memory;

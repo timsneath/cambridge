@@ -1356,6 +1356,8 @@ class Z80 {
       f3 = isBitSet(addr >> 8, 3);
       if (bit == 7) {
         fS = isSign8(val);
+      } else {
+        fS = false;
       }
       tStates += 20;
       return;
@@ -2360,6 +2362,8 @@ class Z80 {
       f3 = isBitSet(addr >> 8, 3);
       if (bit == 7) {
         fS = isSign8(val);
+      } else {
+        fS = false;
       }
       tStates += 20;
       return;

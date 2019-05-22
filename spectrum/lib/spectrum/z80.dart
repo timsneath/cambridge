@@ -464,14 +464,12 @@ class Z80 {
     tStates += 12;
   }
 
-  void DJNZ(int relativeAddress) {
-    print('Opcode 0x10 (DJNZ) fails unit test');
+  void DJNZ(int jump) {
     b = (b - 1) % 0x100;
     if (b != 0) {
-      JR(relativeAddress);
-      tStates++;
+      JR(jump);
+      tStates++; // JR is 12 tStates
     } else {
-      pc = (pc + 1) % 0x10000;
       tStates += 8;
     }
   }

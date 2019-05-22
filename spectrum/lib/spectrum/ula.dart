@@ -23,47 +23,14 @@ class ULA {
   }
 
   /* KEYBOARD */
-  // See http://www.breakintoprogram.co.uk/computers/zx-spectrum/keyboard
-  static void keyPressed(String keycap) {
-    // naive implementation that only allows for a single keypress
-    // TODO: add pressed keys to a stack so can use shift key
-    final port = keyPortMap(keycap);
-
-    if (port != null) {
-      // set all keyboard bits high at first
-      inputPorts.setUint8(0xFEFE, 0xFF);
-      inputPorts.setUint8(0xFDFE, 0xFF);
-      inputPorts.setUint8(0xFBFE, 0xFF);
-      inputPorts.setUint8(0xF7FE, 0xFF);
-      inputPorts.setUint8(0xEFFE, 0xFF);
-      inputPorts.setUint8(0xDFFE, 0xFF);
-      inputPorts.setUint8(0xBFFE, 0xFF);
-      inputPorts.setUint8(0x7FFE, 0xFF);
-
-      final data = keyValueMap(port, keycap);
-      print(
-          '$keycap down -- writing ${toHex16(data)} to port ${toHex32(port)}');
-      inputPorts.setUint8(port, data);
-    } else {
-      print('Port not found for $keycap');
-    }
-  }
-
-  static void keyReleased() {
-    inputPorts.setUint8(0xFEFE, 0xFF);
-    inputPorts.setUint8(0xFDFE, 0xFF);
-    inputPorts.setUint8(0xFBFE, 0xFF);
-    inputPorts.setUint8(0xF7FE, 0xFF);
-    inputPorts.setUint8(0xEFFE, 0xFF);
-    inputPorts.setUint8(0xDFFE, 0xFF);
-    inputPorts.setUint8(0xBFFE, 0xFF);
-    inputPorts.setUint8(0x7FFE, 0xFF);
-  }
 
   // Reading the port on the left side (e.g. 0xFEFE) will return an 8-bit value
   // of which the least significant five bits represent a bitmap of the value,
   // so for example: if the 'V' key is held down, the value nnn10000 can be read
   // from port 0xFEFE.
+  //
+  // More information at:
+  //   See http://www.breakintoprogram.co.uk/computers/zx-spectrum/keyboard
 
   static const keyMap = <int, List<String>>{
     0xFEFE: ['SHIFT', 'Z', 'X', 'C', 'V'],
@@ -76,21 +43,47 @@ class ULA {
     0x7FFE: ['SPACE', 'SYMBL', 'M', 'N', 'B']
   };
 
+  // Multiple keys can be pressed at once, so we create a set of keys that
+  // we add or remove to based on interactions.
+  static Set<String> keysPressed = {};
+
+  static void keyPressed(String keycap) {
+    keysPressed.add(keycap);
+
+    setKeyboardPorts();
+  }
+
+  static void keyReleased(String keycap) {
+    keysPressed.remove(keycap);
+
+    setKeyboardPorts();
+  }
+
+  static void setKeyboardPorts() {
+    // set all keyboard bits high at first
+    for (var key in keyMap.keys) {
+      inputPorts.setUint8(key, 0xFF);
+    }
+
+    for (String keyPressed in keysPressed) {
+      // We should never be in a position where a key doesn't map to a port,
+      // or doesn't map to an index in that port. Asserting to fail-fast in
+      // this scenario.
+      final port = keyPortMap(keyPressed);
+      assert(port != null);
+
+      final keyBit = keyMap[port].indexOf(keyPressed);
+      assert(keyBit != 1);
+
+      var portValue = inputPorts.getUint8(port);
+      portValue = resetBit(portValue, keyBit);
+      inputPorts.setUint8(port, portValue);
+    }
+  }
+
 // Gets the port that maps to the keycap
   static int keyPortMap(String keycap) {
     return keyMap.keys.firstWhere((port) => keyMap[port].indexOf(keycap) != -1,
         orElse: () => null);
-  }
-
-// Gets the bitmap that maps to the keycap
-  static int keyValueMap(int port, String keycap) {
-    int bitField = 0xFF;
-
-    var keyBit = keyMap[port].indexOf(keycap);
-    if (keyBit != -1) {
-      bitField = resetBit(bitField, keyBit);
-    }
-
-    return bitField;
   }
 }

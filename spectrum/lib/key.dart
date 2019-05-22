@@ -25,7 +25,7 @@ class Keycap extends StatelessWidget {
       fit: BoxFit.scaleDown,
       child: GestureDetector(
         onTapDown: (TapDownDetails details) => ULA.keyPressed(this.mainKeycap),
-        onTapUp: (TapUpDetails details) => ULA.keyReleased(),
+        onTapUp: (TapUpDetails details) => ULA.keyReleased(this.mainKeycap),
         child: Container(
           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
           color: Colors.black,

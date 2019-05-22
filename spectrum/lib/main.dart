@@ -24,8 +24,9 @@ Display display;
 /// If the current platform is desktop, override the default platform to
 /// a supported platform (iOS for macOS, Android for Linux and Windows).
 /// Otherwise, do nothing.
-void _setTargetPlatformForDesktop() {
+void setTargetPlatformForDesktop() {
   TargetPlatform targetPlatform;
+
   if (Platform.isMacOS) {
     targetPlatform = TargetPlatform.iOS;
   } else if (Platform.isLinux || Platform.isWindows) {
@@ -37,7 +38,7 @@ void _setTargetPlatformForDesktop() {
 }
 
 void main() {
-  _setTargetPlatformForDesktop();
+  setTargetPlatformForDesktop();
 
   runApp(ProjectCambridge());
 }
@@ -113,6 +114,41 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
     }
   }
 
+  Widget menus() {
+    return Column(children: <Widget>[
+      ButtonBar(
+        alignment: MainAxisAlignment.center,
+        children: <Widget>[
+          FlatButton(
+            child: Text('TEST SCREEN'),
+            onPressed: loadTestScreenshot,
+          ),
+          FlatButton(
+            child: Text('RESET'),
+            onPressed: resetEmulator,
+          ),
+          FlatButton(
+            child: Text('STEP'),
+            onPressed: executeFrame,
+          ),
+        ],
+      ),
+      ButtonBar(
+        alignment: MainAxisAlignment.center,
+        children: <Widget>[
+          FlatButton(
+            child: Text('START TICKER'),
+            onPressed: () => ticker.start(),
+          ),
+          FlatButton(
+            child: Text('STOP TICKER'),
+            onPressed: () => ticker.stop(),
+          ),
+        ],
+      ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,36 +162,7 @@ class _CambridgeHomePageState extends State<CambridgeHomePage> {
             children: [
               Monitor(),
               Text('Program Counter: ${toHex16(z80.pc)}'),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FlatButton(
-                    child: Text('TEST SCREEN'),
-                    onPressed: loadTestScreenshot,
-                  ),
-                  FlatButton(
-                    child: Text('RESET'),
-                    onPressed: resetEmulator,
-                  ),
-                  FlatButton(
-                    child: Text('STEP'),
-                    onPressed: executeFrame,
-                  ),
-                ],
-              ),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FlatButton(
-                    child: Text('START TICKER'),
-                    onPressed: () => ticker.start(),
-                  ),
-                  FlatButton(
-                    child: Text('STOP TICKER'),
-                    onPressed: () => ticker.stop(),
-                  ),
-                ],
-              ),
+              menus(),
               Keyboard(),
             ],
           ),

@@ -57,10 +57,10 @@ class ProjectCambridge extends StatelessWidget {
 
 class CambridgeHomePage extends StatefulWidget {
   @override
-  _CambridgeHomePageState createState() => _CambridgeHomePageState();
+  CambridgeHomePageState createState() => CambridgeHomePageState();
 }
 
-class _CambridgeHomePageState extends State<CambridgeHomePage> {
+class CambridgeHomePageState extends State<CambridgeHomePage> {
   Ticker ticker;
 
   bool isRomLoaded = false;

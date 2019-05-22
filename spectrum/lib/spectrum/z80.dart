@@ -4456,6 +4456,7 @@ class Z80 {
         break;
 
       // DI
+      // TODO: We don't use this yet, do we?
       case 0xF3:
         iff1 = false;
         iff2 = false;

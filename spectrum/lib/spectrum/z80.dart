@@ -12,6 +12,7 @@
 import 'package:spectrum/spectrum/memory.dart';
 import 'package:spectrum/spectrum/utility.dart';
 import 'package:spectrum/spectrum/ula.dart';
+import 'package:spectrum/spectrum/opcodes.dart';
 
 // We use register names for the fields and we don't fuss too much about this.
 // ignore_for_file: non_constant_identifier_names
@@ -2985,7 +2986,10 @@ class Z80 {
 
   bool executeNextInstruction() {
     final opCode = getNextByte();
+
     r = (r + 1) % 0x100;
+    print(OpcodeDecoder.decode(
+        opCode, previewByte(1), previewByte(2), previewByte(3)));
 
     switch (opCode) {
       // NOP

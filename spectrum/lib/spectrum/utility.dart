@@ -4,6 +4,8 @@
 int highByte(int value) => (value & 0xFF00) >> 8;
 int lowByte(int value) => value & 0x00FF;
 
+int createWord(int lowByte, int highByte) => highByte * 256 + lowByte;
+
 // String formatters
 String toHex8(int value) => value.toRadixString(16).padLeft(1, '0');
 String toHex16(int value) => value.toRadixString(16).padLeft(2, '0');

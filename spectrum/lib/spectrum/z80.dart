@@ -86,49 +86,49 @@ class Z80 {
   int im; // Interrupt Mode
 
   int get af => a * 256 + f;
-  set af(num value) {
+  set af(int value) {
     a = highByte(value);
     f = lowByte(value);
   }
 
   int get af_ => a_ * 256 + f_;
-  set af_(num value) {
+  set af_(int value) {
     a_ = highByte(value);
     f_ = lowByte(value);
   }
 
   int get bc => b * 256 + c;
-  set bc(num value) {
+  set bc(int value) {
     b = highByte(value);
     c = lowByte(value);
   }
 
   int get bc_ => b_ * 256 + c_;
-  set bc_(num value) {
+  set bc_(int value) {
     b_ = highByte(value);
     c_ = lowByte(value);
   }
 
   int get de => d * 256 + e;
-  set de(num value) {
+  set de(int value) {
     d = highByte(value);
     e = lowByte(value);
   }
 
   int get de_ => d_ * 256 + e_;
-  set de_(num value) {
+  set de_(int value) {
     d_ = highByte(value);
     e_ = lowByte(value);
   }
 
   int get hl => h * 256 + l;
-  set hl(num value) {
+  set hl(int value) {
     h = highByte(value);
     l = lowByte(value);
   }
 
   int get hl_ => h_ * 256 + l_;
-  set hl_(num value) {
+  set hl_(int value) {
     h_ = highByte(value);
     l_ = lowByte(value);
   }
@@ -166,7 +166,7 @@ class Z80 {
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 
   void LDI() {
-    var byteRead = memory.readByte(hl);
+    final byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
 
     de = (de + 1) % 0x10000;
@@ -183,7 +183,7 @@ class Z80 {
   }
 
   void LDD() {
-    var byteRead = memory.readByte(hl);
+    final byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
 
     de = (de - 1) % 0x10000;
@@ -199,7 +199,7 @@ class Z80 {
   }
 
   void LDIR() {
-    var byteRead = memory.readByte(hl);
+    final byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
 
     de = (de + 1) % 0x10000;
@@ -221,7 +221,7 @@ class Z80 {
   }
 
   void LDDR() {
-    var byteRead = memory.readByte(hl);
+    final byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
 
     de = (de - 1) % 0x10000;
@@ -243,7 +243,7 @@ class Z80 {
 
   // Arithmetic operations
   int INC(int reg) {
-    var oldReg = reg;
+    final oldReg = reg;
     fPV = (reg == 0x7F);
     reg = (reg + 1) % 0x100;
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
@@ -259,7 +259,7 @@ class Z80 {
   }
 
   int DEC(int reg) {
-    var oldReg = reg;
+    final oldReg = reg;
     fPV = (reg == 0x80);
     reg = (reg - 1) % 0x100;
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
@@ -285,7 +285,7 @@ class Z80 {
     }
 
     // overflow in add only occurs when operand polarities are the same
-    bool overflowCheck = (isSign16(a) == isSign16(b));
+    final overflowCheck = (isSign16(a) == isSign16(b));
 
     a = ADD16(a, b);
 
@@ -304,7 +304,7 @@ class Z80 {
     fH = (((a & 0x0F) + (b & 0x0F)) & 0x10) == 0x10;
 
     // overflow in add only occurs when operand polarities are the same
-    bool overflowCheck = (isSign8(a) == isSign8(b));
+    final overflowCheck = (isSign8(a) == isSign8(b));
 
     fC = a + b > 0xFF;
     a = (a + b) % 0x100;
@@ -355,7 +355,7 @@ class Z80 {
     fH = (x & 0xFFF) < (y & 0xFFF);
 
     // overflow in subtract only occurs when operand signs are different
-    bool overflowCheck = (isSign16(x) != isSign16(y));
+    final overflowCheck = (isSign16(x) != isSign16(y));
 
     x = (x - y) % 0x10000;
     f5 = isBitSet(x, 13);
@@ -384,7 +384,7 @@ class Z80 {
     fS = isSign8(x);
 
     // overflow in subtract only occurs when operand signs are different
-    bool overflowCheck = (isSign8(x) != isSign8(y));
+    final overflowCheck = (isSign8(x) != isSign8(y));
 
     x = (x - y) % 0x100;
     f5 = isBitSet(x, 5);
@@ -415,7 +415,7 @@ class Z80 {
   // algorithm from http://worldofspectrum.org/faq/reference/z80reference.htm
   void DAA() {
     int correctionFactor = 0;
-    int oldA = a;
+    final oldA = a;
 
     if ((a > 0x99) || fC) {
       correctionFactor |= 0x60;
@@ -447,7 +447,7 @@ class Z80 {
 
   // Flow operations
   void CALL() {
-    var callAddr = getNextWord();
+    final callAddr = getNextWord();
 
     PUSH(pc);
 
@@ -487,8 +487,8 @@ class Z80 {
   }
 
   int POP() {
-    var lo = memory.readByte(sp++);
-    var hi = memory.readByte(sp++);
+    final lo = memory.readByte(sp++);
+    final hi = memory.readByte(sp++);
     return ((hi << 8) + lo);
   }
 
@@ -509,7 +509,7 @@ class Z80 {
   // Logic operations
 
   void CPD() {
-    int val = memory.readByte(hl);
+    final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
     fS = (a - val < 0);
     fZ = (a == val);
@@ -522,7 +522,7 @@ class Z80 {
   }
 
   void CPDR() {
-    int val = memory.readByte(hl);
+    final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
     fS = (a - val < 0);
     fZ = (a == val);
@@ -540,7 +540,7 @@ class Z80 {
   }
 
   void CPI() {
-    int val = memory.readByte(hl);
+    final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
     fS = (a - val < 0);
     fZ = (a == val);
@@ -553,7 +553,7 @@ class Z80 {
   }
 
   void CPIR() {
-    int val = memory.readByte(hl);
+    final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
     fS = (a - val < 0);
     fZ = (a == val);
@@ -735,7 +735,7 @@ class Z80 {
   int RL(int reg) {
     // rotates register r to the left, through carry.
     // carry becomes the LSB of the new r
-    bool bit0 = fC;
+    final bit0 = fC;
 
     fC = isSign8(reg);
     reg = (reg << 1) % 0x100;
@@ -756,7 +756,7 @@ class Z80 {
   void RLA() {
     // rotates register r to the left, through carry.
     // carry becomes the LSB of the new r
-    bool bit0 = fC;
+    final bit0 = fC;
 
     fC = isSign8(a);
     a = (a << 1) % 0x100;
@@ -773,7 +773,7 @@ class Z80 {
   }
 
   int RR(int reg) {
-    bool bit7 = fC;
+    final bit7 = fC;
 
     fC = isBitSet(reg, 0);
     reg >>= 1;
@@ -792,7 +792,7 @@ class Z80 {
   }
 
   void RRA() {
-    bool bit7 = fC;
+    final bit7 = fC;
 
     fC = isBitSet(a, 0);
     a >>= 1;
@@ -827,7 +827,7 @@ class Z80 {
   }
 
   int SRA(int reg) {
-    bool bit7 = isSign8(reg);
+    final bit7 = isSign8(reg);
 
     fC = isBitSet(reg, 0);
     reg >>= 1;
@@ -883,9 +883,9 @@ class Z80 {
 
   void RLD() {
     // TODO: Overflow condition for this and RRD
-    int old_pHL = memory.readByte(hl);
+    final old_pHL = memory.readByte(hl);
 
-    int new_pHL = ((old_pHL & 0x0F) << 4);
+    var new_pHL = ((old_pHL & 0x0F) << 4);
     new_pHL += (a & 0x0F);
 
     a = (a & 0xF0);
@@ -906,9 +906,9 @@ class Z80 {
   }
 
   void RRD() {
-    int old_pHL = memory.readByte(hl);
+    final old_pHL = memory.readByte(hl);
 
-    int new_pHL = ((a & 0x0F) << 4);
+    var new_pHL = ((a & 0x0F) << 4);
     new_pHL += (old_pHL & 0xF0) >> 4;
 
     a = (a & 0xF0);
@@ -968,7 +968,7 @@ class Z80 {
         fPV = fZ;
         break;
       case 0x6:
-        var val = memory.readByte(hl);
+        final val = memory.readByte(hl);
         fZ = !isBitSet(val, bitToTest);
         // NOTE: undocumented bits 3 and 5 for this instruction come from an
         // internal register 'W' that is highly undocumented. This really
@@ -1062,7 +1062,7 @@ class Z80 {
 
   // Port operations and interrupts
   int IN(int portNumber) {
-    var readByte = portRead(bc);
+    final readByte = portRead(bc);
 
     fS = isSign8(portNumber);
     fZ = isZero(portNumber);
@@ -1187,10 +1187,16 @@ class Z80 {
   // OPCODE DECODING
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 
+  // Use for debugging, where we want to be able to see what's coming without
+  // affecting PC
+  int previewByte(int displ) => memory.readByte(pc + displ);
+  int previewWord(int displ) => memory.readWord(pc + displ);
+
+  // Use for execution, where we want to move through the program
   int getNextByte() => memory.readByte(pc++);
 
   int getNextWord() {
-    var wordRead = memory.readWord(pc);
+    final wordRead = memory.readWord(pc);
     pc += 2;
     return wordRead;
   }
@@ -1214,7 +1220,7 @@ class Z80 {
   }
 
   int portRead(int bc) {
-    int result = ULA.inputPorts.getUint8(bc);
+    final result = ULA.inputPorts.getUint8(bc);
 
     // if (result != 0xFF) {
     //   print('Z80: Reading port ${toHex32(bc)} gives ${toHex16(result)}.');
@@ -1296,7 +1302,7 @@ class Z80 {
   }
 
   void DecodeCBOpcode() {
-    int opCode = getNextByte();
+    final opCode = getNextByte();
     r++;
 
     // first two bits of opCode determine function:
@@ -1339,13 +1345,13 @@ class Z80 {
 
   void DecodeDDCBOpCode() {
     // format is DDCB[addr][opcode]
-    int addr = displacedIX();
-    var opCode = getNextByte();
+    final addr = displacedIX();
+    final opCode = getNextByte();
 
     // BIT
     if ((opCode >= 0x40) && (opCode <= 0x7F)) {
-      var val = memory.readByte(addr);
-      var bit = ((opCode & 0x38) >> 3);
+      final val = memory.readByte(addr);
+      final bit = ((opCode & 0x38) >> 3);
       fZ = !isBitSet(val, bit);
       fPV = !isBitSet(val, bit); // undocumented, but same as fZ
       fH = true;
@@ -1436,7 +1442,7 @@ class Z80 {
   }
 
   void DecodeDDOpcode() {
-    int opCode = getNextByte();
+    final opCode = getNextByte();
     r++;
 
     int addr;
@@ -1940,7 +1946,7 @@ class Z80 {
 
       // EX (SP), IX
       case 0xE3:
-        var temp = memory.readWord(sp);
+        final temp = memory.readWord(sp);
         memory.writeWord(sp, ix);
         ix = temp;
         tStates += 23;
@@ -1972,7 +1978,7 @@ class Z80 {
   }
 
   void DecodeEDOpcode() {
-    int opCode = getNextByte();
+    final opCode = getNextByte();
     r++;
 
     switch (opCode) {
@@ -2345,13 +2351,13 @@ class Z80 {
 
   void DecodeFDCBOpCode() {
     // format is FDCB[addr][opcode]
-    int addr = displacedIY();
-    var opCode = getNextByte();
+    final addr = displacedIY();
+    final opCode = getNextByte();
 
     // BIT
     if ((opCode >= 0x40) && (opCode <= 0x7F)) {
-      var val = memory.readByte(addr);
-      var bit = ((opCode & 0x38) >> 3);
+      final val = memory.readByte(addr);
+      final bit = ((opCode & 0x38) >> 3);
       fZ = !isBitSet(val, bit);
       fPV = !isBitSet(val, bit); // undocumented, but same as fZ
       fH = true;
@@ -2442,7 +2448,7 @@ class Z80 {
   }
 
   void DecodeFDOpcode() {
-    int opCode = getNextByte();
+    final opCode = getNextByte();
     r++;
 
     int addr;
@@ -2946,7 +2952,7 @@ class Z80 {
 
       // EX (SP), IY
       case 0xE3:
-        var temp = memory.readWord(sp);
+        final temp = memory.readWord(sp);
         memory.writeWord(sp, iy);
         iy = temp;
         tStates += 23;
@@ -2978,7 +2984,7 @@ class Z80 {
   }
 
   bool executeNextInstruction() {
-    var opCode = getNextByte();
+    final opCode = getNextByte();
     r = (r + 1) % 0x100;
 
     switch (opCode) {
@@ -4246,7 +4252,7 @@ class Z80 {
 
       // EXX
       case 0xD9:
-        int oldB = b, oldC = c, oldD = d, oldE = e, oldH = h, oldL = l;
+        final oldB = b, oldC = c, oldD = d, oldE = e, oldH = h, oldL = l;
         b = b_;
         c = c_;
         d = d_;
@@ -4332,7 +4338,7 @@ class Z80 {
 
       // EX (SP), HL
       case 0xE3:
-        var temp = hl;
+        final temp = hl;
         hl = memory.readWord(sp);
         memory.writeWord(sp, temp);
         tStates += 19;
@@ -4395,7 +4401,7 @@ class Z80 {
 
       // EX DE, HL
       case 0xEB:
-        int oldD = d, oldE = e;
+        final oldD = d, oldE = e;
         d = h;
         e = l;
         h = oldD;

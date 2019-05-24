@@ -109,11 +109,13 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     z80.im = r[25];
     ULA.screenBorder = r[26];
 
-    memory.load(0x4000, snapshot.buffer.asUint8List(27));
+    setState(() {
+      memory.load(0x4000, snapshot.buffer.asUint8List(27));
 
-    // The program counter is pushed onto the stack, and since SP points to
-    // the stack, we can simply POP it off.
-    z80.pc = z80.POP();
+      // The program counter is pushed onto the stack, and since SP points to
+      // the stack, we can simply POP it off.
+      z80.pc = z80.POP();
+    });
   }
 
   void resetEmulator() async {
@@ -146,8 +148,8 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
 
   Widget menus() {
     return Column(children: <Widget>[
-      ButtonBar(
-        alignment: MainAxisAlignment.center,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           FlatButton(
             child: Text('TEST SCREEN'),
@@ -163,8 +165,8 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           ),
         ],
       ),
-      ButtonBar(
-        alignment: MainAxisAlignment.center,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           FlatButton(
             child: Text('LOAD SNA'),

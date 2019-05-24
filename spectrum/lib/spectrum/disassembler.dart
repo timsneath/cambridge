@@ -8,7 +8,7 @@ class Instruction {
   Instruction(this.length, this.byteCode, this.disassembly);
 }
 
-class OpcodeDecoder {
+class Disassembler {
   static const z80Opcodes = {
     '00': 'NOP',
     '01': 'LD BC, **',

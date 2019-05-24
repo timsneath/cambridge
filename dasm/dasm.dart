@@ -20,7 +20,7 @@ void main(List<String> args) {
   int pc = start;
 
   while (pc < end) {
-    final dasm = OpcodeDecoder.disassembleInstruction(
+    final dasm = Disassembler.disassembleInstruction(
         [rom[pc], rom[pc + 1], rom[pc + 2], rom[pc + 3]]);
 
     print('[${toHex32(pc)}]  ${dasm.byteCode}  ${dasm.disassembly}');

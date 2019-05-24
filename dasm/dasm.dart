@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../spectrum/lib/spectrum/opcodes.dart';
+import '../spectrum/lib/spectrum/disassembler.dart';
 import '../spectrum/lib/spectrum/utility.dart';
 
 void main(List<String> args) {

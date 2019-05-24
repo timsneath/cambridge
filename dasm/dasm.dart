@@ -4,9 +4,9 @@ import '../spectrum/lib/spectrum/disassembler.dart';
 import '../spectrum/lib/spectrum/utility.dart';
 
 void main(List<String> args) {
-  if (args.length == 0) {
-    args.add("0x0041");
-    args.add("0x0053");
+  if (args.length < 2) {
+    print("dart dasm.dart [start-hex] [end-hex]");
+    exit(1);
   }
 
   final file = new File('../spectrum/roms/48.rom');

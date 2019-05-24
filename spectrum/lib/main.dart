@@ -109,7 +109,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           z80.executeNextInstruction();
         });
       }
-      z80.activateInterrupt();
+      z80.interrupt();
       z80.tStates = 0;
     }
   }

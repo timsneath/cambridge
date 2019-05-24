@@ -46,10 +46,26 @@ class Z80 {
     cpuSuspended = false;
   }
 
-  void activateInterrupt() {
-    if (im == 1) {
-      PUSH(pc);
-      pc = 0x0038;
+  void interrupt({bool nonMaskable: false}) {
+    if (nonMaskable) {
+      pc = 0x0066;
+    } else {
+      if (iff1) {
+        // Interrupts enabled
+        switch (im) {
+          case 0:
+          // break;
+          case 1:
+            PUSH(pc);
+            pc = 0x0038;
+            break;
+          case 2:
+            // TODO: Implement IM2
+            break;
+          default:
+            break;
+        }
+      }
     }
   }
 
@@ -4466,7 +4482,6 @@ class Z80 {
         break;
 
       // DI
-      // TODO: We don't use this yet, do we?
       case 0xF3:
         iff1 = false;
         iff2 = false;

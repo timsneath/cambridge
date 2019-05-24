@@ -73,7 +73,7 @@ class ULA {
       assert(port != null);
 
       final keyBit = keyMap[port].indexOf(keyPressed);
-      assert(keyBit != 1);
+      assert(keyBit != -1);
 
       var portValue = inputPorts.getUint8(port);
       portValue = resetBit(portValue, keyBit);

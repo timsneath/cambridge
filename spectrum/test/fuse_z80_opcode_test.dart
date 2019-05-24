@@ -17,6 +17,9 @@ Z80 z80 = Z80(memory, startAddress: 0xA000);
 void poke(int addr, int val) => memory.writeByte(addr, val);
 int peek(int addr) => memory.readByte(addr);
 
+// We use register names for the fields and we don't fuss too much about this.
+// ignore_for_file: non_constant_identifier_names
+
 void loadRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
     int hl_, int ix, int iy, int sp, int pc) {
   z80.af = af;

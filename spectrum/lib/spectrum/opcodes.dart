@@ -1298,6 +1298,16 @@ class OpcodeDecoder {
               inst3,
               0);
         }
+        if (inst2 == 0x36) // LD (IX+*), *
+        {
+          // This is a unique opcode which takes two operands, so we call
+          // replaceOperand twice, rather than special-casing code elsewhere.
+          return replaceOperand(
+              replaceOperand(
+                  z80Opcodes[toHex16(inst1) + toHex16(inst2)], inst3, 0),
+              inst4,
+              0);
+        }
         return replaceOperand(
             z80Opcodes[toHex16(inst1) + toHex16(inst2)], inst3, inst4);
 
@@ -1333,14 +1343,14 @@ class OpcodeDecoder {
 
         if ([
           // word-length parameter, e.g. LD IX, **
-          0x21, 0x22, 0x2A,
+          0x21, 0x22, 0x2A, 0x36,
         ].contains(inst2)) {
           return 4;
         }
 
         if ([
           // byte-length displacement, e.g. LD (IX+*), B
-          0x70, 0x71, 0x72, 0x73, 0x34, 0x74, 0x35, 0x75, 0x26, 0x36,
+          0x70, 0x71, 0x72, 0x73, 0x34, 0x74, 0x35, 0x75, 0x26,
           0x46, 0x56, 0x66, 0x86, 0x96, 0xA6, 0xB6, 0x77, 0x2E, 0x4E,
           0x5E, 0x6E, 0x76, 0x8E, 0x9E, 0xAE, 0xBE
         ].contains(inst2)) {

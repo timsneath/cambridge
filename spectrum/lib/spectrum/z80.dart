@@ -3004,8 +3004,8 @@ class Z80 {
     final opCode = getNextByte();
 
     r = (r + 1) % 0x100;
-    print(Disassembler.disassembleInstruction(
-        [opCode, previewByte(1), previewByte(2), previewByte(3)]));
+    // print(Disassembler.disassembleInstruction(
+    //     [opCode, previewByte(1), previewByte(2), previewByte(3)]));
 
     switch (opCode) {
       // NOP

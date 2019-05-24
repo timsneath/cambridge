@@ -24,7 +24,17 @@ void main(List<String> args) {
         rom[pc], rom[pc + 1], rom[pc + 2], rom[pc + 3]);
     final instruction =
         OpcodeDecoder.decode(rom[pc], rom[pc + 1], rom[pc + 2], rom[pc + 3]);
-    print('${toHex32(pc)}: $instruction');
+
+    var instructionByteCode = '';
+    for (var i = 0; i < 4; i++) {
+      if (i < length) {
+        instructionByteCode += toHex16(rom[pc + i]) + ' ';
+      } else {
+        instructionByteCode += '   ';
+      }
+    }
+
+    print('[${toHex32(pc)}] $instructionByteCode $instruction');
     pc += length;
   }
 }

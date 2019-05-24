@@ -1,5 +1,13 @@
 import 'utility.dart';
 
+class Instruction {
+  int length;
+  String byteCode;
+  String disassembly;
+
+  Instruction(this.length, this.byteCode, this.disassembly);
+}
+
 class OpcodeDecoder {
   static const z80Opcodes = {
     '00': 'NOP',
@@ -1273,7 +1281,7 @@ class OpcodeDecoder {
   // Z80 instructions are never more than four bytes, including displacements.
   // This method uses the decode table above to translate instructions into
   // strings for debugging purposes.
-  static String decode(int inst1, int inst2, int inst3, int inst4) {
+  static String decodeInstruction(int inst1, int inst2, int inst3, int inst4) {
     switch (inst1) {
       case 0xED: // extended instructions
         return replaceOperand(
@@ -1318,7 +1326,8 @@ class OpcodeDecoder {
 
   // This helper method identifies the opcode length for a given instruction
   // that is one to four bytes long and begins with inst1.
-  static int getInstructionLength(int inst1, int inst2, int inst3, int inst4) {
+  static int calculateInstructionLength(
+      int inst1, int inst2, int inst3, int inst4) {
     switch (inst1) {
       case 0xED: // extended instructions
         if ([
@@ -1381,5 +1390,32 @@ class OpcodeDecoder {
         // simple instruction, e.g. AND B
         return 1;
     }
+  }
+
+  static Instruction disassembleInstruction(List<int> instruction) {
+    assert(instruction != null);
+
+    if (instruction.length < 4) {
+      // We expect a four-byte instruction, but if not we buffer as necessary;
+      // doesn't matter if there are more than four items in the list.
+      instruction.addAll({0, 0, 0, 0});
+    }
+
+    // This is the actual instruction length, based on opcode decoding
+    final length = calculateInstructionLength(
+        instruction[0], instruction[1], instruction[2], instruction[3]);
+    final disassembly = decodeInstruction(
+        instruction[0], instruction[1], instruction[2], instruction[3]);
+
+    var byteCode = '';
+    for (var i = 0; i < 4; i++) {
+      if (i < length) {
+        byteCode += toHex16(instruction[i]) + ' ';
+      } else {
+        byteCode += '   ';
+      }
+    }
+
+    return Instruction(length, byteCode, disassembly);
   }
 }

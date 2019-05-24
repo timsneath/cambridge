@@ -34,7 +34,7 @@ void main(List<String> args) {
       }
     }
 
-    print('[${toHex32(pc)}] $instructionByteCode $instruction');
+    print('[${toHex32(pc)}]  $instructionByteCode  $instruction');
     pc += length;
   }
 }

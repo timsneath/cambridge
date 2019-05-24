@@ -18,3 +18,4 @@ flutter:
   assets:
     - assets/google.scr
     - roms/48.rom
+    - roms/snapshots/JETSET.SNA

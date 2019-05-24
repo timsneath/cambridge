@@ -86,6 +86,36 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     });
   }
 
+  void loadSnapshot() async {
+    // Per https://faqwiki.zxnet.co.uk/wiki/SNA_format
+    // the snapshot format has a 27 byte header containing the Z80 registers
+    final snapshot = await rootBundle.load('roms/snapshots/JETSET.SNA');
+    final r = snapshot.buffer.asUint8List(0, 27);
+
+    z80.i = r[0];
+    z80.hl_ = createWord(r[1], r[2]);
+    z80.de_ = createWord(r[3], r[4]);
+    z80.bc_ = createWord(r[5], r[6]);
+    z80.af_ = createWord(r[7], r[8]);
+    z80.hl = createWord(r[9], r[10]);
+    z80.de = createWord(r[11], r[12]);
+    z80.bc = createWord(r[13], r[14]);
+    z80.iy = createWord(r[15], r[16]);
+    z80.ix = createWord(r[17], r[18]);
+    z80.iff2 = z80.iff1 = isBitSet(r[19], 2);
+    z80.r = r[20];
+    z80.af = createWord(r[21], r[22]);
+    z80.sp = createWord(r[23], r[24]);
+    z80.im = r[25];
+    ULA.screenBorder = r[26];
+
+    memory.load(0x4000, snapshot.buffer.asUint8List(27));
+
+    // The program counter is pushed onto the stack, and since SP points to
+    // the stack, we can simply POP it off.
+    z80.pc = z80.POP();
+  }
+
   void resetEmulator() async {
     ByteData rom = await rootBundle.load('roms/48.rom');
 
@@ -136,6 +166,10 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
       ButtonBar(
         alignment: MainAxisAlignment.center,
         children: <Widget>[
+          FlatButton(
+            child: Text('LOAD SNA'),
+            onPressed: () => loadSnapshot(),
+          ),
           FlatButton(
             child: Text('START TICKER'),
             onPressed: () => ticker.start(),

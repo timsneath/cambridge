@@ -1247,10 +1247,10 @@ class Z80 {
 
   void portWrite(int addr, int value) {
     if (addr == 0xFE) {
-      print('Writing border color ${toHex16(value)}');
-      ULA.screenBorder = value;
+//      print('Writing border color ${toHex16(value)}');
+      ULA.screenBorder = value & 0x0F;
     } else {
-      print('Z80: Writing ${toHex32(addr)}, ${toHex16(value)}');
+      print('Z80: Writing to port ${toHex32(addr)}, ${toHex16(value)}');
     }
   }
 

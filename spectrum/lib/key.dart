@@ -169,10 +169,6 @@ class Keyboard extends StatelessWidget {
                       redKeycap: ''),
                 ],
               ),
-            ],
-          ),
-          Table(
-            children: <TableRow>[
               TableRow(
                 children: <Widget>[
                   Keycap(
@@ -237,10 +233,6 @@ class Keyboard extends StatelessWidget {
                       redKeycap: '\"'),
                 ],
               ),
-            ],
-          ),
-          Table(
-            children: <TableRow>[
               TableRow(
                 children: [
                   Keycap(
@@ -301,10 +293,6 @@ class Keyboard extends StatelessWidget {
                   Keycap(mainKeycap: 'ENTER'),
                 ],
               ),
-            ],
-          ),
-          Table(
-            children: <TableRow>[
               TableRow(
                 children: <Widget>[
                   Keycap(mainKeycap: 'SHIFT'),

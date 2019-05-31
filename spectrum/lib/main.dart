@@ -173,16 +173,23 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
             onPressed: () => loadSnapshot(),
           ),
           FlatButton(
-            child: Text('START TICKER'),
-            onPressed: () => ticker.start(),
-          ),
-          FlatButton(
-            child: Text('STOP TICKER'),
-            onPressed: () => ticker.stop(),
+            child:
+                !ticker.isActive ? Text('START TICKER') : Text('STOP TICKER'),
+            onPressed: toggleTicker,
           ),
         ],
       ),
     ]);
+  }
+
+  void toggleTicker() {
+    setState(() {
+      if (ticker.isActive) {
+        ticker.stop();
+      } else {
+        ticker.start();
+      }
+    });
   }
 
   @override

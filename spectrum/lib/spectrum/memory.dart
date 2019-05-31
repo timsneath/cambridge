@@ -41,7 +41,7 @@ class Memory {
     }
   }
 
-  void load(int start, List<int> loadData, {ignoreRomProtection = false}) {
+  void load(int start, List<int> loadData, {bool ignoreRomProtection = false}) {
     // TODO: honor ignoreRomProtection flag
     var loadData8 = Uint8List.fromList(loadData);
 

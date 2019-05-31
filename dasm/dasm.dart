@@ -4,18 +4,18 @@ import '../spectrum/lib/spectrum/disassembler.dart';
 import '../spectrum/lib/spectrum/utility.dart';
 
 void main(List<String> args) {
-  if (args.length < 2) {
-    print("dart dasm.dart [start-hex] [end-hex]");
+  if (args.length < 3) {
+    print("dart dasm.dart filename [start-hex] [end-hex]");
     exit(1);
   }
 
-  final file = new File('../spectrum/roms/48.rom');
+  final file = new File(args[0]);
   file.open(mode: FileMode.read);
 
   final rom = file.readAsBytesSync();
 
-  final start = int.parse(args[0]);
-  final end = int.parse(args[1]);
+  final start = int.parse(args[1]);
+  final end = int.parse(args[2]);
 
   int pc = start;
 

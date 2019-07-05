@@ -200,6 +200,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
         softWrap: true,
         maxLines: 5,
         style: TextStyle(fontFamily: 'Source Code Pro'),
+        // overflow: TextOverf
       ),
     );
   }

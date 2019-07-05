@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 // For desktop support
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
+import 'package:spectrum/spectrum/disassembler.dart';
 
 import 'package:spectrum/spectrum/z80.dart';
 import 'package:spectrum/spectrum/memory.dart';
@@ -146,6 +147,12 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     }
   }
 
+  void stepInstruction() {
+    setState(() {
+      z80.executeNextInstruction();
+    });
+  }
+
   Widget menus() {
     return Column(children: <Widget>[
       Row(
@@ -182,6 +189,21 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     ]);
   }
 
+  Widget disassembly() {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Text(
+        // Ugly -- needs sorting out, obviously
+        Disassembler.disassembleMultipleInstructions(
+            memory.memory.sublist(z80.pc, z80.pc + (4 * 5)), 5, z80.pc),
+        textAlign: TextAlign.left,
+        softWrap: true,
+        maxLines: 5,
+        style: TextStyle(fontFamily: 'Source Code Pro'),
+      ),
+    );
+  }
+
   void toggleTicker() {
     setState(() {
       if (ticker.isActive) {
@@ -206,6 +228,8 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
               Monitor(),
               Text('Program Counter: ${toHex16(z80.pc)}'),
               menus(),
+              disassembly(),
+              Spacer(),
               Keyboard(),
             ],
           ),

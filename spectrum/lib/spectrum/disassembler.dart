@@ -1418,4 +1418,18 @@ class Disassembler {
 
     return Instruction(length, byteCode, disassembly);
   }
+
+  static String disassembleMultipleInstructions(
+      List<int> instructions, int count, int pc) {
+    var result = '';
+    var idx = 0;
+
+    for (var i = 0; i < count; i++) {
+      final instr = disassembleInstruction(instructions.sublist(idx));
+      idx += instr.length;
+      result += '[${toHex32(pc)}]  ${instr.byteCode}  ${instr.disassembly}\n';
+    }
+
+    return result;
+  }
 }

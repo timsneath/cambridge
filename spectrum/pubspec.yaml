@@ -19,3 +19,7 @@ flutter:
     - assets/google.scr
     - roms/48.rom
     - roms/snapshots/JETSET.SNA
+  fonts:
+    - family: Source Code Pro
+      fonts:
+        - asset: assets/SourceCodePro-Regular.ttf

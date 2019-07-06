@@ -21,6 +21,7 @@ import 'package:spectrum/key.dart';
 Z80 z80;
 Memory memory;
 Display display;
+List<int> breakpoints;
 
 /// If the current platform is desktop, override the default platform to
 /// a supported platform (iOS for macOS, Android for Linux and Windows).
@@ -65,10 +66,12 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   Ticker ticker;
 
   bool isRomLoaded = false;
+  bool isKeyboardVisible = false;
 
   @override
   initState() {
     super.initState();
+    breakpoints = [];
     memory = Memory(true);
     z80 = Z80(memory, startAddress: 0x0000);
     ULA.reset();
@@ -128,6 +131,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     memory = Memory(true);
     z80 = Z80(memory, startAddress: 0x0000);
     ULA.reset();
+    breakpoints.clear();
     setState(() {
       memory.load(0x0000, rom.buffer.asUint8List());
       isRomLoaded = true;
@@ -138,10 +142,16 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     z80.interrupt();
     while (z80.tStates < 14336) {
       z80.executeNextInstruction();
+      if (breakpoints.contains(z80.pc)) {
+        if (ticker.isActive) {
+          ticker.stop();
+          break;
+        }
+      }
+      setState(() {
+        z80.tStates = 0;
+      });
     }
-    setState(() {
-      z80.tStates = 0;
-    });
   }
 
   void stepInstruction() {
@@ -150,65 +160,97 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     });
   }
 
-  Widget menus() {
-    return Column(children: <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          FlatButton(
-            child: Text('TEST SCREEN'),
-            onPressed: loadTestScreenshot,
-          ),
-          FlatButton(
-            child: Text('RESET'),
-            onPressed: resetEmulator,
-          ),
-          FlatButton(
-            child: Text('STEP'),
-            onPressed: stepInstruction,
-          ),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          FlatButton(
-            child: Text('LOAD SNA'),
-            onPressed: () => loadSnapshot(),
-          ),
-          FlatButton(
-            child:
-                !ticker.isActive ? Text('START TICKER') : Text('STOP TICKER'),
-            onPressed: toggleTicker,
-          ),
-        ],
-      ),
-    ]);
+  void keyboardToggleVisibility() {
+    setState(() {
+      isKeyboardVisible = !isKeyboardVisible;
+    });
   }
 
-  Widget disassembly() {
+  Widget menus() {
     return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-          ),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              // Ugly -- needs sorting out, obviously
-              Disassembler.disassembleMultipleInstructions(
-                  memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
-              textAlign: TextAlign.left,
-              softWrap: true,
-              maxLines: 8,
-              style: TextStyle(fontFamily: 'Source Code Pro'),
-              // overflow: TextOverf
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.video_label),
+              onPressed: loadTestScreenshot,
             ),
-          ),
+            IconButton(
+              icon: Icon(Icons.replay),
+              onPressed: resetEmulator,
+            ),
+            IconButton(
+              icon: Icon(Icons.file_download),
+              onPressed: loadSnapshot,
+            ),
+            IconButton(
+              icon: !ticker.isActive
+                  ? Icon(
+                      Icons.play_circle_filled,
+                      color: Color(0xFF007F00),
+                    )
+                  : Icon(
+                      Icons.pause_circle_filled,
+                      color: Color(0xFF007F7F),
+                    ),
+              onPressed: toggleTicker,
+            ),
+            IconButton(
+              icon: Icon(Icons.keyboard_arrow_right),
+              onPressed: stepInstruction,
+            ),
+            IconButton(
+              icon: Icon(Icons.keyboard),
+              onPressed: keyboardToggleVisibility,
+            ),
+          ],
         ),
       ],
     );
+  }
+
+  Widget disassembly() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            // Ugly -- needs sorting out, obviously
+            Disassembler.disassembleMultipleInstructions(
+                memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
+            textAlign: TextAlign.left,
+            softWrap: true,
+            style: TextStyle(fontFamily: 'Source Code Pro'),
+            // overflow: TextOverf
+          ),
+          Text('Breakpoints: ${breakpoints.map((val) => toHex32(val))}'),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: 100,
+                child: TextField(
+                  autocorrect: false,
+                  onSubmitted: (breakpoint) => addBreakpoint(breakpoint),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void addBreakpoint(String breakpoint) {
+    var intBreakpoint = int.tryParse(breakpoint, radix: 16);
+    if (intBreakpoint != null) {
+      setState(() {
+        if (!breakpoints.contains(intBreakpoint)) {
+          breakpoints.add(intBreakpoint);
+        }
+      });
+    }
   }
 
   void toggleTicker() {
@@ -227,20 +269,14 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
       appBar: AppBar(
         title: Text('Project Cambridge'),
       ),
-      body: Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Monitor(),
-              Text('Program Counter: ${toHex16(z80.pc)}'),
-              menus(),
-              disassembly(),
-              Spacer(),
-              Keyboard(),
-            ],
-          ),
-        ),
+      body: ListView(
+        children: [
+          Monitor(),
+          Text('Program Counter: ${toHex16(z80.pc)}'),
+          menus(),
+          disassembly(),
+          if (isKeyboardVisible) Keyboard(),
+        ],
       ),
     );
   }

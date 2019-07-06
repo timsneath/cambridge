@@ -12,7 +12,6 @@
 import 'package:spectrum/spectrum/memory.dart';
 import 'package:spectrum/spectrum/utility.dart';
 import 'package:spectrum/spectrum/ula.dart';
-import 'package:spectrum/spectrum/disassembler.dart';
 
 // We use register names for the fields and we don't fuss too much about this.
 // ignore_for_file: non_constant_identifier_names

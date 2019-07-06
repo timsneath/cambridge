@@ -72,7 +72,10 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     memory = Memory(true);
     z80 = Z80(memory, startAddress: 0x0000);
     ULA.reset();
+
     ticker = Ticker(onTick);
+
+    resetEmulator();
   }
 
   void onTick(Duration elapsed) async {
@@ -127,24 +130,18 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     ULA.reset();
     setState(() {
       memory.load(0x0000, rom.buffer.asUint8List());
+      isRomLoaded = true;
     });
   }
 
   void executeFrame() async {
-    if (!isRomLoaded) {
-      ByteData rom = await rootBundle.load('roms/48.rom');
-      memory.load(0x0000, rom.buffer.asUint8List());
-      isRomLoaded = true;
-      z80.reset();
-    } else {
-      while (z80.tStates < 14336) {
-        setState(() {
-          z80.executeNextInstruction();
-        });
-      }
-      z80.interrupt();
-      z80.tStates = 0;
+    z80.interrupt();
+    while (z80.tStates < 14336) {
+      z80.executeNextInstruction();
     }
+    setState(() {
+      z80.tStates = 0;
+    });
   }
 
   void stepInstruction() {
@@ -168,7 +165,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           ),
           FlatButton(
             child: Text('STEP'),
-            onPressed: executeFrame,
+            onPressed: stepInstruction,
           ),
         ],
       ),
@@ -190,18 +187,27 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   }
 
   Widget disassembly() {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Text(
-        // Ugly -- needs sorting out, obviously
-        Disassembler.disassembleMultipleInstructions(
-            memory.memory.sublist(z80.pc, z80.pc + (4 * 5)), 5, z80.pc),
-        textAlign: TextAlign.left,
-        softWrap: true,
-        maxLines: 5,
-        style: TextStyle(fontFamily: 'Source Code Pro'),
-        // overflow: TextOverf
-      ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+          ),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              // Ugly -- needs sorting out, obviously
+              Disassembler.disassembleMultipleInstructions(
+                  memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
+              textAlign: TextAlign.left,
+              softWrap: true,
+              maxLines: 8,
+              style: TextStyle(fontFamily: 'Source Code Pro'),
+              // overflow: TextOverf
+            ),
+          ),
+        ),
+      ],
     );
   }
 

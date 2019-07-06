@@ -1426,8 +1426,9 @@ class Disassembler {
 
     for (var i = 0; i < count; i++) {
       final instr = disassembleInstruction(instructions.sublist(idx));
+      result +=
+          '[${toHex32(pc + idx)}]  ${instr.byteCode}  ${instr.disassembly}\n';
       idx += instr.length;
-      result += '[${toHex32(pc)}]  ${instr.byteCode}  ${instr.disassembly}\n';
     }
 
     return result;

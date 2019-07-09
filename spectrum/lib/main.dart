@@ -29,13 +29,18 @@ List<int> breakpoints;
 void setTargetPlatformForDesktop() {
   TargetPlatform targetPlatform;
 
-  if (Platform.isMacOS) {
-    targetPlatform = TargetPlatform.iOS;
-  } else if (Platform.isLinux || Platform.isWindows) {
-    targetPlatform = TargetPlatform.android;
-  }
-  if (targetPlatform != null) {
-    debugDefaultTargetPlatformOverride = targetPlatform;
+  // This is a hacky (and temporary) workaround to test for the web,
+  // since Platform.isMacOS is not implemented on web yet.
+  if (!identical(0, 0.0)) {
+    // If we're here, we're running Flutter natively on desktop or mobile
+    if (Platform.isMacOS) {
+      targetPlatform = TargetPlatform.iOS;
+    } else if (Platform.isLinux || Platform.isWindows) {
+      targetPlatform = TargetPlatform.android;
+    }
+    if (targetPlatform != null) {
+      debugDefaultTargetPlatformOverride = targetPlatform;
+    }
   }
 }
 

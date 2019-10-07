@@ -75,9 +75,13 @@ unlinked_spec.ds
 **/ios/Flutter/Generated.xcconfig
 **/ios/Flutter/app.flx
 **/ios/Flutter/app.zip
+**/ios/Flutter/flutter_export_environment.sh
 **/ios/Flutter/flutter_assets/
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+
+# macOS related
+spectrum/macos/Flutter/ephemeral/Flutter-Generated.xcconfig
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
@@ -85,4 +89,3 @@ unlinked_spec.ds
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
-spectrum/macos/Flutter/ephemeral/Flutter-Generated.xcconfig

@@ -10,7 +10,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  pedantic: '^1.8.0+1'
+  pedantic: ^1.9.0
   flutter_test:
     sdk: flutter
 
@@ -19,7 +19,8 @@ flutter:
   assets:
     - assets/google.scr
     - roms/48.rom
-    - roms/snapshots/JETSET.SNA
+    - roms/TIME.SNA
+    - roms/JETSET.Z80
   fonts:
     - family: Source Code Pro
       fonts:

@@ -4,7 +4,7 @@
 // assumes alpha channel is always opaque (since ZX Spectrum has no concept
 // of transparency).
 
-// TODO: this would be much better as extension methods when D24 is complete.  
+// TODO: this might be much better as extension methods now D27 is complete.
 
 import 'dart:ui';
 

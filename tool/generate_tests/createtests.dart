@@ -7,9 +7,9 @@ String toHex32(int value) => value.toRadixString(16).padLeft(4, '0');
 String toBin16(int value) => value.toRadixString(2).padLeft(16, '0');
 String toBin32(int value) => value.toRadixString(2).padLeft(32, '0');
 
-main() {
-  var file = File('../fuse_z80_opcode_test.dart');
-  var sink = file.openWrite();
+void main() {
+  final file = File('../fuse_z80_opcode_test.dart');
+  final sink = file.openWrite();
 
   String testName;
 
@@ -98,7 +98,7 @@ main() {
 """);
 
   // These unit tests stress undocumented Z80 opcodes
-  var undocumentedOpcodeTests = [
+  const undocumentedOpcodeTests = [
     "4c",
     "4e",
     "54",
@@ -218,19 +218,19 @@ main() {
   ];
 
   // These too...
-  for (int opCode = 0; opCode < 256; opCode++) {
+  for (var opCode = 0; opCode < 256; opCode++) {
     if ((opCode & 0x7) != 0x6) {
       undocumentedOpcodeTests.add("ddcb${toHex16(opCode)}");
       undocumentedOpcodeTests.add("fdcb${toHex16(opCode)}");
     }
   }
 
-  List<String> input = File('tests.in').readAsLinesSync();
-  List<String> expected = File('tests.expected').readAsLinesSync();
+  final input = File('tests.in').readAsLinesSync();
+  final expected = File('tests.expected').readAsLinesSync();
 
   try {
-    int inputLine = 0;
-    int expectedLine = 0;
+    var inputLine = 0;
+    var expectedLine = 0;
 
     while (inputLine < input.length) {
       testName = input[inputLine++];
@@ -244,7 +244,7 @@ main() {
       sink.write("$testName', () {\n");
 
       sink.write("    // Set up machine initial state\n");
-      var registers = input[inputLine++].split(' ');
+      final registers = input[inputLine++].split(' ');
       sink.write("    loadRegisters(");
       sink.write("0x${registers[0]}, ");
       sink.write("0x${registers[1]}, ");
@@ -259,17 +259,17 @@ main() {
       sink.write("0x${registers[10]}, ");
       sink.write("0x${registers[11]});\n");
 
-      var special = input[inputLine++].split(' ');
-      special.removeWhere((item) => item.length == 0);
+      final special = input[inputLine++].split(' ');
+      special.removeWhere((item) => item.isEmpty);
 
       sink.write("    z80.i = 0x${special[0]};\n");
       sink.write("    z80.r = 0x${special[1]};\n");
       sink.write("    z80.iff1 = ${special[2] == '1' ? 'true' : 'false'};\n");
       sink.write("    z80.iff2 = ${special[3] == '1' ? 'true' : 'false'};\n");
-      int testRunLength = int.parse(special[6]);
+      final testRunLength = int.parse(special[6]);
 
       while (!input[inputLine].startsWith('-1')) {
-        var pokes = input[inputLine].split(' ');
+        final pokes = input[inputLine].split(' ');
         var addr = int.parse(pokes[0], radix: 16);
         var idx = 1;
         while (pokes[idx] != '-1') {
@@ -283,7 +283,7 @@ main() {
       inputLine++;
 
       sink.write("\n    // Execute machine for tState cycles\n");
-      sink.write("    while (z80.tStates < ${testRunLength}) {\n");
+      sink.write("    while (z80.tStates < $testRunLength) {\n");
       sink.write("      z80.executeNextInstruction();\n");
       sink.write("    }\n");
 
@@ -297,8 +297,8 @@ main() {
       }
 
       sink.write("\n    // Test machine state is as expected\n");
-      var expectedRegisters = expected[expectedLine].split(' ');
-      expectedRegisters.removeWhere((item) => item.length == 0);
+      final expectedRegisters = expected[expectedLine].split(' ');
+      expectedRegisters.removeWhere((item) => item.isEmpty);
       sink.write("    checkRegisters(");
       sink.write("0x${expectedRegisters[0]}, ");
       sink.write("0x${expectedRegisters[1]}, ");
@@ -314,8 +314,8 @@ main() {
       sink.write("0x${expectedRegisters[11]});\n");
       expectedLine++;
 
-      var expectedSpecial = expected[expectedLine].split(' ');
-      expectedSpecial.removeWhere((item) => item.length == 0);
+      final expectedSpecial = expected[expectedLine].split(' ');
+      expectedSpecial.removeWhere((item) => item.isEmpty);
       sink.write("    checkSpecialRegisters(");
       sink.write("0x${expectedSpecial[0]}, ");
       sink.write("0x${expectedSpecial[1]}, ");
@@ -324,13 +324,13 @@ main() {
       sink.write("${expectedSpecial[6]});\n");
       expectedLine++;
 
-      while (expected[expectedLine].length > 0 &&
+      while (expected[expectedLine].isNotEmpty &&
           ((expected[expectedLine].codeUnitAt(0) >= '0'.codeUnits[0] &&
                   expected[expectedLine].codeUnitAt(0) <= '9'.codeUnits[0]) ||
               (expected[expectedLine].codeUnitAt(0) >= 'a'.codeUnits[0] &&
                   expected[expectedLine].codeUnitAt(0) <= 'f'.codeUnits[0]))) {
-        var peeks = expected[expectedLine].split(' ');
-        peeks.removeWhere((item) => item.length == 0);
+        final peeks = expected[expectedLine].split(' ');
+        peeks.removeWhere((item) => item.isEmpty);
         var addr = int.parse(peeks[0], radix: 16);
         var idx = 1;
         while (peeks[idx] != "-1") {
@@ -351,7 +351,7 @@ main() {
       sink.write(");\n\n");
     }
 
-    sink.write(r"""
+    sink.write("""
 }
   """);
   } finally {

@@ -1,0 +1,40 @@
+include: package:lint/analysis_options_package.yaml
+
+analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+    
+linter:
+  rules:
+    # redundancy is good if it leads to better documentation
+    avoid_redundant_argument_values: false
+
+    # print is useful for examples
+    avoid_print: false
+
+    # seems to trigger false positives
+    invariant_booleans: false
+
+    # doesn't make sense if adjacent strings are not human language
+    missing_whitespace_between_adjacent_strings: false
+
+    # Resolving this prevents us from caching metadata in a parent object
+    prefer_constructors_over_static_methods: false
+
+    # annoying for Flutter apps
+    use_key_in_widget_constructors: false
+    prefer_expression_function_bodies: false
+
+    # temporarily disabled, but need fixing.
+    avoid_classes_with_only_static_members: false
+    parameter_assignments: false
+    provide_deprecation_message: false
+
+    # some additional lints we want to enforce
+    omit_local_variable_types: true
+    prefer_interpolation_to_compose_strings: true
+    prefer_relative_imports: true
+    unnecessary_lambdas: true
+
+    

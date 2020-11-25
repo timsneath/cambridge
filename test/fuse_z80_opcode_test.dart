@@ -11,7 +11,7 @@ import 'package:spectrum/core/z80.dart';
 import 'package:spectrum/core/memory.dart';
 import 'package:spectrum/core/utility.dart';
 
-Memory memory = Memory(false);
+Memory memory = Memory(isRomProtected: false);
 Z80 z80 = Z80(memory, startAddress: 0xA000);
 
 void poke(int addr, int val) => memory.writeByte(addr, val);
@@ -64,6 +64,7 @@ void checkRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
   expect(z80.pc, equals(pc), reason: "Register PC mismatch");
 }
 
+// ignore: avoid_positional_boolean_parameters
 void checkSpecialRegisters(int i, int r, bool iff1, bool iff2, int tStates) {
   expect(z80.i, equals(i), reason: "Register I mismatch");
 
@@ -75,7 +76,7 @@ void checkSpecialRegisters(int i, int r, bool iff1, bool iff2, int tStates) {
   expect(z80.tStates, equals(tStates), reason: "tStates mismatch");
 }
 
-main() {
+void main() {
   setUp(() {
     z80.reset();
     memory.reset();

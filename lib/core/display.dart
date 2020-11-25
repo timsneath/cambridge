@@ -2,11 +2,12 @@
 
 import 'dart:typed_data';
 
-import 'package:spectrum/main.dart';
-import 'package:spectrum/core/spectrumcolor.dart';
+import '../main.dart';
+import 'spectrumcolor.dart';
 
 // Class that provides a front-end to the raw memory that represents the
 // ZX Spectrum display
+// ignore: avoid_classes_with_only_static_members
 class Display {
   // standard dimensions of a ZX spectrum display
   static int get screenWidth => 256;
@@ -23,7 +24,7 @@ class Display {
     final fileLength =
         bmpHeaderSize + screenWidth * screenHeight * 4; // header + bitmap
 
-    var bitmap = Uint8List(fileLength);
+    final bitmap = Uint8List(fileLength);
 
     // Set the header
     //
@@ -32,7 +33,7 @@ class Display {
     //
     // Bitmap file header is 10 bytes long, followed by a 40 byte
     // BITMAPINFOHEADER that describes the bitmap itself
-    ByteData bd = bitmap.buffer.asByteData();
+    final bd = bitmap.buffer.asByteData();
     bd.setUint16(0, 0x424d); // header field: BM
     bd.setUint32(2, fileLength, Endian.little); // file length
     bd.setUint32(10, bmpHeaderSize, Endian.little); // start of the bitmap
@@ -48,9 +49,9 @@ class Display {
 
     // Grab the current memory-backed imagebuffer and use it to fill out the
     // bitmap structure
-    var imageBuffer = Display.imageBuffer();
+    final imageBuffer = Display.imageBuffer();
 
-    int size = screenWidth * screenHeight * 4;
+    final size = screenWidth * screenHeight * 4;
     assert(imageBuffer.length == size);
     bitmap.setRange(bmpHeaderSize, bmpHeaderSize + size, imageBuffer);
 
@@ -61,12 +62,12 @@ class Display {
   // ZX Spectrum in-memory display model into a raw list of color values starting
   // at (0,0) and ending at (255,191).
   static Uint8List imageBuffer() {
-    Uint8List buffer = Uint8List(256 * 192 * 4);
+    final buffer = Uint8List(256 * 192 * 4);
     int idx;
 
     // display is configured as 192 lines of 32 bytes
-    for (int y = 0; y < 192; y++) {
-      for (int x = 0; x < 32; x++) {
+    for (var y = 0; y < 192; y++) {
+      for (var x = 0; x < 32; x++) {
         idx = 4 * (y * 256 + (x * 8));
 
         // Screen address can be calculated as follows:
@@ -102,10 +103,10 @@ class Display {
         //    F  B  P2 P1 P0 I2 I1 I0
         //
         //  for 8x8 cells starting at 0x5800 (array of 32 x 24)
-        final color = memory.readByte((0x5800 + ((y ~/ 8) * 32 + x)));
-        final paperColor = SpectrumColor.fromByteValue(
-            ((color & 0x78) >> 3)); // 0x78 = 01111000
-        var inkColorAsByte = ((color & 0x07)); // 0x07 = 00000111
+        final color = memory.readByte(0x5800 + ((y ~/ 8) * 32 + x));
+        final paperColor =
+            SpectrumColor.fromByteValue((color & 0x78) >> 3); // 0x78 = 01111000
+        var inkColorAsByte = color & 0x07; // 0x07 = 00000111
         if ((color & 0x40) == 0x40) // bright on (i.e. 0x40 = 01000000)
         {
           inkColorAsByte |= 0x08;
@@ -113,11 +114,11 @@ class Display {
         final inkColor = SpectrumColor.fromByteValue(inkColorAsByte);
 
         // apply state to the display
-        for (int bit = 7; bit >= 0; bit--) {
-          bool isBitSet = (pixel8 & (1 << bit)) == 1 << bit;
-          buffer[idx++] = (isBitSet ? inkColor.blue : paperColor.blue);
-          buffer[idx++] = (isBitSet ? inkColor.green : paperColor.green);
-          buffer[idx++] = (isBitSet ? inkColor.red : paperColor.red);
+        for (var bit = 7; bit >= 0; bit--) {
+          final isBitSet = (pixel8 & (1 << bit)) == 1 << bit;
+          buffer[idx++] = isBitSet ? inkColor.blue : paperColor.blue;
+          buffer[idx++] = isBitSet ? inkColor.green : paperColor.green;
+          buffer[idx++] = isBitSet ? inkColor.red : paperColor.red;
           buffer[idx++] = 0xFF;
         }
       }

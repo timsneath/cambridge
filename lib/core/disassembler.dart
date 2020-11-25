@@ -18,7 +18,7 @@ class Disassembler {
     '05': 'DEC B',
     '06': 'LD B, *',
     '07': 'RLCA',
-    '08': 'EX AF, AF\'',
+    '08': "EX AF, AF'",
     '09': 'ADD HL, BC',
     '0a': 'LD A, (BC)',
     '0b': 'DEC BC',
@@ -1270,9 +1270,9 @@ class Disassembler {
 
     if (instruction.contains('**')) {
       final word = createWord(byte, highByte);
-      return instruction.replaceFirst('**', toHex32(word).toUpperCase() + 'h');
+      return instruction.replaceFirst('**', '${toHex32(word).toUpperCase()}h');
     } else if (instruction.contains('*')) {
-      return instruction.replaceFirst('*', toHex16(byte).toUpperCase() + 'h');
+      return instruction.replaceFirst('*', '${toHex16(byte).toUpperCase()}h');
     } else {
       return instruction;
     }
@@ -1398,7 +1398,7 @@ class Disassembler {
     if (instruction.length < 4) {
       // We expect a four-byte instruction, but if not we buffer as necessary;
       // doesn't matter if there are more than four items in the list.
-      instruction.addAll({0, 0, 0, 0});
+      instruction.addAll([0, 0, 0, 0]);
     }
 
     // This is the actual instruction length, based on opcode decoding
@@ -1410,7 +1410,7 @@ class Disassembler {
     var byteCode = '';
     for (var i = 0; i < 4; i++) {
       if (i < length) {
-        byteCode += toHex16(instruction[i]) + ' ';
+        byteCode += '${toHex16(instruction[i])} ';
       } else {
         byteCode += '   ';
       }
@@ -1421,16 +1421,16 @@ class Disassembler {
 
   static String disassembleMultipleInstructions(
       List<int> instructions, int count, int pc) {
-    var result = '';
+    final result = StringBuffer();
     var idx = 0;
 
     for (var i = 0; i < count; i++) {
       final instr = disassembleInstruction(instructions.sublist(idx));
-      result +=
-          '[${toHex32(pc + idx)}]  ${instr.byteCode}  ${instr.disassembly}\n';
+      result.write(
+          '[${toHex32(pc + idx)}]  ${instr.byteCode}  ${instr.disassembly}\n');
       idx += instr.length;
     }
 
-    return result;
+    return result.toString();
   }
 }

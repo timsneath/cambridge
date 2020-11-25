@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import '../../lib/core/disassembler.dart';
-import '../../lib/core/utility.dart';
+import 'package:spectrum/core/disassembler.dart';
+import 'package:spectrum/core/utility.dart';
 
 void main(List<String> args) {
   if (args.length < 3) {
@@ -9,7 +9,7 @@ void main(List<String> args) {
     exit(1);
   }
 
-  final file = new File(args[0]);
+  final file = File(args[0]);
   file.open(mode: FileMode.read);
 
   final rom = file.readAsBytesSync();
@@ -17,7 +17,7 @@ void main(List<String> args) {
   final start = int.parse(args[1]);
   final end = int.parse(args[2]);
 
-  int pc = start;
+  var pc = start;
 
   while (pc < end) {
     final dasm = Disassembler.disassembleInstruction(

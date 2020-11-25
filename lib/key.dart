@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:spectrum/core/ula.dart';
+import 'core/ula.dart';
 
 class Keycap extends StatelessWidget {
   final String mainKeycap;
@@ -11,7 +11,7 @@ class Keycap extends StatelessWidget {
 
   bool get isNumericKey => int.tryParse(mainKeycap) != null;
 
-  Keycap(
+  const Keycap(
       {this.mainKeycap = '',
       this.commandKeycap = '',
       this.redKeycap = '',
@@ -24,8 +24,8 @@ class Keycap extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: GestureDetector(
-        onTapDown: (TapDownDetails details) => ULA.keyPressed(this.mainKeycap),
-        onTapUp: (TapUpDetails details) => ULA.keyReleased(this.mainKeycap),
+        onTapDown: (TapDownDetails details) => ULA.keyPressed(mainKeycap),
+        onTapUp: (TapUpDetails details) => ULA.keyReleased(mainKeycap),
         child: Container(
           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
           color: Colors.black,
@@ -36,10 +36,10 @@ class Keycap extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                 child: Text(
-                  this.aboveKeycap,
+                  aboveKeycap,
                   style: isNumericKey
-                      ? TextStyle(color: Colors.white)
-                      : TextStyle(color: Colors.green),
+                      ? const TextStyle(color: Colors.white)
+                      : const TextStyle(color: Colors.green),
                 ),
               ),
 
@@ -52,8 +52,8 @@ class Keycap extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text(
-                      this.mainKeycap,
-                      style: TextStyle(
+                      mainKeycap,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -62,17 +62,17 @@ class Keycap extends StatelessWidget {
                     Column(
                       children: <Widget>[
                         Text(
-                          this.redKeycap,
+                          redKeycap,
                           style: isNumericKey
-                              ? TextStyle(color: Colors.white)
+                              ? const TextStyle(color: Colors.white)
                               : TextStyle(color: Colors.red[900]),
                         ),
                         Container(height: 2),
                         Text(
-                          this.commandKeycap,
+                          commandKeycap,
                           style: isNumericKey
                               ? TextStyle(color: Colors.red[900])
-                              : TextStyle(color: Colors.white),
+                              : const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -84,8 +84,8 @@ class Keycap extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                 child: Text(
-                  this.belowKeycap,
-                  style: TextStyle(color: Colors.red),
+                  belowKeycap,
+                  style: const TextStyle(color: Colors.red),
                 ),
               ),
             ],
@@ -104,7 +104,7 @@ class Keyboard extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Table(
-            children: <TableRow>[
+            children: const <TableRow>[
               TableRow(
                 children: <Widget>[
                   Keycap(
@@ -147,7 +147,7 @@ class Keyboard extends StatelessWidget {
                       mainKeycap: '7',
                       belowKeycap: 'ERASE',
                       aboveKeycap: '[U]',
-                      commandKeycap: '\'',
+                      commandKeycap: "'",
                       redKeycap: '[]'),
                   Keycap(
                       mainKeycap: '8',
@@ -230,7 +230,7 @@ class Keyboard extends StatelessWidget {
                       belowKeycap: '©',
                       aboveKeycap: 'TAB',
                       commandKeycap: 'PRINT',
-                      redKeycap: '\"'),
+                      redKeycap: '"'),
                 ],
               ),
               TableRow(

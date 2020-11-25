@@ -13,10 +13,12 @@ class SpectrumColor extends Color {
   const SpectrumColor(int value) : super(value | 0xFF000000);
 
   @deprecated
+  // ignore: avoid_unused_constructor_parameters
   const SpectrumColor.fromARGB(int a, int r, int g, int b)
       : super.fromARGB(0xFF, r, g, b);
 
   @deprecated
+  // ignore: avoid_unused_constructor_parameters
   const SpectrumColor.fromRGBO(int r, int g, int b, double opacity)
       : super.fromRGBO(r, g, b, 1.0);
 

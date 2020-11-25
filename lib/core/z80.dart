@@ -9,9 +9,9 @@
 // and here:
 //    http://z80.info/z80code.htm
 
-import 'package:spectrum/core/memory.dart';
-import 'package:spectrum/core/utility.dart';
-import 'package:spectrum/core/ula.dart';
+import 'memory.dart';
+import 'ula.dart';
+import 'utility.dart';
 
 // We use register names for the fields and we don't fuss too much about this.
 // ignore_for_file: non_constant_identifier_names
@@ -45,7 +45,7 @@ class Z80 {
     cpuSuspended = false;
   }
 
-  void interrupt({bool nonMaskable: false}) {
+  void interrupt({bool nonMaskable = false}) {
     if (nonMaskable) {
       pc = 0x0066;
     } else {
@@ -168,14 +168,14 @@ class Z80 {
   bool get fZ => f & flags['Z'] == flags['Z'];
   bool get fS => f & flags['S'] == flags['S'];
 
-  set fC(bool value) => f = (value ? (f | flags['C']) : (f & ~flags['C']));
-  set fN(bool value) => f = (value ? (f | flags['N']) : (f & ~flags['N']));
-  set fPV(bool value) => f = (value ? (f | flags['P']) : (f & ~flags['P']));
-  set f3(bool value) => f = (value ? (f | flags['F3']) : (f & ~flags['F3']));
-  set fH(bool value) => f = (value ? (f | flags['H']) : (f & ~flags['H']));
-  set f5(bool value) => f = (value ? (f | flags['F5']) : (f & ~flags['F5']));
-  set fZ(bool value) => f = (value ? (f | flags['Z']) : (f & ~flags['Z']));
-  set fS(bool value) => f = (value ? (f | flags['S']) : (f & ~flags['S']));
+  set fC(bool value) => f = value ? (f | flags['C']) : (f & ~flags['C']);
+  set fN(bool value) => f = value ? (f | flags['N']) : (f & ~flags['N']);
+  set fPV(bool value) => f = value ? (f | flags['P']) : (f & ~flags['P']);
+  set f3(bool value) => f = value ? (f | flags['F3']) : (f & ~flags['F3']);
+  set fH(bool value) => f = value ? (f | flags['H']) : (f & ~flags['H']);
+  set f5(bool value) => f = value ? (f | flags['F5']) : (f & ~flags['F5']);
+  set fZ(bool value) => f = value ? (f | flags['Z']) : (f & ~flags['Z']);
+  set fS(bool value) => f = value ? (f | flags['S']) : (f & ~flags['S']);
 
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
   // INSTRUCTIONS
@@ -191,7 +191,7 @@ class Z80 {
 
     fH = false;
     fN = false;
-    fPV = (bc != 0);
+    fPV = bc != 0;
     f5 = isBitSet(byteRead, 5);
     f3 = isBitSet(byteRead, 3);
 
@@ -207,7 +207,7 @@ class Z80 {
     bc = (bc - 1) % 0x10000;
     fH = false;
     fN = false;
-    fPV = (bc != 0);
+    fPV = bc != 0;
     f5 = isBitSet(byteRead, 5);
     f3 = isBitSet(byteRead, 3);
 
@@ -260,7 +260,7 @@ class Z80 {
   // Arithmetic operations
   int INC(int reg) {
     final oldReg = reg;
-    fPV = (reg == 0x7F);
+    fPV = reg == 0x7F;
     reg = (reg + 1) % 0x100;
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
@@ -276,7 +276,7 @@ class Z80 {
 
   int DEC(int reg) {
     final oldReg = reg;
-    fPV = (reg == 0x80);
+    fPV = reg == 0x80;
     reg = (reg - 1) % 0x100;
     fH = isBitSet(reg, 4) != isBitSet(oldReg, 4);
     fZ = isZero(reg);
@@ -301,13 +301,13 @@ class Z80 {
     }
 
     // overflow in add only occurs when operand polarities are the same
-    final overflowCheck = (isSign16(a) == isSign16(b));
+    final overflowCheck = isSign16(a) == isSign16(b);
 
     a = ADD16(a, b);
 
     // if polarity is now different then add caused an overflow
     if (overflowCheck) {
-      fPV = (isSign16(a) != isSign16(b));
+      fPV = isSign16(a) != isSign16(b);
     } else {
       fPV = false;
     }
@@ -320,7 +320,7 @@ class Z80 {
     fH = (((a & 0x0F) + (b & 0x0F)) & 0x10) == 0x10;
 
     // overflow in add only occurs when operand polarities are the same
-    final overflowCheck = (isSign8(a) == isSign8(b));
+    final overflowCheck = isSign8(a) == isSign8(b);
 
     fC = a + b > 0xFF;
     a = (a + b) % 0x100;
@@ -328,7 +328,7 @@ class Z80 {
 
     // if polarity is now different then add caused an overflow
     if (overflowCheck) {
-      fPV = (fS != isSign8(b));
+      fPV = fS != isSign8(b);
     } else {
       fPV = false;
     }
@@ -371,7 +371,7 @@ class Z80 {
     fH = (x & 0xFFF) < (y & 0xFFF);
 
     // overflow in subtract only occurs when operand signs are different
-    final overflowCheck = (isSign16(x) != isSign16(y));
+    final overflowCheck = isSign16(x) != isSign16(y);
 
     x = (x - y) % 0x10000;
     f5 = isBitSet(x, 13);
@@ -382,7 +382,7 @@ class Z80 {
 
     // if x changed polarity then subtract caused an overflow
     if (overflowCheck) {
-      fPV = (fS != isSign16(x));
+      fPV = fS != isSign16(x);
     } else {
       fPV = false;
     }
@@ -400,7 +400,7 @@ class Z80 {
     fS = isSign8(x);
 
     // overflow in subtract only occurs when operand signs are different
-    final overflowCheck = (isSign8(x) != isSign8(y));
+    final overflowCheck = isSign8(x) != isSign8(y);
 
     x = (x - y) % 0x100;
     f5 = isBitSet(x, 5);
@@ -408,7 +408,7 @@ class Z80 {
 
     // if x changed polarity then subtract caused an overflow
     if (overflowCheck) {
-      fPV = (fS != isSign8(x));
+      fPV = fS != isSign8(x);
     } else {
       fPV = false;
     }
@@ -430,7 +430,7 @@ class Z80 {
 
   // algorithm from http://worldofspectrum.org/faq/reference/z80reference.htm
   void DAA() {
-    int correctionFactor = 0;
+    var correctionFactor = 0;
     final oldA = a;
 
     if ((a > 0x99) || fC) {
@@ -505,7 +505,7 @@ class Z80 {
   int POP() {
     final lo = memory.readByte(sp++);
     final hi = memory.readByte(sp++);
-    return ((hi << 8) + lo);
+    return (hi << 8) + lo;
   }
 
   void EX_AFAFPrime() {
@@ -527,10 +527,10 @@ class Z80 {
   void CPD() {
     final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
-    fS = (a - val < 0);
-    fZ = (a == val);
+    fS = a - val < 0;
+    fZ = a == val;
     fN = true;
-    fPV = (bc - 1 != 0);
+    fPV = bc - 1 != 0;
     hl = (hl - 1) % 0x10000;
     bc = (bc - 1) % 0x10000;
 
@@ -540,10 +540,10 @@ class Z80 {
   void CPDR() {
     final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
-    fS = (a - val < 0);
-    fZ = (a == val);
+    fS = a - val < 0;
+    fZ = a == val;
     fN = true;
-    fPV = (bc - 1 != 0);
+    fPV = bc - 1 != 0;
     hl = (hl - 1) % 0x10000;
     bc = (bc - 1) % 0x10000;
 
@@ -558,10 +558,10 @@ class Z80 {
   void CPI() {
     final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
-    fS = (a - val < 0);
-    fZ = (a == val);
+    fS = a - val < 0;
+    fZ = a == val;
     fN = true;
-    fPV = (bc - 1 != 0);
+    fPV = bc - 1 != 0;
     hl = (hl + 1) % 0x10000;
     bc = (bc - 1) % 0x10000;
 
@@ -571,10 +571,10 @@ class Z80 {
   void CPIR() {
     final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
-    fS = (a - val < 0);
-    fZ = (a == val);
+    fS = a - val < 0;
+    fZ = a == val;
     fN = true;
-    fPV = (bc - 1 != 0);
+    fPV = bc - 1 != 0;
     hl = (hl + 1) % 0x10000;
     bc = (bc - 1) % 0x10000;
 
@@ -638,8 +638,8 @@ class Z80 {
 
   int NEG(int a) {
     // returns two's complement of a
-    fPV = (a == 0x80);
-    fC = (a != 0x00);
+    fPV = a == 0x80;
+    fC = a != 0x00;
 
     a = ~a;
     a = (a + 1) % 0x100;
@@ -901,11 +901,11 @@ class Z80 {
     // TODO: Overflow condition for this and RRD
     final old_pHL = memory.readByte(hl);
 
-    var new_pHL = ((old_pHL & 0x0F) << 4);
-    new_pHL += (a & 0x0F);
+    var new_pHL = (old_pHL & 0x0F) << 4;
+    new_pHL += a & 0x0F;
 
-    a = (a & 0xF0);
-    a += ((old_pHL & 0xF0) >> 4);
+    a = a & 0xF0;
+    a += (old_pHL & 0xF0) >> 4;
 
     memory.writeByte(hl, new_pHL);
 
@@ -924,11 +924,11 @@ class Z80 {
   void RRD() {
     final old_pHL = memory.readByte(hl);
 
-    var new_pHL = ((a & 0x0F) << 4);
+    var new_pHL = (a & 0x0F) << 4;
     new_pHL += (old_pHL & 0xF0) >> 4;
 
-    a = (a & 0xF0);
-    a += (old_pHL & 0x0F);
+    a = a & 0xF0;
+    a += old_pHL & 0x0F;
 
     memory.writeByte(hl, new_pHL);
 
@@ -1007,7 +1007,7 @@ class Z80 {
 
     // undocumented behavior from
     //   http://worldofspectrum.org/faq/reference/z80reference.htm
-    fS = ((bitToTest == 7) && (!fZ));
+    fS = (bitToTest == 7) && (!fZ);
     fH = true;
     fN = false;
   }
@@ -1099,9 +1099,7 @@ class Z80 {
     portWrite(portNumber, value);
   }
 
-  int INA(int portNumber) {
-    return portRead(portNumber);
-  }
+  int INA(int portNumber) => portRead(portNumber);
 
   void INI() {
     memory.writeByte(hl, portRead(bc));
@@ -1254,7 +1252,7 @@ class Z80 {
   }
 
   void rot(int operation, int register) {
-    var rotFunction;
+    int Function(int) rotFunction;
 
     switch (operation) {
       case 0x00:
@@ -1367,7 +1365,7 @@ class Z80 {
     // BIT
     if ((opCode >= 0x40) && (opCode <= 0x7F)) {
       final val = memory.readByte(addr);
-      final bit = ((opCode & 0x38) >> 3);
+      final bit = (opCode & 0x38) >> 3;
       fZ = !isBitSet(val, bit);
       fPV = !isBitSet(val, bit); // undocumented, but same as fZ
       fH = true;
@@ -2373,7 +2371,7 @@ class Z80 {
     // BIT
     if ((opCode >= 0x40) && (opCode <= 0x7F)) {
       final val = memory.readByte(addr);
-      final bit = ((opCode & 0x38) >> 3);
+      final bit = (opCode & 0x38) >> 3;
       fZ = !isBitSet(val, bit);
       fPV = !isBitSet(val, bit); // undocumented, but same as fZ
       fH = true;
@@ -4161,9 +4159,9 @@ class Z80 {
 
       // JP Z, **
       case 0xCA:
-        if (fZ)
+        if (fZ) {
           pc = getNextWord();
-        else {
+        } else {
           pc += 2;
         }
         tStates += 10;

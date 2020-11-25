@@ -2,7 +2,7 @@
 
 import 'dart:typed_data';
 
-import 'package:spectrum/core/utility.dart';
+import 'utility.dart';
 
 // See http://www.worldofspectrum.org/ZXBasicManual/zxmanchap23.html
 class ULA {
@@ -10,8 +10,8 @@ class ULA {
 
   // There are 65,536 ports, each of which can read or write an 8-bit value.
   // The keyboard ports are listed below, along with a bitmap.
-  static var inputPortList = Uint8List(0xFFFF);
-  static var inputPorts = ByteData.view(inputPortList.buffer);
+  static Uint8List inputPortList = Uint8List(0xFFFF);
+  static ByteData inputPorts = ByteData.view(inputPortList.buffer);
 
   static int screenBorder = 0x00;
 
@@ -61,11 +61,11 @@ class ULA {
 
   static void setKeyboardPorts() {
     // set all keyboard bits high at first
-    for (var key in keyMap.keys) {
+    for (final key in keyMap.keys) {
       inputPorts.setUint8(key, 0xFF);
     }
 
-    for (String keyPressed in keysPressed) {
+    for (final keyPressed in keysPressed) {
       // We should never be in a position where a key doesn't map to a port,
       // or doesn't map to an index in that port. Asserting to fail-fast in
       // this scenario.
@@ -82,8 +82,6 @@ class ULA {
   }
 
 // Gets the port that maps to the keycap
-  static int keyPortMap(String keycap) {
-    return keyMap.keys.firstWhere((port) => keyMap[port].indexOf(keycap) != -1,
-        orElse: () => null);
-  }
+  static int keyPortMap(String keycap) => keyMap.keys
+      .firstWhere((port) => keyMap[port].contains(keycap), orElse: () => null);
 }

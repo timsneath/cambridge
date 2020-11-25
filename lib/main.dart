@@ -1,52 +1,22 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
-// For desktop support
-import 'package:flutter/foundation.dart'
-    show debugDefaultTargetPlatformOverride;
-import 'package:spectrum/core/disassembler.dart';
-
-import 'package:spectrum/core/z80.dart';
-import 'package:spectrum/core/memory.dart';
-import 'package:spectrum/core/utility.dart';
-import 'package:spectrum/core/display.dart';
-import 'package:spectrum/core/ula.dart';
-import 'package:spectrum/monitor.dart';
-import 'package:spectrum/key.dart';
+import 'core/disassembler.dart';
+import 'core/display.dart';
+import 'core/memory.dart';
+import 'core/ula.dart';
+import 'core/utility.dart';
+import 'core/z80.dart';
+import 'key.dart';
+import 'monitor.dart';
 
 Z80 z80;
 Memory memory;
 Display display;
 List<int> breakpoints;
 
-/// If the current platform is desktop, override the default platform to
-/// a supported platform (iOS for macOS, Android for Linux and Windows).
-/// Otherwise, do nothing.
-void setTargetPlatformForDesktop() {
-  TargetPlatform targetPlatform;
-
-  // This is a hacky (and temporary) workaround to test for the web,
-  // since Platform.isMacOS is not implemented on web yet.
-  if (!identical(0, 0.0)) {
-    // If we're here, we're running Flutter natively on desktop or mobile
-    if (Platform.isMacOS) {
-      targetPlatform = TargetPlatform.iOS;
-    } else if (Platform.isLinux || Platform.isWindows) {
-      targetPlatform = TargetPlatform.android;
-    }
-    if (targetPlatform != null) {
-      debugDefaultTargetPlatformOverride = targetPlatform;
-    }
-  }
-}
-
 void main() {
-  setTargetPlatformForDesktop();
-
   runApp(ProjectCambridge());
 }
 
@@ -74,10 +44,10 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   bool isKeyboardVisible = false;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     breakpoints = [];
-    memory = Memory(true);
+    memory = Memory(isRomProtected: true);
     z80 = Z80(memory, startAddress: 0x0000);
     ULA.reset();
 
@@ -86,19 +56,19 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     resetEmulator();
   }
 
-  void onTick(Duration elapsed) async {
+  Future<void> onTick(Duration elapsed) async {
     executeFrame();
   }
 
-  void loadTestScreenshot() async {
-    ByteData screen = await rootBundle.load('assets/google.scr');
+  Future<void> loadTestScreenshot() async {
+    final screen = await rootBundle.load('assets/google.scr');
 
     setState(() {
       memory.load(0x4000, screen.buffer.asUint8List());
     });
   }
 
-  void loadSNASnapshot() async {
+  Future<void> loadSNASnapshot() async {
     // Per https://faqwiki.zxnet.co.uk/wiki/SNA_format
     // the snapshot format has a 27 byte header containing the Z80 registers
     final snapshot = await rootBundle.load('roms/TIME.SNA');
@@ -130,15 +100,15 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     });
   }
 
-  void loadZ80Snapshot() async {
+  Future<void> loadZ80Snapshot() async {
     // Per http://rk.nvg.ntnu.no/sinclair/formats/z80-format.html
     // the snapshot format has a 30 byte header containing the Z80 registers
 
     final snapshot = await rootBundle.load('roms/JETSET.Z80');
     final r = snapshot.buffer.asUint8List(0, 30);
 
-    int fileFormatVersion = 145;
-    bool isDataBlockCompressed = false;
+    var fileFormatVersion = 145;
+    var isDataBlockCompressed = false;
 
     if (createWord(r[6], r[7]) == 0) {
       if (createWord(r[30], r[31]) == 54) {
@@ -172,7 +142,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     z80.af_ = createWord(r[21], r[22]);
     z80.iy = createWord(r[23], r[24]);
     z80.ix = createWord(r[25], r[26]);
-    z80.iff1 = z80.iff2 = (r[27] == 0);
+    z80.iff1 = z80.iff2 = r[27] == 0;
     if ((r[29] & 0x03) == 0x00) {
       z80.im = 0;
     } else if ((r[29] & 0x03) == 0x01) {
@@ -190,10 +160,10 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     });
   }
 
-  void resetEmulator() async {
-    ByteData rom = await rootBundle.load('roms/48.rom');
+  Future<void> resetEmulator() async {
+    final rom = await rootBundle.load('roms/48.rom');
 
-    memory = Memory(true);
+    memory = Memory(isRomProtected: true);
     z80 = Z80(memory, startAddress: 0x0000);
     ULA.reset();
     breakpoints.clear();
@@ -203,7 +173,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     });
   }
 
-  void executeFrame() async {
+  Future<void> executeFrame() async {
     z80.interrupt();
     while (z80.tStates < 14336) {
       z80.executeNextInstruction();
@@ -238,35 +208,35 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.video_label),
+              icon: const Icon(Icons.video_label),
               onPressed: loadTestScreenshot,
             ),
             IconButton(
-              icon: Icon(Icons.replay),
+              icon: const Icon(Icons.replay),
               onPressed: resetEmulator,
             ),
             IconButton(
-              icon: Icon(Icons.file_download),
+              icon: const Icon(Icons.file_download),
               onPressed: loadZ80Snapshot,
             ),
             IconButton(
               icon: !ticker.isActive
-                  ? Icon(
+                  ? const Icon(
                       Icons.play_circle_filled,
                       color: Color(0xFF007F00),
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.pause_circle_filled,
                       color: Color(0xFF007F7F),
                     ),
               onPressed: toggleTicker,
             ),
             IconButton(
-              icon: Icon(Icons.keyboard_arrow_right),
+              icon: const Icon(Icons.keyboard_arrow_right),
               onPressed: stepInstruction,
             ),
             IconButton(
-              icon: Icon(Icons.keyboard),
+              icon: const Icon(Icons.keyboard),
               onPressed: keyboardToggleVisibility,
             ),
           ],
@@ -287,17 +257,17 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
                 memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
             textAlign: TextAlign.left,
             softWrap: true,
-            style: TextStyle(fontFamily: 'Source Code Pro'),
+            style: const TextStyle(fontFamily: 'Source Code Pro'),
             // overflow: TextOverf
           ),
-          Text('Breakpoints: ${breakpoints.map((val) => toHex32(val))}'),
+          Text('Breakpoints: ${breakpoints.map(toHex32)}'),
           Row(
             children: <Widget>[
               SizedBox(
                 width: 100,
                 child: TextField(
                   autocorrect: false,
-                  onSubmitted: (breakpoint) => addBreakpoint(breakpoint),
+                  onSubmitted: addBreakpoint,
                 ),
               ),
             ],
@@ -308,7 +278,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   }
 
   void addBreakpoint(String breakpoint) {
-    var intBreakpoint = int.tryParse(breakpoint, radix: 16);
+    final intBreakpoint = int.tryParse(breakpoint, radix: 16);
     if (intBreakpoint != null) {
       setState(() {
         if (!breakpoints.contains(intBreakpoint)) {
@@ -332,7 +302,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Project Cambridge'),
+        title: const Text('Project Cambridge'),
       ),
       body: ListView(
         children: [

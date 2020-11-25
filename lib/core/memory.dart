@@ -18,7 +18,7 @@
 
 import 'dart:typed_data';
 
-import 'package:spectrum/core/utility.dart';
+import 'utility.dart';
 
 class Memory {
   static const romTop = 0x3FFF;
@@ -26,12 +26,14 @@ class Memory {
 
   bool isRomProtected;
 
-  // We treat the memory space as a list of unsigned bytes from 0x0000 to
-  // ramTop. For convenience, we treat the typed data format as an internal
-  // implementation detail, and all external interfaces are as int.
-  var memory = Uint8List(ramTop + 1);
+  /// The raw memory in the ZX Spectrum
+  ///
+  /// We treat the memory space as a list of unsigned bytes from 0x0000 to
+  /// ramTop. For convenience, we treat the typed data format as an internal
+  /// implementation detail, and all external interfaces are as int.
+  Uint8List memory = Uint8List(ramTop + 1);
 
-  Memory(this.isRomProtected);
+  Memory({this.isRomProtected});
 
   void reset() {
     if (isRomProtected) {
@@ -43,7 +45,7 @@ class Memory {
 
   void load(int start, List<int> loadData, {bool ignoreRomProtection = false}) {
     // TODO: honor ignoreRomProtection flag
-    var loadData8 = Uint8List.fromList(loadData);
+    final loadData8 = Uint8List.fromList(loadData);
 
     memory.setRange(start, start + loadData8.length, loadData8);
   }

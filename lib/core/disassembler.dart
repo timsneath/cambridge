@@ -1264,10 +1264,6 @@ class Disassembler {
   // This method swaps out displacement or address placeholders for the
   // actual operand.
   static String replaceOperand(String instruction, int byte, int highByte) {
-    if (instruction == null) {
-      return '??'; // undocumented opcode or DATA
-    }
-
     if (instruction.contains('**')) {
       final word = createWord(byte, highByte);
       return instruction.replaceFirst('**', '${toHex32(word).toUpperCase()}h');
@@ -1393,8 +1389,6 @@ class Disassembler {
   }
 
   static Instruction disassembleInstruction(List<int> instruction) {
-    assert(instruction != null);
-
     if (instruction.length < 4) {
       // We expect a four-byte instruction, but if not we buffer as necessary;
       // doesn't matter if there are more than four items in the list.

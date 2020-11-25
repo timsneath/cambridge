@@ -71,7 +71,6 @@ class ULA {
       // or doesn't map to an index in that port. Asserting to fail-fast in
       // this scenario.
       final port = keyPortMap(keyPressed)!;
-      assert(port != null);
 
       final keyBit = keyMap[port]!.indexOf(keyPressed);
       assert(keyBit != -1);
@@ -83,6 +82,6 @@ class ULA {
   }
 
 // Gets the port that maps to the keycap
-  static int? keyPortMap(String keycap) => keyMap.keys
-      .firstWhereOrNull((port) => keyMap[port]!.contains(keycap));
+  static int? keyPortMap(String keycap) =>
+      keyMap.keys.firstWhereOrNull((port) => keyMap[port]!.contains(keycap));
 }

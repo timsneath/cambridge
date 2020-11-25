@@ -1,0 +1,27 @@
+name: spectrum
+description: Project Cambridge
+version: 1.0.0
+
+environment:
+  sdk: '>=2.7.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  pedantic: ^1.9.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/google.scr
+    - roms/48.rom
+    - roms/TIME.SNA
+    - roms/JETSET.Z80
+  fonts:
+    - family: Source Code Pro
+      fonts:
+        - asset: assets/SourceCodePro-Regular.ttf

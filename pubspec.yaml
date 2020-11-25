@@ -3,16 +3,17 @@ description: Project Cambridge
 version: 1.0.0
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: '>=2.12.0-0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
+  collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:
-  lint: ^1.5.1
   flutter_test:
     sdk: flutter
+  lint: ^1.5.1
 
 flutter:
   uses-material-design: true

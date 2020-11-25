@@ -2,6 +2,7 @@
 
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'utility.dart';
 
 // See http://www.worldofspectrum.org/ZXBasicManual/zxmanchap23.html
@@ -69,10 +70,10 @@ class ULA {
       // We should never be in a position where a key doesn't map to a port,
       // or doesn't map to an index in that port. Asserting to fail-fast in
       // this scenario.
-      final port = keyPortMap(keyPressed);
+      final port = keyPortMap(keyPressed)!;
       assert(port != null);
 
-      final keyBit = keyMap[port].indexOf(keyPressed);
+      final keyBit = keyMap[port]!.indexOf(keyPressed);
       assert(keyBit != -1);
 
       var portValue = inputPorts.getUint8(port);
@@ -82,6 +83,6 @@ class ULA {
   }
 
 // Gets the port that maps to the keycap
-  static int keyPortMap(String keycap) => keyMap.keys
-      .firstWhere((port) => keyMap[port].contains(keycap), orElse: () => null);
+  static int? keyPortMap(String keycap) => keyMap.keys
+      .firstWhereOrNull((port) => keyMap[port]!.contains(keycap));
 }

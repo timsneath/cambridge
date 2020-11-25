@@ -11,10 +11,10 @@ import 'core/z80.dart';
 import 'key.dart';
 import 'monitor.dart';
 
-Z80 z80;
-Memory memory;
-Display display;
-List<int> breakpoints;
+late Z80 z80;
+late Memory memory;
+Display? display;
+late List<int> breakpoints;
 
 void main() {
   runApp(ProjectCambridge());
@@ -38,7 +38,7 @@ class CambridgeHomePage extends StatefulWidget {
 }
 
 class CambridgeHomePageState extends State<CambridgeHomePage> {
-  Ticker ticker;
+  late Ticker ticker;
 
   bool isRomLoaded = false;
   bool isKeyboardVisible = false;

@@ -3,7 +3,7 @@ import 'utility.dart';
 class Instruction {
   int length;
   String byteCode;
-  String disassembly;
+  String? disassembly;
 
   Instruction(this.length, this.byteCode, this.disassembly);
 }
@@ -1281,11 +1281,11 @@ class Disassembler {
   // Z80 instructions are never more than four bytes, including displacements.
   // This method uses the decode table above to translate instructions into
   // strings for debugging purposes.
-  static String decodeInstruction(int inst1, int inst2, int inst3, int inst4) {
+  static String? decodeInstruction(int inst1, int inst2, int inst3, int inst4) {
     switch (inst1) {
       case 0xED: // extended instructions
         return replaceOperand(
-            z80Opcodes[toHex16(inst1) + toHex16(inst2)], inst3, inst4);
+            z80Opcodes[toHex16(inst1) + toHex16(inst2)]!, inst3, inst4);
 
       case 0xCB: // bit instructions
         // none of these have displacement values, so don't bother to escape
@@ -1302,7 +1302,7 @@ class Disassembler {
           // which instruction type. We map these as DDCBXX, so we skip
           // inst3 when searching the map.
           return replaceOperand(
-              z80Opcodes[toHex16(inst1) + toHex16(inst2) + toHex16(inst4)],
+              z80Opcodes[toHex16(inst1) + toHex16(inst2) + toHex16(inst4)]!,
               inst3,
               0);
         }
@@ -1312,15 +1312,15 @@ class Disassembler {
           // replaceOperand twice, rather than special-casing code elsewhere.
           return replaceOperand(
               replaceOperand(
-                  z80Opcodes[toHex16(inst1) + toHex16(inst2)], inst3, 0),
+                  z80Opcodes[toHex16(inst1) + toHex16(inst2)]!, inst3, 0),
               inst4,
               0);
         }
         return replaceOperand(
-            z80Opcodes[toHex16(inst1) + toHex16(inst2)], inst3, inst4);
+            z80Opcodes[toHex16(inst1) + toHex16(inst2)]!, inst3, inst4);
 
       default:
-        return replaceOperand(z80Opcodes[toHex16(inst1)], inst2, inst3);
+        return replaceOperand(z80Opcodes[toHex16(inst1)]!, inst2, inst3);
     }
   }
 

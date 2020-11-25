@@ -21,10 +21,34 @@ class Z80 {
   bool cpuSuspended;
   int tStates;
 
-  Z80(this.memory, {int startAddress = 0}) {
-    reset();
-    pc = startAddress;
-  }
+  Z80(this.memory, {int startAddress = 0})
+      : a = 0xFF,
+        f = 0xFF,
+        b = 0xFF,
+        c = 0xFF,
+        d = 0xFF,
+        e = 0xFF,
+        h = 0xFF,
+        l = 0xFF,
+        a_ = 0xFF,
+        f_ = 0xFF,
+        b_ = 0xFF,
+        c_ = 0xFF,
+        d_ = 0xFF,
+        e_ = 0xFF,
+        h_ = 0xFF,
+        l_ = 0xFF,
+        ix = 0xFFFF,
+        iy = 0xFFFF,
+        sp = 0xFFFF,
+        pc = startAddress,
+        iff1 = false,
+        iff2 = false,
+        im = 0,
+        i = 0xFF,
+        r = 0xFF,
+        tStates = 0,
+        cpuSuspended = false;
 
   void reset() {
     // Initial register states are set per section 2.4 of
@@ -159,23 +183,23 @@ class Z80 {
   set iyh(int value) => iy = (value << 8) + iyl;
   set iyl(int value) => iy = (iyh << 8) + value;
 
-  bool get fC => f & flags['C'] == flags['C'];
-  bool get fN => f & flags['N'] == flags['N'];
-  bool get fPV => f & flags['P'] == flags['P'];
-  bool get f3 => f & flags['F3'] == flags['F3'];
-  bool get fH => f & flags['H'] == flags['H'];
-  bool get f5 => f & flags['F5'] == flags['F5'];
-  bool get fZ => f & flags['Z'] == flags['Z'];
-  bool get fS => f & flags['S'] == flags['S'];
+  bool get fC => f & flags['C']! == flags['C'];
+  bool get fN => f & flags['N']! == flags['N'];
+  bool get fPV => f & flags['P']! == flags['P'];
+  bool get f3 => f & flags['F3']! == flags['F3'];
+  bool get fH => f & flags['H']! == flags['H'];
+  bool get f5 => f & flags['F5']! == flags['F5'];
+  bool get fZ => f & flags['Z']! == flags['Z'];
+  bool get fS => f & flags['S']! == flags['S'];
 
-  set fC(bool value) => f = value ? (f | flags['C']) : (f & ~flags['C']);
-  set fN(bool value) => f = value ? (f | flags['N']) : (f & ~flags['N']);
-  set fPV(bool value) => f = value ? (f | flags['P']) : (f & ~flags['P']);
-  set f3(bool value) => f = value ? (f | flags['F3']) : (f & ~flags['F3']);
-  set fH(bool value) => f = value ? (f | flags['H']) : (f & ~flags['H']);
-  set f5(bool value) => f = value ? (f | flags['F5']) : (f & ~flags['F5']);
-  set fZ(bool value) => f = value ? (f | flags['Z']) : (f & ~flags['Z']);
-  set fS(bool value) => f = value ? (f | flags['S']) : (f & ~flags['S']);
+  set fC(bool value) => f = value ? (f | flags['C']!) : (f & ~flags['C']!);
+  set fN(bool value) => f = value ? (f | flags['N']!) : (f & ~flags['N']!);
+  set fPV(bool value) => f = value ? (f | flags['P']!) : (f & ~flags['P']!);
+  set f3(bool value) => f = value ? (f | flags['F3']!) : (f & ~flags['F3']!);
+  set fH(bool value) => f = value ? (f | flags['H']!) : (f & ~flags['H']!);
+  set f5(bool value) => f = value ? (f | flags['F5']!) : (f & ~flags['F5']!);
+  set fZ(bool value) => f = value ? (f | flags['Z']!) : (f & ~flags['Z']!);
+  set fS(bool value) => f = value ? (f | flags['S']!) : (f & ~flags['S']!);
 
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
   // INSTRUCTIONS

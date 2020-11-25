@@ -33,7 +33,7 @@ class Memory {
   /// implementation detail, and all external interfaces are as int.
   Uint8List memory = Uint8List(ramTop + 1);
 
-  Memory({this.isRomProtected});
+  Memory({this.isRomProtected = false});
 
   void reset() {
     if (isRomProtected) {

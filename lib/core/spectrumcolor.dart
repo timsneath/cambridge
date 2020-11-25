@@ -22,10 +22,10 @@ class SpectrumColor extends Color {
   const SpectrumColor.fromRGBO(int r, int g, int b, double opacity)
       : super.fromRGBO(r, g, b, 1.0);
 
-  SpectrumColor.fromByteValue(int value) : super(spectrumColors[value]);
+  SpectrumColor.fromByteValue(int value) : super(spectrumColors[value]!);
 
   SpectrumColor.fromName(SpectrumColors value)
-      : super(spectrumColors[value.index]);
+      : super(spectrumColors[value.index]!);
 
   @override
   String toString() =>

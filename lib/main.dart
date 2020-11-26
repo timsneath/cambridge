@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 import 'core/disassembler.dart';
 import 'core/display.dart';
 import 'core/memory.dart';
@@ -257,8 +259,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
                 memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
             textAlign: TextAlign.left,
             softWrap: true,
-            style: const TextStyle(fontFamily: 'Source Code Pro'),
-            // overflow: TextOverf
+            style: GoogleFonts.sourceCodePro(),
           ),
           Text('Breakpoints: ${breakpoints.map(toHex32)}'),
           Row(

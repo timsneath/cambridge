@@ -9,6 +9,12 @@ dependencies:
   collection: ^1.15.0-nullsafety.4
   flutter:
     sdk: flutter
+  google_fonts:
+    git:
+      url: git@github.com:material-foundation/google-fonts-flutter.git
+      ref: nnbd
+
+publish_to: none
 
 dev_dependencies:
   flutter_test:

@@ -307,7 +307,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
       ),
       body: ListView(
         children: [
-          Monitor(),
+          Monitor(memory: memory),
           Text('Program Counter: ${toHex16(z80.pc)}'),
           menus(),
           disassembly(),

@@ -50,6 +50,8 @@ class Memory {
     memory.setRange(start, start + loadData8.length, loadData8);
   }
 
+  ByteData get displayBuffer => memory.buffer.asByteData(0x4000, 0x1AFF);
+
   int readByte(int address) => memory[address] & 0xFF;
   int readWord(int address) => (memory[address + 1] << 8) + memory[address];
 

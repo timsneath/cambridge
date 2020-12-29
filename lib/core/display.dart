@@ -2,7 +2,7 @@
 
 import 'dart:typed_data';
 
-import '../main.dart';
+import 'memory.dart';
 import 'spectrumcolor.dart';
 
 // Class that provides a front-end to the raw memory that represents the
@@ -18,7 +18,7 @@ class Display {
   //
   // Adapted from
   //   https://stackoverflow.com/questions/51315442/use-ui-decodeimagefromlist-to-display-an-image-created-from-a-list-of-bytes/51316489
-  static Uint8List get bmpImage {
+  static Uint8List bmpImage(Memory memory) {
     const bmpHeaderSize = 54;
 
     final fileLength =
@@ -49,7 +49,7 @@ class Display {
 
     // Grab the current memory-backed imagebuffer and use it to fill out the
     // bitmap structure
-    final imageBuffer = Display.imageBuffer();
+    final imageBuffer = Display.imageBuffer(memory);
 
     final size = screenWidth * screenHeight * 4;
     assert(imageBuffer.length == size);
@@ -61,7 +61,7 @@ class Display {
   // Returns a simple BGRA imagebuffer from memory, converting the
   // ZX Spectrum in-memory display model into a raw list of color values starting
   // at (0,0) and ending at (255,191).
-  static Uint8List imageBuffer() {
+  static Uint8List imageBuffer(Memory memory) {
     final buffer = Uint8List(256 * 192 * 4);
     int idx;
 

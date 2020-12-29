@@ -261,7 +261,7 @@ packages:
     source: hosted
     version: "0.2.19-nullsafety.6"
   typed_data:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: typed_data
       url: "https://pub.dartlang.org"

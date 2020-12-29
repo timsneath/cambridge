@@ -14,6 +14,7 @@ dependencies:
     git:
       url: git@github.com:material-foundation/google-fonts-flutter.git
       ref: nnbd
+  typed_data: ^1.3.0-nullsafety.5
 
 dev_dependencies:
   flutter_test:
@@ -27,7 +28,3 @@ flutter:
     - roms/48.rom
     # - roms/TIME.SNA
     # - roms/JETSET.Z80
-  fonts:
-    - family: Source Code Pro
-      fonts:
-        - asset: assets/SourceCodePro-Regular.ttf

@@ -8,30 +8,33 @@ String toBin16(int value) => value.toRadixString(2).padLeft(16, '0');
 String toBin32(int value) => value.toRadixString(2).padLeft(32, '0');
 
 void main() {
-  final file = File('../fuse_z80_opcode_test.dart');
+  final file = File('test/fuse_z80_opcode_test.dart');
   final sink = file.openWrite();
 
   String testName;
 
   sink.write(r"""
 // fuse_unit_test.dart -- translated Z80 unit tests from FUSE Z80 emulator
-// 
+//
 // The FUSE emulator contains a large unit test suite of over 1,300 tests,
 // which cover both documented and undocumented opcodes:
-//   http://fuse-emulator.sourceforge.net/ 
+//   http://fuse-emulator.sourceforge.net/
 
 // Run tests with `flutter test --plain-name=OPCODE` (for documented tests)
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:spectrum/spectrum/z80.dart';
-import 'package:spectrum/spectrum/memory.dart';
-import 'package:spectrum/spectrum/utility.dart';
+import 'package:spectrum/core/z80.dart';
+import 'package:spectrum/core/memory.dart';
+import 'package:spectrum/core/utility.dart';
 
-Memory memory = Memory(false);
+Memory memory = Memory(isRomProtected: false);
 Z80 z80 = Z80(memory, startAddress: 0xA000);
 
 void poke(int addr, int val) => memory.writeByte(addr, val);
 int peek(int addr) => memory.readByte(addr);
+
+// We use register names for the fields and we don't fuss too much about this.
+// ignore_for_file: non_constant_identifier_names
 
 void loadRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
     int hl_, int ix, int iy, int sp, int pc) {
@@ -77,6 +80,7 @@ void checkRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
   expect(z80.pc, equals(pc), reason: "Register PC mismatch");
 }
 
+// ignore: avoid_positional_boolean_parameters
 void checkSpecialRegisters(int i, int r, bool iff1, bool iff2, int tStates) {
   expect(z80.i, equals(i), reason: "Register I mismatch");
 
@@ -88,7 +92,7 @@ void checkSpecialRegisters(int i, int r, bool iff1, bool iff2, int tStates) {
   expect(z80.tStates, equals(tStates), reason: "tStates mismatch");
 }
 
-main() {
+void main() {
   setUp(() {
     z80.reset();
     memory.reset();
@@ -98,7 +102,7 @@ main() {
 """);
 
   // These unit tests stress undocumented Z80 opcodes
-  const undocumentedOpcodeTests = [
+  final undocumentedOpcodeTests = [
     "4c",
     "4e",
     "54",
@@ -225,8 +229,10 @@ main() {
     }
   }
 
-  final input = File('tests.in').readAsLinesSync();
-  final expected = File('tests.expected').readAsLinesSync();
+  final input =
+      File('tool/generate_tests/fuse_tests/tests.in').readAsLinesSync();
+  final expected =
+      File('tool/generate_tests/fuse_tests/tests.expected').readAsLinesSync();
 
   try {
     var inputLine = 0;

@@ -178,6 +178,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   Future<void> executeFrame() async {
     z80.interrupt();
     while (z80.tStates < 14336) {
+      print(z80.tStates);
       z80.executeNextInstruction();
       if (breakpoints.contains(z80.pc)) {
         if (ticker.isActive) {
@@ -185,10 +186,10 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           break;
         }
       }
-      setState(() {
-        z80.tStates = 0;
-      });
     }
+    setState(() {
+      z80.tStates = 0;
+    });
   }
 
   void stepInstruction() {
@@ -292,8 +293,10 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   void toggleTicker() {
     setState(() {
       if (ticker.isActive) {
+        print('Ticker stopping...');
         ticker.stop();
       } else {
+        print('Ticker starting...');
         ticker.start();
       }
     });

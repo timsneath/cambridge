@@ -37,12 +37,12 @@ void main() {
   });
 
   test('NOP', () {
-    var beforeAF = z80.af;
-    var beforeBC = z80.bc;
-    var beforeDE = z80.de;
-    var beforeHL = z80.hl;
-    var beforeIX = z80.ix;
-    var beforeIY = z80.iy;
+    final beforeAF = z80.af;
+    final beforeBC = z80.bc;
+    final beforeDE = z80.de;
+    final beforeHL = z80.hl;
+    final beforeIX = z80.ix;
+    final beforeIY = z80.iy;
 
     execute([0x00, 0x00, 0x00, 0x00]);
 
@@ -187,7 +187,7 @@ void main() {
 
   test('LD_A_I', () // LD A, I
       {
-    var oldCarry = z80.fC;
+    final oldCarry = z80.fC;
     z80.i = 0xFE;
     execute([0xED, 0x57]);
     expect(z80.a, equals(0xFE));
@@ -204,7 +204,7 @@ void main() {
 
   test('LD_A_R', () // LD A, R
       {
-    var oldCarry = z80.fC;
+    final oldCarry = z80.fC;
     z80.r = 0x07;
     execute([0xED, 0x5F]);
     expect(z80.a, equals(z80.r));
@@ -751,7 +751,7 @@ void main() {
 
   test('INC_s', () // INC s
       {
-    bool oldC = z80.fC;
+    final oldC = z80.fC;
     z80.d = 0x28;
     execute([0x14]);
     expect(z80.d, equals(0x29));
@@ -761,7 +761,7 @@ void main() {
 
   test('INC_pHL', () // INC (HL)
       {
-    bool oldC = z80.fC;
+    final oldC = z80.fC;
     z80.hl = 0x3434;
     poke(0x3434, 0x7F);
     execute([0x34]);
@@ -773,7 +773,7 @@ void main() {
 
   test('INC_pIXd', () // INC (IX+d)
       {
-    bool oldC = z80.fC;
+    final oldC = z80.fC;
     z80.ix = 0x2020;
     poke(0x2030, 0x34);
     execute([0xDD, 0x34, 0x10]);
@@ -784,7 +784,7 @@ void main() {
 
   test('INC_pIYd', () // INC (IY+d)
       {
-    bool oldC = z80.fC;
+    final oldC = z80.fC;
     z80.iy = 0x2020;
     poke(0x2030, 0x34);
     execute([0xFD, 0x34, 0x10]);
@@ -795,7 +795,7 @@ void main() {
 
   test('DEC_m', () // DEC m
       {
-    bool oldC = z80.fC;
+    final oldC = z80.fC;
     z80.d = 0x2A;
     execute([0x15]);
     expect(z80.fN, equals(true));

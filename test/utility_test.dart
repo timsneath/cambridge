@@ -3,8 +3,8 @@
 // Run tests with
 //   pub run test test/utility_test.dart --no-color > test/results_utility_test.txt
 
-import 'package:test/test.dart';
-import 'package:spectrum/spectrum.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:spectrum/core/utility.dart';
 
 void main() {
   test("High byte test 1", () {
@@ -35,7 +35,7 @@ void main() {
   });
 
   test("Set bit", () {
-    int x = 0;
+    var x = 0;
     x = setBit(x, 5);
     expect(isBitSet(x, 5), equals(true));
     expect(x, equals(0x20));

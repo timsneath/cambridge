@@ -3,10 +3,11 @@
 // Run tests with
 //   pub run test test/z80instruction_test.dart --no-color > test/results_z80instruction_test.txt
 
-import 'package:test/test.dart';
-import 'package:spectrum/spectrum.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:spectrum/core/z80.dart';
+import 'package:spectrum/core/memory.dart';
 
-Memory memory = Memory(false);
+Memory memory = Memory(isRomProtected: false);
 Z80 z80 = Z80(memory, startAddress: 0xA000);
 
 void poke(int addr, int val) => memory.writeByte(addr, val);
@@ -15,7 +16,7 @@ int peek(int addr) => memory.readByte(addr);
 void loadInstructions(List<int> instructions) {
   // we pick this as a 'safe' location that doesn't clash with other instructions
   // TODO: randomize this, perhaps?
-  int addr = 0xA000;
+  const addr = 0xA000;
 
   memory.load(addr, instructions);
   memory.writeByte(addr + instructions.length, 0x76); // HALT instruction
@@ -29,7 +30,7 @@ void execute(List<int> instructions) {
   }
 }
 
-main() {
+void main() {
   setUp(() {
     z80.reset();
     memory.reset();

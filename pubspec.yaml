@@ -1,20 +1,19 @@
 name: spectrum
 description: Project Cambridge
 version: 1.0.0
+publish_to: none
 
 environment:
   sdk: '>=2.12.0-0 <3.0.0'
 
 dependencies:
-  collection: ^1.15.0-nullsafety.4
+  collection: ^1.15.0-nullsafety.5
   flutter:
     sdk: flutter
   google_fonts:
     git:
       url: git@github.com:material-foundation/google-fonts-flutter.git
       ref: nnbd
-
-publish_to: none
 
 dev_dependencies:
   flutter_test:
@@ -26,8 +25,8 @@ flutter:
   assets:
     - assets/google.scr
     - roms/48.rom
-    - roms/TIME.SNA
-    - roms/JETSET.Z80
+    # - roms/TIME.SNA
+    # - roms/JETSET.Z80
   fonts:
     - family: Source Code Pro
       fonts:

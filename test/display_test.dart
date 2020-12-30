@@ -3,7 +3,6 @@
 // Run tests with
 //   pub run test test/display_test.dart --no-color > test/results_display_test.txt
 
-// @dart=2.9
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spectrum/core/display.dart';
 import 'package:spectrum/core/z80.dart';

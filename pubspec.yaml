@@ -26,5 +26,5 @@ flutter:
   assets:
     - assets/google.scr
     - roms/48.rom
-    # - roms/TIME.SNA
-    # - roms/JETSET.Z80
+    - roms/TIME.SNA
+    - roms/JETSET.Z80

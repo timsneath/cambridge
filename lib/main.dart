@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-
-import 'core/disassembler.dart';
 import 'core/display.dart';
 import 'core/memory.dart';
 import 'core/ula.dart';
 import 'core/utility.dart';
 import 'core/z80.dart';
+import 'disassembly.dart';
 import 'key.dart';
 import 'monitor.dart';
 
@@ -59,7 +57,8 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   }
 
   Future<void> onTick(Duration elapsed) async {
-    executeFrame();
+    print('Tick: ${elapsed.inMilliseconds} ms.');
+    await executeFrame();
   }
 
   Future<void> loadTestScreenshot() async {
@@ -178,13 +177,10 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   Future<void> executeFrame() async {
     z80.interrupt();
     while (z80.tStates < 14336) {
-      print(z80.tStates);
       z80.executeNextInstruction();
-      if (breakpoints.contains(z80.pc)) {
-        if (ticker.isActive) {
-          ticker.stop();
-          break;
-        }
+      if (breakpoints.contains(z80.pc) && ticker.isActive) {
+        ticker.stop();
+        break;
       }
     }
     setState(() {
@@ -212,82 +208,46 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           children: <Widget>[
             IconButton(
               icon: const Icon(Icons.video_label),
+              tooltip: 'Load test screenshot',
               onPressed: loadTestScreenshot,
             ),
             IconButton(
               icon: const Icon(Icons.replay),
+              tooltip: 'Reset emulator',
               onPressed: resetEmulator,
             ),
             IconButton(
               icon: const Icon(Icons.file_download),
+              tooltip: 'Load tape snapshot',
               onPressed: loadZ80Snapshot,
             ),
             IconButton(
-              icon: !ticker.isActive
+              icon: ticker.isActive
                   ? const Icon(
-                      Icons.play_circle_filled,
-                      color: Color(0xFF007F00),
-                    )
-                  : const Icon(
                       Icons.pause_circle_filled,
                       color: Color(0xFF007F7F),
+                    )
+                  : const Icon(
+                      Icons.play_circle_filled,
+                      color: Color(0xFF007F00),
                     ),
+              tooltip: ticker.isActive ? 'Pause' : 'Run',
               onPressed: toggleTicker,
             ),
             IconButton(
               icon: const Icon(Icons.keyboard_arrow_right),
+              tooltip: 'Step one instruction',
               onPressed: stepInstruction,
             ),
             IconButton(
               icon: const Icon(Icons.keyboard),
+              tooltip: 'Show/hide keyboard',
               onPressed: keyboardToggleVisibility,
             ),
           ],
         ),
       ],
     );
-  }
-
-  Widget disassembly() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            // Ugly -- needs sorting out, obviously
-            Disassembler.disassembleMultipleInstructions(
-                memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
-            textAlign: TextAlign.left,
-            softWrap: true,
-            style: GoogleFonts.sourceCodePro(),
-          ),
-          Text('Breakpoints: ${breakpoints.map(toHex32)}'),
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: 100,
-                child: TextField(
-                  autocorrect: false,
-                  onSubmitted: addBreakpoint,
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  void addBreakpoint(String breakpoint) {
-    final intBreakpoint = int.tryParse(breakpoint, radix: 16);
-    if (intBreakpoint != null) {
-      setState(() {
-        if (!breakpoints.contains(intBreakpoint)) {
-          breakpoints.add(intBreakpoint);
-        }
-      });
-    }
   }
 
   void toggleTicker() {
@@ -313,7 +273,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           Monitor(memory: memory),
           Text('Program Counter: ${toHex16(z80.pc)}'),
           menus(),
-          disassembly(),
+          DisassemblyView(),
           if (isKeyboardVisible) Keyboard(),
         ],
       ),

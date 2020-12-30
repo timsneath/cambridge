@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'core/disassembler.dart';
 import 'core/utility.dart';
@@ -19,13 +18,11 @@ class _DisassemblyViewState extends State<DisassemblyView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            // Ugly -- needs sorting out, obviously
-            Disassembler.disassembleMultipleInstructions(
-                memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
-            textAlign: TextAlign.left,
-            softWrap: true,
-            style: GoogleFonts.sourceCodePro(),
-          ),
+              Disassembler.disassembleMultipleInstructions(
+                  memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
+              textAlign: TextAlign.left,
+              softWrap: true,
+              style: const TextStyle(fontFamily: 'ZX Spectrum')),
           Text('Breakpoints: ${breakpoints.map(toHex32)}'),
           Row(
             children: <Widget>[

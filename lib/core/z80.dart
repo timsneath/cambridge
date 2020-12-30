@@ -209,13 +209,14 @@ class Z80 {
     final byteRead = memory.readByte(hl);
     memory.writeByte(de, byteRead);
 
+    fPV = (bc - 1) != 0;
+
     de = (de + 1) % 0x10000;
     hl = (hl + 1) % 0x10000;
     bc = (bc - 1) % 0x10000;
 
     fH = false;
     fN = false;
-    fPV = bc != 0;
     f5 = isBitSet(byteRead, 5);
     f3 = isBitSet(byteRead, 3);
 
@@ -315,8 +316,7 @@ class Z80 {
   }
 
   int ADC8(int a, int b) {
-    if (fC) b = (b + 1) % 0x100;
-    return ADD8(a, b);
+    return ADD8(a, b, withCarry: fC);
   }
 
   int ADC16(int a, int b) {
@@ -340,14 +340,15 @@ class Z80 {
     return a;
   }
 
-  int ADD8(int a, int b) {
-    fH = (((a & 0x0F) + (b & 0x0F)) & 0x10) == 0x10;
+  int ADD8(int a, int b, {bool withCarry = false}) {
+    final carry = withCarry ? 1 : 0;
+    fH = (((a & 0x0F) + (b & 0x0F) + carry) & 0x10) == 0x10;
 
     // overflow in add only occurs when operand polarities are the same
     final overflowCheck = isSign8(a) == isSign8(b);
 
-    fC = a + b > 0xFF;
-    a = (a + b) % 0x100;
+    fC = a + b + carry > 0xFF;
+    a = (a + b + carry) % 0x100;
     fS = isSign8(a);
 
     // if polarity is now different then add caused an overflow

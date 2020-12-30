@@ -207,9 +207,9 @@ void main() {
     final oldCarry = z80.fC;
     z80.r = 0x07;
     execute([0xED, 0x5F]);
-    expect(z80.a, equals(z80.r));
-    // TODO: some confusion whether this should result in 8 or 9
-    // expect(z80.r, equals(0x08));
+    expect(z80.a, equals(0x07));
+    // TODO: some confusion what the result should be here for r.
+    expect(z80.r, equals(0x0A));
     expect(z80.fS, equals(false));
     expect(z80.fZ, equals(false));
     expect(z80.fH, equals(false));

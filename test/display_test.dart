@@ -17,6 +17,6 @@ void main() {
 
     // final buffer = memory.displayBuffer;
     final image = Display.imageBuffer(memory);
-    expect(image.lengthInBytes, equals(256 * 192));
+    expect(image.lengthInBytes, equals(256 * 192 * 4));
   });
 }

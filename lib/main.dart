@@ -18,6 +18,7 @@ Display? display;
 late List<int> breakpoints;
 
 const snapshotFile = 'roms/Z80TEST.SNA';
+// const snapshotFile = 'roms/JETSET.SNA';
 
 void main() {
   runApp(ProjectCambridge());
@@ -83,15 +84,6 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
       } else {
         storage.loadZ80Snapshot(snapshot);
       }
-    });
-  }
-
-  Future<void> loadZ80Snapshot() async {
-    final storage = Storage(z80: z80);
-    final snapshot = await rootBundle.load('roms/JETSET.Z80');
-
-    setState(() {
-      storage.loadZ80Snapshot(snapshot);
     });
   }
 

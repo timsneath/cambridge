@@ -1277,16 +1277,24 @@ class Disassembler {
   // Z80 instructions are never more than four bytes, including displacements.
   // This method uses the decode table above to translate instructions into
   // strings for debugging purposes.
-  static String? decodeInstruction(int inst1, int inst2, int inst3, int inst4) {
+  static String decodeInstruction(int inst1, int inst2, int inst3, int inst4) {
+    const unknownOpcode = '<UNKNOWN>';
+
     switch (inst1) {
       case 0xED: // extended instructions
-        return replaceOperand(
-            z80Opcodes[toHex16(inst1) + toHex16(inst2)]!, inst3, inst4);
-
+        final opcode = toHex16(inst1) + toHex16(inst2);
+        if (!z80Opcodes.containsKey(opcode)) {
+          print('Opcode $opcode missing.');
+          return unknownOpcode;
+        } else {
+          return replaceOperand(z80Opcodes[opcode]!, inst3, inst4);
+        }
       case 0xCB: // bit instructions
         // none of these have displacement values, so don't bother to escape
         // with replaceOperand()
-        return z80Opcodes[toHex16(inst1) + toHex16(inst2)];
+        final opcode = toHex16(inst1) + toHex16(inst2);
+
+        return z80Opcodes[opcode] ?? unknownOpcode;
 
       case 0xDD:
       case 0xFD:
@@ -1297,26 +1305,47 @@ class Disassembler {
           // where ** is the displacement and XX is the opcode that determines
           // which instruction type. We map these as DDCBXX, so we skip
           // inst3 when searching the map.
-          return replaceOperand(
-              z80Opcodes[toHex16(inst1) + toHex16(inst2) + toHex16(inst4)]!,
-              inst3,
-              0);
+          final opcode = toHex16(inst1) + toHex16(inst2) + toHex16(inst4);
+          if (!z80Opcodes.containsKey(opcode)) {
+            print('Opcode $opcode missing.');
+            return unknownOpcode;
+          } else {
+            return replaceOperand(z80Opcodes[opcode]!, inst3, 0);
+          }
         }
         if (inst2 == 0x36) // LD (IX+*), *
         {
-          // This is a unique opcode which takes two operands, so we call
-          // replaceOperand twice, rather than special-casing code elsewhere.
-          return replaceOperand(
-              replaceOperand(
-                  z80Opcodes[toHex16(inst1) + toHex16(inst2)]!, inst3, 0),
-              inst4,
-              0);
-        }
-        return replaceOperand(
-            z80Opcodes[toHex16(inst1) + toHex16(inst2)]!, inst3, inst4);
+          final opcode = toHex16(inst1) + toHex16(inst2);
 
+          if (!z80Opcodes.containsKey(opcode)) {
+            print('Opcode $opcode missing.');
+            return unknownOpcode;
+          } else {
+            // This is a unique opcode which takes two operands, so we call
+            // replaceOperand twice, rather than special-casing code elsewhere.
+            return replaceOperand(
+                replaceOperand(z80Opcodes[opcode]!, inst3, 0), inst4, 0);
+          }
+        }
+
+        // Just a regular DDxx or FDxx instruction
+        final opcode = toHex16(inst1) + toHex16(inst2);
+
+        if (!z80Opcodes.containsKey(opcode)) {
+          print('Opcode $opcode missing.');
+          return unknownOpcode;
+        } else {
+          return replaceOperand(z80Opcodes[opcode]!, inst3, inst4);
+        }
       default:
-        return replaceOperand(z80Opcodes[toHex16(inst1)]!, inst2, inst3);
+        // Just a regular single byte opcode
+        final opcode = toHex16(inst1);
+        if (!z80Opcodes.containsKey(opcode)) {
+          print('Opcode $opcode missing.');
+          return unknownOpcode;
+        } else {
+          return replaceOperand(z80Opcodes[opcode]!, inst2, inst3);
+        }
     }
   }
 

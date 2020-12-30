@@ -24,7 +24,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/google.scr
-    - roms/48.rom
-    - roms/TIME.SNA
-    - roms/JETSET.Z80
+    - assets/
+    - roms/

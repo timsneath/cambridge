@@ -73,7 +73,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
 
   Future<void> loadSNASnapshot() async {
     final storage = Storage(z80: z80);
-    final snapshot = await rootBundle.load('roms/TIME.SNA');
+    final snapshot = await rootBundle.load('roms/JETSET.SNA');
 
     setState(() {
       storage.loadSNASnapshot(snapshot);
@@ -153,7 +153,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
             IconButton(
                 icon: const Icon(Icons.file_download),
                 tooltip: 'Load tape snapshot',
-                onPressed: loadZ80Snapshot),
+                onPressed: loadSNASnapshot),
             IconButton(
               icon: ticker.isActive
                   ? const Icon(

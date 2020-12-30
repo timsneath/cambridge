@@ -315,77 +315,74 @@ class Z80 {
     return reg;
   }
 
-  int ADC8(int a, int b) {
-    return ADD8(a, b, withCarry: fC);
+  int ADC8(int x, int y) {
+    return ADD8(x, y, withCarry: fC);
   }
 
-  int ADC16(int a, int b) {
+  int ADC16(int xx, int yy) {
     if (fC) {
-      b = (b + 1) % 0x10000;
+      yy = (yy + 1) % 0x10000;
     }
 
     // overflow in add only occurs when operand polarities are the same
-    final overflowCheck = isSign16(a) == isSign16(b);
+    final overflowCheck = isSign16(xx) == isSign16(yy);
 
-    a = ADD16(a, b);
+    xx = ADD16(xx, yy);
 
     // if polarity is now different then add caused an overflow
     if (overflowCheck) {
-      fPV = isSign16(a) != isSign16(b);
+      fPV = isSign16(xx) != isSign16(yy);
     } else {
       fPV = false;
     }
-    fS = isSign16(a);
-    fZ = isZero(a);
-    return a;
+    fS = isSign16(xx);
+    fZ = isZero(xx);
+    return xx;
   }
 
-  int ADD8(int a, int b, {bool withCarry = false}) {
+  int ADD8(int x, int y, {bool withCarry = false}) {
     final carry = withCarry ? 1 : 0;
-    fH = (((a & 0x0F) + (b & 0x0F) + carry) & 0x10) == 0x10;
+    fH = (((x & 0x0F) + (y & 0x0F) + carry) & 0x10) == 0x10;
 
     // overflow in add only occurs when operand polarities are the same
-    final overflowCheck = isSign8(a) == isSign8(b);
+    final overflowCheck = isSign8(x) == isSign8(y);
 
-    fC = a + b + carry > 0xFF;
-    a = (a + b + carry) % 0x100;
-    fS = isSign8(a);
+    fC = x + y + carry > 0xFF;
+    x = (x + y + carry) % 0x100;
+    fS = isSign8(x);
 
     // if polarity is now different then add caused an overflow
     if (overflowCheck) {
-      fPV = fS != isSign8(b);
+      fPV = fS != isSign8(y);
     } else {
       fPV = false;
     }
 
-    f5 = isBitSet(a, 5);
-    f3 = isBitSet(a, 3);
-    fZ = isZero(a);
+    f5 = isBitSet(x, 5);
+    f3 = isBitSet(x, 3);
+    fZ = isZero(x);
     fN = false;
 
     tStates += 4;
 
-    return a;
+    return x;
   }
 
-  int ADD16(int a, int b) {
-    fH = (((a & 0xFFF) + (b & 0xFFF)) & 0x1000) == 0x1000;
-    fC = a + b > 0xFFFF;
-    a = (a + b) % 0x10000;
-    f5 = isBitSet(a, 13);
-    f3 = isBitSet(a, 11);
+  int ADD16(int xx, int yy) {
+    fH = (((xx & 0xFFF) + (yy & 0xFFF)) & 0x1000) == 0x1000;
+    fC = xx + yy > 0xFFFF;
+    xx = (xx + yy) % 0x10000;
+    f5 = isBitSet(xx, 13);
+    f3 = isBitSet(xx, 11);
     fN = false;
 
     tStates += 11;
 
-    return a;
+    return xx;
   }
 
   int SBC8(int x, int y) {
-    if (fC) {
-      y = (y + 1) % 0x100;
-    }
-    return SUB8(x, y);
+    return SUB8(x, y, withCarry: fC);
   }
 
   int SBC16(int x, int y) {
@@ -417,17 +414,18 @@ class Z80 {
     return x;
   }
 
-  // TODO: Consistent parameter names
-  int SUB8(int x, int y) {
-    fC = x < y;
-    fH = (x & 0x0F) < (y & 0x0F);
+  int SUB8(int x, int y, {bool withCarry = false}) {
+    final carry = withCarry ? 1 : 0;
+
+    fC = x < (y + carry);
+    fH = (x & 0x0F) < ((y + carry) & 0x0F);
 
     fS = isSign8(x);
 
     // overflow in subtract only occurs when operand signs are different
     final overflowCheck = isSign8(x) != isSign8(y);
 
-    x = (x - y) % 0x100;
+    x = (x - y - carry) % 0x100;
     f5 = isBitSet(x, 5);
     f3 = isBitSet(x, 3);
 

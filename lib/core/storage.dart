@@ -12,9 +12,16 @@ class Storage {
 
   const Storage({required this.z80});
 
+  void loadBinaryData(ByteData snapshot,
+      {int startLocation = 0x4000, int pc = 0x4000}) {
+    z80.memory.load(startLocation, snapshot.buffer.asUint8List());
+    z80.pc = pc;
+    // z80.sp = pc;
+  }
+
   // Per https://faqwiki.zxnet.co.uk/wiki/SNA_format
   // the snapshot format has a 27 byte header containing the Z80 registers
-  Future<void> loadSNASnapshot(ByteData snapshot) async {
+  void loadSNASnapshot(ByteData snapshot) {
     final r = snapshot.buffer.asUint8List(0, 27);
 
     z80.i = r[0];
@@ -43,7 +50,7 @@ class Storage {
 
   // Per http://rk.nvg.ntnu.no/sinclair/formats/z80-format.html
   // the snapshot format has a 30 byte header containing the Z80 registers
-  Future<void> loadZ80Snapshot(ByteData snapshot) async {
+  void loadZ80Snapshot(ByteData snapshot) {
     final r = snapshot.buffer.asUint8List(0, 30);
 
     var fileFormatVersion = 145;

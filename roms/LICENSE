@@ -1,5 +1,18 @@
-The file 48.rom is the original ZX Spectrum 48K ROM. Amstrad have kindly given their 
-permission for the redistribution of their copyrighted material but retain that copyright.
+ZX Spectrum ROM
+---------------
+The file 48.rom is the original ZX Spectrum 48K ROM. Amstrad have kindly given
+their permission for the redistribution of their copyrighted material but retain
+that copyright.
 
 For further copyright details, visit the following link:
-   https://groups.google.com/forum/#!msg/comp.sys.sinclair/HtpBU2Bzv_U/HhNDSU3MksAJ
+  https://groups.google.com/forum/#!msg/comp.sys.sinclair/HtpBU2Bzv_U/HhNDSU3MksAJ
+
+
+zexdoc
+------
+The file zexdoc is free software licensed under the GNU General Public License
+v2, which can be found elsewhere in this project or at:
+  https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+
+Source code for this file may be found here:
+  http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexdoc.src

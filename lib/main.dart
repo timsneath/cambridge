@@ -17,6 +17,7 @@ late Memory memory;
 Display? display;
 late List<int> breakpoints;
 
+const instructionTestFile = 'roms/zexdoc';
 const snapshotFile = 'roms/Z80TEST.SNA';
 // const snapshotFile = 'roms/JETSET.SNA';
 
@@ -45,7 +46,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   late Ticker ticker;
 
   bool isRomLoaded = false;
-  bool isKeyboardVisible = false;
+  bool isKeyboardVisible = true;
   bool isDisassemblerVisible = false;
 
   @override
@@ -76,14 +77,23 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
 
   Future<void> loadSnapshot() async {
     final storage = Storage(z80: z80);
-    final snapshot = await rootBundle.load(snapshotFile);
+    final rawBinary = await rootBundle.load(snapshotFile);
 
     setState(() {
       if (snapshotFile.toLowerCase().endsWith('.sna')) {
-        storage.loadSNASnapshot(snapshot);
+        storage.loadSNASnapshot(rawBinary);
       } else {
-        storage.loadZ80Snapshot(snapshot);
+        storage.loadZ80Snapshot(rawBinary);
       }
+    });
+  }
+
+  Future<void> testInstructionSet() async {
+    final storage = Storage(z80: z80);
+    final rawBinary = await rootBundle.load(instructionTestFile);
+
+    setState(() {
+      storage.loadBinaryData(rawBinary, startLocation: 0x8000, pc: 0x8000);
     });
   }
 
@@ -147,6 +157,11 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
               icon: const Icon(Icons.replay),
               tooltip: 'Reset emulator',
               onPressed: resetEmulator,
+            ),
+            IconButton(
+              icon: const Icon(Icons.api),
+              tooltip: 'Test Z80 instruction set',
+              onPressed: testInstructionSet,
             ),
             IconButton(
                 icon: const Icon(Icons.file_download),

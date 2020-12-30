@@ -17,6 +17,8 @@ late Memory memory;
 Display? display;
 late List<int> breakpoints;
 
+const snapshotFile = 'roms/Z80TEST.SNA';
+
 void main() {
   runApp(ProjectCambridge());
 }
@@ -71,12 +73,16 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     });
   }
 
-  Future<void> loadSNASnapshot() async {
+  Future<void> loadSnapshot() async {
     final storage = Storage(z80: z80);
-    final snapshot = await rootBundle.load('roms/JETSET.SNA');
+    final snapshot = await rootBundle.load(snapshotFile);
 
     setState(() {
-      storage.loadSNASnapshot(snapshot);
+      if (snapshotFile.toLowerCase().endsWith('.sna')) {
+        storage.loadSNASnapshot(snapshot);
+      } else {
+        storage.loadZ80Snapshot(snapshot);
+      }
     });
   }
 
@@ -153,7 +159,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
             IconButton(
                 icon: const Icon(Icons.file_download),
                 tooltip: 'Load tape snapshot',
-                onPressed: loadSNASnapshot),
+                onPressed: loadSnapshot),
             IconButton(
               icon: ticker.isActive
                   ? const Icon(

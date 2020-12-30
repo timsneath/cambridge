@@ -149,7 +149,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              icon: const Icon(Icons.video_label),
+              icon: const Icon(Icons.crop_original),
               tooltip: 'Load test screenshot',
               onPressed: loadTestScreenshot,
             ),
@@ -159,12 +159,12 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
               onPressed: resetEmulator,
             ),
             IconButton(
-              icon: const Icon(Icons.api),
+              icon: const Icon(Icons.fact_check),
               tooltip: 'Test Z80 instruction set',
               onPressed: testInstructionSet,
             ),
             IconButton(
-                icon: const Icon(Icons.file_download),
+                icon: const Icon(Icons.system_update_alt),
                 tooltip: 'Load tape snapshot',
                 onPressed: loadSnapshot),
             IconButton(

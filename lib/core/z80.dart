@@ -672,7 +672,7 @@ class Z80 {
 
     fS = isSign8(a);
     fZ = isZero(a);
-    fH = true;
+    fH = a & 0x0F != 0;
     fN = true;
 
     tStates += 8;

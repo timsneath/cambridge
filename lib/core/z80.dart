@@ -418,7 +418,7 @@ class Z80 {
     final carry = withCarry ? 1 : 0;
 
     fC = x < (y + carry);
-    fH = (x & 0x0F) < ((y + carry) & 0x0F);
+    fH = (x & 0x0F) < ((y & 0x0F) + carry);
 
     fS = isSign8(x);
 

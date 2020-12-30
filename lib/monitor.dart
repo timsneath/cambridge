@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'core/display.dart';
@@ -10,6 +13,25 @@ class Monitor extends StatelessWidget {
   final Memory memory;
 
   const Monitor({required this.memory});
+
+  // TODO: Not used today. Perhaps use in the future?
+  Future<FrameInfo> makeImage() async {
+    final pixels = Display.imageBuffer(memory);
+
+    final buffer = await ImmutableBuffer.fromUint8List(pixels);
+    final descriptor = ImageDescriptor.raw(
+      buffer,
+      width: Display.screenWidth,
+      height: Display.screenHeight,
+      pixelFormat: PixelFormat.rgba8888,
+    );
+
+    final codec = await descriptor.instantiateCodec(
+      targetWidth: Display.screenWidth,
+      targetHeight: Display.screenHeight,
+    );
+    return codec.getNextFrame();
+  }
 
   @override
   Widget build(BuildContext context) {

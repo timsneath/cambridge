@@ -1,4 +1,4 @@
-// displaybuffer.dart -- implements an attached screen buffer
+// display.dart -- implements an attached screen buffer
 
 import 'dart:typed_data';
 

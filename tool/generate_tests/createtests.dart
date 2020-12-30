@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:spectrum/core/disassembler.dart';
 
 const bool includeUndocumentedOpcodeUnitTests = false;
 
@@ -240,14 +241,20 @@ void main() {
 
     while (inputLine < input.length) {
       testName = input[inputLine++];
-      sink.write("\n  // Test instruction $testName\n");
-      sink.write("  test('");
+      final instr = Disassembler.z80Opcodes[testName];
+      sink.write("\n  // Test instruction $testName | "
+          "${instr ?? '<UNKNOWN>'}\n");
+      sink.write('  test("');
       if (undocumentedOpcodeTests.contains(testName)) {
         sink.write('UNDOCUMENTED ');
       } else {
         sink.write('OPCODE ');
       }
-      sink.write("$testName', () {\n");
+      sink.write(testName);
+      if (instr != null) {
+        sink.write(" | $instr");
+      }
+      sink.write('", () {\n');
 
       sink.write("    // Set up machine initial state\n");
       final registers = input[inputLine++].split(' ');
@@ -351,7 +358,11 @@ void main() {
       sink.write("  }");
 
       if (undocumentedOpcodeTests.contains(testName)) {
-        sink.write(", tags: 'undocumented'");
+        if (!includeUndocumentedOpcodeUnitTests) {
+          sink.write(", skip: 'undocumented'");
+        } else {
+          sink.write(", tags: 'undocumented'");
+        }
       }
 
       sink.write(");\n\n");

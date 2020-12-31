@@ -6,7 +6,6 @@ import 'core/display.dart';
 import 'core/memory.dart';
 import 'core/storage.dart';
 import 'core/ula.dart';
-import 'core/utility.dart';
 import 'core/z80.dart';
 import 'disassembly.dart';
 import 'key.dart';

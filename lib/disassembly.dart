@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'core/disassembler.dart';
 import 'core/utility.dart';
@@ -17,24 +18,47 @@ class _DisassemblyViewState extends State<DisassemblyView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Text('Program Counter: ${toHex16(z80.pc)}',
+              style: const TextStyle(
+                fontFamily: 'ZX Spectrum',
+                fontSize: 10,
+              )),
           Text(
               Disassembler.disassembleMultipleInstructions(
                   memory.memory.sublist(z80.pc, z80.pc + (4 * 8)), 8, z80.pc),
               textAlign: TextAlign.left,
               softWrap: true,
-              style: const TextStyle(fontFamily: 'ZX Spectrum')),
-          Text('Breakpoints: ${breakpoints.map(toHex32)}'),
+              style: const TextStyle(
+                fontFamily: 'ZX Spectrum',
+                fontSize: 10,
+              )),
+          Text('Breakpoints: ${breakpoints.map(toHex32)}',
+              style: const TextStyle(
+                fontFamily: 'ZX Spectrum',
+                fontSize: 10,
+              )),
           Row(
             children: <Widget>[
+              const Text(
+                'Add Breakpoint: ',
+                style: TextStyle(
+                  fontFamily: 'ZX Spectrum',
+                  fontSize: 10,
+                ),
+              ),
               SizedBox(
                 width: 100,
                 child: TextField(
-                  autocorrect: false,
-                  onSubmitted: addBreakpoint,
-                ),
+                    autocorrect: false,
+                    onSubmitted: addBreakpoint,
+                    keyboardType: TextInputType.text,
+                    style: const TextStyle(
+                      fontFamily: 'ZX Spectrum',
+                      fontSize: 10,
+                    )),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

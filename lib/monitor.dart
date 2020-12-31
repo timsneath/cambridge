@@ -35,20 +35,25 @@ class Monitor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: const [
-          BoxShadow(color: Colors.grey, offset: Offset(20, 20), blurRadius: 20),
-        ],
-        border: Border.all(
-            color: SpectrumColor.fromByteValue(ULA.screenBorder), width: 20),
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Image.memory(
-        Display.bmpImage(memory),
-        width: Display.screenWidth.toDouble(),
-        height: Display.screenHeight.toDouble(),
-        gaplessPlayback: true,
+    return Expanded(
+      child: FittedBox(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                  color: Colors.grey, offset: Offset(20, 20), blurRadius: 20),
+            ],
+            border: Border.all(
+                color: SpectrumColor.fromByteValue(ULA.screenBorder),
+                width: 20),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Image.memory(
+            Display.bmpImage(memory),
+            gaplessPlayback: true,
+          ),
+        ),
       ),
     );
   }

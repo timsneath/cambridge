@@ -19,7 +19,7 @@ late List<int> breakpoints;
 
 const instructionTestFile = 'roms/zexdoc';
 const snapshotFile = 'roms/Z80TEST.SNA';
-// const snapshotFile = 'roms/JETSET.SNA';
+// const snapshotFile = 'roms/miner.sna';
 
 void main() {
   runApp(ProjectCambridge());
@@ -63,7 +63,6 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   }
 
   Future<void> onTick(Duration elapsed) async {
-    // print('Tick: ${elapsed.inMilliseconds} ms.');
     await executeFrame();
   }
 
@@ -214,13 +213,9 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Project Cambridge'),
-      ),
-      body: ListView(
+      body: Column(
         children: [
           Monitor(memory: memory),
-          Text('Program Counter: ${toHex16(z80.pc)}'),
           menus(),
           if (isDisassemblerVisible) DisassemblyView(),
           if (isKeyboardVisible) Keyboard(),

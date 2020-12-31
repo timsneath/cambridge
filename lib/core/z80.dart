@@ -96,6 +96,7 @@ class Z80 {
   // REGISTERS
   // *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 
+  // Flags: SZ5H3PNC
   final flags = const {
     'C': 0x01, // carry flag (bit 0)
     'N': 0x02, // add/subtract flag (bit 1)
@@ -320,14 +321,10 @@ class Z80 {
   }
 
   int ADC16(int xx, int yy) {
-    if (fC) {
-      yy = (yy + 1) % 0x10000;
-    }
-
     // overflow in add only occurs when operand polarities are the same
     final overflowCheck = isSign16(xx) == isSign16(yy);
 
-    xx = ADD16(xx, yy);
+    xx = ADD16(xx, yy, withCarry: fC);
 
     // if polarity is now different then add caused an overflow
     if (overflowCheck) {
@@ -368,10 +365,12 @@ class Z80 {
     return x;
   }
 
-  int ADD16(int xx, int yy) {
-    fH = (((xx & 0xFFF) + (yy & 0xFFF)) & 0x1000) == 0x1000;
-    fC = xx + yy > 0xFFFF;
-    xx = (xx + yy) % 0x10000;
+  int ADD16(int xx, int yy, {bool withCarry = false}) {
+    final carry = withCarry ? 1 : 0;
+
+    fH = (xx & 0x0FFF) + (yy & 0x0FFF) + carry > 0x0FFF;
+    fC = xx + yy + carry > 0xFFFF;
+    xx = (xx + yy + carry) % 0x10000;
     f5 = isBitSet(xx, 13);
     f3 = isBitSet(xx, 11);
     fN = false;
@@ -385,33 +384,33 @@ class Z80 {
     return SUB8(x, y, withCarry: fC);
   }
 
-  int SBC16(int x, int y) {
-    if (fC) {
-      y = (y + 1) % 0x10000;
-    }
-    fC = x < y;
-    fH = (x & 0xFFF) < (y & 0xFFF);
+  int SBC16(int xx, int yy) {
+    final carry = fC ? 1 : 0;
+
+    fC = xx < (yy + carry);
+    fH = (xx & 0xFFF) < ((yy & 0xFFF) + carry);
 
     // overflow in subtract only occurs when operand signs are different
-    final overflowCheck = isSign16(x) != isSign16(y);
+    // final overflowCheck = isSign16(xx) != isSign16(yy);
 
-    x = (x - y) % 0x10000;
-    f5 = isBitSet(x, 13);
-    f3 = isBitSet(x, 11);
-    fS = isSign16(x);
-    fZ = isZero(x);
-    fN = true;
+    xx = (xx - yy - carry) % 0x10000;
+    fS = isSign16(xx);
+    f5 = isBitSet(xx, 13);
+    f3 = isBitSet(xx, 11);
+    fZ = isZero(xx);
+    fN = false;
 
     // if x changed polarity then subtract caused an overflow
-    if (overflowCheck) {
-      fPV = fS != isSign16(x);
-    } else {
-      fPV = false;
-    }
+    fPV = xx - yy - carry < -32768;
+    // if (overflowCheck) {
+    //   fPV = fS != isSign16(xx);
+    // } else {
+    //   fPV = false;
+    // }
 
     tStates += 15;
 
-    return x;
+    return xx;
   }
 
   int SUB8(int x, int y, {bool withCarry = false}) {

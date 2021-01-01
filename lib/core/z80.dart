@@ -1102,10 +1102,10 @@ class Z80 {
   int IN(int portNumber) {
     final readByte = portRead(bc);
 
-    fS = isSign8(portNumber);
-    fZ = isZero(portNumber);
+    fS = isSign8(readByte);
+    fZ = isZero(readByte);
     fH = false;
-    fPV = isParity(portNumber);
+    fPV = isParity(readByte);
     fN = false;
     f5 = isBitSet(readByte, 5);
     f3 = isBitSet(readByte, 3);
@@ -2077,6 +2077,7 @@ class Z80 {
       // IN C, (C)
       case 0x48:
         c = IN(c);
+        tStates += 12;
         break;
 
       // OUT C, (C)
@@ -2111,6 +2112,7 @@ class Z80 {
       // IN D, (C)
       case 0x50:
         d = IN(c);
+        tStates += 12;
         break;
 
       // OUT (C), D
@@ -2154,6 +2156,7 @@ class Z80 {
       // IN E, (C)
       case 0x58:
         e = IN(c);
+        tStates += 12;
         break;
 
       // OUT (C), E
@@ -2196,6 +2199,7 @@ class Z80 {
       // IN H, (C)
       case 0x60:
         h = IN(c);
+        tStates += 12;
         break;
 
       // OUT (C), H
@@ -2223,6 +2227,7 @@ class Z80 {
       // IN L, (C)
       case 0x68:
         l = IN(c);
+        tStates += 12;
         break;
 
       // OUT (C), L
@@ -2273,7 +2278,7 @@ class Z80 {
       // IN A, (C)
       case 0x78:
         a = IN(c);
-        tStates += 11;
+        tStates += 12;
         break;
 
       // OUT (C), A

@@ -2256,6 +2256,7 @@ class Z80 {
       // IN (C)
       case 0x70:
         IN(c);
+        tStates += 12;
         break;
 
       // OUT (C), 0

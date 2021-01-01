@@ -2132,6 +2132,7 @@ class Z80 {
 
       // RETI
       case 0x4D:
+        pc = POP();
         tStates += 14;
         break;
 

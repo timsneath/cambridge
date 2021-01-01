@@ -19,6 +19,11 @@ class Storage {
     // z80.sp = pc;
   }
 
+  // Documented at https://sinclair.wiki.zxnet.co.uk/wiki/TAP_format
+  void loadTAPSnapshot(ByteData snapshot) {
+    // TODO: implement
+  }
+
   // Per https://faqwiki.zxnet.co.uk/wiki/SNA_format
   // the snapshot format has a 27 byte header containing the Z80 registers
   void loadSNASnapshot(ByteData snapshot) {

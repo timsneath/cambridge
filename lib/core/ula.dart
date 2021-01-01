@@ -103,7 +103,9 @@ class ULA {
   /// upper bits are unused.
   static void writePort(int value) {
     final borderColor = value & 0x07;
+    // ignore: unused_local_variable
     final mic = value & 0x08;
+    // ignore: unused_local_variable
     final ear = value & 0x10;
 
     screenBorder = borderColor;

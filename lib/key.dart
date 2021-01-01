@@ -107,7 +107,7 @@ class Keyboard extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: AspectRatio(
-          aspectRatio: 5 / 2,
+          aspectRatio: 2.8,
           child: Column(
             children: <Widget>[
               Table(

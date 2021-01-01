@@ -152,8 +152,8 @@ void main() {
     expect(peek(1), equals(0x56));
   });
 
-  // Test instruction 02_1 | <UNKNOWN>
-  test("OPCODE 02_1", () {
+  // Test instruction 02_1 | LD (BC), A
+  test("OPCODE 02_1 | LD (BC), A", () {
     // Set up machine initial state
     loadRegisters(0x1300, 0x6b65, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -353,8 +353,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 7);
   });
 
-  // Test instruction 0a_1 | <UNKNOWN>
-  test("OPCODE 0a_1", () {
+  // Test instruction 0a_1 | LD A, (BC)
+  test("OPCODE 0a_1 | LD A, (BC)", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x1234, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -849,8 +849,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction 20_1 | <UNKNOWN>
-  test("OPCODE 20_1", () {
+  // Test instruction 20_1 | JR NZ, *
+  test("OPCODE 20_1 | JR NZ, *", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -872,8 +872,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 12);
   });
 
-  // Test instruction 20_2 | <UNKNOWN>
-  test("OPCODE 20_2", () {
+  // Test instruction 20_2 | JR NZ, *
+  test("OPCODE 20_2 | JR NZ, *", () {
     // Set up machine initial state
     loadRegisters(0x0040, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1034,8 +1034,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 7);
   });
 
-  // Test instruction 27_1 | <UNKNOWN>
-  test("OPCODE 27_1", () {
+  // Test instruction 27_1 | DAA
+  test("OPCODE 27_1 | DAA", () {
     // Set up machine initial state
     loadRegisters(0x9a02, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1078,8 +1078,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction 28_1 | <UNKNOWN>
-  test("OPCODE 28_1", () {
+  // Test instruction 28_1 | JR Z, *
+  test("OPCODE 28_1 | JR Z, *", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1101,8 +1101,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 7);
   });
 
-  // Test instruction 28_2 | <UNKNOWN>
-  test("OPCODE 28_2", () {
+  // Test instruction 28_2 | JR Z, *
+  test("OPCODE 28_2 | JR Z, *", () {
     // Set up machine initial state
     loadRegisters(0x0040, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1283,8 +1283,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction 30_1 | <UNKNOWN>
-  test("OPCODE 30_1", () {
+  // Test instruction 30_1 | JR NC, *
+  test("OPCODE 30_1 | JR NC, *", () {
     // Set up machine initial state
     loadRegisters(0x0036, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1306,8 +1306,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 12);
   });
 
-  // Test instruction 30_2 | <UNKNOWN>
-  test("OPCODE 30_2", () {
+  // Test instruction 30_2 | JR NC, *
+  test("OPCODE 30_2 | JR NC, *", () {
     // Set up machine initial state
     loadRegisters(0x0037, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1378,8 +1378,8 @@ void main() {
     expect(peek(44460), equals(0x0e));
   });
 
-  // Test instruction 32_1 | <UNKNOWN>
-  test("OPCODE 32_1", () {
+  // Test instruction 32_1 | LD (**), A
+  test("OPCODE 32_1 | LD (**), A", () {
     // Set up machine initial state
     loadRegisters(0x5600, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1497,8 +1497,8 @@ void main() {
     expect(peek(32041), equals(0x7c));
   });
 
-  // Test instruction 37_1 | <UNKNOWN>
-  test("OPCODE 37_1", () {
+  // Test instruction 37_1 | SCF
+  test("OPCODE 37_1 | SCF", () {
     // Set up machine initial state
     loadRegisters(0x00ff, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1519,8 +1519,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction 37_2 | <UNKNOWN>
-  test("OPCODE 37_2", () {
+  // Test instruction 37_2 | SCF
+  test("OPCODE 37_2 | SCF", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1541,8 +1541,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction 37_3 | <UNKNOWN>
-  test("OPCODE 37_3", () {
+  // Test instruction 37_3 | SCF
+  test("OPCODE 37_3 | SCF", () {
     // Set up machine initial state
     loadRegisters(0xffff, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1585,8 +1585,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction 38_1 | <UNKNOWN>
-  test("OPCODE 38_1", () {
+  // Test instruction 38_1 | JR C, *
+  test("OPCODE 38_1 | JR C, *", () {
     // Set up machine initial state
     loadRegisters(0x00b2, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -1608,8 +1608,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 7);
   });
 
-  // Test instruction 38_2 | <UNKNOWN>
-  test("OPCODE 38_2", () {
+  // Test instruction 38_2 | JR C, *
+  test("OPCODE 38_2 | JR C, *", () {
     // Set up machine initial state
     loadRegisters(0x00b3, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -4438,8 +4438,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction c0_1 | <UNKNOWN>
-  test("OPCODE c0_1", () {
+  // Test instruction c0_1 | RET NZ
+  test("OPCODE c0_1 | RET NZ", () {
     // Set up machine initial state
     loadRegisters(0x0098, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -4462,8 +4462,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction c0_2 | <UNKNOWN>
-  test("OPCODE c0_2", () {
+  // Test instruction c0_2 | RET NZ
+  test("OPCODE c0_2 | RET NZ", () {
     // Set up machine initial state
     loadRegisters(0x00d8, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -4510,8 +4510,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction c2_1 | <UNKNOWN>
-  test("OPCODE c2_1", () {
+  // Test instruction c2_1 | JP NZ, **
+  test("OPCODE c2_1 | JP NZ, **", () {
     // Set up machine initial state
     loadRegisters(0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -4534,8 +4534,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction c2_2 | <UNKNOWN>
-  test("OPCODE c2_2", () {
+  // Test instruction c2_2 | JP NZ, **
+  test("OPCODE c2_2 | JP NZ, **", () {
     // Set up machine initial state
     loadRegisters(0x00c7, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -4582,8 +4582,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction c4_1 | <UNKNOWN>
-  test("OPCODE c4_1", () {
+  // Test instruction c4_1 | CALL NZ, **
+  test("OPCODE c4_1 | CALL NZ, **", () {
     // Set up machine initial state
     loadRegisters(0x000e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -4608,8 +4608,8 @@ void main() {
     expect(peek(22167), equals(0x00));
   });
 
-  // Test instruction c4_2 | <UNKNOWN>
-  test("OPCODE c4_2", () {
+  // Test instruction c4_2 | CALL NZ, **
+  test("OPCODE c4_2 | CALL NZ, **", () {
     // Set up machine initial state
     loadRegisters(0x004e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -4703,8 +4703,8 @@ void main() {
     expect(peek(21766), equals(0x6d));
   });
 
-  // Test instruction c8_1 | <UNKNOWN>
-  test("OPCODE c8_1", () {
+  // Test instruction c8_1 | RET Z
+  test("OPCODE c8_1 | RET Z", () {
     // Set up machine initial state
     loadRegisters(0x0098, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -4727,8 +4727,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 5);
   });
 
-  // Test instruction c8_2 | <UNKNOWN>
-  test("OPCODE c8_2", () {
+  // Test instruction c8_2 | RET Z
+  test("OPCODE c8_2 | RET Z", () {
     // Set up machine initial state
     loadRegisters(0x00d8, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -4775,8 +4775,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction ca_1 | <UNKNOWN>
-  test("OPCODE ca_1", () {
+  // Test instruction ca_1 | JP Z, **
+  test("OPCODE ca_1 | JP Z, **", () {
     // Set up machine initial state
     loadRegisters(0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -4799,8 +4799,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction ca_2 | <UNKNOWN>
-  test("OPCODE ca_2", () {
+  // Test instruction ca_2 | JP Z, **
+  test("OPCODE ca_2 | JP Z, **", () {
     // Set up machine initial state
     loadRegisters(0x00c7, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -6342,8 +6342,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb46_1 | <UNKNOWN>
-  test("OPCODE cb46_1", () {
+  // Test instruction cb46_1 | BIT 0, (HL)
+  test("OPCODE cb46_1 | BIT 0, (HL)", () {
     // Set up machine initial state
     loadRegisters(0x7200, 0x7ae3, 0xa11e, 0x6131, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -6366,8 +6366,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb46_2 | <UNKNOWN>
-  test("OPCODE cb46_2", () {
+  // Test instruction cb46_2 | BIT 0, (HL)
+  test("OPCODE cb46_2 | BIT 0, (HL)", () {
     // Set up machine initial state
     loadRegisters(0x7200, 0x7ae3, 0xa11e, 0x6131, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -6390,8 +6390,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb46_3 | <UNKNOWN>
-  test("OPCODE cb46_3", () {
+  // Test instruction cb46_3 | BIT 0, (HL)
+  test("OPCODE cb46_3 | BIT 0, (HL)", () {
     // Set up machine initial state
     loadRegisters(0x7200, 0x7ae3, 0xa11e, 0x6131, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -6414,8 +6414,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb46_4 | <UNKNOWN>
-  test("OPCODE cb46_4", () {
+  // Test instruction cb46_4 | BIT 0, (HL)
+  test("OPCODE cb46_4 | BIT 0, (HL)", () {
     // Set up machine initial state
     loadRegisters(0x7200, 0x7ae3, 0xa11e, 0x6131, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -6438,8 +6438,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb46_5 | <UNKNOWN>
-  test("OPCODE cb46_5", () {
+  // Test instruction cb46_5 | BIT 0, (HL)
+  test("OPCODE cb46_5 | BIT 0, (HL)", () {
     // Set up machine initial state
     loadRegisters(0x7200, 0x7ae3, 0xa11e, 0x6131, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -6462,8 +6462,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb47_1 | <UNKNOWN>
-  test("OPCODE cb47_1", () {
+  // Test instruction cb47_1 | BIT 0, A
+  test("OPCODE cb47_1 | BIT 0, A", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -6677,8 +6677,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb4f_1 | <UNKNOWN>
-  test("OPCODE cb4f_1", () {
+  // Test instruction cb4f_1 | BIT 1, A
+  test("OPCODE cb4f_1 | BIT 1, A", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -6892,8 +6892,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb57_1 | <UNKNOWN>
-  test("OPCODE cb57_1", () {
+  // Test instruction cb57_1 | BIT 2, A
+  test("OPCODE cb57_1 | BIT 2, A", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -7107,8 +7107,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb5f_1 | <UNKNOWN>
-  test("OPCODE cb5f_1", () {
+  // Test instruction cb5f_1 | BIT 3, A
+  test("OPCODE cb5f_1 | BIT 3, A", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -7322,8 +7322,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb67_1 | <UNKNOWN>
-  test("OPCODE cb67_1", () {
+  // Test instruction cb67_1 | BIT 4, A
+  test("OPCODE cb67_1 | BIT 4, A", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -7537,8 +7537,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb6f_1 | <UNKNOWN>
-  test("OPCODE cb6f_1", () {
+  // Test instruction cb6f_1 | BIT 5, A
+  test("OPCODE cb6f_1 | BIT 5, A", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -7752,8 +7752,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb77_1 | <UNKNOWN>
-  test("OPCODE cb77_1", () {
+  // Test instruction cb77_1 | BIT 6, A
+  test("OPCODE cb77_1 | BIT 6, A", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -7967,8 +7967,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 12);
   });
 
-  // Test instruction cb7f_1 | <UNKNOWN>
-  test("OPCODE cb7f_1", () {
+  // Test instruction cb7f_1 | BIT 7, A
+  test("OPCODE cb7f_1 | BIT 7, A", () {
     // Set up machine initial state
     loadRegisters(0xff00, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11092,8 +11092,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 8);
   });
 
-  // Test instruction cc_1 | <UNKNOWN>
-  test("OPCODE cc_1", () {
+  // Test instruction cc_1 | CALL Z, **
+  test("OPCODE cc_1 | CALL Z, **", () {
     // Set up machine initial state
     loadRegisters(0x004e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -11118,8 +11118,8 @@ void main() {
     expect(peek(22167), equals(0x00));
   });
 
-  // Test instruction cc_2 | <UNKNOWN>
-  test("OPCODE cc_2", () {
+  // Test instruction cc_2 | CALL Z, **
+  test("OPCODE cc_2 | CALL Z, **", () {
     // Set up machine initial state
     loadRegisters(0x000e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -11215,8 +11215,8 @@ void main() {
     expect(peek(21766), equals(0x6d));
   });
 
-  // Test instruction d0_1 | <UNKNOWN>
-  test("OPCODE d0_1", () {
+  // Test instruction d0_1 | RET NC
+  test("OPCODE d0_1 | RET NC", () {
     // Set up machine initial state
     loadRegisters(0x0098, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -11239,8 +11239,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction d0_2 | <UNKNOWN>
-  test("OPCODE d0_2", () {
+  // Test instruction d0_2 | RET NC
+  test("OPCODE d0_2 | RET NC", () {
     // Set up machine initial state
     loadRegisters(0x0099, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -11287,8 +11287,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction d2_1 | <UNKNOWN>
-  test("OPCODE d2_1", () {
+  // Test instruction d2_1 | JP NC, **
+  test("OPCODE d2_1 | JP NC, **", () {
     // Set up machine initial state
     loadRegisters(0x0086, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11311,8 +11311,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction d2_2 | <UNKNOWN>
-  test("OPCODE d2_2", () {
+  // Test instruction d2_2 | JP NC, **
+  test("OPCODE d2_2 | JP NC, **", () {
     // Set up machine initial state
     loadRegisters(0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11335,8 +11335,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction d3_1 | <UNKNOWN>
-  test("OPCODE d3_1", () {
+  // Test instruction d3_1 | OUT (*), A
+  test("OPCODE d3_1 | OUT (*), A", () {
     // Set up machine initial state
     loadRegisters(0xa200, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11358,8 +11358,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction d3_2 | <UNKNOWN>
-  test("OPCODE d3_2", () {
+  // Test instruction d3_2 | OUT (*), A
+  test("OPCODE d3_2 | OUT (*), A", () {
     // Set up machine initial state
     loadRegisters(0x4200, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11381,8 +11381,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction d3_3 | <UNKNOWN>
-  test("OPCODE d3_3", () {
+  // Test instruction d3_3 | OUT (*), A
+  test("OPCODE d3_3 | OUT (*), A", () {
     // Set up machine initial state
     loadRegisters(0x4200, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11404,8 +11404,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction d3_4 | <UNKNOWN>
-  test("OPCODE d3_4", () {
+  // Test instruction d3_4 | OUT (*), A
+  test("OPCODE d3_4 | OUT (*), A", () {
     // Set up machine initial state
     loadRegisters(0xa200, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11450,8 +11450,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction d4_1 | <UNKNOWN>
-  test("OPCODE d4_1", () {
+  // Test instruction d4_1 | CALL NC, **
+  test("OPCODE d4_1 | CALL NC, **", () {
     // Set up machine initial state
     loadRegisters(0x000e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -11476,8 +11476,8 @@ void main() {
     expect(peek(22167), equals(0x00));
   });
 
-  // Test instruction d4_2 | <UNKNOWN>
-  test("OPCODE d4_2", () {
+  // Test instruction d4_2 | CALL NC, **
+  test("OPCODE d4_2 | CALL NC, **", () {
     // Set up machine initial state
     loadRegisters(0x000f, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -11571,8 +11571,8 @@ void main() {
     expect(peek(21766), equals(0x6d));
   });
 
-  // Test instruction d8_1 | <UNKNOWN>
-  test("OPCODE d8_1", () {
+  // Test instruction d8_1 | RET C
+  test("OPCODE d8_1 | RET C", () {
     // Set up machine initial state
     loadRegisters(0x0098, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -11595,8 +11595,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 5);
   });
 
-  // Test instruction d8_2 | <UNKNOWN>
-  test("OPCODE d8_2", () {
+  // Test instruction d8_2 | RET C
+  test("OPCODE d8_2 | RET C", () {
     // Set up machine initial state
     loadRegisters(0x0099, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -11641,8 +11641,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction da_1 | <UNKNOWN>
-  test("OPCODE da_1", () {
+  // Test instruction da_1 | JP C, **
+  test("OPCODE da_1 | JP C, **", () {
     // Set up machine initial state
     loadRegisters(0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11665,8 +11665,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction da_2 | <UNKNOWN>
-  test("OPCODE da_2", () {
+  // Test instruction da_2 | JP C, **
+  test("OPCODE da_2 | JP C, **", () {
     // Set up machine initial state
     loadRegisters(0x0086, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11689,8 +11689,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction db_1 | <UNKNOWN>
-  test("OPCODE db_1", () {
+  // Test instruction db_1 | IN A, (*)
+  test("OPCODE db_1 | IN A, (*)", () {
     // Set up machine initial state
     loadRegisters(0xc100, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11712,8 +11712,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction db_2 | <UNKNOWN>
-  test("OPCODE db_2", () {
+  // Test instruction db_2 | IN A, (*)
+  test("OPCODE db_2 | IN A, (*)", () {
     // Set up machine initial state
     loadRegisters(0x7100, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11735,8 +11735,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction db_3 | <UNKNOWN>
-  test("OPCODE db_3", () {
+  // Test instruction db_3 | IN A, (*)
+  test("OPCODE db_3 | IN A, (*)", () {
     // Set up machine initial state
     loadRegisters(0x7100, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -11781,8 +11781,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction dc_1 | <UNKNOWN>
-  test("OPCODE dc_1", () {
+  // Test instruction dc_1 | CALL C, **
+  test("OPCODE dc_1 | CALL C, **", () {
     // Set up machine initial state
     loadRegisters(0x000f, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -11807,8 +11807,8 @@ void main() {
     expect(peek(22167), equals(0x00));
   });
 
-  // Test instruction dc_2 | <UNKNOWN>
-  test("OPCODE dc_2", () {
+  // Test instruction dc_2 | CALL C, **
+  test("OPCODE dc_2 | CALL C, **", () {
     // Set up machine initial state
     loadRegisters(0x000e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -13692,8 +13692,8 @@ void main() {
     expect(peek(21766), equals(0x6d));
   });
 
-  // Test instruction e0_1 | <UNKNOWN>
-  test("OPCODE e0_1", () {
+  // Test instruction e0_1 | RET PO
+  test("OPCODE e0_1 | RET PO", () {
     // Set up machine initial state
     loadRegisters(0x0098, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -13716,8 +13716,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction e0_2 | <UNKNOWN>
-  test("OPCODE e0_2", () {
+  // Test instruction e0_2 | RET PO
+  test("OPCODE e0_2 | RET PO", () {
     // Set up machine initial state
     loadRegisters(0x009c, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -13764,8 +13764,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction e2_1 | <UNKNOWN>
-  test("OPCODE e2_1", () {
+  // Test instruction e2_1 | JP PO, **
+  test("OPCODE e2_1 | JP PO, **", () {
     // Set up machine initial state
     loadRegisters(0x0083, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -13788,8 +13788,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction e2_2 | <UNKNOWN>
-  test("OPCODE e2_2", () {
+  // Test instruction e2_2 | JP PO, **
+  test("OPCODE e2_2 | JP PO, **", () {
     // Set up machine initial state
     loadRegisters(0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -13838,8 +13838,8 @@ void main() {
     expect(peek(884), equals(0x4d));
   });
 
-  // Test instruction e4_1 | <UNKNOWN>
-  test("OPCODE e4_1", () {
+  // Test instruction e4_1 | CALL PO, **
+  test("OPCODE e4_1 | CALL PO, **", () {
     // Set up machine initial state
     loadRegisters(0x000a, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -13864,8 +13864,8 @@ void main() {
     expect(peek(22167), equals(0x00));
   });
 
-  // Test instruction e4_2 | <UNKNOWN>
-  test("OPCODE e4_2", () {
+  // Test instruction e4_2 | CALL PO, **
+  test("OPCODE e4_2 | CALL PO, **", () {
     // Set up machine initial state
     loadRegisters(0x000e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -13959,8 +13959,8 @@ void main() {
     expect(peek(21766), equals(0x6d));
   });
 
-  // Test instruction e8_1 | <UNKNOWN>
-  test("OPCODE e8_1", () {
+  // Test instruction e8_1 | RET PE
+  test("OPCODE e8_1 | RET PE", () {
     // Set up machine initial state
     loadRegisters(0x0098, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -13983,8 +13983,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 5);
   });
 
-  // Test instruction e8_2 | <UNKNOWN>
-  test("OPCODE e8_2", () {
+  // Test instruction e8_2 | RET PE
+  test("OPCODE e8_2 | RET PE", () {
     // Set up machine initial state
     loadRegisters(0x009c, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -14029,8 +14029,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction ea_1 | <UNKNOWN>
-  test("OPCODE ea_1", () {
+  // Test instruction ea_1 | JP PE, **
+  test("OPCODE ea_1 | JP PE, **", () {
     // Set up machine initial state
     loadRegisters(0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -14053,8 +14053,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction ea_2 | <UNKNOWN>
-  test("OPCODE ea_2", () {
+  // Test instruction ea_2 | JP PE, **
+  test("OPCODE ea_2 | JP PE, **", () {
     // Set up machine initial state
     loadRegisters(0x0083, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -14099,8 +14099,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction ec_1 | <UNKNOWN>
-  test("OPCODE ec_1", () {
+  // Test instruction ec_1 | CALL PE, **
+  test("OPCODE ec_1 | CALL PE, **", () {
     // Set up machine initial state
     loadRegisters(0x000e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -14125,8 +14125,8 @@ void main() {
     expect(peek(22167), equals(0x00));
   });
 
-  // Test instruction ec_2 | <UNKNOWN>
-  test("OPCODE ec_2", () {
+  // Test instruction ec_2 | CALL PE, **
+  test("OPCODE ec_2 | CALL PE, **", () {
     // Set up machine initial state
     loadRegisters(0x000a, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -15700,8 +15700,8 @@ void main() {
     expect(peek(9830), equals(0x9a));
   });
 
-  // Test instruction eda2_01 | <UNKNOWN>
-  test("OPCODE eda2_01", () {
+  // Test instruction eda2_01 | INI
+  test("OPCODE eda2_01 | INI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0200, 0x0000, 0x8000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15724,8 +15724,8 @@ void main() {
     expect(peek(32768), equals(0x02));
   });
 
-  // Test instruction eda2_02 | <UNKNOWN>
-  test("OPCODE eda2_02", () {
+  // Test instruction eda2_02 | INI
+  test("OPCODE eda2_02 | INI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x569a, 0x0000, 0x8000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15748,8 +15748,8 @@ void main() {
     expect(peek(32768), equals(0x56));
   });
 
-  // Test instruction eda2_03 | <UNKNOWN>
-  test("OPCODE eda2_03", () {
+  // Test instruction eda2_03 | INI
+  test("OPCODE eda2_03 | INI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0xabcc, 0x0000, 0x8000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15796,8 +15796,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_01 | <UNKNOWN>
-  test("OPCODE eda3_01", () {
+  // Test instruction eda3_01 | OUTI
+  test("OPCODE eda3_01 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0100, 0x0000, 0x01ff, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15820,8 +15820,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_02 | <UNKNOWN>
-  test("OPCODE eda3_02", () {
+  // Test instruction eda3_02 | OUTI
+  test("OPCODE eda3_02 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0100, 0x0000, 0x0100, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15844,8 +15844,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_03 | <UNKNOWN>
-  test("OPCODE eda3_03", () {
+  // Test instruction eda3_03 | OUTI
+  test("OPCODE eda3_03 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0100, 0x0000, 0x0107, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15868,8 +15868,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_04 | <UNKNOWN>
-  test("OPCODE eda3_04", () {
+  // Test instruction eda3_04 | OUTI
+  test("OPCODE eda3_04 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0100, 0x0000, 0x01ff, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15892,8 +15892,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_05 | <UNKNOWN>
-  test("OPCODE eda3_05", () {
+  // Test instruction eda3_05 | OUTI
+  test("OPCODE eda3_05 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0100, 0x0000, 0x01fd, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15916,8 +15916,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_06 | <UNKNOWN>
-  test("OPCODE eda3_06", () {
+  // Test instruction eda3_06 | OUTI
+  test("OPCODE eda3_06 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0100, 0x0000, 0x01fe, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15940,8 +15940,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_07 | <UNKNOWN>
-  test("OPCODE eda3_07", () {
+  // Test instruction eda3_07 | OUTI
+  test("OPCODE eda3_07 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0200, 0x0000, 0x01ff, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15964,8 +15964,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_08 | <UNKNOWN>
-  test("OPCODE eda3_08", () {
+  // Test instruction eda3_08 | OUTI
+  test("OPCODE eda3_08 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0800, 0x0000, 0x01fe, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -15988,8 +15988,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_09 | <UNKNOWN>
-  test("OPCODE eda3_09", () {
+  // Test instruction eda3_09 | OUTI
+  test("OPCODE eda3_09 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x8100, 0x0000, 0x01ff, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16012,8 +16012,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_10 | <UNKNOWN>
-  test("OPCODE eda3_10", () {
+  // Test instruction eda3_10 | OUTI
+  test("OPCODE eda3_10 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x8200, 0x0000, 0x01ff, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16036,8 +16036,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction eda3_11 | <UNKNOWN>
-  test("OPCODE eda3_11", () {
+  // Test instruction eda3_11 | OUTI
+  test("OPCODE eda3_11 | OUTI", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0xa900, 0x0000, 0x01ff, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16133,8 +16133,8 @@ void main() {
     expect(peek(42291), equals(0xd7));
   });
 
-  // Test instruction edaa_01 | <UNKNOWN>
-  test("OPCODE edaa_01", () {
+  // Test instruction edaa_01 | IND
+  test("OPCODE edaa_01 | IND", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0101, 0x0000, 0x8000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16157,8 +16157,8 @@ void main() {
     expect(peek(32768), equals(0x01));
   });
 
-  // Test instruction edaa_02 | <UNKNOWN>
-  test("OPCODE edaa_02", () {
+  // Test instruction edaa_02 | IND
+  test("OPCODE edaa_02 | IND", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x56aa, 0x0000, 0x8000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16181,8 +16181,8 @@ void main() {
     expect(peek(32768), equals(0x56));
   });
 
-  // Test instruction edaa_03 | <UNKNOWN>
-  test("OPCODE edaa_03", () {
+  // Test instruction edaa_03 | IND
+  test("OPCODE edaa_03 | IND", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0xabcc, 0x0000, 0x8000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16229,8 +16229,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction edab_01 | <UNKNOWN>
-  test("OPCODE edab_01", () {
+  // Test instruction edab_01 | OUTD
+  test("OPCODE edab_01 | OUTD", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x5800, 0x0000, 0x007a, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16253,8 +16253,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x02, false, false, 16);
   });
 
-  // Test instruction edab_02 | <UNKNOWN>
-  test("OPCODE edab_02", () {
+  // Test instruction edab_02 | OUTD
+  test("OPCODE edab_02 | OUTD", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0xab00, 0x0000, 0x00f1, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16332,8 +16332,8 @@ void main() {
     expect(peek(43751), equals(0x49));
   });
 
-  // Test instruction edb0_1 | <UNKNOWN>
-  test("OPCODE edb0_1", () {
+  // Test instruction edb0_1 | LDIR
+  test("OPCODE edb0_1 | LDIR", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0002, 0xc000, 0x8000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x4000);
@@ -16359,8 +16359,8 @@ void main() {
     expect(peek(49153), equals(0x34));
   });
 
-  // Test instruction edb0_2 | <UNKNOWN>
-  test("OPCODE edb0_2", () {
+  // Test instruction edb0_2 | LDIR
+  test("OPCODE edb0_2 | LDIR", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0001, 0xc000, 0x8000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x4000);
@@ -16416,8 +16416,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x08, false, false, 79);
   });
 
-  // Test instruction edb1_1 | <UNKNOWN>
-  test("OPCODE edb1_1", () {
+  // Test instruction edb1_1 | CPIR
+  test("OPCODE edb1_1 | CPIR", () {
     // Set up machine initial state
     loadRegisters(0xf4dd, 0x0008, 0xe4e0, 0x9825, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x8396);
@@ -16447,8 +16447,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x08, false, false, 79);
   });
 
-  // Test instruction edb1_2 | <UNKNOWN>
-  test("OPCODE edb1_2", () {
+  // Test instruction edb1_2 | CPIR
+  test("OPCODE edb1_2 | CPIR", () {
     // Set up machine initial state
     loadRegisters(0xf4dd, 0x0008, 0xe4e0, 0x9825, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x8396);
@@ -16511,8 +16511,8 @@ void main() {
     expect(peek(14295), equals(0x01));
   });
 
-  // Test instruction edb2_1 | <UNKNOWN>
-  test("OPCODE edb2_1", () {
+  // Test instruction edb2_1 | INIR
+  test("OPCODE edb2_1 | INIR", () {
     // Set up machine initial state
     loadRegisters(0x8a34, 0x0a40, 0xd98c, 0x37ce, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16561,8 +16561,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x06, false, false, 58);
   });
 
-  // Test instruction edb3_1 | <UNKNOWN>
-  test("OPCODE edb3_1", () {
+  // Test instruction edb3_1 | OTIR
+  test("OPCODE edb3_1 | OTIR", () {
     // Set up machine initial state
     loadRegisters(0x34ab, 0x03e0, 0x41b9, 0x1d7c, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16626,8 +16626,8 @@ void main() {
     expect(peek(26856), equals(0x0a));
   });
 
-  // Test instruction edb8_1 | <UNKNOWN>
-  test("OPCODE edb8_1", () {
+  // Test instruction edb8_1 | LDDR
+  test("OPCODE edb8_1 | LDDR", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0002, 0xb5d7, 0x6af0, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x1ec1);
@@ -16653,8 +16653,8 @@ void main() {
     expect(peek(46551), equals(0x70));
   });
 
-  // Test instruction edb8_2 | <UNKNOWN>
-  test("OPCODE edb8_2", () {
+  // Test instruction edb8_2 | LDDR
+  test("OPCODE edb8_2 | LDDR", () {
     // Set up machine initial state
     loadRegisters(0x0000, 0x0001, 0xb5d7, 0x6af0, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x1ec1);
@@ -16710,8 +16710,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x10, false, false, 163);
   });
 
-  // Test instruction edb9_1 | <UNKNOWN>
-  test("OPCODE edb9_1", () {
+  // Test instruction edb9_1 | CPDR
+  test("OPCODE edb9_1 | CPDR", () {
     // Set up machine initial state
     loadRegisters(0xffcd, 0x0008, 0xa171, 0xc749, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x7a45);
@@ -16741,8 +16741,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x10, false, false, 163);
   });
 
-  // Test instruction edb9_2 | <UNKNOWN>
-  test("OPCODE edb9_2", () {
+  // Test instruction edb9_2 | CPDR
+  test("OPCODE edb9_2 | CPDR", () {
     // Set up machine initial state
     loadRegisters(0xffcd, 0x0008, 0xa171, 0xc749, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x7a45);
@@ -16801,8 +16801,8 @@ void main() {
     expect(peek(27477), equals(0x06));
   });
 
-  // Test instruction edba_1 | <UNKNOWN>
-  test("OPCODE edba_1", () {
+  // Test instruction edba_1 | INDR
+  test("OPCODE edba_1 | INDR", () {
     // Set up machine initial state
     loadRegisters(0x2567, 0x069f, 0xd40d, 0x6b55, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16852,8 +16852,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x08, false, false, 79);
   });
 
-  // Test instruction edbb_1 | <UNKNOWN>
-  test("OPCODE edbb_1", () {
+  // Test instruction edbb_1 | OTDR
+  test("OPCODE edbb_1 | OTDR", () {
     // Set up machine initial state
     loadRegisters(0x09c4, 0x043b, 0xbe49, 0x1dd0, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -16926,8 +16926,8 @@ void main() {
     expect(peek(21766), equals(0x6d));
   });
 
-  // Test instruction f0_1 | <UNKNOWN>
-  test("OPCODE f0_1", () {
+  // Test instruction f0_1 | RET P
+  test("OPCODE f0_1 | RET P", () {
     // Set up machine initial state
     loadRegisters(0x0018, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -16950,8 +16950,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 11);
   });
 
-  // Test instruction f0_2 | <UNKNOWN>
-  test("OPCODE f0_2", () {
+  // Test instruction f0_2 | RET P
+  test("OPCODE f0_2 | RET P", () {
     // Set up machine initial state
     loadRegisters(0x0098, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -16998,8 +16998,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction f2_1 | <UNKNOWN>
-  test("OPCODE f2_1", () {
+  // Test instruction f2_1 | JP P, **
+  test("OPCODE f2_1 | JP P, **", () {
     // Set up machine initial state
     loadRegisters(0x0007, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -17022,8 +17022,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction f2_2 | <UNKNOWN>
-  test("OPCODE f2_2", () {
+  // Test instruction f2_2 | JP P, **
+  test("OPCODE f2_2 | JP P, **", () {
     // Set up machine initial state
     loadRegisters(0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -17068,8 +17068,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 4);
   });
 
-  // Test instruction f4_1 | <UNKNOWN>
-  test("OPCODE f4_1", () {
+  // Test instruction f4_1 | CALL P, **
+  test("OPCODE f4_1 | CALL P, **", () {
     // Set up machine initial state
     loadRegisters(0x000e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -17094,8 +17094,8 @@ void main() {
     expect(peek(22167), equals(0x00));
   });
 
-  // Test instruction f4_2 | <UNKNOWN>
-  test("OPCODE f4_2", () {
+  // Test instruction f4_2 | CALL P, **
+  test("OPCODE f4_2 | CALL P, **", () {
     // Set up machine initial state
     loadRegisters(0x008e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -17189,8 +17189,8 @@ void main() {
     expect(peek(21766), equals(0x6d));
   });
 
-  // Test instruction f8_1 | <UNKNOWN>
-  test("OPCODE f8_1", () {
+  // Test instruction f8_1 | RET M
+  test("OPCODE f8_1 | RET M", () {
     // Set up machine initial state
     loadRegisters(0x0018, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -17213,8 +17213,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 5);
   });
 
-  // Test instruction f8_2 | <UNKNOWN>
-  test("OPCODE f8_2", () {
+  // Test instruction f8_2 | RET M
+  test("OPCODE f8_2 | RET M", () {
     // Set up machine initial state
     loadRegisters(0x0098, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x43f7, 0x0000);
@@ -17259,8 +17259,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 6);
   });
 
-  // Test instruction fa_1 | <UNKNOWN>
-  test("OPCODE fa_1", () {
+  // Test instruction fa_1 | JP M, **
+  test("OPCODE fa_1 | JP M, **", () {
     // Set up machine initial state
     loadRegisters(0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -17283,8 +17283,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, false, false, 10);
   });
 
-  // Test instruction fa_2 | <UNKNOWN>
-  test("OPCODE fa_2", () {
+  // Test instruction fa_2 | JP M, **
+  test("OPCODE fa_2 | JP M, **", () {
     // Set up machine initial state
     loadRegisters(0x0007, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000);
@@ -17329,8 +17329,8 @@ void main() {
     checkSpecialRegisters(0x00, 0x01, true, true, 4);
   });
 
-  // Test instruction fc_1 | <UNKNOWN>
-  test("OPCODE fc_1", () {
+  // Test instruction fc_1 | CALL M, **
+  test("OPCODE fc_1 | CALL M, **", () {
     // Set up machine initial state
     loadRegisters(0x008e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);
@@ -17355,8 +17355,8 @@ void main() {
     expect(peek(22167), equals(0x00));
   });
 
-  // Test instruction fc_2 | <UNKNOWN>
-  test("OPCODE fc_2", () {
+  // Test instruction fc_2 | CALL M, **
+  test("OPCODE fc_2 | CALL M, **", () {
     // Set up machine initial state
     loadRegisters(0x000e, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x5698, 0x0000);

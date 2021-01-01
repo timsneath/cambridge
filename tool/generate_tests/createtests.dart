@@ -106,7 +106,12 @@ void main() {
 
     for (final test in tests) {
       final testName = test.testName;
-      final instr = Disassembler.z80Opcodes[testName];
+      var rootTestName = testName;
+      if (test.testName.contains('_')) {
+        final idx = test.testName.indexOf('_');
+        rootTestName = testName.substring(0, idx);
+      }
+      final instr = Disassembler.z80Opcodes[rootTestName];
 
       sink.write("""
 

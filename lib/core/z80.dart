@@ -1134,11 +1134,19 @@ class Z80 {
   }
 
   void OUTI() {
-    portWrite(c, memory.readByte(hl));
+    final memval = memory.readByte(hl);
+    portWrite(c, memval);
     hl = (hl + 1) % 0x10000;
     b = (b - 1) % 0x100;
 
-    fN = true;
+    fN = isBitSet(memval, 7);
+    fZ = b == 0;
+    fS = isSign8(b);
+    f3 = isBitSet(b, 3);
+    f5 = isBitSet(b, 5);
+
+    fC = fH = memval + l > 0xFF;
+    fPV = isParity(((memval + l) & 0x07) ^ b);
 
     tStates += 16;
   }

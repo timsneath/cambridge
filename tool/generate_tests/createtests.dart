@@ -1,20 +1,23 @@
 import 'dart:io';
 import 'package:spectrum/core/disassembler.dart';
 
-const bool includeUndocumentedOpcodeUnitTests = false;
+import 'loadtests.dart';
 
-String toHex16(int value) => value.toRadixString(16).padLeft(2, '0');
-String toHex32(int value) => value.toRadixString(16).padLeft(4, '0');
-String toBin16(int value) => value.toRadixString(2).padLeft(16, '0');
-String toBin32(int value) => value.toRadixString(2).padLeft(32, '0');
+const bool includeUndocumentedOpcodeUnitTests = false;
+String toHex32(int value) => '0x${value.toRadixString(16).padLeft(4, '0')}';
+String toHex16(int value) => '0x${value.toRadixString(16).padLeft(2, '0')}';
 
 void main() {
+  final tests = loadTests();
+
+  if (!includeUndocumentedOpcodeUnitTests) {
+    tests.removeWhere((test) => test.isUndocumented);
+  }
+
   final file = File('test/fuse_z80_opcode_test.dart');
   final sink = file.openWrite();
-
-  String testName;
-
-  sink.write(r"""
+  try {
+    sink.write(r"""
 // fuse_unit_test.dart -- translated Z80 unit tests from FUSE Z80 emulator
 //
 // The FUSE emulator contains a large unit test suite of over 1,300 tests,
@@ -67,7 +70,7 @@ void checkRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
   // So we OR both values with 0b000101000 (0x28) to mask out any difference.
   expect(lowByte(z80.af | 0x28), equals(lowByte(af | 0x28)),
       reason:
-          "Register F: expected ${toBin8(lowByte(af))}, actual ${toBin8(lowByte(z80.af))}");
+          "Register F [SZ5H3PNC]: expected ${toBin8(lowByte(af))}, actual ${toBin8(lowByte(z80.af))}");
   expect(z80.bc, equals(bc), reason: "Register BC mismatch");
   expect(z80.de, equals(de), reason: "Register DE mismatch");
   expect(z80.hl, equals(hl), reason: "Register HL mismatch");
@@ -99,278 +102,57 @@ void main() {
     memory.reset();
   });
   tearDown(() {});
-
 """);
 
-  // These unit tests stress undocumented Z80 opcodes
-  final undocumentedOpcodeTests = [
-    "4c",
-    "4e",
-    "54",
-    "5c",
-    "63",
-    "64",
-    "6b",
-    "6c",
-    "6e",
-    "70",
-    "71",
-    "74",
-    "7c",
-    "cb30",
-    "cb31",
-    "cb32",
-    "cb33",
-    "cb34",
-    "cb35",
-    "cb36",
-    "cb37",
-    "dd24",
-    "dd25",
-    "dd26",
-    "dd2c",
-    "dd2d",
-    "dd2e",
-    "dd44",
-    "dd45",
-    "dd4c",
-    "dd4d",
-    "dd54",
-    "dd55",
-    "dd5c",
-    "dd5d",
-    "dd60",
-    "dd61",
-    "dd62",
-    "dd63",
-    "dd64",
-    "dd65",
-    "dd67",
-    "dd68",
-    "dd69",
-    "dd6a",
-    "dd6b",
-    "dd6c",
-    "dd6d",
-    "dd6f",
-    "dd7c",
-    "dd7d",
-    "dd84",
-    "dd85",
-    "dd8c",
-    "dd8d",
-    "dd94",
-    "dd95",
-    "dd9c",
-    "dd9d",
-    "dda4",
-    "dda5",
-    "ddac",
-    "ddad",
-    "ddb4",
-    "ddb5",
-    "ddbc",
-    "ddbd",
-    "ddfd00",
-    "fd24",
-    "fd25",
-    "fd26",
-    "fd2c",
-    "fd2d",
-    "fd2e",
-    "fd44",
-    "fd45",
-    "fd4c",
-    "fd4d",
-    "fd54",
-    "fd55",
-    "fd5c",
-    "fd5d",
-    "fd60",
-    "fd61",
-    "fd62",
-    "fd63",
-    "fd64",
-    "fd65",
-    "fd67",
-    "fd68",
-    "fd69",
-    "fd6a",
-    "fd6b",
-    "fd6c",
-    "fd6d",
-    "fd6f",
-    "fd7c",
-    "fd7d",
-    "fd84",
-    "fd85",
-    "fd8c",
-    "fd8d",
-    "fd94",
-    "fd95",
-    "fd9c",
-    "fd9d",
-    "fda4",
-    "fda5",
-    "fdac",
-    "fdad",
-    "fdb4",
-    "fdb5",
-    "fdbc",
-    "fdbd",
-    "ddcb36",
-    "fdcb36"
-  ];
-
-  // These too...
-  for (var opCode = 0; opCode < 256; opCode++) {
-    if ((opCode & 0x7) != 0x6) {
-      undocumentedOpcodeTests.add("ddcb${toHex16(opCode)}");
-      undocumentedOpcodeTests.add("fdcb${toHex16(opCode)}");
-    }
-  }
-
-  final input =
-      File('tool/generate_tests/fuse_tests/tests.in').readAsLinesSync();
-  final expected =
-      File('tool/generate_tests/fuse_tests/tests.expected').readAsLinesSync();
-
-  try {
-    var inputLine = 0;
-    var expectedLine = 0;
-
-    while (inputLine < input.length) {
-      testName = input[inputLine++];
+    for (final test in tests) {
+      final testName = test.testName;
       final instr = Disassembler.z80Opcodes[testName];
-      sink.write("\n  // Test instruction $testName | "
-          "${instr ?? '<UNKNOWN>'}\n");
-      sink.write('  test("');
-      if (undocumentedOpcodeTests.contains(testName)) {
-        sink.write('UNDOCUMENTED ');
-      } else {
-        sink.write('OPCODE ');
-      }
-      sink.write(testName);
-      if (instr != null) {
-        sink.write(" | $instr");
-      }
-      sink.write('", () {\n');
 
-      sink.write("    // Set up machine initial state\n");
-      final registers = input[inputLine++].split(' ');
-      sink.write("    loadRegisters(");
-      sink.write("0x${registers[0]}, ");
-      sink.write("0x${registers[1]}, ");
-      sink.write("0x${registers[2]}, ");
-      sink.write("0x${registers[3]}, ");
-      sink.write("0x${registers[4]}, ");
-      sink.write("0x${registers[5]}, ");
-      sink.write("0x${registers[6]}, ");
-      sink.write("0x${registers[7]}, ");
-      sink.write("0x${registers[8]}, ");
-      sink.write("0x${registers[9]}, ");
-      sink.write("0x${registers[10]}, ");
-      sink.write("0x${registers[11]});\n");
+      sink.write("""
 
-      final special = input[inputLine++].split(' ');
-      special.removeWhere((item) => item.isEmpty);
+  // Test instruction $testName | ${instr ?? '<UNKNOWN>'}
+  test("${test.isUndocumented ? 'UNDOCUMENTED' : 'OPCODE'} $testName${instr != null ? ' | $instr' : ''}", () {
+    // Set up machine initial state
+    loadRegisters(${toHex32(test.input.reg.af)}, ${toHex32(test.input.reg.bc)}, ${toHex32(test.input.reg.de)}, ${toHex32(test.input.reg.hl)}, ${toHex32(test.input.reg.af_)}, ${toHex32(test.input.reg.bc_)}, ${toHex32(test.input.reg.de_)},
+        ${toHex32(test.input.reg.hl_)}, ${toHex32(test.input.reg.ix)}, ${toHex32(test.input.reg.iy)}, ${toHex32(test.input.reg.sp)}, ${toHex32(test.input.reg.pc)});
+    z80.i = ${toHex16(test.input.spec.i)};
+    z80.r = ${toHex16(test.input.spec.r)};
+    z80.iff1 = ${test.input.spec.iff1 == 1 ? 'true' : 'false'};
+    z80.iff2 = ${test.input.spec.iff2 == 1 ? 'true' : 'false'};
+""");
 
-      sink.write("    z80.i = 0x${special[0]};\n");
-      sink.write("    z80.r = 0x${special[1]};\n");
-      sink.write("    z80.iff1 = ${special[2] == '1' ? 'true' : 'false'};\n");
-      sink.write("    z80.iff2 = ${special[3] == '1' ? 'true' : 'false'};\n");
-      final testRunLength = int.parse(special[6]);
-
-      while (!input[inputLine].startsWith('-1')) {
-        final pokes = input[inputLine].split(' ');
-        var addr = int.parse(pokes[0], radix: 16);
-        var idx = 1;
-        while (pokes[idx] != '-1') {
-          sink.write("    poke(0x${toHex32(addr)}, 0x${pokes[idx]});\n");
-          idx++;
-          addr++;
-        }
-        inputLine++;
-      }
-      inputLine++;
-      inputLine++;
-
-      sink.write("\n    // Execute machine for tState cycles\n");
-      sink.write("    while (z80.tStates < $testRunLength) {\n");
-      sink.write("      z80.executeNextInstruction();\n");
-      sink.write("    }\n");
-
-      if (expected[expectedLine++] != testName) {
-        throw Exception("Mismatch of input and output lines: $testName and "
-            "${expected[expectedLine - 1]}");
-      }
-
-      while (expected[expectedLine].startsWith(' ')) {
-        expectedLine++;
-      }
-
-      sink.write("\n    // Test machine state is as expected\n");
-      final expectedRegisters = expected[expectedLine].split(' ');
-      expectedRegisters.removeWhere((item) => item.isEmpty);
-      sink.write("    checkRegisters(");
-      sink.write("0x${expectedRegisters[0]}, ");
-      sink.write("0x${expectedRegisters[1]}, ");
-      sink.write("0x${expectedRegisters[2]}, ");
-      sink.write("0x${expectedRegisters[3]}, ");
-      sink.write("0x${expectedRegisters[4]}, ");
-      sink.write("0x${expectedRegisters[5]}, ");
-      sink.write("0x${expectedRegisters[6]}, ");
-      sink.write("0x${expectedRegisters[7]}, ");
-      sink.write("0x${expectedRegisters[8]}, ");
-      sink.write("0x${expectedRegisters[9]}, ");
-      sink.write("0x${expectedRegisters[10]}, ");
-      sink.write("0x${expectedRegisters[11]});\n");
-      expectedLine++;
-
-      final expectedSpecial = expected[expectedLine].split(' ');
-      expectedSpecial.removeWhere((item) => item.isEmpty);
-      sink.write("    checkSpecialRegisters(");
-      sink.write("0x${expectedSpecial[0]}, ");
-      sink.write("0x${expectedSpecial[1]}, ");
-      sink.write("${expectedSpecial[2] == '1' ? 'true' : 'false'}, ");
-      sink.write("${expectedSpecial[3] == '1' ? 'true' : 'false'}, ");
-      sink.write("${expectedSpecial[6]});\n");
-      expectedLine++;
-
-      while (expected[expectedLine].isNotEmpty &&
-          ((expected[expectedLine].codeUnitAt(0) >= '0'.codeUnits[0] &&
-                  expected[expectedLine].codeUnitAt(0) <= '9'.codeUnits[0]) ||
-              (expected[expectedLine].codeUnitAt(0) >= 'a'.codeUnits[0] &&
-                  expected[expectedLine].codeUnitAt(0) <= 'f'.codeUnits[0]))) {
-        final peeks = expected[expectedLine].split(' ');
-        peeks.removeWhere((item) => item.isEmpty);
-        var addr = int.parse(peeks[0], radix: 16);
-        var idx = 1;
-        while (peeks[idx] != "-1") {
-          sink.write("    expect(peek($addr), equals(0x${peeks[idx]}));\n");
-          idx++;
-          addr++;
-        }
-        expectedLine++;
-      }
-      expectedLine++;
-
-      sink.write("  }");
-
-      if (undocumentedOpcodeTests.contains(testName)) {
-        if (!includeUndocumentedOpcodeUnitTests) {
-          sink.write(", skip: 'undocumented'");
-        } else {
-          sink.write(", tags: 'undocumented'");
+      for (final startAddress in test.input.initialMemorySetup.keys) {
+        var addr = startAddress;
+        for (final poke in test.input.initialMemorySetup[addr]!) {
+          sink.write("""
+    poke(${toHex32(addr++)}, ${toHex16(poke)});
+""");
         }
       }
 
-      sink.write(");\n\n");
+      sink.write("""
+
+    // Execute machine for tState cycles
+    while (z80.tStates < ${test.input.spec.tStates}) {
+      z80.executeNextInstruction();
     }
 
-    sink.write("""
-}
-  """);
+    // Test machine state is as expected
+    checkRegisters(${toHex32(test.results.reg.af)}, ${toHex32(test.results.reg.bc)}, ${toHex32(test.results.reg.de)}, ${toHex32(test.results.reg.hl)}, ${toHex32(test.results.reg.af_)}, ${toHex32(test.results.reg.bc_)}, ${toHex32(test.results.reg.de_)},
+        ${toHex32(test.results.reg.hl_)}, ${toHex32(test.results.reg.ix)}, ${toHex32(test.results.reg.iy)}, ${toHex32(test.results.reg.sp)}, ${toHex32(test.results.reg.pc)});
+    checkSpecialRegisters(${toHex16(test.results.spec.i)}, ${toHex16(test.results.spec.r)}, ${test.results.spec.iff1 == 1 ? 'true' : 'false'}, ${test.results.spec.iff2 == 1 ? 'true' : 'false'}, ${test.results.spec.tStates});
+""");
+      for (final addr in test.results.expectedMemory.keys) {
+        sink.write("""
+    expect(peek($addr), equals(0x${test.results.expectedMemory[addr]!}));
+""");
+      }
+      sink.write("""
+  }${test.isUndocumented ? ", skip: 'undocumented'" : ''});
+""");
+    }
+    sink.write('}\n');
+    print('Generated ${file.uri}.');
   } finally {
     sink.close();
   }

@@ -1255,14 +1255,7 @@ class Z80 {
     }
   }
 
-  int portRead(int bc) {
-    final result = ULA.inputPorts.getUint8(bc);
-
-    // if (result != 0xFF) {
-    //   print('Z80: Reading port ${toHex32(bc)} gives ${toHex16(result)}.');
-    // }
-    return result;
-  }
+  int portRead(int bc) => ULA.readPort(bc);
 
   void portWrite(int addr, int value) {
     // Every even I/O address will address the ULA, per WoS

@@ -101,13 +101,21 @@ class ULA {
   /// are connected only by resistors, so activating one activates the other;
   /// the EAR is generally used for output as it produces a louder sound. The
   /// upper bits are unused.
-  static void writePort(int value) {
-    final borderColor = value & 0x07;
+  static void writePort(int addressBus) {
+    final borderColor = addressBus & 0x07;
     // ignore: unused_local_variable
-    final mic = value & 0x08;
+    final mic = addressBus & 0x08;
     // ignore: unused_local_variable
-    final ear = value & 0x10;
+    final ear = addressBus & 0x10;
 
     screenBorder = borderColor;
+  }
+
+  static int readPort(int addressBus) {
+    if (keyMap.containsKey(addressBus)) {
+      return inputPorts.getUint8(addressBus);
+    } else {
+      return highByte(addressBus);
+    }
   }
 }

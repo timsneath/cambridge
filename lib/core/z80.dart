@@ -389,24 +389,24 @@ class Z80 {
 
     fC = xx < (yy + carry);
     fH = (xx & 0xFFF) < ((yy & 0xFFF) + carry);
+    fS = isSign16(xx);
 
     // overflow in subtract only occurs when operand signs are different
-    // final overflowCheck = isSign16(xx) != isSign16(yy);
+    final overflowCheck = isSign16(xx) != isSign16(yy);
 
     xx = (xx - yy - carry) % 0x10000;
-    fS = isSign16(xx);
     f5 = isBitSet(xx, 13);
     f3 = isBitSet(xx, 11);
     fZ = isZero(xx);
     fN = true;
 
     // if x changed polarity then subtract caused an overflow
-    fPV = xx - yy - carry < -32768;
-    // if (overflowCheck) {
-    //   fPV = fS != isSign16(xx);
-    // } else {
-    //   fPV = false;
-    // }
+    if (overflowCheck) {
+      fPV = fS != isSign16(xx);
+    } else {
+      fPV = false;
+    }
+    fS = isSign16(xx);
 
     tStates += 15;
 

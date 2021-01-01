@@ -2220,7 +2220,7 @@ class Z80 {
 
       // LD A, R
       case 0x5F:
-        a = r - 2; // r has already been incremented
+        a = r;
         fS = isSign8(r);
         fZ = isZero(r);
         fH = false;

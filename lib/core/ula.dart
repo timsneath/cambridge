@@ -5,12 +5,15 @@ import 'dart:typed_data';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'utility.dart';
 
-// See http://www.worldofspectrum.org/ZXBasicManual/zxmanchap23.html
+// See http://www.worldofspectrum.org/ZXBasicManual/zxmanchap23.html and
+// https://worldofspectrum.org/faq/reference/48kreference.htm
 class ULA {
   /* PORTS */
 
-  // There are 65,536 ports, each of which can read or write an 8-bit value.
-  // The keyboard ports are listed below, along with a bitmap.
+  // There are 65,536 addressable ports, each of which can read or write an
+  // 8-bit value. However, this is a cheap over-simplification for early
+  // development: in practice far fewer ports are independently addressable or
+  // useful.
   static Uint8List inputPortList = Uint8List(0xFFFF);
   static ByteData inputPorts = ByteData.view(inputPortList.buffer);
 
@@ -84,4 +87,25 @@ class ULA {
 // Gets the port that maps to the keycap
   static int? keyPortMap(String keycap) =>
       keyMap.keys.firstWhereOrNull((port) => keyMap[port]!.contains(keycap));
+
+  /// Writes a value to the ULA.
+  ///
+  /// Values written are interpreted as follows:
+  ///
+  ///   Bit   7   6   5   4   3   2   1   0
+  ///       +-------------------------------+
+  ///       |   |   |   | E | M |   Border  |
+  ///       +-------------------------------+
+  ///
+  /// (where E = EAR port and M = MIC port). Per WoS, the EAR and MIC sockets
+  /// are connected only by resistors, so activating one activates the other;
+  /// the EAR is generally used for output as it produces a louder sound. The
+  /// upper bits are unused.
+  static void writePort(int value) {
+    final borderColor = value & 0x07;
+    final mic = value & 0x08;
+    final ear = value & 0x10;
+
+    screenBorder = borderColor;
+  }
 }

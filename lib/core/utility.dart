@@ -40,3 +40,5 @@ int resetBit(int value, int bit) => value & ~(1 << bit);
 bool isSign8(int value) => (value & 0x80) == 0x80;
 bool isSign16(int value) => (value & 0x8000) == 0x8000;
 bool isZero(int value) => value == 0;
+bool isOdd(int value) => value & 0x01 == 0x01;
+bool isEven(int value) => ~value & 0x01 == 0x01;

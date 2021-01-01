@@ -10,6 +10,10 @@ String toHex16(int value) => '0x${value.toRadixString(16).padLeft(2, '0')}';
 void main() {
   final tests = loadTests();
 
+  if (!includeUndocumentedOpcodeUnitTests) {
+    tests.removeWhere((test) => test.isUndocumented);
+  }
+
   final file = File('test/fuse_z80_opcode_test.dart');
   final sink = file.openWrite();
 
@@ -148,4 +152,5 @@ void main() {
 """);
   }
   sink.write('}\n');
+  print('Generated ${file.uri}.');
 }

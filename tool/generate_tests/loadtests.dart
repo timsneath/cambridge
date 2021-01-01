@@ -61,7 +61,6 @@ List<FuseTest> loadTests() {
     tests.add(FuseTest(testName, inputs[testName]!, results[testName]!,
         isUndocumented: undocumentedOpcodeTests.contains(testName)));
   }
-  print(tests.length);
   return tests;
 }
 

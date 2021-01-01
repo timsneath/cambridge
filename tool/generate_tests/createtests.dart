@@ -16,8 +16,8 @@ void main() {
 
   final file = File('test/fuse_z80_opcode_test.dart');
   final sink = file.openWrite();
-
-  sink.write(r"""
+  try {
+    sink.write(r"""
 // fuse_unit_test.dart -- translated Z80 unit tests from FUSE Z80 emulator
 //
 // The FUSE emulator contains a large unit test suite of over 1,300 tests,
@@ -104,11 +104,11 @@ void main() {
   tearDown(() {});
 """);
 
-  for (final test in tests) {
-    final testName = test.testName;
-    final instr = Disassembler.z80Opcodes[testName];
+    for (final test in tests) {
+      final testName = test.testName;
+      final instr = Disassembler.z80Opcodes[testName];
 
-    sink.write("""
+      sink.write("""
 
   // Test instruction $testName | ${instr ?? '<UNKNOWN>'}
   test("${test.isUndocumented ? 'UNDOCUMENTED' : 'OPCODE'} $testName${instr != null ? ' | $instr' : ''}", () {
@@ -121,16 +121,16 @@ void main() {
     z80.iff2 = ${test.input.spec.iff2 == 1 ? 'true' : 'false'};
 """);
 
-    for (final startAddress in test.input.initialMemorySetup.keys) {
-      var addr = startAddress;
-      for (final poke in test.input.initialMemorySetup[addr]!) {
-        sink.write("""
+      for (final startAddress in test.input.initialMemorySetup.keys) {
+        var addr = startAddress;
+        for (final poke in test.input.initialMemorySetup[addr]!) {
+          sink.write("""
     poke(${toHex32(addr++)}, ${toHex16(poke)});
 """);
+        }
       }
-    }
 
-    sink.write("""
+      sink.write("""
 
     // Execute machine for tState cycles
     while (z80.tStates < ${test.input.spec.tStates}) {
@@ -142,15 +142,18 @@ void main() {
         ${toHex32(test.results.reg.hl_)}, ${toHex32(test.results.reg.ix)}, ${toHex32(test.results.reg.iy)}, ${toHex32(test.results.reg.sp)}, ${toHex32(test.results.reg.pc)});
     checkSpecialRegisters(${toHex16(test.results.spec.i)}, ${toHex16(test.results.spec.r)}, ${test.results.spec.iff1 == 1 ? 'true' : 'false'}, ${test.results.spec.iff2 == 1 ? 'true' : 'false'}, ${test.results.spec.tStates});
 """);
-    for (final addr in test.results.expectedMemory.keys) {
-      sink.write("""
+      for (final addr in test.results.expectedMemory.keys) {
+        sink.write("""
     expect(peek($addr), equals(0x${test.results.expectedMemory[addr]!}));
 """);
-    }
-    sink.write("""
+      }
+      sink.write("""
   }${test.isUndocumented ? ", skip: 'undocumented'" : ''});
 """);
+    }
+    sink.write('}\n');
+    print('Generated ${file.uri}.');
+  } finally {
+    sink.close();
   }
-  sink.write('}\n');
-  print('Generated ${file.uri}.');
 }

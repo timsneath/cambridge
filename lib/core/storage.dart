@@ -19,6 +19,10 @@ class Storage {
     // z80.sp = pc;
   }
 
+  void loadRom(ByteData snapshot) {
+    loadBinaryData(snapshot, startLocation: 0x0000, pc: 0x0000);
+  }
+
   // Documented at https://sinclair.wiki.zxnet.co.uk/wiki/TAP_format
   void loadTAPSnapshot(ByteData snapshot) {
     // TODO: implement

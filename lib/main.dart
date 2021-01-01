@@ -18,7 +18,7 @@ late List<int> breakpoints;
 
 const instructionTestFile = 'roms/zexdoc';
 const snapshotFile = 'roms/Z80TEST.SNA';
-// const snapshotFile = 'roms/miner.sna';
+const romFile = 'roms/Chess.rom';
 
 void main() {
   runApp(ProjectCambridge());
@@ -74,38 +74,80 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   }
 
   Future<void> loadSnapshot() async {
-    final storage = Storage(z80: z80);
-    final rawBinary = await rootBundle.load(snapshotFile);
+    try {
+      final storage = Storage(z80: z80);
+      final rawBinary = await rootBundle.load(snapshotFile);
 
-    setState(() {
-      if (snapshotFile.toLowerCase().endsWith('.sna')) {
-        storage.loadSNASnapshot(rawBinary);
-      } else {
-        storage.loadZ80Snapshot(rawBinary);
-      }
-    });
+      setState(() {
+        if (snapshotFile.toLowerCase().endsWith('.sna')) {
+          storage.loadSNASnapshot(rawBinary);
+        } else {
+          storage.loadZ80Snapshot(rawBinary);
+        }
+      });
+    } catch (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              "Couldn't load snapshot: $snapshotFile. (Make sure it's included in the roms/ folder.)"),
+        ),
+      );
+    }
+  }
+
+  Future<void> loadROM() async {
+    try {
+      final storage = Storage(z80: z80);
+      final rawBinary = await rootBundle.load(romFile);
+
+      setState(() {
+        storage.loadRom(rawBinary);
+      });
+    } catch (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Couldn't load ROM: $romFile."),
+        ),
+      );
+    }
   }
 
   Future<void> testInstructionSet() async {
-    final storage = Storage(z80: z80);
-    final rawBinary = await rootBundle.load(instructionTestFile);
+    try {
+      final storage = Storage(z80: z80);
+      final rawBinary = await rootBundle.load(instructionTestFile);
 
-    setState(() {
-      storage.loadBinaryData(rawBinary, startLocation: 0x8000, pc: 0x8000);
-    });
+      setState(() {
+        storage.loadBinaryData(rawBinary, startLocation: 0x8000, pc: 0x8000);
+      });
+    } catch (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Couldn't load FUSE instruction test suite (zexdoc)."),
+        ),
+      );
+    }
   }
 
   Future<void> resetEmulator() async {
-    final rom = await rootBundle.load('roms/48.rom');
+    try {
+      final rom = await rootBundle.load('roms/48.rom');
 
-    memory = Memory(isRomProtected: true);
-    z80 = Z80(memory, startAddress: 0x0000);
-    ULA.reset();
-    breakpoints.clear();
-    setState(() {
-      memory.load(0x0000, rom.buffer.asUint8List());
-      isRomLoaded = true;
-    });
+      memory = Memory(isRomProtected: true);
+      z80 = Z80(memory, startAddress: 0x0000);
+      ULA.reset();
+      breakpoints.clear();
+      setState(() {
+        memory.load(0x0000, rom.buffer.asUint8List());
+        isRomLoaded = true;
+      });
+    } catch (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Couldn't load ZX Spectrum ROM (48.rom)."),
+        ),
+      );
+    }
   }
 
   Future<void> executeFrame() async {
@@ -165,6 +207,11 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
                 icon: const Icon(Icons.system_update_alt),
                 tooltip: 'Load tape snapshot',
                 onPressed: loadSnapshot),
+            IconButton(
+              icon: const Icon(Icons.developer_board),
+              tooltip: 'Load ROM image',
+              onPressed: loadROM,
+            ),
             IconButton(
               icon: ticker.isActive
                   ? const Icon(

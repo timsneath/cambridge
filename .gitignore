@@ -45,7 +45,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-**/roms/**.SNA
-**/roms/**.Z80
-**/roms/**.sna
-**/roms/**.z80
+**/roms/**
+!**/roms/zexdoc
+!**/roms/48.rom
+!**/roms/LICENSE

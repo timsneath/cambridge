@@ -398,7 +398,7 @@ class Z80 {
     f5 = isBitSet(xx, 13);
     f3 = isBitSet(xx, 11);
     fZ = isZero(xx);
-    fN = false;
+    fN = true;
 
     // if x changed polarity then subtract caused an overflow
     fPV = xx - yy - carry < -32768;
@@ -1265,9 +1265,10 @@ class Z80 {
   }
 
   void portWrite(int addr, int value) {
-    if (addr == 0xFE) {
-//      print('Writing border color ${toHex16(value)}');
-      ULA.screenBorder = value & 0x0F;
+    // Every even I/O address will address the ULA, per WoS
+    if (isEven(addr)) {
+      ULA.writePort(value);
+      // ULA.screenBorder = value & 0x0F;
     } else {
       print('Z80: Writing to port ${toHex32(addr)}, ${toHex16(value)}');
     }

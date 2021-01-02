@@ -47,6 +47,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
   bool isRomLoaded = false;
   bool isKeyboardVisible = true;
   bool isDisassemblerVisible = false;
+  bool isTurbo = true;
 
   @override
   void initState() {
@@ -155,13 +156,31 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     setState(() {
       z80.interrupt();
     });
-    while (DateTime.now().millisecondsSinceEpoch - startTime < 10) {
+
+    // On the original 3.5MHz Z80 microprocessor used on the ZX Spectrum, a
+    // frame lasts ~1/50th second (50.08Hz, to be exact). Therefore, since:
+    //   3,500,000 / 50.08 = 69,888
+
+    // a frame lasts for 69,888 t-states. Flutter executes a frame more
+    // frequently (60fps, or even 120fps), so while this executes at 1.2-2.4x
+    // the speed of a real ZX Spectrum, interrupts should occur at the same rate
+    // as a physical machine.
+
+    // We also institute a "turbo" mode here, which runs as many instructions as
+    // can be completed in <10ms, which (allowing 6ms for other housekeeping
+    // activities, including painting the display) should allow the emulator to
+    // deliver 60fps (1/60s = 16ms).
+    while (
+        (isTurbo && DateTime.now().millisecondsSinceEpoch - startTime < 10) ||
+            (!isTurbo && z80.tStates < 58333)) {
       z80.executeNextInstruction();
       if (breakpoints.contains(z80.pc) && ticker.isActive) {
         ticker.stop();
         break;
       }
     }
+
+    z80.tStates = 0;
   }
 
   void stepInstruction() {
@@ -225,6 +244,15 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
               tooltip: ticker.isActive ? 'Pause' : 'Run',
               onPressed: toggleTicker,
             ),
+            Row(
+              children: [
+                const Text('Turbo: '),
+                Switch(
+                  value: isTurbo,
+                  onChanged: setTurbo,
+                ),
+              ],
+            ),
             IconButton(
               icon: const Icon(Icons.keyboard_arrow_right),
               tooltip: 'Step one instruction',
@@ -253,6 +281,13 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
       } else {
         ticker.start();
       }
+    });
+  }
+
+  // ignore: avoid_positional_boolean_parameters
+  void setTurbo(bool value) {
+    setState(() {
+      isTurbo = value;
     });
   }
 

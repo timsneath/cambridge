@@ -40,8 +40,9 @@ int peek(int addr) => memory.readByte(addr);
 // We use register names for the fields and we don't fuss too much about this.
 // ignore_for_file: non_constant_identifier_names
 
-void loadRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
-    int hl_, int ix, int iy, int sp, int pc) {
+void loadRegisters({int af = 0, int bc = 0, int de = 0, int hl = 0, 
+                    int af_ = 0, int bc_ = 0, int de_ = 0, int hl_ = 0, 
+                    int ix = 0, int iy = 0, int sp = 0, int pc = 0}) {
   z80.af = af;
   z80.bc = bc;
   z80.de = de;
@@ -60,17 +61,20 @@ void loadRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
   z80.pc = pc;
 }
 
-void checkRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
-    int hl_, int ix, int iy, int sp, int pc) {
+void checkRegisters({int af = 0, int bc = 0, int de = 0, int hl = 0, 
+                    int af_ = 0, int bc_ = 0, int de_ = 0, int hl_ = 0, 
+                    int ix = 0, int iy = 0, int sp = 0, int pc = 0}) {
   expect(highByte(z80.af), equals(highByte(af)),
       reason:
-          "Register A: expected ${toHex8(highByte(af))}, actual ${toHex8(highByte(z80.af))}");
+          "Register A: expected ${toHex8(highByte(af))}, "
+          "actual ${toHex8(highByte(z80.af))}");
   // While we attempt basic emulation of the undocumented bits 3 and 5,
   // we're not going to fail a test because of them (at least, right now).
   // So we OR both values with 0b000101000 (0x28) to mask out any difference.
   expect(lowByte(z80.af | 0x28), equals(lowByte(af | 0x28)),
       reason:
-          "Register F [SZ5H3PNC]: expected ${toBin8(lowByte(af))}, actual ${toBin8(lowByte(z80.af))}");
+          "Register F [SZ5H3PNC]: expected ${toBin8(lowByte(af))}, "
+          "actual ${toBin8(lowByte(z80.af))}");
   expect(z80.bc, equals(bc), reason: "Register BC mismatch");
   expect(z80.de, equals(de), reason: "Register DE mismatch");
   expect(z80.hl, equals(hl), reason: "Register HL mismatch");
@@ -85,10 +89,11 @@ void checkRegisters(int af, int bc, int de, int hl, int af_, int bc_, int de_,
 }
 
 // ignore: avoid_positional_boolean_parameters
-void checkSpecialRegisters(int i, int r, bool iff1, bool iff2, int tStates) {
+void checkSpecialRegisters({int i = 0, int r = 0, bool iff1 = false, 
+                            bool iff2 = false, int tStates = 0}) {
   expect(z80.i, equals(i), reason: "Register I mismatch");
 
-  // TODO: r is magic and we haven't done magic yet
+  // TODO: r is "magic" and we haven't finished doing magic yet
   // expect(z80.r, equals(r));
 
   expect(z80.iff1, equals(iff1), reason: "Register IFF1 mismatch");
@@ -116,10 +121,21 @@ void main() {
       sink.write("""
 
   // Test instruction $testName | ${instr ?? '<UNKNOWN>'}
-  test("${test.isUndocumented ? 'UNDOCUMENTED' : 'OPCODE'} $testName${instr != null ? ' | $instr' : ''}", () {
+  test("${test.isUndocumented ? 'UNDOCUMENTED' : 'OPCODE'} "
+       "$testName${instr != null ? ' | $instr' : ''}", () {
     // Set up machine initial state
-    loadRegisters(${toHex32(test.input.reg.af)}, ${toHex32(test.input.reg.bc)}, ${toHex32(test.input.reg.de)}, ${toHex32(test.input.reg.hl)}, ${toHex32(test.input.reg.af_)}, ${toHex32(test.input.reg.bc_)}, ${toHex32(test.input.reg.de_)},
-        ${toHex32(test.input.reg.hl_)}, ${toHex32(test.input.reg.ix)}, ${toHex32(test.input.reg.iy)}, ${toHex32(test.input.reg.sp)}, ${toHex32(test.input.reg.pc)});
+    loadRegisters(af: ${toHex32(test.input.reg.af)}, 
+                  bc: ${toHex32(test.input.reg.bc)}, 
+                  de: ${toHex32(test.input.reg.de)}, 
+                  hl: ${toHex32(test.input.reg.hl)}, 
+                  af_: ${toHex32(test.input.reg.af_)}, 
+                  bc_: ${toHex32(test.input.reg.bc_)}, 
+                  de_: ${toHex32(test.input.reg.de_)},
+                  hl_: ${toHex32(test.input.reg.hl_)}, 
+                  ix: ${toHex32(test.input.reg.ix)}, 
+                  iy: ${toHex32(test.input.reg.iy)}, 
+                  sp: ${toHex32(test.input.reg.sp)}, 
+                  pc: ${toHex32(test.input.reg.pc)});
     z80.i = ${toHex16(test.input.spec.i)};
     z80.r = ${toHex16(test.input.spec.r)};
     z80.iff1 = ${test.input.spec.iff1 == 1 ? 'true' : 'false'};
@@ -143,9 +159,23 @@ void main() {
     }
 
     // Test machine state is as expected
-    checkRegisters(${toHex32(test.results.reg.af)}, ${toHex32(test.results.reg.bc)}, ${toHex32(test.results.reg.de)}, ${toHex32(test.results.reg.hl)}, ${toHex32(test.results.reg.af_)}, ${toHex32(test.results.reg.bc_)}, ${toHex32(test.results.reg.de_)},
-        ${toHex32(test.results.reg.hl_)}, ${toHex32(test.results.reg.ix)}, ${toHex32(test.results.reg.iy)}, ${toHex32(test.results.reg.sp)}, ${toHex32(test.results.reg.pc)});
-    checkSpecialRegisters(${toHex16(test.results.spec.i)}, ${toHex16(test.results.spec.r)}, ${test.results.spec.iff1 == 1 ? 'true' : 'false'}, ${test.results.spec.iff2 == 1 ? 'true' : 'false'}, ${test.results.spec.tStates});
+    checkRegisters(af: ${toHex32(test.results.reg.af)},
+                   bc: ${toHex32(test.results.reg.bc)},
+                   de: ${toHex32(test.results.reg.de)},
+                   hl: ${toHex32(test.results.reg.hl)},
+                   af_: ${toHex32(test.results.reg.af_)},
+                   bc_: ${toHex32(test.results.reg.bc_)},
+                   de_: ${toHex32(test.results.reg.de_)},
+                   hl_: ${toHex32(test.results.reg.hl_)},
+                   ix: ${toHex32(test.results.reg.ix)},
+                   iy: ${toHex32(test.results.reg.iy)},
+                   sp: ${toHex32(test.results.reg.sp)},
+                   pc: ${toHex32(test.results.reg.pc)});
+    checkSpecialRegisters(i: ${toHex16(test.results.spec.i)},
+                          r: ${toHex16(test.results.spec.r)},
+                          iff1: ${test.results.spec.iff1 == 1 ? 'true' : 'false'},
+                          iff2: ${test.results.spec.iff2 == 1 ? 'true' : 'false'},
+                          tStates: ${test.results.spec.tStates});
 """);
       for (final addr in test.results.expectedMemory.keys) {
         sink.write("""

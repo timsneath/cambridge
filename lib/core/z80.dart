@@ -520,13 +520,17 @@ class Z80 {
 
   // Stack operations
   void PUSH(int val) {
-    memory.writeByte(--sp, highByte(val));
-    memory.writeByte(--sp, lowByte(val));
+    sp = (sp - 1) % 0x10000;
+    memory.writeByte(sp, highByte(val));
+    sp = (sp - 1) % 0x10000;
+    memory.writeByte(sp, lowByte(val));
   }
 
   int POP() {
-    final lo = memory.readByte(sp++);
-    final hi = memory.readByte(sp++);
+    final lo = memory.readByte(sp);
+    sp = (sp + 1) % 0x10000;
+    final hi = memory.readByte(sp);
+    sp = (sp + 1) % 0x10000;
     return (hi << 8) + lo;
   }
 
@@ -574,7 +578,7 @@ class Z80 {
     bc = (bc - 1) % 0x10000;
 
     if ((bc != 0) && (a != val)) {
-      pc -= 2;
+      pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
       tStates += 16;
@@ -1220,7 +1224,7 @@ class Z80 {
     fPV = isParity(((memval + ((c + 1) & 0xFF)) & 0x07) ^ b);
 
     if (b != 0) {
-      pc -= 2;
+      pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
       tStates += 16;
@@ -1245,7 +1249,7 @@ class Z80 {
     fPV = isParity(((memval + l) & 0x07) ^ b);
 
     if (b != 0) {
-      pc -= 2;
+      pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
       tStates += 16;
@@ -1268,7 +1272,7 @@ class Z80 {
     fPV = isParity(((memval + ((c - 1) & 0xFF)) & 0x07) ^ b);
 
     if (b != 0) {
-      pc -= 2;
+      pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
       tStates += 16;
@@ -1293,7 +1297,7 @@ class Z80 {
     fPV = isParity(((memval + l) & 0x07) ^ b);
 
     if (b != 0) {
-      pc -= 2;
+      pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
       tStates += 16;
@@ -1310,11 +1314,15 @@ class Z80 {
   int previewWord(int displ) => memory.readWord(pc + displ);
 
   // Use for execution, where we want to move through the program
-  int getNextByte() => memory.readByte(pc++);
+  int getNextByte() {
+    final byteRead = memory.readByte(pc);
+    pc = (pc + 1) % 0x10000;
+    return byteRead;
+  }
 
   int getNextWord() {
     final wordRead = memory.readWord(pc);
-    pc += 2;
+    pc = (pc + 2) % 0x10000;
     return wordRead;
   }
 
@@ -1590,7 +1598,7 @@ class Z80 {
 
       // INC IX
       case 0x23:
-        ix++;
+        ix = (ix + 1) % 0x10000;
         tStates += 10;
         break;
 
@@ -1626,7 +1634,7 @@ class Z80 {
 
       // DEC IX
       case 0x2B:
-        ix--;
+        ix = (ix - 1) % 0x10000;
         tStates += 10;
         break;
 
@@ -2605,7 +2613,7 @@ class Z80 {
 
       // INC IY
       case 0x23:
-        iy++;
+        iy = (iy + 1) % 0x10000;
         tStates += 10;
         break;
 
@@ -2641,7 +2649,7 @@ class Z80 {
 
       // DEC IY
       case 0x2B:
-        iy--;
+        iy = (iy - 1) % 0x10000;
         tStates += 10;
         break;
 
@@ -3130,7 +3138,7 @@ class Z80 {
 
       // INC BC
       case 0x03:
-        bc++;
+        bc = (bc + 1) % 0x10000;
         tStates += 6;
         break;
 
@@ -3173,7 +3181,7 @@ class Z80 {
 
       // DEC BC
       case 0x0B:
-        bc--;
+        bc = (bc - 1) % 0x10000;
         tStates += 6;
         break;
 
@@ -3217,7 +3225,7 @@ class Z80 {
 
       // INC DE
       case 0x13:
-        de++;
+        de = (de + 1) % 0x10000;
         tStates += 6;
         break;
 
@@ -3260,7 +3268,7 @@ class Z80 {
 
       // DEC DE
       case 0x1B:
-        de--;
+        de = (de - 1) % 0x10000;
         tStates += 6;
         break;
 
@@ -3290,7 +3298,7 @@ class Z80 {
         if (!fZ) {
           JR(getNextByte());
         } else {
-          pc++;
+          pc = (pc + 1) % 0x10000;
           tStates += 7;
         }
         break;
@@ -3309,7 +3317,7 @@ class Z80 {
 
       // INC HL
       case 0x23:
-        hl++;
+        hl = (hl + 1) % 0x10000;
         tStates += 6;
         break;
 
@@ -3339,7 +3347,7 @@ class Z80 {
         if (fZ) {
           JR(getNextByte());
         } else {
-          pc++;
+          pc = (pc + 1) % 0x10000;
           tStates += 7;
         }
         break;
@@ -3357,7 +3365,7 @@ class Z80 {
 
       // DEC HL
       case 0x2B:
-        hl--;
+        hl = (hl - 1) % 0x10000;
         tStates += 6;
         break;
 
@@ -3387,7 +3395,7 @@ class Z80 {
         if (!fC) {
           JR(getNextByte());
         } else {
-          pc++;
+          pc = (pc + 1) % 0x10000;
           tStates += 7;
         }
         break;
@@ -3406,7 +3414,7 @@ class Z80 {
 
       // INC SP
       case 0x33:
-        sp++;
+        sp = (sp + 1) % 0x10000;
         tStates += 6;
         break;
 
@@ -3439,7 +3447,7 @@ class Z80 {
         if (fC) {
           JR(getNextByte());
         } else {
-          pc++;
+          pc = (pc + 1) % 0x10000;
           tStates += 7;
         }
         break;
@@ -3457,7 +3465,7 @@ class Z80 {
 
       // DEC SP
       case 0x3B:
-        sp--;
+        sp = (sp - 1) % 0x10000;
         tStates += 6;
         break;
 
@@ -3803,7 +3811,7 @@ class Z80 {
       // HALT
       case 0x76:
         tStates += 4;
-        pc--;
+        pc = (pc - 1) % 0x10000;
         cpuSuspended = true;
         break;
 
@@ -4209,7 +4217,7 @@ class Z80 {
         if (!fZ) {
           pc = getNextWord();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
         }
         tStates += 10;
         break;
@@ -4225,7 +4233,7 @@ class Z80 {
         if (!fZ) {
           CALL();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
           tStates += 10;
         }
         break;
@@ -4268,7 +4276,7 @@ class Z80 {
         if (fZ) {
           pc = getNextWord();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
         }
         tStates += 10;
         break;
@@ -4283,7 +4291,7 @@ class Z80 {
         if (fZ) {
           CALL();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
           tStates += 10;
         }
         break;
@@ -4325,7 +4333,7 @@ class Z80 {
         if (!fC) {
           pc = getNextWord();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
         }
         tStates += 10;
         break;
@@ -4341,7 +4349,7 @@ class Z80 {
         if (!fC) {
           CALL();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
           tStates += 10;
         }
         break;
@@ -4396,7 +4404,7 @@ class Z80 {
         if (fC) {
           pc = getNextWord();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
         }
         tStates += 10;
         break;
@@ -4412,7 +4420,7 @@ class Z80 {
         if (fC) {
           CALL();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
           tStates += 10;
         }
         break;
@@ -4454,7 +4462,7 @@ class Z80 {
         if (!fPV) {
           pc = getNextWord();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
         }
         tStates += 10;
         break;
@@ -4472,7 +4480,7 @@ class Z80 {
         if (!fPV) {
           CALL();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
           tStates += 10;
         }
         break;
@@ -4517,7 +4525,7 @@ class Z80 {
         if (fPV) {
           pc = getNextWord();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
         }
         tStates += 10;
         break;
@@ -4537,7 +4545,7 @@ class Z80 {
         if (fPV) {
           CALL();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
           tStates += 10;
         }
         break;
@@ -4579,7 +4587,7 @@ class Z80 {
         if (!fS) {
           pc = getNextWord();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
         }
         tStates += 10;
         break;
@@ -4596,7 +4604,7 @@ class Z80 {
         if (!fS) {
           CALL();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
           tStates += 10;
         }
         break;
@@ -4639,7 +4647,7 @@ class Z80 {
         if (fS) {
           pc = getNextWord();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
         }
         tStates += 10;
         break;
@@ -4656,7 +4664,7 @@ class Z80 {
         if (fS) {
           CALL();
         } else {
-          pc += 2;
+          pc = (pc + 2) % 0x10000;
           tStates += 10;
         }
         break;

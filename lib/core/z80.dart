@@ -77,15 +77,14 @@ class Z80 {
         // Interrupts enabled
         switch (im) {
           case 0:
-          // break;
+            // Not used on the ZX Spectrum
+            break;
           case 1:
             PUSH(pc);
             pc = 0x0038;
             break;
           case 2:
             // TODO: Implement IM2
-            break;
-          default:
             break;
         }
       }

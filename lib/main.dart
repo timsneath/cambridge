@@ -160,7 +160,6 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
     // On the original 3.5MHz Z80 microprocessor used on the ZX Spectrum, a
     // frame lasts ~1/50th second (50.08Hz, to be exact). Therefore, since:
     //   3,500,000 / 50.08 = 69,888
-
     // a frame lasts for 69,888 t-states. Flutter executes a frame more
     // frequently (60fps, or even 120fps), so while this executes at 1.2-2.4x
     // the speed of a real ZX Spectrum, interrupts should occur at the same rate

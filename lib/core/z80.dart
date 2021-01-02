@@ -562,7 +562,7 @@ class Z80 {
   void CPDR() {
     final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
-    fS = a - val < 0;
+    fS = isSign8(a - val);
     fZ = a == val;
     fN = true;
     fPV = bc - 1 != 0;
@@ -593,7 +593,7 @@ class Z80 {
   void CPIR() {
     final val = memory.readByte(hl);
     fH = (a & 0x0F) < (val & 0x0F);
-    fS = a - val < 0;
+    fS = isSign8(a - val);
     fZ = a == val;
     fN = true;
     fPV = bc - 1 != 0;

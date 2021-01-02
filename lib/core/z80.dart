@@ -1566,7 +1566,8 @@ class Z80 {
           break;
 
         default:
-          throw Exception("Opcode DDCB**${toHex16(opCode)} not understood. ");
+          print(
+              "Undocumented opcode DDCB**${toHex16(opCode)} not interpreted. ");
       }
 
       tStates += 23;
@@ -2581,7 +2582,8 @@ class Z80 {
           break;
 
         default:
-          throw Exception("Opcode FDCB**${toHex16(opCode)} not understood. ");
+          print(
+              "Undocumented opcode FDCB**${toHex16(opCode)} not interpreted. ");
       }
 
       tStates += 23;
@@ -3128,8 +3130,6 @@ class Z80 {
     final opCode = getNextByte();
 
     r = (r + 1) % 0x100;
-    // print(Disassembler.disassembleInstruction(
-    //     [opCode, previewByte(1), previewByte(2), previewByte(3)]));
 
     switch (opCode) {
       // NOP

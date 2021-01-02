@@ -68,10 +68,7 @@ void checkRegisters({int af = 0, int bc = 0, int de = 0, int hl = 0,
       reason:
           "Register A: expected ${toHex8(highByte(af))}, "
           "actual ${toHex8(highByte(z80.af))}");
-  // While we attempt basic emulation of the undocumented bits 3 and 5,
-  // we're not going to fail a test because of them (at least, right now).
-  // So we OR both values with 0b000101000 (0x28) to mask out any difference.
-  expect(lowByte(z80.af | 0x28), equals(lowByte(af | 0x28)),
+  expect(lowByte(z80.af), equals(lowByte(af)),
       reason:
           "Register F [SZ5H3PNC]: expected ${toBin8(lowByte(af))}, "
           "actual ${toBin8(lowByte(z80.af))}");

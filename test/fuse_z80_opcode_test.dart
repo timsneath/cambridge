@@ -4267,6 +4267,54 @@ void main() {
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
 
+  // Test instruction 4c | LD C, H
+  test(
+      "UNDOCUMENTED "
+      "4c | LD C, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x4c);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcfa1,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
+  }, tags: 'undocumented');
+
   // Test instruction 4d | LD C, L
   test(
       "OPCODE "
@@ -4314,6 +4362,54 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
+
+  // Test instruction 4e | LD C, (HL)
+  test(
+      "UNDOCUMENTED "
+      "4e | LD C, (HL)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x4e);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf50,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 7);
+  }, tags: 'undocumented');
 
   // Test instruction 4f | LD C, A
   test(
@@ -4554,6 +4650,54 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
+
+  // Test instruction 54 | LD D, H
+  test(
+      "UNDOCUMENTED "
+      "54 | LD D, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x54);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0xa1d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
+  }, tags: 'undocumented');
 
   // Test instruction 55 | LD D, L
   test(
@@ -4891,6 +5035,54 @@ void main() {
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
 
+  // Test instruction 5c | LD E, H
+  test(
+      "UNDOCUMENTED "
+      "5c | LD E, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x5c);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90a1,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
+  }, tags: 'undocumented');
+
   // Test instruction 5d | LD E, L
   test(
       "OPCODE "
@@ -5178,6 +5370,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
+
+  // Test instruction 63 | LD H, E
+  test(
+      "UNDOCUMENTED "
+      "63 | LD H, E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x63);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xd869,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
+  }, tags: 'undocumented');
+
+  // Test instruction 64 | LD H, H
+  test(
+      "UNDOCUMENTED "
+      "64 | LD H, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x64);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
+  }, tags: 'undocumented');
 
   // Test instruction 65 | LD H, L
   test(
@@ -5467,6 +5755,102 @@ void main() {
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
 
+  // Test instruction 6b | LD L, E
+  test(
+      "UNDOCUMENTED "
+      "6b | LD L, E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x6b);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa1d8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
+  }, tags: 'undocumented');
+
+  // Test instruction 6c | LD L, H
+  test(
+      "UNDOCUMENTED "
+      "6c | LD L, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x6c);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa1a1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
+  }, tags: 'undocumented');
+
   // Test instruction 6d | LD L, L
   test(
       "OPCODE "
@@ -5515,6 +5899,54 @@ void main() {
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
 
+  // Test instruction 6e | LD L, (HL)
+  test(
+      "UNDOCUMENTED "
+      "6e | LD L, (HL)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x6e);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa150,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 7);
+  }, tags: 'undocumented');
+
   // Test instruction 6f | LD L, A
   test(
       "OPCODE "
@@ -5562,6 +5994,104 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
+
+  // Test instruction 70 | LD (HL), B
+  test(
+      "UNDOCUMENTED "
+      "70 | LD (HL), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x70);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 7);
+    expect(peek(41321), equals(0xcf));
+  }, tags: 'undocumented');
+
+  // Test instruction 71 | LD (HL), C
+  test(
+      "UNDOCUMENTED "
+      "71 | LD (HL), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x71);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 7);
+    expect(peek(41321), equals(0x98));
+  }, tags: 'undocumented');
 
   // Test instruction 72 | LD (HL), D
   test(
@@ -5660,6 +6190,55 @@ void main() {
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 7);
     expect(peek(41321), equals(0xd8));
   });
+
+  // Test instruction 74 | LD (HL), H
+  test(
+      "UNDOCUMENTED "
+      "74 | LD (HL), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x74);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 7);
+    expect(peek(41321), equals(0xa1));
+  }, tags: 'undocumented');
 
   // Test instruction 75 | LD (HL), L
   test(
@@ -5998,6 +6577,54 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
   });
+
+  // Test instruction 7c | LD A, H
+  test(
+      "UNDOCUMENTED "
+      "7c | LD A, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0200,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0x7c);
+    poke(0xa169, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa100,
+        bc: 0xcf98,
+        de: 0x90d8,
+        hl: 0xa169,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0001);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x01, iff1: false, iff2: false, tStates: 4);
+  }, tags: 'undocumented');
 
   // Test instruction 7d | LD A, L
   test(
@@ -12357,6 +12984,399 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
   });
+
+  // Test instruction cb30 | SLL B
+  test(
+      "UNDOCUMENTED "
+      "cb30 | SLL B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xcd00,
+        bc: 0x7a81,
+        de: 0xd67b,
+        hl: 0x656b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xcb);
+    poke(0x0001, 0x30);
+    poke(0x656b, 0x32);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcda4,
+        bc: 0xf581,
+        de: 0xd67b,
+        hl: 0x656b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction cb31 | SLL C
+  test(
+      "UNDOCUMENTED "
+      "cb31 | SLL C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2800,
+        bc: 0xe7fa,
+        de: 0x6d8c,
+        hl: 0x75a4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xcb);
+    poke(0x0001, 0x31);
+    poke(0x75a4, 0x0c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x28a5,
+        bc: 0xe7f5,
+        de: 0x6d8c,
+        hl: 0x75a4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction cb32 | SLL D
+  test(
+      "UNDOCUMENTED "
+      "cb32 | SLL D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1300,
+        bc: 0x3f36,
+        de: 0xf608,
+        hl: 0x5e56,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xcb);
+    poke(0x0001, 0x32);
+    poke(0x5e56, 0x8d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x13ad,
+        bc: 0x3f36,
+        de: 0xed08,
+        hl: 0x5e56,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction cb33 | SLL E
+  test(
+      "UNDOCUMENTED "
+      "cb33 | SLL E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd500,
+        bc: 0x9720,
+        de: 0x7644,
+        hl: 0x038f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xcb);
+    poke(0x0001, 0x33);
+    poke(0x038f, 0xba);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd588,
+        bc: 0x9720,
+        de: 0x7689,
+        hl: 0x038f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction cb34 | SLL H
+  test(
+      "UNDOCUMENTED "
+      "cb34 | SLL H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1200,
+        bc: 0x77f6,
+        de: 0x0206,
+        hl: 0xfb38,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xcb);
+    poke(0x0001, 0x34);
+    poke(0xfb38, 0x07);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x12a1,
+        bc: 0x77f6,
+        de: 0x0206,
+        hl: 0xf738,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction cb35 | SLL L
+  test(
+      "UNDOCUMENTED "
+      "cb35 | SLL L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3c00,
+        bc: 0xfd68,
+        de: 0xea91,
+        hl: 0x7861,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xcb);
+    poke(0x0001, 0x35);
+    poke(0x7861, 0x72);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3c84,
+        bc: 0xfd68,
+        de: 0xea91,
+        hl: 0x78c3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction cb36 | SLL (HL)
+  test(
+      "UNDOCUMENTED "
+      "cb36 | SLL (HL)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8a00,
+        bc: 0x1185,
+        de: 0x1dde,
+        hl: 0x6d38,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xcb);
+    poke(0x0001, 0x36);
+    poke(0x6d38, 0xf1);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8aa1,
+        bc: 0x1185,
+        de: 0x1dde,
+        hl: 0x6d38,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 15);
+    expect(peek(27960), equals(0xe3));
+  }, tags: 'undocumented');
+
+  // Test instruction cb37 | SLL A
+  test(
+      "UNDOCUMENTED "
+      "cb37 | SLL A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4300,
+        bc: 0xd7bc,
+        de: 0x9133,
+        hl: 0x6e56,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xcb);
+    poke(0x0001, 0x37);
+    poke(0x6e56, 0xf8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8784,
+        bc: 0xd7bc,
+        de: 0x9133,
+        hl: 0x6e56,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction cb38 | SRL B
   test(
@@ -24603,6 +25623,151 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 10);
   });
 
+  // Test instruction dd24 | INC IXH
+  test(
+      "UNDOCUMENTED "
+      "dd24 | INC IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0698,
+        bc: 0xdcd0,
+        de: 0xa31b,
+        hl: 0xd527,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8cda,
+        iy: 0xb096,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x24);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0688,
+        bc: 0xdcd0,
+        de: 0xa31b,
+        hl: 0xd527,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8dda,
+        iy: 0xb096,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd25 | DEC IXH
+  test(
+      "UNDOCUMENTED "
+      "dd25 | DEC IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5acc,
+        bc: 0x206b,
+        de: 0xed10,
+        hl: 0x6eab,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbb3c,
+        iy: 0x5ebd,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x25);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5aaa,
+        bc: 0x206b,
+        de: 0xed10,
+        hl: 0x6eab,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xba3c,
+        iy: 0x5ebd,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd26 | LD IXH, *
+  test(
+      "UNDOCUMENTED "
+      "dd26 | LD IXH, *", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9522,
+        bc: 0xede0,
+        de: 0xa352,
+        hl: 0xadea,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5f40,
+        iy: 0x82e1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x26);
+    poke(0x0002, 0xad);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9522,
+        bc: 0xede0,
+        de: 0xa352,
+        hl: 0xadea,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xad40,
+        iy: 0x82e1,
+        sp: 0x0000,
+        pc: 0x0003);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 11);
+  }, tags: 'undocumented');
+
   // Test instruction dd29 | ADD IX, IX
   test(
       "OPCODE "
@@ -24750,6 +25915,151 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 10);
   });
+
+  // Test instruction dd2c | INC IXL
+  test(
+      "UNDOCUMENTED "
+      "dd2c | INC IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8838,
+        bc: 0xf2f3,
+        de: 0xd277,
+        hl: 0x9153,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc62f,
+        iy: 0xb002,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x2c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8830,
+        bc: 0xf2f3,
+        de: 0xd277,
+        hl: 0x9153,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc630,
+        iy: 0xb002,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd2d | DEC IXL
+  test(
+      "UNDOCUMENTED "
+      "dd2d | DEC IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x39bc,
+        bc: 0xb23c,
+        de: 0x6e11,
+        hl: 0x5a49,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0267,
+        iy: 0xab03,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x2d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3922,
+        bc: 0xb23c,
+        de: 0x6e11,
+        hl: 0x5a49,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0266,
+        iy: 0xab03,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd2e | LD IXL, *
+  test(
+      "UNDOCUMENTED "
+      "dd2e | LD IXL, *", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9aca,
+        bc: 0xa04a,
+        de: 0xb49f,
+        hl: 0xa4a6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbd90,
+        iy: 0x38a1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x2e);
+    poke(0x0002, 0x1c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9aca,
+        bc: 0xa04a,
+        de: 0xb49f,
+        hl: 0xa4a6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbd1c,
+        iy: 0x38a1,
+        sp: 0x0000,
+        pc: 0x0003);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 11);
+  }, tags: 'undocumented');
 
   // Test instruction dd34 | INC (IX+*)
   test(
@@ -24952,6 +26262,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 15);
   });
 
+  // Test instruction dd44 | LD B, IXH
+  test(
+      "UNDOCUMENTED "
+      "dd44 | LD B, IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb37e,
+        bc: 0xcbb0,
+        de: 0x36e8,
+        hl: 0x3f45,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2702,
+        iy: 0xb3b9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb37e,
+        bc: 0x27b0,
+        de: 0x36e8,
+        hl: 0x3f45,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2702,
+        iy: 0xb3b9,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd45 | LD B, IXL
+  test(
+      "UNDOCUMENTED "
+      "dd45 | LD B, IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4e10,
+        bc: 0x5c6d,
+        de: 0xd11d,
+        hl: 0x1736,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7298,
+        iy: 0x2d10,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x45);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4e10,
+        bc: 0x986d,
+        de: 0xd11d,
+        hl: 0x1736,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7298,
+        iy: 0x2d10,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction dd46 | LD B, (IX+*)
   test(
       "OPCODE "
@@ -25001,6 +26407,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction dd4c | LD C, IXH
+  test(
+      "UNDOCUMENTED "
+      "dd4c | LD C, IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe15c,
+        bc: 0x75ec,
+        de: 0x7531,
+        hl: 0xae9e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3ed8,
+        iy: 0x03b7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x4c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe15c,
+        bc: 0x753e,
+        de: 0x7531,
+        hl: 0xae9e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3ed8,
+        iy: 0x03b7,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd4d | LD C, IXL
+  test(
+      "UNDOCUMENTED "
+      "dd4d | LD C, IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x469e,
+        bc: 0x7864,
+        de: 0x6a5a,
+        hl: 0x00e2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa1aa,
+        iy: 0x0d6f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x4d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x469e,
+        bc: 0x78aa,
+        de: 0x6a5a,
+        hl: 0x00e2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa1aa,
+        iy: 0x0d6f,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction dd4e | LD C, (IX+*)
   test(
@@ -25052,6 +26554,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction dd54 | LD D, IXH
+  test(
+      "UNDOCUMENTED "
+      "dd54 | LD D, IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8376,
+        bc: 0x0d13,
+        de: 0xc767,
+        hl: 0x3119,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4b6d,
+        iy: 0x030b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x54);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8376,
+        bc: 0x0d13,
+        de: 0x4b67,
+        hl: 0x3119,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4b6d,
+        iy: 0x030b,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd55 | LD D, IXL
+  test(
+      "UNDOCUMENTED "
+      "dd55 | LD D, IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xff78,
+        bc: 0x85e3,
+        de: 0x566b,
+        hl: 0x8f3a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd7d7,
+        iy: 0x4e0b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x55);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xff78,
+        bc: 0x85e3,
+        de: 0xd76b,
+        hl: 0x8f3a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd7d7,
+        iy: 0x4e0b,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction dd56 | LD D, (IX+*)
   test(
       "OPCODE "
@@ -25101,6 +26699,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction dd5c | LD E, IXH
+  test(
+      "UNDOCUMENTED "
+      "dd5c | LD E, IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xaf82,
+        bc: 0x24bf,
+        de: 0x2793,
+        hl: 0xf925,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf9a3,
+        iy: 0x0b82,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x5c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xaf82,
+        bc: 0x24bf,
+        de: 0x27f9,
+        hl: 0xf925,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf9a3,
+        iy: 0x0b82,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd5d | LD E, IXL
+  test(
+      "UNDOCUMENTED "
+      "dd5d | LD E, IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x36cb,
+        bc: 0x97a9,
+        de: 0x400d,
+        hl: 0x30fe,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3340,
+        iy: 0xb3ed,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x5d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x36cb,
+        bc: 0x97a9,
+        de: 0x4040,
+        hl: 0x30fe,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3340,
+        iy: 0xb3ed,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction dd5e | LD E, (IX+*)
   test(
@@ -25152,6 +26846,294 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction dd60 | LD IXH, B
+  test(
+      "UNDOCUMENTED "
+      "dd60 | LD IXH, B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2392,
+        bc: 0x7f6a,
+        de: 0x3dc0,
+        hl: 0xcefb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x44a0,
+        iy: 0xc424,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x60);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2392,
+        bc: 0x7f6a,
+        de: 0x3dc0,
+        hl: 0xcefb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7fa0,
+        iy: 0xc424,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd61 | LD IXH, C
+  test(
+      "UNDOCUMENTED "
+      "dd61 | LD IXH, C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x76ed,
+        bc: 0x268c,
+        de: 0xd5c8,
+        hl: 0xbab0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb650,
+        iy: 0x0a93,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x61);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x76ed,
+        bc: 0x268c,
+        de: 0xd5c8,
+        hl: 0xbab0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8c50,
+        iy: 0x0a93,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd62 | LD IXH, D
+  test(
+      "UNDOCUMENTED "
+      "dd62 | LD IXH, D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4c6f,
+        bc: 0xb482,
+        de: 0xfef4,
+        hl: 0x62e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6e25,
+        iy: 0x9655,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x62);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4c6f,
+        bc: 0xb482,
+        de: 0xfef4,
+        hl: 0x62e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe25,
+        iy: 0x9655,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd63 | LD IXH, E
+  test(
+      "UNDOCUMENTED "
+      "dd63 | LD IXH, E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6e9a,
+        bc: 0x5499,
+        de: 0x3c8f,
+        hl: 0x1f64,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbf35,
+        iy: 0x0df7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x63);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6e9a,
+        bc: 0x5499,
+        de: 0x3c8f,
+        hl: 0x1f64,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8f35,
+        iy: 0x0df7,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd64 | LD IXH, H
+  test(
+      "UNDOCUMENTED "
+      "dd64 | LD IXH, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x47f6,
+        bc: 0x1b7a,
+        de: 0xa55e,
+        hl: 0x2fc2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xefc7,
+        iy: 0xaca0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x64);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x47f6,
+        bc: 0x1b7a,
+        de: 0xa55e,
+        hl: 0x2fc2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xefc7,
+        iy: 0xaca0,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd65 | LD IXH, L
+  test(
+      "UNDOCUMENTED "
+      "dd65 | LD IXH, L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd786,
+        bc: 0x7d1d,
+        de: 0xb659,
+        hl: 0x77e8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x58fa,
+        iy: 0x006d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x65);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd786,
+        bc: 0x7d1d,
+        de: 0xb659,
+        hl: 0x77e8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfafa,
+        iy: 0x006d,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction dd66 | LD H, (IX+*)
   test(
       "OPCODE "
@@ -25202,6 +27184,342 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction dd67 | LD IXH, A
+  test(
+      "UNDOCUMENTED "
+      "dd67 | LD IXH, A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x967c,
+        bc: 0x511e,
+        de: 0x336d,
+        hl: 0x40f6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x66e7,
+        iy: 0x5be2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x67);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x967c,
+        bc: 0x511e,
+        de: 0x336d,
+        hl: 0x40f6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x96e7,
+        iy: 0x5be2,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd68 | LD IXL, B
+  test(
+      "UNDOCUMENTED "
+      "dd68 | LD IXL, B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4a9d,
+        bc: 0xefa8,
+        de: 0xfebd,
+        hl: 0x07e4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5fd8,
+        iy: 0xb23f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x68);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4a9d,
+        bc: 0xefa8,
+        de: 0xfebd,
+        hl: 0x07e4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5fef,
+        iy: 0xb23f,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd69 | LD IXL, C
+  test(
+      "UNDOCUMENTED "
+      "dd69 | LD IXL, C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6466,
+        bc: 0x2142,
+        de: 0x2523,
+        hl: 0x82b3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6479,
+        iy: 0x04a7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x69);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6466,
+        bc: 0x2142,
+        de: 0x2523,
+        hl: 0x82b3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6442,
+        iy: 0x04a7,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd6a | LD IXL, D
+  test(
+      "UNDOCUMENTED "
+      "dd6a | LD IXL, D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x401f,
+        bc: 0x61f1,
+        de: 0x4b08,
+        hl: 0xfa88,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc37f,
+        iy: 0xd8f6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x6a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x401f,
+        bc: 0x61f1,
+        de: 0x4b08,
+        hl: 0xfa88,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc34b,
+        iy: 0xd8f6,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd6b | LD IXL, E
+  test(
+      "UNDOCUMENTED "
+      "dd6b | LD IXL, E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6dc7,
+        bc: 0xe2ae,
+        de: 0x40bd,
+        hl: 0xf3c0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2290,
+        iy: 0x2749,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x6b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6dc7,
+        bc: 0xe2ae,
+        de: 0x40bd,
+        hl: 0xf3c0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x22bd,
+        iy: 0x2749,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd6c | LD IXL, H
+  test(
+      "UNDOCUMENTED "
+      "dd6c | LD IXL, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3939,
+        bc: 0x90da,
+        de: 0x62dc,
+        hl: 0x7c31,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x412f,
+        iy: 0x7211,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x6c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3939,
+        bc: 0x90da,
+        de: 0x62dc,
+        hl: 0x7c31,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4141,
+        iy: 0x7211,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd6d | LD IXL, L
+  test(
+      "UNDOCUMENTED "
+      "dd6d | LD IXL, L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3964,
+        bc: 0xff3f,
+        de: 0x23d4,
+        hl: 0xc7c7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9b70,
+        iy: 0x20c6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x6d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3964,
+        bc: 0xff3f,
+        de: 0x23d4,
+        hl: 0xc7c7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9b70,
+        iy: 0x20c6,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction dd6e | LD L, (IX+*)
   test(
       "OPCODE "
@@ -25251,6 +27569,54 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction dd6f | LD IXL, A
+  test(
+      "UNDOCUMENTED "
+      "dd6f | LD IXL, A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6e84,
+        bc: 0x9cd4,
+        de: 0xa293,
+        hl: 0x647d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0d0b,
+        iy: 0x4a56,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x6f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6e84,
+        bc: 0x9cd4,
+        de: 0xa293,
+        hl: 0x647d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0d6e,
+        iy: 0x4a56,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction dd70 | LD (IX+*), B
   test(
@@ -25602,6 +27968,102 @@ void main() {
     expect(peek(41229), equals(0xdc));
   });
 
+  // Test instruction dd7c | LD A, IXH
+  test(
+      "UNDOCUMENTED "
+      "dd7c | LD A, IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7558,
+        bc: 0x7705,
+        de: 0xac92,
+        hl: 0xa6a1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8cde,
+        iy: 0x7507,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x7c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8c58,
+        bc: 0x7705,
+        de: 0xac92,
+        hl: 0xa6a1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8cde,
+        iy: 0x7507,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd7d | LD A, IXL
+  test(
+      "UNDOCUMENTED "
+      "dd7d | LD A, IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6c18,
+        bc: 0x93fb,
+        de: 0x6bdd,
+        hl: 0x3a10,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd7cb,
+        iy: 0xc0f6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x7d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcb18,
+        bc: 0x93fb,
+        de: 0x6bdd,
+        hl: 0x3a10,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd7cb,
+        iy: 0xc0f6,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction dd7e | LD A, (IX+*)
   test(
       "OPCODE "
@@ -25651,6 +28113,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction dd84 | ADD A, IXH
+  test(
+      "UNDOCUMENTED "
+      "dd84 | ADD A, IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2e47,
+        bc: 0x1de8,
+        de: 0xb8b9,
+        hl: 0x78a6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9f1d,
+        iy: 0xb11f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x84);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcd98,
+        bc: 0x1de8,
+        de: 0xb8b9,
+        hl: 0x78a6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9f1d,
+        iy: 0xb11f,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd85 | ADD A, IXL
+  test(
+      "UNDOCUMENTED "
+      "dd85 | ADD A, IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb27a,
+        bc: 0xb1ff,
+        de: 0x8d7b,
+        hl: 0x40c0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb513,
+        iy: 0x0688,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x85);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc580,
+        bc: 0xb1ff,
+        de: 0x8d7b,
+        hl: 0x40c0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb513,
+        iy: 0x0688,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction dd86 | ADD A, (IX+*)
   test(
@@ -25702,6 +28260,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction dd8c | ADC A, IXH
+  test(
+      "UNDOCUMENTED "
+      "dd8c | ADC A, IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbc63,
+        bc: 0x8fdc,
+        de: 0xea8f,
+        hl: 0x9734,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0eb3,
+        iy: 0x1b54,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x8c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcb98,
+        bc: 0x8fdc,
+        de: 0xea8f,
+        hl: 0x9734,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0eb3,
+        iy: 0x1b54,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd8d | ADC A, IXL
+  test(
+      "UNDOCUMENTED "
+      "dd8d | ADC A, IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb61f,
+        bc: 0x1c81,
+        de: 0xb6fb,
+        hl: 0xd6e5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x09be,
+        iy: 0xa736,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x8d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7535,
+        bc: 0x1c81,
+        de: 0xb6fb,
+        hl: 0xd6e5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x09be,
+        iy: 0xa736,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction dd8e | ADC A, (IX+*)
   test(
       "OPCODE "
@@ -25751,6 +28405,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction dd94 | SUB IXH
+  test(
+      "UNDOCUMENTED "
+      "dd94 | SUB IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7ef1,
+        bc: 0x9efe,
+        de: 0x6ea1,
+        hl: 0xfc55,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0a09,
+        iy: 0x89c5,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x94);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7422,
+        bc: 0x9efe,
+        de: 0x6ea1,
+        hl: 0xfc55,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0a09,
+        iy: 0x89c5,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd95 | SUB IXL
+  test(
+      "UNDOCUMENTED "
+      "dd95 | SUB IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2920,
+        bc: 0x59ab,
+        de: 0x428c,
+        hl: 0x3a94,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x44fd,
+        iy: 0xf243,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x95);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2c3b,
+        bc: 0x59ab,
+        de: 0x428c,
+        hl: 0x3a94,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x44fd,
+        iy: 0xf243,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction dd96 | SUB (IX+*)
   test(
@@ -25802,6 +28552,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction dd9c | SBC IXH
+  test(
+      "UNDOCUMENTED "
+      "dd9c | SBC IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfaf4,
+        bc: 0x670e,
+        de: 0xafcc,
+        hl: 0x8b34,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x285f,
+        iy: 0x1caa,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x9c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd282,
+        bc: 0x670e,
+        de: 0xafcc,
+        hl: 0x8b34,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x285f,
+        iy: 0x1caa,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dd9d | SBC IXL
+  test(
+      "UNDOCUMENTED "
+      "dd9d | SBC IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf827,
+        bc: 0x0cdb,
+        de: 0xdf32,
+        hl: 0xd0e4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9b12,
+        iy: 0x7d07,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0x9d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe5a2,
+        bc: 0x0cdb,
+        de: 0xdf32,
+        hl: 0xd0e4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9b12,
+        iy: 0x7d07,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction dd9e | SBC A, (IX+*)
   test(
       "OPCODE "
@@ -25851,6 +28697,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction dda4 | AND IXH
+  test(
+      "UNDOCUMENTED "
+      "dda4 | AND IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x52f5,
+        bc: 0xba53,
+        de: 0xacfc,
+        hl: 0x9481,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2f8b,
+        iy: 0xedf6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xa4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0210,
+        bc: 0xba53,
+        de: 0xacfc,
+        hl: 0x9481,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2f8b,
+        iy: 0xedf6,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction dda5 | AND IXL
+  test(
+      "UNDOCUMENTED "
+      "dda5 | AND IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbaaf,
+        bc: 0xa675,
+        de: 0xd757,
+        hl: 0xf1db,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfdef,
+        iy: 0xd8ce,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xa5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xaabc,
+        bc: 0xa675,
+        de: 0xd757,
+        hl: 0xf1db,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfdef,
+        iy: 0xd8ce,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction dda6 | AND (IX+*)
   test(
@@ -25902,6 +28844,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction ddac | XOR IXH
+  test(
+      "UNDOCUMENTED "
+      "ddac | XOR IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xef15,
+        bc: 0x2a7c,
+        de: 0x17e5,
+        hl: 0x3f6e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xaffa,
+        iy: 0xa0b5,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xac);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4000,
+        bc: 0x2a7c,
+        de: 0x17e5,
+        hl: 0x3f6e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xaffa,
+        iy: 0xa0b5,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction ddad | XOR IXL
+  test(
+      "UNDOCUMENTED "
+      "ddad | XOR IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xba2e,
+        bc: 0x6ba1,
+        de: 0xef1b,
+        hl: 0x5713,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xba38,
+        iy: 0xa708,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xad);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8284,
+        bc: 0x6ba1,
+        de: 0xef1b,
+        hl: 0x5713,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xba38,
+        iy: 0xa708,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction ddae | XOR (IX+*)
   test(
       "OPCODE "
@@ -25951,6 +28989,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction ddb4 | OR IXH
+  test(
+      "UNDOCUMENTED "
+      "ddb4 | OR IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1ccd,
+        bc: 0x29aa,
+        de: 0x2e82,
+        hl: 0x4dc8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9c04,
+        iy: 0x8be3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xb4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9c8c,
+        bc: 0x29aa,
+        de: 0x2e82,
+        hl: 0x4dc8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9c04,
+        iy: 0x8be3,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction ddb5 | OR IXL
+  test(
+      "UNDOCUMENTED "
+      "ddb5 | OR IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x46b4,
+        bc: 0xfc93,
+        de: 0x7a06,
+        hl: 0x0518,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0ac5,
+        iy: 0x4150,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xb5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc780,
+        bc: 0xfc93,
+        de: 0x7a06,
+        hl: 0x0518,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0ac5,
+        iy: 0x4150,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction ddb6 | OR (IX+*)
   test(
@@ -26002,6 +29136,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction ddbc | CP IXH
+  test(
+      "UNDOCUMENTED "
+      "ddbc | CP IXH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x53e0,
+        bc: 0xaa98,
+        de: 0xf7d7,
+        hl: 0xfa0c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbe7a,
+        iy: 0xa41f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xbc);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x53bf,
+        bc: 0xaa98,
+        de: 0xf7d7,
+        hl: 0xfa0c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbe7a,
+        iy: 0xa41f,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction ddbd | CP IXL
+  test(
+      "UNDOCUMENTED "
+      "ddbd | CP IXL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdc83,
+        bc: 0x80ce,
+        de: 0x5d2f,
+        hl: 0xe999,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbb41,
+        iy: 0xa24f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xbd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdc82,
+        bc: 0x80ce,
+        de: 0x5d2f,
+        hl: 0xe999,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbb41,
+        iy: 0xa24f,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction ddbe | CP (IX+*)
   test(
       "OPCODE "
@@ -26051,6 +29281,318 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction ddcb00 | RLC (IX+*), B
+  test(
+      "UNDOCUMENTED "
+      "ddcb00 | RLC (IX+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3c65,
+        bc: 0xf0e4,
+        de: 0x09d1,
+        hl: 0x646b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1da1,
+        iy: 0xf08f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0d);
+    poke(0x0003, 0x00);
+    poke(0x1dae, 0xa1);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3c01,
+        bc: 0x43e4,
+        de: 0x09d1,
+        hl: 0x646b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1da1,
+        iy: 0xf08f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(7598), equals(0x43));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb01 | RLC (IX+*), C
+  test(
+      "UNDOCUMENTED "
+      "ddcb01 | RLC (IX+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf68f,
+        bc: 0xe33b,
+        de: 0x2d4a,
+        hl: 0x7725,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x28fd,
+        iy: 0xf31b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb7);
+    poke(0x0003, 0x01);
+    poke(0x28b4, 0xe3);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf681,
+        bc: 0xe3c7,
+        de: 0x2d4a,
+        hl: 0x7725,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x28fd,
+        iy: 0xf31b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(10420), equals(0xc7));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb02 | RLC (IX+*), D
+  test(
+      "UNDOCUMENTED "
+      "ddcb02 | RLC (IX+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe20c,
+        bc: 0x836e,
+        de: 0x513a,
+        hl: 0xf840,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc796,
+        iy: 0xae9b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x91);
+    poke(0x0003, 0x02);
+    poke(0xc727, 0x8d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe20d,
+        bc: 0x836e,
+        de: 0x1b3a,
+        hl: 0xf840,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc796,
+        iy: 0xae9b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(50983), equals(0x1b));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb03 | RLC (IX+*), E
+  test(
+      "UNDOCUMENTED "
+      "ddcb03 | RLC (IX+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6224,
+        bc: 0x3571,
+        de: 0xc519,
+        hl: 0x48dc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x041e,
+        iy: 0xc07b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x48);
+    poke(0x0003, 0x03);
+    poke(0x0466, 0x78);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x62a4,
+        bc: 0x3571,
+        de: 0xc5f0,
+        hl: 0x48dc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x041e,
+        iy: 0xc07b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(1126), equals(0xf0));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb04 | RLC (IX+*), H
+  test(
+      "UNDOCUMENTED "
+      "ddcb04 | RLC (IX+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb310,
+        bc: 0xbfc4,
+        de: 0x64af,
+        hl: 0xd622,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5949,
+        iy: 0xa989,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x48);
+    poke(0x0003, 0x04);
+    poke(0x5991, 0x68);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb380,
+        bc: 0xbfc4,
+        de: 0x64af,
+        hl: 0xd022,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5949,
+        iy: 0xa989,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(22929), equals(0xd0));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb05 | RLC (IX+*), L
+  test(
+      "UNDOCUMENTED "
+      "ddcb05 | RLC (IX+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4954,
+        bc: 0xbb04,
+        de: 0x56ec,
+        hl: 0x9d58,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0077,
+        iy: 0x1349,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xff);
+    poke(0x0003, 0x05);
+    poke(0x0076, 0x95);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x492d,
+        bc: 0xbb04,
+        de: 0x56ec,
+        hl: 0x9d2b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0077,
+        iy: 0x1349,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(118), equals(0x2b));
+  }, tags: 'undocumented');
 
   // Test instruction ddcb06 | RLC (IX+*)
   test(
@@ -26104,6 +29646,370 @@ void main() {
     expect(peek(21544), equals(0x2f));
   });
 
+  // Test instruction ddcb07 | RLC (IX+*), A
+  test(
+      "UNDOCUMENTED "
+      "ddcb07 | RLC (IX+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6f4d,
+        bc: 0x9ca3,
+        de: 0xbdf6,
+        hl: 0xed50,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9803,
+        iy: 0x55f9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x42);
+    poke(0x0003, 0x07);
+    poke(0x9845, 0xae);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5d09,
+        bc: 0x9ca3,
+        de: 0xbdf6,
+        hl: 0xed50,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9803,
+        iy: 0x55f9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(38981), equals(0x5d));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb08 | RRC (IX+*), B
+  test(
+      "UNDOCUMENTED "
+      "ddcb08 | RRC (IX+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x02f4,
+        bc: 0x1c66,
+        de: 0x6023,
+        hl: 0xae06,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xef40,
+        iy: 0xb006,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0a);
+    poke(0x0003, 0x08);
+    poke(0xef4a, 0xda);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0228,
+        bc: 0x6d66,
+        de: 0x6023,
+        hl: 0xae06,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xef40,
+        iy: 0xb006,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(61258), equals(0x6d));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb09 | RRC (IX+*), C
+  test(
+      "UNDOCUMENTED "
+      "ddcb09 | RRC (IX+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9825,
+        bc: 0x9258,
+        de: 0x54d5,
+        hl: 0x5e1e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9d0b,
+        iy: 0x6e58,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3b);
+    poke(0x0003, 0x09);
+    poke(0x9d46, 0x6f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x98a5,
+        bc: 0x92b7,
+        de: 0x54d5,
+        hl: 0x5e1e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9d0b,
+        iy: 0x6e58,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(40262), equals(0xb7));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb0a | RRC (IX+*), D
+  test(
+      "UNDOCUMENTED "
+      "ddcb0a | RRC (IX+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd2dd,
+        bc: 0x6aac,
+        de: 0xe789,
+        hl: 0x9293,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1fb4,
+        iy: 0x2498,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x83);
+    poke(0x0003, 0x0a);
+    poke(0x1f37, 0x78);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd22c,
+        bc: 0x6aac,
+        de: 0x3c89,
+        hl: 0x9293,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1fb4,
+        iy: 0x2498,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(7991), equals(0x3c));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb0b | RRC (IX+*), E
+  test(
+      "UNDOCUMENTED "
+      "ddcb0b | RRC (IX+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb82c,
+        bc: 0xb284,
+        de: 0x23f8,
+        hl: 0x7e7d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcd09,
+        iy: 0x6a03,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xfa);
+    poke(0x0003, 0x0b);
+    poke(0xcd03, 0x92);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb808,
+        bc: 0xb284,
+        de: 0x2349,
+        hl: 0x7e7d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcd09,
+        iy: 0x6a03,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(52483), equals(0x49));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb0c | RRC (IX+*), H
+  test(
+      "UNDOCUMENTED "
+      "ddcb0c | RRC (IX+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdf8b,
+        bc: 0xb6cc,
+        de: 0xee8d,
+        hl: 0x855a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbf6b,
+        iy: 0x9b7d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x79);
+    poke(0x0003, 0x0c);
+    poke(0xbfe4, 0x0d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdf81,
+        bc: 0xb6cc,
+        de: 0xee8d,
+        hl: 0x865a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbf6b,
+        iy: 0x9b7d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(49124), equals(0x86));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb0d | RRC (IX+*), L
+  test(
+      "UNDOCUMENTED "
+      "ddcb0d | RRC (IX+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbae3,
+        bc: 0xceec,
+        de: 0xbbaa,
+        hl: 0xb65e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x88bd,
+        iy: 0x503e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe4);
+    poke(0x0003, 0x0d);
+    poke(0x88a1, 0x1f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xba89,
+        bc: 0xceec,
+        de: 0xbbaa,
+        hl: 0xb68f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x88bd,
+        iy: 0x503e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(34977), equals(0x8f));
+  }, tags: 'undocumented');
+
   // Test instruction ddcb0e | RRC (IX+*)
   test(
       "OPCODE "
@@ -26155,6 +30061,370 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(64783), equals(0xd6));
   });
+
+  // Test instruction ddcb0f | RRC (IX+*), A
+  test(
+      "UNDOCUMENTED "
+      "ddcb0f | RRC (IX+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf5a7,
+        bc: 0xfad4,
+        de: 0xfa4b,
+        hl: 0x9c53,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7447,
+        iy: 0x2267,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x57);
+    poke(0x0003, 0x0f);
+    poke(0x749e, 0xf8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7c28,
+        bc: 0xfad4,
+        de: 0xfa4b,
+        hl: 0x9c53,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7447,
+        iy: 0x2267,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(29854), equals(0x7c));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb10 | RL (IX+*), B
+  test(
+      "UNDOCUMENTED "
+      "ddcb10 | RL (IX+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf3af,
+        bc: 0xba1f,
+        de: 0x5387,
+        hl: 0x926e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbba2,
+        iy: 0xca47,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4f);
+    poke(0x0003, 0x10);
+    poke(0xbbf1, 0x45);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf38c,
+        bc: 0x8b1f,
+        de: 0x5387,
+        hl: 0x926e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbba2,
+        iy: 0xca47,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(48113), equals(0x8b));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb11 | RL (IX+*), C
+  test(
+      "UNDOCUMENTED "
+      "ddcb11 | RL (IX+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2a69,
+        bc: 0xd604,
+        de: 0xa9aa,
+        hl: 0x5b52,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1809,
+        iy: 0xd275,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xeb);
+    poke(0x0003, 0x11);
+    poke(0x17f4, 0xd9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2aa1,
+        bc: 0xd6b3,
+        de: 0xa9aa,
+        hl: 0x5b52,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1809,
+        iy: 0xd275,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(6132), equals(0xb3));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb12 | RL (IX+*), D
+  test(
+      "UNDOCUMENTED "
+      "ddcb12 | RL (IX+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9287,
+        bc: 0xc479,
+        de: 0x26d1,
+        hl: 0x10ce,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc0fb,
+        iy: 0x2777,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa6);
+    poke(0x0003, 0x12);
+    poke(0xc0a1, 0xe2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9285,
+        bc: 0xc479,
+        de: 0xc5d1,
+        hl: 0x10ce,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc0fb,
+        iy: 0x2777,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(49313), equals(0xc5));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb13 | RL (IX+*), E
+  test(
+      "UNDOCUMENTED "
+      "ddcb13 | RL (IX+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa507,
+        bc: 0x580a,
+        de: 0xa48f,
+        hl: 0x11cd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5ac4,
+        iy: 0xccc7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xff);
+    poke(0x0003, 0x13);
+    poke(0x5ac3, 0xa7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa509,
+        bc: 0x580a,
+        de: 0xa44f,
+        hl: 0x11cd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5ac4,
+        iy: 0xccc7,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(23235), equals(0x4f));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb14 | RL (IX+*), H
+  test(
+      "UNDOCUMENTED "
+      "ddcb14 | RL (IX+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x294b,
+        bc: 0x5b89,
+        de: 0x8467,
+        hl: 0x0430,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0977,
+        iy: 0xc4e8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xdd);
+    poke(0x0003, 0x14);
+    poke(0x0954, 0x85);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2909,
+        bc: 0x5b89,
+        de: 0x8467,
+        hl: 0x0b30,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0977,
+        iy: 0xc4e8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(2388), equals(0x0b));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb15 | RL (IX+*), L
+  test(
+      "UNDOCUMENTED "
+      "ddcb15 | RL (IX+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1fd1,
+        bc: 0x6d53,
+        de: 0x5b7c,
+        hl: 0xa134,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xede9,
+        iy: 0xa85c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x07);
+    poke(0x0003, 0x15);
+    poke(0xedf0, 0x0e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1f0c,
+        bc: 0x6d53,
+        de: 0x5b7c,
+        hl: 0xa11d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xede9,
+        iy: 0xa85c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(60912), equals(0x1d));
+  }, tags: 'undocumented');
 
   // Test instruction ddcb16 | RL (IX+*)
   test(
@@ -26208,6 +30478,370 @@ void main() {
     expect(peek(5891), equals(0xb6));
   });
 
+  // Test instruction ddcb17 | RL (IX+*), A
+  test(
+      "UNDOCUMENTED "
+      "ddcb17 | RL (IX+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3300,
+        bc: 0xcbd1,
+        de: 0x4e1a,
+        hl: 0xcd27,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb8c9,
+        iy: 0xe6d4,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x1c);
+    poke(0x0003, 0x17);
+    poke(0xb8e5, 0x7e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfcac,
+        bc: 0xcbd1,
+        de: 0x4e1a,
+        hl: 0xcd27,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb8c9,
+        iy: 0xe6d4,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(47333), equals(0xfc));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb18 | RR (IX+*), B
+  test(
+      "UNDOCUMENTED "
+      "ddcb18 | RR (IX+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd980,
+        bc: 0x4eb5,
+        de: 0x9cf9,
+        hl: 0xb9f1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa189,
+        iy: 0xbd7c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0e);
+    poke(0x0003, 0x18);
+    poke(0xa197, 0x90);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd90c,
+        bc: 0x48b5,
+        de: 0x9cf9,
+        hl: 0xb9f1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa189,
+        iy: 0xbd7c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(41367), equals(0x48));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb19 | RR (IX+*), C
+  test(
+      "UNDOCUMENTED "
+      "ddcb19 | RR (IX+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x23b7,
+        bc: 0x595a,
+        de: 0xa756,
+        hl: 0xcf2e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf0e7,
+        iy: 0x26e4,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa3);
+    poke(0x0003, 0x19);
+    poke(0xf08a, 0x37);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2389,
+        bc: 0x599b,
+        de: 0xa756,
+        hl: 0xcf2e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf0e7,
+        iy: 0x26e4,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(61578), equals(0x9b));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb1a | RR (IX+*), D
+  test(
+      "UNDOCUMENTED "
+      "ddcb1a | RR (IX+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8b52,
+        bc: 0x7e45,
+        de: 0xbd0f,
+        hl: 0x37a6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xde61,
+        iy: 0x9cd9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xac);
+    poke(0x0003, 0x1a);
+    poke(0xde0d, 0xcc);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8b24,
+        bc: 0x7e45,
+        de: 0x660f,
+        hl: 0x37a6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xde61,
+        iy: 0x9cd9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(56845), equals(0x66));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb1b | RR (IX+*), E
+  test(
+      "UNDOCUMENTED "
+      "ddcb1b | RR (IX+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5c79,
+        bc: 0x1414,
+        de: 0x811c,
+        hl: 0x5881,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb7c3,
+        iy: 0xd14f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x05);
+    poke(0x0003, 0x1b);
+    poke(0xb7c8, 0x91);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5c89,
+        bc: 0x1414,
+        de: 0x81c8,
+        hl: 0x5881,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb7c3,
+        iy: 0xd14f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(47048), equals(0xc8));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb1c | RR (IX+*), H
+  test(
+      "UNDOCUMENTED "
+      "ddcb1c | RR (IX+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfafc,
+        bc: 0x6277,
+        de: 0x8b67,
+        hl: 0xd423,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfef9,
+        iy: 0x4a66,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xff);
+    poke(0x0003, 0x1c);
+    poke(0xfef8, 0x61);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfa25,
+        bc: 0x6277,
+        de: 0x8b67,
+        hl: 0x3023,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfef9,
+        iy: 0x4a66,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(65272), equals(0x30));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb1d | RR (IX+*), L
+  test(
+      "UNDOCUMENTED "
+      "ddcb1d | RR (IX+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x76a5,
+        bc: 0x324e,
+        de: 0xe641,
+        hl: 0x58f9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5b63,
+        iy: 0xe18b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3a);
+    poke(0x0003, 0x1d);
+    poke(0x5b9d, 0xf3);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x76ad,
+        bc: 0x324e,
+        de: 0xe641,
+        hl: 0x58f9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5b63,
+        iy: 0xe18b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(23453), equals(0xf9));
+  }, tags: 'undocumented');
+
   // Test instruction ddcb1e | RR (IX+*)
   test(
       "OPCODE "
@@ -26259,6 +30893,370 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(30082), equals(0xc8));
   });
+
+  // Test instruction ddcb1f | RR (IX+*), A
+  test(
+      "UNDOCUMENTED "
+      "ddcb1f | RR (IX+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd28f,
+        bc: 0x7f6d,
+        de: 0x2058,
+        hl: 0x63e3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1d9b,
+        iy: 0xbaba,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa8);
+    poke(0x0003, 0x1f);
+    poke(0x1d43, 0xb4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xda88,
+        bc: 0x7f6d,
+        de: 0x2058,
+        hl: 0x63e3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1d9b,
+        iy: 0xbaba,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(7491), equals(0xda));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb20 | SLA (IX+*), B
+  test(
+      "UNDOCUMENTED "
+      "ddcb20 | SLA (IX+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4ce5,
+        bc: 0x739e,
+        de: 0xdc6c,
+        hl: 0x18f4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdc39,
+        iy: 0x8b0c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe8);
+    poke(0x0003, 0x20);
+    poke(0xdc21, 0x0e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4c08,
+        bc: 0x1c9e,
+        de: 0xdc6c,
+        hl: 0x18f4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdc39,
+        iy: 0x8b0c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(56353), equals(0x1c));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb21 | SLA (IX+*), C
+  test(
+      "UNDOCUMENTED "
+      "ddcb21 | SLA (IX+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd29d,
+        bc: 0x66dd,
+        de: 0x23ef,
+        hl: 0x9096,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3494,
+        iy: 0xb6c3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9e);
+    poke(0x0003, 0x21);
+    poke(0x3432, 0xf7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd2ad,
+        bc: 0x66ee,
+        de: 0x23ef,
+        hl: 0x9096,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3494,
+        iy: 0xb6c3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(13362), equals(0xee));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb22 | SLA (IX+*), D
+  test(
+      "UNDOCUMENTED "
+      "ddcb22 | SLA (IX+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfb5d,
+        bc: 0xe0d0,
+        de: 0x7c02,
+        hl: 0xb4b7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbd3f,
+        iy: 0x385b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x43);
+    poke(0x0003, 0x22);
+    poke(0xbd82, 0x9f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfb29,
+        bc: 0xe0d0,
+        de: 0x3e02,
+        hl: 0xb4b7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbd3f,
+        iy: 0x385b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(48514), equals(0x3e));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb23 | SLA (IX+*), E
+  test(
+      "UNDOCUMENTED "
+      "ddcb23 | SLA (IX+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc359,
+        bc: 0x68b6,
+        de: 0xda84,
+        hl: 0xb990,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x22dd,
+        iy: 0xbd27,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc1);
+    poke(0x0003, 0x23);
+    poke(0x229e, 0xe0);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc385,
+        bc: 0x68b6,
+        de: 0xdac0,
+        hl: 0xb990,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x22dd,
+        iy: 0xbd27,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(8862), equals(0xc0));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb24 | SLA (IX+*), H
+  test(
+      "UNDOCUMENTED "
+      "ddcb24 | SLA (IX+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbaf5,
+        bc: 0x7b0b,
+        de: 0x560b,
+        hl: 0x7c33,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x31f1,
+        iy: 0xddbd,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe8);
+    poke(0x0003, 0x24);
+    poke(0x31d9, 0xc3);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xba81,
+        bc: 0x7b0b,
+        de: 0x560b,
+        hl: 0x8633,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x31f1,
+        iy: 0xddbd,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(12761), equals(0x86));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb25 | SLA (IX+*), L
+  test(
+      "UNDOCUMENTED "
+      "ddcb25 | SLA (IX+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x43bb,
+        bc: 0xa21b,
+        de: 0x2347,
+        hl: 0xae4a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcc63,
+        iy: 0xfc94,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc1);
+    poke(0x0003, 0x25);
+    poke(0xcc24, 0xeb);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4381,
+        bc: 0xa21b,
+        de: 0x2347,
+        hl: 0xaed6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcc63,
+        iy: 0xfc94,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(52260), equals(0xd6));
+  }, tags: 'undocumented');
 
   // Test instruction ddcb26 | SLA (IX+*)
   test(
@@ -26312,6 +31310,370 @@ void main() {
     expect(peek(25887), equals(0x12));
   });
 
+  // Test instruction ddcb27 | SLA (IX+*), A
+  test(
+      "UNDOCUMENTED "
+      "ddcb27 | SLA (IX+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa806,
+        bc: 0x5669,
+        de: 0x1bee,
+        hl: 0xf62c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1f69,
+        iy: 0x3418,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc3);
+    poke(0x0003, 0x27);
+    poke(0x1f2c, 0xac);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5809,
+        bc: 0x5669,
+        de: 0x1bee,
+        hl: 0xf62c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1f69,
+        iy: 0x3418,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(7980), equals(0x58));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb28 | SRA (IX+*), B
+  test(
+      "UNDOCUMENTED "
+      "ddcb28 | SRA (IX+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7afd,
+        bc: 0x64b8,
+        de: 0x51f7,
+        hl: 0x7164,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x999b,
+        iy: 0x8857,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb6);
+    poke(0x0003, 0x28);
+    poke(0x9951, 0x24);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7a04,
+        bc: 0x12b8,
+        de: 0x51f7,
+        hl: 0x7164,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x999b,
+        iy: 0x8857,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(39249), equals(0x12));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb29 | SRA (IX+*), C
+  test(
+      "UNDOCUMENTED "
+      "ddcb29 | SRA (IX+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0404,
+        bc: 0xb794,
+        de: 0x323f,
+        hl: 0xfd34,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x20e7,
+        iy: 0xc753,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9c);
+    poke(0x0003, 0x29);
+    poke(0x2083, 0x82);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0480,
+        bc: 0xb7c1,
+        de: 0x323f,
+        hl: 0xfd34,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x20e7,
+        iy: 0xc753,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(8323), equals(0xc1));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb2a | SRA (IX+*), D
+  test(
+      "UNDOCUMENTED "
+      "ddcb2a | SRA (IX+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4524,
+        bc: 0xafde,
+        de: 0x0c08,
+        hl: 0x75d7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9505,
+        iy: 0xb624,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd8);
+    poke(0x0003, 0x2a);
+    poke(0x94dd, 0x7c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4528,
+        bc: 0xafde,
+        de: 0x3e08,
+        hl: 0x75d7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9505,
+        iy: 0xb624,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(38109), equals(0x3e));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb2b | SRA (IX+*), E
+  test(
+      "UNDOCUMENTED "
+      "ddcb2b | SRA (IX+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8324,
+        bc: 0xe290,
+        de: 0x26be,
+        hl: 0x7ddd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb484,
+        iy: 0x571c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbd);
+    poke(0x0003, 0x2b);
+    poke(0xb441, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8324,
+        bc: 0xe290,
+        de: 0x2622,
+        hl: 0x7ddd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb484,
+        iy: 0x571c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(46145), equals(0x22));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb2c | SRA (IX+*), H
+  test(
+      "UNDOCUMENTED "
+      "ddcb2c | SRA (IX+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc688,
+        bc: 0x0c94,
+        de: 0x6e4b,
+        hl: 0x7dc7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe28,
+        iy: 0xdc80,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2c);
+    poke(0x0003, 0x2c);
+    poke(0xfe54, 0x81);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc685,
+        bc: 0x0c94,
+        de: 0x6e4b,
+        hl: 0xc0c7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe28,
+        iy: 0xdc80,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(65108), equals(0xc0));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb2d | SRA (IX+*), L
+  test(
+      "UNDOCUMENTED "
+      "ddcb2d | SRA (IX+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xce28,
+        bc: 0xd2ae,
+        de: 0xc9be,
+        hl: 0x4236,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb4ed,
+        iy: 0x6de3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9b);
+    poke(0x0003, 0x2d);
+    poke(0xb488, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xce24,
+        bc: 0xd2ae,
+        de: 0xc9be,
+        hl: 0x4222,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb4ed,
+        iy: 0x6de3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(46216), equals(0x22));
+  }, tags: 'undocumented');
+
   // Test instruction ddcb2e | SRA (IX+*)
   test(
       "OPCODE "
@@ -26363,6 +31725,786 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(27157), equals(0x02));
   });
+
+  // Test instruction ddcb2f | SRA (IX+*), A
+  test(
+      "UNDOCUMENTED "
+      "ddcb2f | SRA (IX+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xaec6,
+        bc: 0x759b,
+        de: 0x3059,
+        hl: 0x01b9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7a30,
+        iy: 0xdd56,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd3);
+    poke(0x0003, 0x2f);
+    poke(0x7a03, 0xf2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf9ac,
+        bc: 0x759b,
+        de: 0x3059,
+        hl: 0x01b9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7a30,
+        iy: 0xdd56,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(31235), equals(0xf9));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb30 | SLL (IX+*), B
+  test(
+      "UNDOCUMENTED "
+      "ddcb30 | SLL (IX+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3c89,
+        bc: 0x96ad,
+        de: 0x9cc7,
+        hl: 0xa68c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeee8,
+        iy: 0x5a80,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xdf);
+    poke(0x0003, 0x30);
+    poke(0xeec7, 0x32);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3c24,
+        bc: 0x65ad,
+        de: 0x9cc7,
+        hl: 0xa68c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeee8,
+        iy: 0x5a80,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(61127), equals(0x65));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb31 | SLL (IX+*), C
+  test(
+      "UNDOCUMENTED "
+      "ddcb31 | SLL (IX+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xebf5,
+        bc: 0x41e9,
+        de: 0x929b,
+        hl: 0x7d47,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf22d,
+        iy: 0x8943,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x49);
+    poke(0x0003, 0x31);
+    poke(0xf276, 0xcd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xeb89,
+        bc: 0x419b,
+        de: 0x929b,
+        hl: 0x7d47,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf22d,
+        iy: 0x8943,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(62070), equals(0x9b));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb32 | SLL (IX+*), D
+  test(
+      "UNDOCUMENTED "
+      "ddcb32 | SLL (IX+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9a1b,
+        bc: 0xaa64,
+        de: 0x4209,
+        hl: 0x01ad,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x579f,
+        iy: 0xec4c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe0);
+    poke(0x0003, 0x32);
+    poke(0x577f, 0xe2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9a85,
+        bc: 0xaa64,
+        de: 0xc509,
+        hl: 0x01ad,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x579f,
+        iy: 0xec4c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(22399), equals(0xc5));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb33 | SLL (IX+*), E
+  test(
+      "UNDOCUMENTED "
+      "ddcb33 | SLL (IX+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb8b1,
+        bc: 0xb854,
+        de: 0x524f,
+        hl: 0x9599,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xefac,
+        iy: 0xd9ec,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc9);
+    poke(0x0003, 0x33);
+    poke(0xef75, 0x0b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb804,
+        bc: 0xb854,
+        de: 0x5217,
+        hl: 0x9599,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xefac,
+        iy: 0xd9ec,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(61301), equals(0x17));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb34 | SLL (IX+*), H
+  test(
+      "UNDOCUMENTED "
+      "ddcb34 | SLL (IX+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xcd3c,
+        bc: 0x4432,
+        de: 0x20d4,
+        hl: 0x0b3e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xab48,
+        iy: 0xc95f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x49);
+    poke(0x0003, 0x34);
+    poke(0xab91, 0xef);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcd89,
+        bc: 0x4432,
+        de: 0x20d4,
+        hl: 0xdf3e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xab48,
+        iy: 0xc95f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(43921), equals(0xdf));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb35 | SLL (IX+*), L
+  test(
+      "UNDOCUMENTED "
+      "ddcb35 | SLL (IX+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdeb1,
+        bc: 0xc6fc,
+        de: 0x696d,
+        hl: 0x150d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeb1a,
+        iy: 0x4a12,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb9);
+    poke(0x0003, 0x35);
+    poke(0xead3, 0x8f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xde09,
+        bc: 0xc6fc,
+        de: 0x696d,
+        hl: 0x151f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeb1a,
+        iy: 0x4a12,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(60115), equals(0x1f));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb36 | SLL (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb36 | SLL (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3d81,
+        bc: 0x443b,
+        de: 0xff21,
+        hl: 0x63e3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x132e,
+        iy: 0xfb39,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb4);
+    poke(0x0003, 0x36);
+    poke(0x12e2, 0x02);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3d04,
+        bc: 0x443b,
+        de: 0xff21,
+        hl: 0x63e3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x132e,
+        iy: 0xfb39,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(4834), equals(0x05));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb37 | SLL (IX+*), A
+  test(
+      "UNDOCUMENTED "
+      "ddcb37 | SLL (IX+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x72d9,
+        bc: 0xbfc9,
+        de: 0xa69a,
+        hl: 0xec0b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5077,
+        iy: 0x4e3e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc6);
+    poke(0x0003, 0x37);
+    poke(0x503d, 0x3d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7b2c,
+        bc: 0xbfc9,
+        de: 0xa69a,
+        hl: 0xec0b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5077,
+        iy: 0x4e3e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(20541), equals(0x7b));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb38 | SRL (IX+*), B
+  test(
+      "UNDOCUMENTED "
+      "ddcb38 | SRL (IX+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3c64,
+        bc: 0xb1ee,
+        de: 0x38e1,
+        hl: 0xae9f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf695,
+        iy: 0x44b3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8e);
+    poke(0x0003, 0x38);
+    poke(0xf623, 0x5e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3c28,
+        bc: 0x2fee,
+        de: 0x38e1,
+        hl: 0xae9f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf695,
+        iy: 0x44b3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(63011), equals(0x2f));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb39 | SRL (IX+*), C
+  test(
+      "UNDOCUMENTED "
+      "ddcb39 | SRL (IX+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x05d6,
+        bc: 0x9aad,
+        de: 0xa2db,
+        hl: 0xdf75,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa895,
+        iy: 0xe243,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xdc);
+    poke(0x0003, 0x39);
+    poke(0xa871, 0x83);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0505,
+        bc: 0x9a41,
+        de: 0xa2db,
+        hl: 0xdf75,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa895,
+        iy: 0xe243,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(43121), equals(0x41));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb3a | SRL (IX+*), D
+  test(
+      "UNDOCUMENTED "
+      "ddcb3a | SRL (IX+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0e22,
+        bc: 0x0b9f,
+        de: 0x873b,
+        hl: 0xc01d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2591,
+        iy: 0x49c3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0d);
+    poke(0x0003, 0x3a);
+    poke(0x259e, 0x89);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0e05,
+        bc: 0x0b9f,
+        de: 0x443b,
+        hl: 0xc01d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2591,
+        iy: 0x49c3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(9630), equals(0x44));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb3b | SRL (IX+*), E
+  test(
+      "UNDOCUMENTED "
+      "ddcb3b | SRL (IX+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1bd9,
+        bc: 0xc795,
+        de: 0xd8ae,
+        hl: 0x7ccf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6fed,
+        iy: 0x09dc,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x20);
+    poke(0x0003, 0x3b);
+    poke(0x700d, 0xa9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1b01,
+        bc: 0xc795,
+        de: 0xd854,
+        hl: 0x7ccf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6fed,
+        iy: 0x09dc,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(28685), equals(0x54));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb3c | SRL (IX+*), H
+  test(
+      "UNDOCUMENTED "
+      "ddcb3c | SRL (IX+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb651,
+        bc: 0xbdf7,
+        de: 0xfca3,
+        hl: 0x7529,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf53b,
+        iy: 0x018b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe1);
+    poke(0x0003, 0x3c);
+    poke(0xf51c, 0xd0);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb628,
+        bc: 0xbdf7,
+        de: 0xfca3,
+        hl: 0x6829,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf53b,
+        iy: 0x018b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(62748), equals(0x68));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb3d | SRL (IX+*), L
+  test(
+      "UNDOCUMENTED "
+      "ddcb3d | SRL (IX+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2a2d,
+        bc: 0x6e6e,
+        de: 0xcfbd,
+        hl: 0x1db5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0320,
+        iy: 0x6ab0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbe);
+    poke(0x0003, 0x3d);
+    poke(0x02de, 0x58);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2a28,
+        bc: 0x6e6e,
+        de: 0xcfbd,
+        hl: 0x1d2c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0320,
+        iy: 0x6ab0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(734), equals(0x2c));
+  }, tags: 'undocumented');
 
   // Test instruction ddcb3e | SRL (IX+*)
   test(
@@ -26416,6 +32558,364 @@ void main() {
     expect(peek(30804), equals(0x2e));
   });
 
+  // Test instruction ddcb3f | SRL (IX+*), A
+  test(
+      "UNDOCUMENTED "
+      "ddcb3f | SRL (IX+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2a17,
+        bc: 0x429d,
+        de: 0xd8c0,
+        hl: 0xe069,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3488,
+        iy: 0x7150,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x31);
+    poke(0x0003, 0x3f);
+    poke(0x34b9, 0x04);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0200,
+        bc: 0x429d,
+        de: 0xd8c0,
+        hl: 0xe069,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3488,
+        iy: 0x7150,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(13497), equals(0x02));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb40 | BIT 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb40 | BIT 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x119b,
+        bc: 0xf6ba,
+        de: 0x079e,
+        hl: 0x0e41,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8c01,
+        iy: 0xcd21,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbd);
+    poke(0x0003, 0x40);
+    poke(0x8bbe, 0xe7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1119,
+        bc: 0xf6ba,
+        de: 0x079e,
+        hl: 0x0e41,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8c01,
+        iy: 0xcd21,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb41 | BIT 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb41 | BIT 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x22b3,
+        bc: 0xc4b0,
+        de: 0x575b,
+        hl: 0x66b4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcdcf,
+        iy: 0xa25c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x52);
+    poke(0x0003, 0x41);
+    poke(0xce21, 0x75);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2219,
+        bc: 0xc4b0,
+        de: 0x575b,
+        hl: 0x66b4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcdcf,
+        iy: 0xa25c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb42 | BIT 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb42 | BIT 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xaf5e,
+        bc: 0x7720,
+        de: 0xaa95,
+        hl: 0x3b0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf03a,
+        iy: 0x856a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x1e);
+    poke(0x0003, 0x42);
+    poke(0xf058, 0x90);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xaf74,
+        bc: 0x7720,
+        de: 0xaa95,
+        hl: 0x3b0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf03a,
+        iy: 0x856a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb43 | BIT 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb43 | BIT 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7fa6,
+        bc: 0xb699,
+        de: 0x5e71,
+        hl: 0x1827,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe8b6,
+        iy: 0x96a8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbc);
+    poke(0x0003, 0x43);
+    poke(0xe872, 0x6b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7f38,
+        bc: 0xb699,
+        de: 0x5e71,
+        hl: 0x1827,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe8b6,
+        iy: 0x96a8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb44 | BIT 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb44 | BIT 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5faa,
+        bc: 0xde05,
+        de: 0x12fd,
+        hl: 0xf73b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xee0a,
+        iy: 0x6634,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe8);
+    poke(0x0003, 0x44);
+    poke(0xedf2, 0x62);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5f7c,
+        bc: 0xde05,
+        de: 0x12fd,
+        hl: 0xf73b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xee0a,
+        iy: 0x6634,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb45 | BIT 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb45 | BIT 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xeac7,
+        bc: 0x699c,
+        de: 0x47d3,
+        hl: 0x89c3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa2be,
+        iy: 0xd81e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x02);
+    poke(0x0003, 0x45);
+    poke(0xa2c0, 0x55);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xea31,
+        bc: 0x699c,
+        de: 0x47d3,
+        hl: 0x89c3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa2be,
+        iy: 0xd81e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
   // Test instruction ddcb46 | BIT 0, (IX+*)
   test(
       "OPCODE "
@@ -26466,6 +32966,363 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
+
+  // Test instruction ddcb47 | BIT 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb47 | BIT 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1b1a,
+        bc: 0xf7c0,
+        de: 0x22f6,
+        hl: 0x5253,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5227,
+        iy: 0x919d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7a);
+    poke(0x0003, 0x47);
+    poke(0x52a1, 0x6a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1b54,
+        bc: 0xf7c0,
+        de: 0x22f6,
+        hl: 0x5253,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5227,
+        iy: 0x919d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb48 | BIT 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb48 | BIT 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x721a,
+        bc: 0x4509,
+        de: 0xd68f,
+        hl: 0x3b3d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2746,
+        iy: 0x7f97,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x13);
+    poke(0x0003, 0x48);
+    poke(0x2759, 0xa8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7274,
+        bc: 0x4509,
+        de: 0xd68f,
+        hl: 0x3b3d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2746,
+        iy: 0x7f97,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb49 | BIT 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb49 | BIT 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7fe9,
+        bc: 0xda22,
+        de: 0xea9c,
+        hl: 0xf480,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x41c6,
+        iy: 0x75a9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x94);
+    poke(0x0003, 0x49);
+    poke(0x415a, 0x26);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7f11,
+        bc: 0xda22,
+        de: 0xea9c,
+        hl: 0xf480,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x41c6,
+        iy: 0x75a9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb4a | BIT 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb4a | BIT 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf16d,
+        bc: 0xe6c3,
+        de: 0x5a42,
+        hl: 0x8b21,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbfeb,
+        iy: 0xe383,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3b);
+    poke(0x0003, 0x4a);
+    poke(0xc026, 0xb5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf155,
+        bc: 0xe6c3,
+        de: 0x5a42,
+        hl: 0x8b21,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbfeb,
+        iy: 0xe383,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb4b | BIT 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb4b | BIT 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1050,
+        bc: 0x880a,
+        de: 0x52b2,
+        hl: 0xfb1b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc239,
+        iy: 0x6b40,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb0);
+    poke(0x0003, 0x4b);
+    poke(0xc1e9, 0x18);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1054,
+        bc: 0x880a,
+        de: 0x52b2,
+        hl: 0xfb1b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc239,
+        iy: 0x6b40,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb4c | BIT 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb4c | BIT 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0538,
+        bc: 0xbc63,
+        de: 0xf081,
+        hl: 0x0a55,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x874c,
+        iy: 0x80a3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x97);
+    poke(0x0003, 0x4c);
+    poke(0x86e3, 0x63);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0510,
+        bc: 0xbc63,
+        de: 0xf081,
+        hl: 0x0a55,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x874c,
+        iy: 0x80a3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb4d | BIT 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb4d | BIT 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7f8c,
+        bc: 0x32b4,
+        de: 0x03d5,
+        hl: 0xef66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7d2a,
+        iy: 0x03bc,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x15);
+    poke(0x0003, 0x4d);
+    poke(0x7d3f, 0x60);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7f7c,
+        bc: 0x32b4,
+        de: 0x03d5,
+        hl: 0xef66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7d2a,
+        iy: 0x03bc,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
 
   // Test instruction ddcb4e | BIT 1, (IX+*)
   test(
@@ -26518,6 +33375,363 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
 
+  // Test instruction ddcb4f | BIT 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb4f | BIT 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x725c,
+        bc: 0x257b,
+        de: 0xdb73,
+        hl: 0x2478,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x88c0,
+        iy: 0xf151,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8b);
+    poke(0x0003, 0x4f);
+    poke(0x884b, 0x4c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x725c,
+        bc: 0x257b,
+        de: 0xdb73,
+        hl: 0x2478,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x88c0,
+        iy: 0xf151,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb50 | BIT 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb50 | BIT 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x35f4,
+        bc: 0x8e51,
+        de: 0x406c,
+        hl: 0x2e3c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdaf2,
+        iy: 0x413c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x12);
+    poke(0x0003, 0x50);
+    poke(0xdb04, 0x00);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x355c,
+        bc: 0x8e51,
+        de: 0x406c,
+        hl: 0x2e3c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdaf2,
+        iy: 0x413c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb51 | BIT 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb51 | BIT 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa630,
+        bc: 0xba85,
+        de: 0xc88c,
+        hl: 0xe86c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x84b2,
+        iy: 0xcd8e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x18);
+    poke(0x0003, 0x51);
+    poke(0x84ca, 0x1c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa610,
+        bc: 0xba85,
+        de: 0xc88c,
+        hl: 0xe86c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x84b2,
+        iy: 0xcd8e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb52 | BIT 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb52 | BIT 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xcb88,
+        bc: 0x1220,
+        de: 0x1103,
+        hl: 0xa868,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6156,
+        iy: 0xcfac,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x42);
+    poke(0x0003, 0x52);
+    poke(0x6198, 0x53);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcb74,
+        bc: 0x1220,
+        de: 0x1103,
+        hl: 0xa868,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6156,
+        iy: 0xcfac,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb53 | BIT 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb53 | BIT 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5eb3,
+        bc: 0x569e,
+        de: 0xf76d,
+        hl: 0x88c6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xae45,
+        iy: 0x623e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe3);
+    poke(0x0003, 0x53);
+    poke(0xae28, 0xd6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5e39,
+        bc: 0x569e,
+        de: 0xf76d,
+        hl: 0x88c6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xae45,
+        iy: 0x623e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb54 | BIT 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb54 | BIT 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc3c9,
+        bc: 0x76fe,
+        de: 0xf1ff,
+        hl: 0x416e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xefd5,
+        iy: 0x7576,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7d);
+    poke(0x0003, 0x54);
+    poke(0xf052, 0x5d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc331,
+        bc: 0x76fe,
+        de: 0xf1ff,
+        hl: 0x416e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xefd5,
+        iy: 0x7576,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb55 | BIT 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb55 | BIT 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7068,
+        bc: 0xdcd0,
+        de: 0x8345,
+        hl: 0xd498,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf352,
+        iy: 0xa88b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x88);
+    poke(0x0003, 0x55);
+    poke(0xf2da, 0x03);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7074,
+        bc: 0xdcd0,
+        de: 0x8345,
+        hl: 0xd498,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf352,
+        iy: 0xa88b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
   // Test instruction ddcb56 | BIT 2, (IX+*)
   test(
       "OPCODE "
@@ -26568,6 +33782,363 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
+
+  // Test instruction ddcb57 | BIT 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb57 | BIT 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3ca7,
+        bc: 0x541a,
+        de: 0x027c,
+        hl: 0xc0b4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5833,
+        iy: 0x160a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x06);
+    poke(0x0003, 0x57);
+    poke(0x5839, 0x1d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3c19,
+        bc: 0x541a,
+        de: 0x027c,
+        hl: 0xc0b4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5833,
+        iy: 0x160a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb58 | BIT 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb58 | BIT 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc650,
+        bc: 0xe1a8,
+        de: 0x9d6c,
+        hl: 0xbec3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6a46,
+        iy: 0xb66c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x83);
+    poke(0x0003, 0x58);
+    poke(0x69c9, 0x0f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc638,
+        bc: 0xe1a8,
+        de: 0x9d6c,
+        hl: 0xbec3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6a46,
+        iy: 0xb66c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb59 | BIT 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb59 | BIT 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xad07,
+        bc: 0x9bda,
+        de: 0xb7ee,
+        hl: 0x63c4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9195,
+        iy: 0x9703,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xdb);
+    poke(0x0003, 0x59);
+    poke(0x9170, 0x10);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xad55,
+        bc: 0x9bda,
+        de: 0xb7ee,
+        hl: 0x63c4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9195,
+        iy: 0x9703,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb5a | BIT 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb5a | BIT 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x80c0,
+        bc: 0x5105,
+        de: 0x36b0,
+        hl: 0xa37c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0de0,
+        iy: 0xce7f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd1);
+    poke(0x0003, 0x5a);
+    poke(0x0db1, 0xbe);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8018,
+        bc: 0x5105,
+        de: 0x36b0,
+        hl: 0xa37c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0de0,
+        iy: 0xce7f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb5b | BIT 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb5b | BIT 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2a8d,
+        bc: 0x083d,
+        de: 0x1409,
+        hl: 0x06ba,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x62ad,
+        iy: 0xbaff,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd5);
+    poke(0x0003, 0x5b);
+    poke(0x6282, 0x67);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2a75,
+        bc: 0x083d,
+        de: 0x1409,
+        hl: 0x06ba,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x62ad,
+        iy: 0xbaff,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb5c | BIT 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb5c | BIT 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4ca4,
+        bc: 0xe502,
+        de: 0xd23c,
+        hl: 0x6da8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9dc6,
+        iy: 0x6f04,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x5c);
+    poke(0x0003, 0x5c);
+    poke(0x9e22, 0xc9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4c18,
+        bc: 0xe502,
+        de: 0xd23c,
+        hl: 0x6da8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9dc6,
+        iy: 0x6f04,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb5d | BIT 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb5d | BIT 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7e39,
+        bc: 0x511b,
+        de: 0x3cfa,
+        hl: 0x60d3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd193,
+        iy: 0x3fe9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xff);
+    poke(0x0003, 0x5d);
+    poke(0xd192, 0x0d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7e11,
+        bc: 0x511b,
+        de: 0x3cfa,
+        hl: 0x60d3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd193,
+        iy: 0x3fe9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
 
   // Test instruction ddcb5e | BIT 3, (IX+*)
   test(
@@ -26620,6 +34191,363 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
 
+  // Test instruction ddcb5f | BIT 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb5f | BIT 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x094f,
+        bc: 0x20a8,
+        de: 0x52e1,
+        hl: 0xd783,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdf46,
+        iy: 0xda41,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3f);
+    poke(0x0003, 0x5f);
+    poke(0xdf85, 0x9e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0919,
+        bc: 0x20a8,
+        de: 0x52e1,
+        hl: 0xd783,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdf46,
+        iy: 0xda41,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb60 | BIT 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb60 | BIT 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x42ce,
+        bc: 0x0713,
+        de: 0xdc90,
+        hl: 0x2c89,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x32a2,
+        iy: 0xc4d4,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x65);
+    poke(0x0003, 0x60);
+    poke(0x3307, 0x2e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4274,
+        bc: 0x0713,
+        de: 0xdc90,
+        hl: 0x2c89,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x32a2,
+        iy: 0xc4d4,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb61 | BIT 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb61 | BIT 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1b36,
+        bc: 0x1403,
+        de: 0x8b9b,
+        hl: 0xc221,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x36cb,
+        iy: 0x93d4,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa8);
+    poke(0x0003, 0x61);
+    poke(0x3673, 0xbc);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1b30,
+        bc: 0x1403,
+        de: 0x8b9b,
+        hl: 0xc221,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x36cb,
+        iy: 0x93d4,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb62 | BIT 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb62 | BIT 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x361b,
+        bc: 0x4055,
+        de: 0x650a,
+        hl: 0x3f98,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0acc,
+        iy: 0xa102,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd9);
+    poke(0x0003, 0x62);
+    poke(0x0aa5, 0xea);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x365d,
+        bc: 0x4055,
+        de: 0x650a,
+        hl: 0x3f98,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0acc,
+        iy: 0xa102,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb63 | BIT 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb63 | BIT 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6548,
+        bc: 0x08df,
+        de: 0x3ceb,
+        hl: 0x6d24,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe679,
+        iy: 0xf98e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x79);
+    poke(0x0003, 0x63);
+    poke(0xe6f2, 0x83);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6574,
+        bc: 0x08df,
+        de: 0x3ceb,
+        hl: 0x6d24,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe679,
+        iy: 0xf98e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb64 | BIT 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb64 | BIT 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3c22,
+        bc: 0xe2a7,
+        de: 0x6da9,
+        hl: 0xc346,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xecfb,
+        iy: 0x85b6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x71);
+    poke(0x0003, 0x64);
+    poke(0xed6c, 0x52);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3c38,
+        bc: 0xe2a7,
+        de: 0x6da9,
+        hl: 0xc346,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xecfb,
+        iy: 0x85b6,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb65 | BIT 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb65 | BIT 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x09bd,
+        bc: 0x0abb,
+        de: 0x3afa,
+        hl: 0x91f5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7779,
+        iy: 0xaef5,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x67);
+    poke(0x0003, 0x65);
+    poke(0x77e0, 0xf5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0931,
+        bc: 0x0abb,
+        de: 0x3afa,
+        hl: 0x91f5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7779,
+        iy: 0xaef5,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
   // Test instruction ddcb66 | BIT 4, (IX+*)
   test(
       "OPCODE "
@@ -26670,6 +34598,363 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
+
+  // Test instruction ddcb67 | BIT 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb67 | BIT 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xeccb,
+        bc: 0x342f,
+        de: 0xbe3e,
+        hl: 0xa79b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeea1,
+        iy: 0xdfae,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd7);
+    poke(0x0003, 0x67);
+    poke(0xee78, 0x06);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xec7d,
+        bc: 0x342f,
+        de: 0xbe3e,
+        hl: 0xa79b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeea1,
+        iy: 0xdfae,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb68 | BIT 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb68 | BIT 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8e51,
+        bc: 0x0063,
+        de: 0x49ad,
+        hl: 0xb7d4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe968,
+        iy: 0x864e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb1);
+    poke(0x0003, 0x68);
+    poke(0xe919, 0x20);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8e39,
+        bc: 0x0063,
+        de: 0x49ad,
+        hl: 0xb7d4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe968,
+        iy: 0x864e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb69 | BIT 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb69 | BIT 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9f11,
+        bc: 0x42b5,
+        de: 0x74fe,
+        hl: 0x1116,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x33f4,
+        iy: 0x46c2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe8);
+    poke(0x0003, 0x69);
+    poke(0x33dc, 0x4f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9f75,
+        bc: 0x42b5,
+        de: 0x74fe,
+        hl: 0x1116,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x33f4,
+        iy: 0x46c2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb6a | BIT 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb6a | BIT 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4632,
+        bc: 0x0bd8,
+        de: 0x0018,
+        hl: 0x1ac3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x86b6,
+        iy: 0x1dd2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x33);
+    poke(0x0003, 0x6a);
+    poke(0x86e9, 0x1c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4654,
+        bc: 0x0bd8,
+        de: 0x0018,
+        hl: 0x1ac3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x86b6,
+        iy: 0x1dd2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb6b | BIT 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb6b | BIT 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7a76,
+        bc: 0xf79f,
+        de: 0xa78e,
+        hl: 0xf867,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x187b,
+        iy: 0x0023,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x11);
+    poke(0x0003, 0x6b);
+    poke(0x188c, 0xbc);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7a18,
+        bc: 0xf79f,
+        de: 0xa78e,
+        hl: 0xf867,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x187b,
+        iy: 0x0023,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb6c | BIT 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb6c | BIT 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdd91,
+        bc: 0x1f1e,
+        de: 0xc1e1,
+        hl: 0x0ea7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3e21,
+        iy: 0xf544,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x5e);
+    poke(0x0003, 0x6c);
+    poke(0x3e7f, 0x2a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdd39,
+        bc: 0x1f1e,
+        de: 0xc1e1,
+        hl: 0x0ea7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3e21,
+        iy: 0xf544,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb6d | BIT 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb6d | BIT 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdebf,
+        bc: 0x9ae4,
+        de: 0xfd24,
+        hl: 0xb3c2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe314,
+        iy: 0xad84,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xdd);
+    poke(0x0003, 0x6d);
+    poke(0xe2f1, 0x41);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xde75,
+        bc: 0x9ae4,
+        de: 0xfd24,
+        hl: 0xb3c2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe314,
+        iy: 0xad84,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
 
   // Test instruction ddcb6e | BIT 5, (IX+*)
   test(
@@ -26722,6 +35007,363 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
 
+  // Test instruction ddcb6f | BIT 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb6f | BIT 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd4cd,
+        bc: 0x0b39,
+        de: 0x3e2e,
+        hl: 0xc06e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfc1b,
+        iy: 0xd592,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbe);
+    poke(0x0003, 0x6f);
+    poke(0xfbd9, 0x56);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd47d,
+        bc: 0x0b39,
+        de: 0x3e2e,
+        hl: 0xc06e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfc1b,
+        iy: 0xd592,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb70 | BIT 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb70 | BIT 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf901,
+        bc: 0x09b8,
+        de: 0x43f8,
+        hl: 0x2a76,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x042c,
+        iy: 0x7f2d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb5);
+    poke(0x0003, 0x70);
+    poke(0x03e1, 0x74);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf911,
+        bc: 0x09b8,
+        de: 0x43f8,
+        hl: 0x2a76,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x042c,
+        iy: 0x7f2d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb71 | BIT 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb71 | BIT 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xac78,
+        bc: 0x36ad,
+        de: 0x34cb,
+        hl: 0xf950,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1b33,
+        iy: 0xaa23,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf7);
+    poke(0x0003, 0x71);
+    poke(0x1b2a, 0x08);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xac5c,
+        bc: 0x36ad,
+        de: 0x34cb,
+        hl: 0xf950,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1b33,
+        iy: 0xaa23,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb72 | BIT 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb72 | BIT 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb1b3,
+        bc: 0xf1e4,
+        de: 0x9984,
+        hl: 0xc7fb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xce25,
+        iy: 0xc5b6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x22);
+    poke(0x0003, 0x72);
+    poke(0xce47, 0x08);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb15d,
+        bc: 0xf1e4,
+        de: 0x9984,
+        hl: 0xc7fb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xce25,
+        iy: 0xc5b6,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb73 | BIT 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb73 | BIT 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x21ba,
+        bc: 0x592d,
+        de: 0xf406,
+        hl: 0xe21f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6442,
+        iy: 0xcf58,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x12);
+    poke(0x0003, 0x73);
+    poke(0x6454, 0x3c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2174,
+        bc: 0x592d,
+        de: 0xf406,
+        hl: 0xe21f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6442,
+        iy: 0xcf58,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb74 | BIT 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb74 | BIT 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6642,
+        bc: 0x64c1,
+        de: 0xdbe5,
+        hl: 0xeb48,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7dc1,
+        iy: 0xc1fb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x08);
+    poke(0x0003, 0x74);
+    poke(0x7dc9, 0xbe);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x667c,
+        bc: 0x64c1,
+        de: 0xdbe5,
+        hl: 0xeb48,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7dc1,
+        iy: 0xc1fb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb75 | BIT 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb75 | BIT 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8778,
+        bc: 0x580e,
+        de: 0x00dd,
+        hl: 0xf4c6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x60ad,
+        iy: 0x9b60,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x5b);
+    poke(0x0003, 0x75);
+    poke(0x6108, 0xcf);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8730,
+        bc: 0x580e,
+        de: 0x00dd,
+        hl: 0xf4c6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x60ad,
+        iy: 0x9b60,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
   // Test instruction ddcb76 | BIT 6, (IX+*)
   test(
       "OPCODE "
@@ -26772,6 +35414,363 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
+
+  // Test instruction ddcb77 | BIT 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb77 | BIT 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe3a8,
+        bc: 0x47a0,
+        de: 0xc510,
+        hl: 0xcf0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0537,
+        iy: 0xb242,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7f);
+    poke(0x0003, 0x77);
+    poke(0x05b6, 0x97);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe354,
+        bc: 0x47a0,
+        de: 0xc510,
+        hl: 0xcf0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0537,
+        iy: 0xb242,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb78 | BIT 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb78 | BIT 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x424f,
+        bc: 0x24f6,
+        de: 0x1632,
+        hl: 0x8a4f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9397,
+        iy: 0x846c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x70);
+    poke(0x0003, 0x78);
+    poke(0x9407, 0x76);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4255,
+        bc: 0x24f6,
+        de: 0x1632,
+        hl: 0x8a4f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9397,
+        iy: 0x846c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb79 | BIT 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb79 | BIT 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe6a0,
+        bc: 0xeeaa,
+        de: 0x41f7,
+        hl: 0x5da2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x41de,
+        iy: 0x4189,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc3);
+    poke(0x0003, 0x79);
+    poke(0x41a1, 0xb8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe690,
+        bc: 0xeeaa,
+        de: 0x41f7,
+        hl: 0x5da2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x41de,
+        iy: 0x4189,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb7a | BIT 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb7a | BIT 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xcabf,
+        bc: 0x56aa,
+        de: 0x6a06,
+        hl: 0x6cd7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0aa9,
+        iy: 0x9812,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3f);
+    poke(0x0003, 0x7a);
+    poke(0x0ae8, 0xeb);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xca99,
+        bc: 0x56aa,
+        de: 0x6a06,
+        hl: 0x6cd7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0aa9,
+        iy: 0x9812,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb7b | BIT 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb7b | BIT 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xae3f,
+        bc: 0x0227,
+        de: 0x721f,
+        hl: 0x52a1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5040,
+        iy: 0xb98a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x88);
+    poke(0x0003, 0x7b);
+    poke(0x4fc8, 0x22);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xae5d,
+        bc: 0x0227,
+        de: 0x721f,
+        hl: 0x52a1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5040,
+        iy: 0xb98a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb7c | BIT 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb7c | BIT 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8a80,
+        bc: 0xa2f1,
+        de: 0x239a,
+        hl: 0xd5cc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6883,
+        iy: 0xb050,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9e);
+    poke(0x0003, 0x7c);
+    poke(0x6821, 0x3a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8a7c,
+        bc: 0xa2f1,
+        de: 0x239a,
+        hl: 0xd5cc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6883,
+        iy: 0xb050,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb7d | BIT 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb7d | BIT 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc37f,
+        bc: 0xcf33,
+        de: 0x1010,
+        hl: 0x98e6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb021,
+        iy: 0x0356,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x29);
+    poke(0x0003, 0x7d);
+    poke(0xb04a, 0x2c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc375,
+        bc: 0xcf33,
+        de: 0x1010,
+        hl: 0x98e6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb021,
+        iy: 0x0356,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
 
   // Test instruction ddcb7e | BIT 7, (IX+*)
   test(
@@ -26824,6 +35823,365 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
 
+  // Test instruction ddcb7f | BIT 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb7f | BIT 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x53b9,
+        bc: 0x1f4e,
+        de: 0x4837,
+        hl: 0x21b6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5ec2,
+        iy: 0x80c3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x75);
+    poke(0x0003, 0x7f);
+    poke(0x5f37, 0xa2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5399,
+        bc: 0x1f4e,
+        de: 0x4837,
+        hl: 0x21b6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5ec2,
+        iy: 0x80c3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb80 | RES 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb80 | RES 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6319,
+        bc: 0xbaf9,
+        de: 0xc84b,
+        hl: 0xbcf2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xacc5,
+        iy: 0xa4ed,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x70);
+    poke(0x0003, 0x80);
+    poke(0xad35, 0x30);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6319,
+        bc: 0x30f9,
+        de: 0xc84b,
+        hl: 0xbcf2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xacc5,
+        iy: 0xa4ed,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb81 | RES 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb81 | RES 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfae1,
+        bc: 0x5ae5,
+        de: 0x9502,
+        hl: 0xdc9b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbdd3,
+        iy: 0x1a52,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2a);
+    poke(0x0003, 0x81);
+    poke(0xbdfd, 0x24);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfae1,
+        bc: 0x5a24,
+        de: 0x9502,
+        hl: 0xdc9b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbdd3,
+        iy: 0x1a52,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb82 | RES 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb82 | RES 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdaf6,
+        bc: 0x3260,
+        de: 0xf1ac,
+        hl: 0x1d47,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5e74,
+        iy: 0x35e2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9a);
+    poke(0x0003, 0x82);
+    poke(0x5e0e, 0x51);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdaf6,
+        bc: 0x3260,
+        de: 0x50ac,
+        hl: 0x1d47,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5e74,
+        iy: 0x35e2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(24078), equals(0x50));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb83 | RES 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb83 | RES 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8e7c,
+        bc: 0x5586,
+        de: 0x8c92,
+        hl: 0xfb00,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3441,
+        iy: 0xd365,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0e);
+    poke(0x0003, 0x83);
+    poke(0x344f, 0x01);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8e7c,
+        bc: 0x5586,
+        de: 0x8c00,
+        hl: 0xfb00,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3441,
+        iy: 0xd365,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(13391), equals(0x00));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb84 | RES 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb84 | RES 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc1b3,
+        bc: 0x4874,
+        de: 0xc535,
+        hl: 0x0e1c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0123,
+        iy: 0xdd28,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x47);
+    poke(0x0003, 0x84);
+    poke(0x016a, 0xb0);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc1b3,
+        bc: 0x4874,
+        de: 0xc535,
+        hl: 0xb01c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0123,
+        iy: 0xdd28,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb85 | RES 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb85 | RES 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0928,
+        bc: 0xb0db,
+        de: 0x4e07,
+        hl: 0xa7b7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0ba3,
+        iy: 0xc61c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x6c);
+    poke(0x0003, 0x85);
+    poke(0x0c0f, 0xde);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0928,
+        bc: 0xb0db,
+        de: 0x4e07,
+        hl: 0xa7de,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0ba3,
+        iy: 0xc61c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction ddcb86 | RES 0, (IX+*)
   test(
       "OPCODE "
@@ -26874,6 +36232,368 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction ddcb87 | RES 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb87 | RES 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd05e,
+        bc: 0xa733,
+        de: 0xd1dd,
+        hl: 0x1603,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xede6,
+        iy: 0xe5fb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x02);
+    poke(0x0003, 0x87);
+    poke(0xede8, 0xc4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc45e,
+        bc: 0xa733,
+        de: 0xd1dd,
+        hl: 0x1603,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xede6,
+        iy: 0xe5fb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb88 | RES 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb88 | RES 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe4fa,
+        bc: 0x3325,
+        de: 0xc266,
+        hl: 0x1b13,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x878e,
+        iy: 0xe695,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9b);
+    poke(0x0003, 0x88);
+    poke(0x8729, 0x7c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe4fa,
+        bc: 0x7c25,
+        de: 0xc266,
+        hl: 0x1b13,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x878e,
+        iy: 0xe695,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb89 | RES 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb89 | RES 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x933b,
+        bc: 0x6fdd,
+        de: 0xa3a8,
+        hl: 0x2634,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8f3e,
+        iy: 0x7727,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2b);
+    poke(0x0003, 0x89);
+    poke(0x8f69, 0xcf);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x933b,
+        bc: 0x6fcd,
+        de: 0xa3a8,
+        hl: 0x2634,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8f3e,
+        iy: 0x7727,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(36713), equals(0xcd));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb8a | RES 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb8a | RES 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6759,
+        bc: 0xad1e,
+        de: 0x5d71,
+        hl: 0xce52,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x39a9,
+        iy: 0x38a0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0a);
+    poke(0x0003, 0x8a);
+    poke(0x39b3, 0xea);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6759,
+        bc: 0xad1e,
+        de: 0xe871,
+        hl: 0xce52,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x39a9,
+        iy: 0x38a0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(14771), equals(0xe8));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb8b | RES 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb8b | RES 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3da2,
+        bc: 0x1833,
+        de: 0x03c1,
+        hl: 0x07e9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1685,
+        iy: 0xd790,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x62);
+    poke(0x0003, 0x8b);
+    poke(0x16e7, 0x8a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3da2,
+        bc: 0x1833,
+        de: 0x0388,
+        hl: 0x07e9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1685,
+        iy: 0xd790,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(5863), equals(0x88));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb8c | RES 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb8c | RES 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa625,
+        bc: 0xed31,
+        de: 0x3946,
+        hl: 0x32dc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc6a2,
+        iy: 0x7ad6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe8);
+    poke(0x0003, 0x8c);
+    poke(0xc68a, 0x3e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa625,
+        bc: 0xed31,
+        de: 0x3946,
+        hl: 0x3cdc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc6a2,
+        iy: 0x7ad6,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(50826), equals(0x3c));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb8d | RES 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb8d | RES 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x016b,
+        bc: 0x5802,
+        de: 0xa683,
+        hl: 0x2549,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x22e6,
+        iy: 0x33bb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xcc);
+    poke(0x0003, 0x8d);
+    poke(0x22b2, 0x9e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x016b,
+        bc: 0x5802,
+        de: 0xa683,
+        hl: 0x259c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x22e6,
+        iy: 0x33bb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(8882), equals(0x9c));
+  }, tags: 'undocumented');
 
   // Test instruction ddcb8e | RES 1, (IX+*)
   test(
@@ -26927,6 +36647,367 @@ void main() {
     expect(peek(54002), equals(0x01));
   });
 
+  // Test instruction ddcb8f | RES 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb8f | RES 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6b1a,
+        bc: 0x8ae2,
+        de: 0x269b,
+        hl: 0xcb2f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3ffe,
+        iy: 0x75dd,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7b);
+    poke(0x0003, 0x8f);
+    poke(0x4079, 0x96);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x941a,
+        bc: 0x8ae2,
+        de: 0x269b,
+        hl: 0xcb2f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3ffe,
+        iy: 0x75dd,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(16505), equals(0x94));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb90 | RES 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb90 | RES 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc167,
+        bc: 0x3dfc,
+        de: 0x42e7,
+        hl: 0x9e14,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb501,
+        iy: 0x84fe,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x04);
+    poke(0x0003, 0x90);
+    poke(0xb505, 0x46);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc167,
+        bc: 0x42fc,
+        de: 0x42e7,
+        hl: 0x9e14,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb501,
+        iy: 0x84fe,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(46341), equals(0x42));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb91 | RES 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb91 | RES 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe85e,
+        bc: 0xcc89,
+        de: 0xd249,
+        hl: 0xea3b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc987,
+        iy: 0xc4d1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x11);
+    poke(0x0003, 0x91);
+    poke(0xc998, 0x83);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe85e,
+        bc: 0xcc83,
+        de: 0xd249,
+        hl: 0xea3b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc987,
+        iy: 0xc4d1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb92 | RES 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb92 | RES 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x28a3,
+        bc: 0x85ff,
+        de: 0xab28,
+        hl: 0x47a5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9166,
+        iy: 0xe755,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4b);
+    poke(0x0003, 0x92);
+    poke(0x91b1, 0xaa);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x28a3,
+        bc: 0x85ff,
+        de: 0xaa28,
+        hl: 0x47a5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9166,
+        iy: 0xe755,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb93 | RES 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb93 | RES 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x58ac,
+        bc: 0xc88b,
+        de: 0x6d24,
+        hl: 0xdbdd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xac2e,
+        iy: 0x5199,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x03);
+    poke(0x0003, 0x93);
+    poke(0xac31, 0x93);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x58ac,
+        bc: 0xc88b,
+        de: 0x6d93,
+        hl: 0xdbdd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xac2e,
+        iy: 0x5199,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb94 | RES 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb94 | RES 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe38d,
+        bc: 0x35a5,
+        de: 0x8d07,
+        hl: 0xbfb8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5e84,
+        iy: 0x5f24,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x11);
+    poke(0x0003, 0x94);
+    poke(0x5e95, 0xb7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe38d,
+        bc: 0x35a5,
+        de: 0x8d07,
+        hl: 0xb3b8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5e84,
+        iy: 0x5f24,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(24213), equals(0xb3));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb95 | RES 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb95 | RES 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x41f4,
+        bc: 0x9536,
+        de: 0xdd7d,
+        hl: 0x4948,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfb74,
+        iy: 0xf17d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe6);
+    poke(0x0003, 0x95);
+    poke(0xfb5a, 0xc6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x41f4,
+        bc: 0x9536,
+        de: 0xdd7d,
+        hl: 0x49c2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfb74,
+        iy: 0xf17d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(64346), equals(0xc2));
+  }, tags: 'undocumented');
+
   // Test instruction ddcb96 | RES 2, (IX+*)
   test(
       "OPCODE "
@@ -26978,6 +37059,368 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(31318), equals(0xaa));
   });
+
+  // Test instruction ddcb97 | RES 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb97 | RES 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9ad3,
+        bc: 0x89f0,
+        de: 0x73c7,
+        hl: 0x0b1a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x847c,
+        iy: 0x4b86,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x92);
+    poke(0x0003, 0x97);
+    poke(0x840e, 0x23);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x23d3,
+        bc: 0x89f0,
+        de: 0x73c7,
+        hl: 0x0b1a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x847c,
+        iy: 0x4b86,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb98 | RES 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb98 | RES 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6e22,
+        bc: 0xb9fd,
+        de: 0x9fdc,
+        hl: 0x3aed,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x041e,
+        iy: 0xfd79,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xdc);
+    poke(0x0003, 0x98);
+    poke(0x03fa, 0x58);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6e22,
+        bc: 0x50fd,
+        de: 0x9fdc,
+        hl: 0x3aed,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x041e,
+        iy: 0xfd79,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(1018), equals(0x50));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb99 | RES 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb99 | RES 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa132,
+        bc: 0x3891,
+        de: 0x1515,
+        hl: 0x2830,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x09fd,
+        iy: 0x0473,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x6d);
+    poke(0x0003, 0x99);
+    poke(0x0a6a, 0xce);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa132,
+        bc: 0x38c6,
+        de: 0x1515,
+        hl: 0x2830,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x09fd,
+        iy: 0x0473,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(2666), equals(0xc6));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb9a | RES 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb9a | RES 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x783d,
+        bc: 0x8f69,
+        de: 0x91c4,
+        hl: 0xe38f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x68a8,
+        iy: 0x391d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8a);
+    poke(0x0003, 0x9a);
+    poke(0x6832, 0xa8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x783d,
+        bc: 0x8f69,
+        de: 0xa0c4,
+        hl: 0xe38f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x68a8,
+        iy: 0x391d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(26674), equals(0xa0));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb9b | RES 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb9b | RES 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x955a,
+        bc: 0xc7b0,
+        de: 0x53b3,
+        hl: 0xaec6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x06ef,
+        iy: 0xe991,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x97);
+    poke(0x0003, 0x9b);
+    poke(0x0686, 0x62);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x955a,
+        bc: 0xc7b0,
+        de: 0x5362,
+        hl: 0xaec6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x06ef,
+        iy: 0xe991,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb9c | RES 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb9c | RES 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xaf69,
+        bc: 0xf896,
+        de: 0xe791,
+        hl: 0xa2ee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x847b,
+        iy: 0x59ed,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x54);
+    poke(0x0003, 0x9c);
+    poke(0x84cf, 0x1b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xaf69,
+        bc: 0xf896,
+        de: 0xe791,
+        hl: 0x13ee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x847b,
+        iy: 0x59ed,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(33999), equals(0x13));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcb9d | RES 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb9d | RES 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7d1e,
+        bc: 0x5009,
+        de: 0x1248,
+        hl: 0x380c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe920,
+        iy: 0x4fe6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0f);
+    poke(0x0003, 0x9d);
+    poke(0xe92f, 0xe8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7d1e,
+        bc: 0x5009,
+        de: 0x1248,
+        hl: 0x38e0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe920,
+        iy: 0x4fe6,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(59695), equals(0xe0));
+  }, tags: 'undocumented');
 
   // Test instruction ddcb9e | RES 3, (IX+*)
   test(
@@ -27031,6 +37474,365 @@ void main() {
     expect(peek(55408), equals(0xe6));
   });
 
+  // Test instruction ddcb9f | RES 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcb9f | RES 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc26b,
+        bc: 0x7537,
+        de: 0x46bb,
+        hl: 0x13c0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe63c,
+        iy: 0x1d98,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb8);
+    poke(0x0003, 0x9f);
+    poke(0xe5f4, 0xa6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa66b,
+        bc: 0x7537,
+        de: 0x46bb,
+        hl: 0x13c0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe63c,
+        iy: 0x1d98,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcba0 | RES 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba0 | RES 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0bbe,
+        bc: 0x8500,
+        de: 0x8609,
+        hl: 0x5352,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa2f0,
+        iy: 0xda02,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x02);
+    poke(0x0003, 0xa0);
+    poke(0xa2f2, 0x39);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0bbe,
+        bc: 0x2900,
+        de: 0x8609,
+        hl: 0x5352,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa2f0,
+        iy: 0xda02,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(41714), equals(0x29));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcba1 | RES 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba1 | RES 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xad0a,
+        bc: 0xaa76,
+        de: 0x0f2d,
+        hl: 0x832c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x45bb,
+        iy: 0xa22d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf5);
+    poke(0x0003, 0xa1);
+    poke(0x45b0, 0xd2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xad0a,
+        bc: 0xaac2,
+        de: 0x0f2d,
+        hl: 0x832c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x45bb,
+        iy: 0xa22d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(17840), equals(0xc2));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcba2 | RES 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba2 | RES 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf586,
+        bc: 0x4a7d,
+        de: 0xa5ab,
+        hl: 0x26fc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x628b,
+        iy: 0x6c4d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0e);
+    poke(0x0003, 0xa2);
+    poke(0x6299, 0xa1);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf586,
+        bc: 0x4a7d,
+        de: 0xa1ab,
+        hl: 0x26fc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x628b,
+        iy: 0x6c4d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcba3 | RES 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba3 | RES 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xde5b,
+        bc: 0xa284,
+        de: 0xd40e,
+        hl: 0xc92d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x040d,
+        iy: 0x12c0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2e);
+    poke(0x0003, 0xa3);
+    poke(0x043b, 0x04);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xde5b,
+        bc: 0xa284,
+        de: 0xd404,
+        hl: 0xc92d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x040d,
+        iy: 0x12c0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcba4 | RES 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba4 | RES 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdfaa,
+        bc: 0xae40,
+        de: 0x02c3,
+        hl: 0xe0b5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe4d,
+        iy: 0xfaa3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x03);
+    poke(0x0003, 0xa4);
+    poke(0xfe50, 0x27);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdfaa,
+        bc: 0xae40,
+        de: 0x02c3,
+        hl: 0x27b5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe4d,
+        iy: 0xfaa3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcba5 | RES 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba5 | RES 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1a15,
+        bc: 0x04cb,
+        de: 0x4352,
+        hl: 0xee39,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7b27,
+        iy: 0x38a0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf6);
+    poke(0x0003, 0xa5);
+    poke(0x7b1d, 0x6b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1a15,
+        bc: 0x04cb,
+        de: 0x4352,
+        hl: 0xee6b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7b27,
+        iy: 0x38a0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction ddcba6 | RES 4, (IX+*)
   test(
       "OPCODE "
@@ -27081,6 +37883,366 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction ddcba7 | RES 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba7 | RES 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0eed,
+        bc: 0x7b11,
+        de: 0x8cb0,
+        hl: 0xeb3d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5ec8,
+        iy: 0x97cf,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf2);
+    poke(0x0003, 0xa7);
+    poke(0x5eba, 0x87);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x87ed,
+        bc: 0x7b11,
+        de: 0x8cb0,
+        hl: 0xeb3d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5ec8,
+        iy: 0x97cf,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcba8 | RES 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba8 | RES 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5173,
+        bc: 0x3089,
+        de: 0x070d,
+        hl: 0xe8f9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe84f,
+        iy: 0x55f0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd0);
+    poke(0x0003, 0xa8);
+    poke(0xe81f, 0x7e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5173,
+        bc: 0x5e89,
+        de: 0x070d,
+        hl: 0xe8f9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe84f,
+        iy: 0x55f0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(59423), equals(0x5e));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcba9 | RES 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcba9 | RES 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4fb8,
+        bc: 0xccb5,
+        de: 0x3e9a,
+        hl: 0x2673,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0fdd,
+        iy: 0xaef2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9d);
+    poke(0x0003, 0xa9);
+    poke(0x0f7a, 0x1f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4fb8,
+        bc: 0xcc1f,
+        de: 0x3e9a,
+        hl: 0x2673,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0fdd,
+        iy: 0xaef2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbaa | RES 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbaa | RES 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfe76,
+        bc: 0x6f96,
+        de: 0x3feb,
+        hl: 0x0b21,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6747,
+        iy: 0x07ba,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9f);
+    poke(0x0003, 0xaa);
+    poke(0x66e6, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfe76,
+        bc: 0x6f96,
+        de: 0x50eb,
+        hl: 0x0b21,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6747,
+        iy: 0x07ba,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbab | RES 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbab | RES 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2eb4,
+        bc: 0x36f1,
+        de: 0x8f44,
+        hl: 0x36af,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6682,
+        iy: 0x9d60,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x16);
+    poke(0x0003, 0xab);
+    poke(0x6698, 0xeb);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2eb4,
+        bc: 0x36f1,
+        de: 0x8fcb,
+        hl: 0x36af,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6682,
+        iy: 0x9d60,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(26264), equals(0xcb));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbac | RES 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbac | RES 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xaf32,
+        bc: 0x8ca8,
+        de: 0x6558,
+        hl: 0x06d9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa4dd,
+        iy: 0xcd1f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc4);
+    poke(0x0003, 0xac);
+    poke(0xa4a1, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xaf32,
+        bc: 0x8ca8,
+        de: 0x6558,
+        hl: 0x44d9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa4dd,
+        iy: 0xcd1f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbad | RES 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbad | RES 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfcc9,
+        bc: 0x69a7,
+        de: 0x0eed,
+        hl: 0xeab5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeef5,
+        iy: 0x3ed2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x49);
+    poke(0x0003, 0xad);
+    poke(0xef3e, 0x76);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfcc9,
+        bc: 0x69a7,
+        de: 0x0eed,
+        hl: 0xea56,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeef5,
+        iy: 0x3ed2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(61246), equals(0x56));
+  }, tags: 'undocumented');
 
   // Test instruction ddcbae | RES 5, (IX+*)
   test(
@@ -27133,6 +38295,367 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
 
+  // Test instruction ddcbaf | RES 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbaf | RES 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb11e,
+        bc: 0x2583,
+        de: 0x51fa,
+        hl: 0xd427,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3619,
+        iy: 0x9cef,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc2);
+    poke(0x0003, 0xaf);
+    poke(0x35db, 0x15);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x151e,
+        bc: 0x2583,
+        de: 0x51fa,
+        hl: 0xd427,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3619,
+        iy: 0x9cef,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbb0 | RES 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb0 | RES 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf43e,
+        bc: 0xce57,
+        de: 0x3bf3,
+        hl: 0x0933,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x58d7,
+        iy: 0xd89f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x47);
+    poke(0x0003, 0xb0);
+    poke(0x591e, 0x1e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf43e,
+        bc: 0x1e57,
+        de: 0x3bf3,
+        hl: 0x0933,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x58d7,
+        iy: 0xd89f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbb1 | RES 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb1 | RES 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x35ef,
+        bc: 0xbbbc,
+        de: 0xdb46,
+        hl: 0x046c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xadd2,
+        iy: 0x2b6e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x86);
+    poke(0x0003, 0xb1);
+    poke(0xad58, 0x46);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x35ef,
+        bc: 0xbb06,
+        de: 0xdb46,
+        hl: 0x046c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xadd2,
+        iy: 0x2b6e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(44376), equals(0x06));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbb2 | RES 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb2 | RES 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc26c,
+        bc: 0xfd32,
+        de: 0x9b7f,
+        hl: 0xab6c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe7d0,
+        iy: 0x501f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x70);
+    poke(0x0003, 0xb2);
+    poke(0xe840, 0x48);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc26c,
+        bc: 0xfd32,
+        de: 0x087f,
+        hl: 0xab6c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe7d0,
+        iy: 0x501f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(59456), equals(0x08));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbb3 | RES 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb3 | RES 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x36ca,
+        bc: 0xb434,
+        de: 0xe212,
+        hl: 0xf805,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x53fb,
+        iy: 0xb191,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xde);
+    poke(0x0003, 0xb3);
+    poke(0x53d9, 0x06);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x36ca,
+        bc: 0xb434,
+        de: 0xe206,
+        hl: 0xf805,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x53fb,
+        iy: 0xb191,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbb4 | RES 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb4 | RES 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0a1c,
+        bc: 0xab67,
+        de: 0x9ca1,
+        hl: 0x2f98,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5066,
+        iy: 0x320c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x6b);
+    poke(0x0003, 0xb4);
+    poke(0x50d1, 0xdd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0a1c,
+        bc: 0xab67,
+        de: 0x9ca1,
+        hl: 0x9d98,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5066,
+        iy: 0x320c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(20689), equals(0x9d));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbb5 | RES 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb5 | RES 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfd6d,
+        bc: 0x51c9,
+        de: 0x16d6,
+        hl: 0x1373,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x146e,
+        iy: 0x2148,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xec);
+    poke(0x0003, 0xb5);
+    poke(0x145a, 0xd6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfd6d,
+        bc: 0x51c9,
+        de: 0x16d6,
+        hl: 0x1396,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x146e,
+        iy: 0x2148,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(5210), equals(0x96));
+  }, tags: 'undocumented');
+
   // Test instruction ddcbb6 | RES 6, (IX+*)
   test(
       "OPCODE "
@@ -27183,6 +38706,368 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction ddcbb7 | RES 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb7 | RES 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf012,
+        bc: 0xb87e,
+        de: 0x65ba,
+        hl: 0xa5c8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6120,
+        iy: 0x789d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd3);
+    poke(0x0003, 0xb7);
+    poke(0x60f3, 0x54);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1412,
+        bc: 0xb87e,
+        de: 0x65ba,
+        hl: 0xa5c8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6120,
+        iy: 0x789d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(24819), equals(0x14));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbb8 | RES 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb8 | RES 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8eae,
+        bc: 0x4a53,
+        de: 0xbfa1,
+        hl: 0x5e7e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0bf6,
+        iy: 0x1e35,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x13);
+    poke(0x0003, 0xb8);
+    poke(0x0c09, 0x87);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8eae,
+        bc: 0x0753,
+        de: 0xbfa1,
+        hl: 0x5e7e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0bf6,
+        iy: 0x1e35,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(3081), equals(0x07));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbb9 | RES 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbb9 | RES 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5fb7,
+        bc: 0xa81e,
+        de: 0xe2d2,
+        hl: 0x4117,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0564,
+        iy: 0x48a1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x56);
+    poke(0x0003, 0xb9);
+    poke(0x05ba, 0xc8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5fb7,
+        bc: 0xa848,
+        de: 0xe2d2,
+        hl: 0x4117,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0564,
+        iy: 0x48a1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(1466), equals(0x48));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbba | RES 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbba | RES 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7f6a,
+        bc: 0x47fe,
+        de: 0xce45,
+        hl: 0x75de,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf5e0,
+        iy: 0x032c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x86);
+    poke(0x0003, 0xba);
+    poke(0xf566, 0x30);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7f6a,
+        bc: 0x47fe,
+        de: 0x3045,
+        hl: 0x75de,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf5e0,
+        iy: 0x032c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbbb | RES 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbbb | RES 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc7e3,
+        bc: 0xe49e,
+        de: 0x9ec5,
+        hl: 0x07e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbd31,
+        iy: 0x9d5f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xef);
+    poke(0x0003, 0xbb);
+    poke(0xbd20, 0xc9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc7e3,
+        bc: 0xe49e,
+        de: 0x9e49,
+        hl: 0x07e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbd31,
+        iy: 0x9d5f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(48416), equals(0x49));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbbc | RES 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbbc | RES 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb430,
+        bc: 0x7ac7,
+        de: 0xb45f,
+        hl: 0xfbf7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x638e,
+        iy: 0x3173,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc0);
+    poke(0x0003, 0xbc);
+    poke(0x634e, 0x28);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb430,
+        bc: 0x7ac7,
+        de: 0xb45f,
+        hl: 0x28f7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x638e,
+        iy: 0x3173,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbbd | RES 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbbd | RES 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4e71,
+        bc: 0x6ffa,
+        de: 0xa3f9,
+        hl: 0xa2e5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe3c4,
+        iy: 0x02d4,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb9);
+    poke(0x0003, 0xbd);
+    poke(0xe37d, 0xdd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4e71,
+        bc: 0x6ffa,
+        de: 0xa3f9,
+        hl: 0xa25d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe3c4,
+        iy: 0x02d4,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(58237), equals(0x5d));
+  }, tags: 'undocumented');
 
   // Test instruction ddcbbe | RES 7, (IX+*)
   test(
@@ -27236,6 +39121,368 @@ void main() {
     expect(peek(22816), equals(0x68));
   });
 
+  // Test instruction ddcbbf | RES 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbbf | RES 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6e31,
+        bc: 0x0320,
+        de: 0x134b,
+        hl: 0x77c3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1734,
+        iy: 0xbc2d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x26);
+    poke(0x0003, 0xbf);
+    poke(0x175a, 0xe2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6231,
+        bc: 0x0320,
+        de: 0x134b,
+        hl: 0x77c3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1734,
+        iy: 0xbc2d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(5978), equals(0x62));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbc0 | SET 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc0 | SET 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x75be,
+        bc: 0x2b93,
+        de: 0x093d,
+        hl: 0x1128,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x792e,
+        iy: 0x31f7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x00);
+    poke(0x0003, 0xc0);
+    poke(0x792e, 0x92);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x75be,
+        bc: 0x9393,
+        de: 0x093d,
+        hl: 0x1128,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x792e,
+        iy: 0x31f7,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(31022), equals(0x93));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbc1 | SET 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc1 | SET 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x313f,
+        bc: 0x8223,
+        de: 0x5fcc,
+        hl: 0x42c8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdccc,
+        iy: 0xd87b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf7);
+    poke(0x0003, 0xc1);
+    poke(0xdcc3, 0x1c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x313f,
+        bc: 0x821d,
+        de: 0x5fcc,
+        hl: 0x42c8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdccc,
+        iy: 0xd87b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(56515), equals(0x1d));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbc2 | SET 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc2 | SET 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa7e3,
+        bc: 0xbf55,
+        de: 0xd27b,
+        hl: 0x0a9d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0cfa,
+        iy: 0xea4e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x85);
+    poke(0x0003, 0xc2);
+    poke(0x0c7f, 0x30);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa7e3,
+        bc: 0xbf55,
+        de: 0x317b,
+        hl: 0x0a9d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0cfa,
+        iy: 0xea4e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(3199), equals(0x31));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbc3 | SET 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc3 | SET 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe076,
+        bc: 0x2760,
+        de: 0x1eec,
+        hl: 0x9968,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5426,
+        iy: 0xa1a0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x32);
+    poke(0x0003, 0xc3);
+    poke(0x5458, 0xdd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe076,
+        bc: 0x2760,
+        de: 0x1edd,
+        hl: 0x9968,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5426,
+        iy: 0xa1a0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbc4 | SET 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc4 | SET 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa679,
+        bc: 0xcc05,
+        de: 0x3f4d,
+        hl: 0xc899,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7acd,
+        iy: 0x48d7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xae);
+    poke(0x0003, 0xc4);
+    poke(0x7a7b, 0x27);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa679,
+        bc: 0xcc05,
+        de: 0x3f4d,
+        hl: 0x2799,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7acd,
+        iy: 0x48d7,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbc5 | SET 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc5 | SET 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xddfd,
+        bc: 0x64d4,
+        de: 0x2671,
+        hl: 0x35e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xba99,
+        iy: 0xbd98,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9c);
+    poke(0x0003, 0xc5);
+    poke(0xba35, 0x20);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xddfd,
+        bc: 0x64d4,
+        de: 0x2671,
+        hl: 0x3521,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xba99,
+        iy: 0xbd98,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(47669), equals(0x21));
+  }, tags: 'undocumented');
+
   // Test instruction ddcbc6 | SET 0, (IX+*)
   test(
       "OPCODE "
@@ -27287,6 +39534,366 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(43760), equals(0xb9));
   });
+
+  // Test instruction ddcbc7 | SET 0, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc7 | SET 0, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa254,
+        bc: 0x9e56,
+        de: 0x6828,
+        hl: 0x3189,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x64cb,
+        iy: 0xdfad,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf8);
+    poke(0x0003, 0xc7);
+    poke(0x64c3, 0x94);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9554,
+        bc: 0x9e56,
+        de: 0x6828,
+        hl: 0x3189,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x64cb,
+        iy: 0xdfad,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(25795), equals(0x95));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbc8 | SET 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc8 | SET 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8aca,
+        bc: 0x139e,
+        de: 0xe652,
+        hl: 0x248b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6e7a,
+        iy: 0x189a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x65);
+    poke(0x0003, 0xc8);
+    poke(0x6edf, 0x8f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8aca,
+        bc: 0x8f9e,
+        de: 0xe652,
+        hl: 0x248b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6e7a,
+        iy: 0x189a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbc9 | SET 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbc9 | SET 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf15f,
+        bc: 0x856e,
+        de: 0xa21f,
+        hl: 0x8a59,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb670,
+        iy: 0x4f79,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xfb);
+    poke(0x0003, 0xc9);
+    poke(0xb66b, 0xb9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf15f,
+        bc: 0x85bb,
+        de: 0xa21f,
+        hl: 0x8a59,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb670,
+        iy: 0x4f79,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(46699), equals(0xbb));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbca | SET 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbca | SET 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdfab,
+        bc: 0xa031,
+        de: 0x1d78,
+        hl: 0xad3a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa887,
+        iy: 0x7334,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8a);
+    poke(0x0003, 0xca);
+    poke(0xa811, 0x7e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdfab,
+        bc: 0xa031,
+        de: 0x7e78,
+        hl: 0xad3a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa887,
+        iy: 0x7334,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbcb | SET 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbcb | SET 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xebd6,
+        bc: 0x376e,
+        de: 0xc346,
+        hl: 0xb10c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa447,
+        iy: 0x31d6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa4);
+    poke(0x0003, 0xcb);
+    poke(0xa3eb, 0x73);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xebd6,
+        bc: 0x376e,
+        de: 0xc373,
+        hl: 0xb10c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa447,
+        iy: 0x31d6,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbcc | SET 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbcc | SET 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0212,
+        bc: 0xdc46,
+        de: 0x8f41,
+        hl: 0x854e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1f5a,
+        iy: 0x07ca,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x65);
+    poke(0x0003, 0xcc);
+    poke(0x1fbf, 0x72);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0212,
+        bc: 0xdc46,
+        de: 0x8f41,
+        hl: 0x724e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1f5a,
+        iy: 0x07ca,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbcd | SET 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbcd | SET 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3344,
+        bc: 0xd73c,
+        de: 0xd6b8,
+        hl: 0x929d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5376,
+        iy: 0x6d3a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe9);
+    poke(0x0003, 0xcd);
+    poke(0x535f, 0x1c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3344,
+        bc: 0xd73c,
+        de: 0xd6b8,
+        hl: 0x921e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5376,
+        iy: 0x6d3a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(21343), equals(0x1e));
+  }, tags: 'undocumented');
 
   // Test instruction ddcbce | SET 1, (IX+*)
   test(
@@ -27340,6 +39947,367 @@ void main() {
     expect(peek(664), equals(0x12));
   });
 
+  // Test instruction ddcbcf | SET 1, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbcf | SET 1, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x53e8,
+        bc: 0xd379,
+        de: 0x87d5,
+        hl: 0x10b0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc5d0,
+        iy: 0x4f7f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe2);
+    poke(0x0003, 0xcf);
+    poke(0xc5b2, 0xb5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb7e8,
+        bc: 0xd379,
+        de: 0x87d5,
+        hl: 0x10b0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc5d0,
+        iy: 0x4f7f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(50610), equals(0xb7));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbd0 | SET 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd0 | SET 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3278,
+        bc: 0x6114,
+        de: 0xd25d,
+        hl: 0x1cf8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xad43,
+        iy: 0x99fc,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7f);
+    poke(0x0003, 0xd0);
+    poke(0xadc2, 0x51);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3278,
+        bc: 0x5514,
+        de: 0xd25d,
+        hl: 0x1cf8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xad43,
+        iy: 0x99fc,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(44482), equals(0x55));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbd1 | SET 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd1 | SET 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc0b8,
+        bc: 0x371a,
+        de: 0x6472,
+        hl: 0xd92d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x10b2,
+        iy: 0x3074,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa6);
+    poke(0x0003, 0xd1);
+    poke(0x1058, 0x2c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc0b8,
+        bc: 0x372c,
+        de: 0x6472,
+        hl: 0xd92d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x10b2,
+        iy: 0x3074,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbd2 | SET 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd2 | SET 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5bb6,
+        bc: 0xcaa8,
+        de: 0xe0db,
+        hl: 0xaf84,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb9a1,
+        iy: 0x7b5f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9c);
+    poke(0x0003, 0xd2);
+    poke(0xb93d, 0x9c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5bb6,
+        bc: 0xcaa8,
+        de: 0x9cdb,
+        hl: 0xaf84,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb9a1,
+        iy: 0x7b5f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbd3 | SET 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd3 | SET 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdb6a,
+        bc: 0x4fe2,
+        de: 0x9e52,
+        hl: 0xa034,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xda36,
+        iy: 0x88a0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbd);
+    poke(0x0003, 0xd3);
+    poke(0xd9f3, 0x60);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdb6a,
+        bc: 0x4fe2,
+        de: 0x9e64,
+        hl: 0xa034,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xda36,
+        iy: 0x88a0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(55795), equals(0x64));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbd4 | SET 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd4 | SET 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xcc1c,
+        bc: 0xb884,
+        de: 0x6ad2,
+        hl: 0x1621,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xef26,
+        iy: 0x41de,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x58);
+    poke(0x0003, 0xd4);
+    poke(0xef7e, 0x5e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcc1c,
+        bc: 0xb884,
+        de: 0x6ad2,
+        hl: 0x5e21,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xef26,
+        iy: 0x41de,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbd5 | SET 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd5 | SET 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc41d,
+        bc: 0xc8b0,
+        de: 0xcacb,
+        hl: 0x7687,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8dbc,
+        iy: 0xcc25,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x41);
+    poke(0x0003, 0xd5);
+    poke(0x8dfd, 0x71);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc41d,
+        bc: 0xc8b0,
+        de: 0xcacb,
+        hl: 0x7675,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8dbc,
+        iy: 0xcc25,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(36349), equals(0x75));
+  }, tags: 'undocumented');
+
   // Test instruction ddcbd6 | SET 2, (IX+*)
   test(
       "OPCODE "
@@ -27392,6 +40360,369 @@ void main() {
     expect(peek(24301), equals(0x77));
   });
 
+  // Test instruction ddcbd7 | SET 2, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd7 | SET 2, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x241b,
+        bc: 0xee10,
+        de: 0xc152,
+        hl: 0x2f6d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe725,
+        iy: 0xc0d7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x80);
+    poke(0x0003, 0xd7);
+    poke(0xe6a5, 0x60);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x641b,
+        bc: 0xee10,
+        de: 0xc152,
+        hl: 0x2f6d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe725,
+        iy: 0xc0d7,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(59045), equals(0x64));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbd8 | SET 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd8 | SET 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe3dc,
+        bc: 0x1981,
+        de: 0xc97b,
+        hl: 0xcb42,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb30f,
+        iy: 0xb32a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4c);
+    poke(0x0003, 0xd8);
+    poke(0xb35b, 0x96);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe3dc,
+        bc: 0x9e81,
+        de: 0xc97b,
+        hl: 0xcb42,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb30f,
+        iy: 0xb32a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(45915), equals(0x9e));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbd9 | SET 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbd9 | SET 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe9a0,
+        bc: 0xa7c7,
+        de: 0xa476,
+        hl: 0x6057,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2642,
+        iy: 0x58a0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x52);
+    poke(0x0003, 0xd9);
+    poke(0x2694, 0xef);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe9a0,
+        bc: 0xa7ef,
+        de: 0xa476,
+        hl: 0x6057,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2642,
+        iy: 0x58a0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbda | SET 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbda | SET 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6787,
+        bc: 0x26a7,
+        de: 0xa194,
+        hl: 0x11d3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2d76,
+        iy: 0x7f80,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xea);
+    poke(0x0003, 0xda);
+    poke(0x2d60, 0x82);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6787,
+        bc: 0x26a7,
+        de: 0x8a94,
+        hl: 0x11d3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2d76,
+        iy: 0x7f80,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(11616), equals(0x8a));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbdb | SET 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbdb | SET 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf986,
+        bc: 0x6a4b,
+        de: 0x6588,
+        hl: 0xd2c8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2b7d,
+        iy: 0x5847,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4d);
+    poke(0x0003, 0xdb);
+    poke(0x2bca, 0x10);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf986,
+        bc: 0x6a4b,
+        de: 0x6518,
+        hl: 0xd2c8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2b7d,
+        iy: 0x5847,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(11210), equals(0x18));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbdc | SET 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbdc | SET 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4c9e,
+        bc: 0xd94d,
+        de: 0x9760,
+        hl: 0xb707,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7ed4,
+        iy: 0x5cc5,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd3);
+    poke(0x0003, 0xdc);
+    poke(0x7ea7, 0x45);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4c9e,
+        bc: 0xd94d,
+        de: 0x9760,
+        hl: 0x4d07,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7ed4,
+        iy: 0x5cc5,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(32423), equals(0x4d));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbdd | SET 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbdd | SET 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4b3b,
+        bc: 0xd351,
+        de: 0x9be9,
+        hl: 0x2310,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x58c1,
+        iy: 0xe430,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x6f);
+    poke(0x0003, 0xdd);
+    poke(0x5930, 0x20);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4b3b,
+        bc: 0xd351,
+        de: 0x9be9,
+        hl: 0x2328,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x58c1,
+        iy: 0xe430,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(22832), equals(0x28));
+  }, tags: 'undocumented');
+
   // Test instruction ddcbde | SET 3, (IX+*)
   test(
       "OPCODE "
@@ -27442,6 +40773,366 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction ddcbdf | SET 3, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbdf | SET 3, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4c8a,
+        bc: 0x5b42,
+        de: 0x50dd,
+        hl: 0x4be0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd227,
+        iy: 0x4913,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xef);
+    poke(0x0003, 0xdf);
+    poke(0xd216, 0x72);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7a8a,
+        bc: 0x5b42,
+        de: 0x50dd,
+        hl: 0x4be0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd227,
+        iy: 0x4913,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(53782), equals(0x7a));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbe0 | SET 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe0 | SET 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x440a,
+        bc: 0x713d,
+        de: 0xacfc,
+        hl: 0xf762,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1c4b,
+        iy: 0xb6ba,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x62);
+    poke(0x0003, 0xe0);
+    poke(0x1cad, 0x46);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x440a,
+        bc: 0x563d,
+        de: 0xacfc,
+        hl: 0xf762,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1c4b,
+        iy: 0xb6ba,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(7341), equals(0x56));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbe1 | SET 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe1 | SET 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc219,
+        bc: 0xaa6b,
+        de: 0xdfbf,
+        hl: 0x6f10,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb931,
+        iy: 0xd3d6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2e);
+    poke(0x0003, 0xe1);
+    poke(0xb95f, 0x75);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc219,
+        bc: 0xaa75,
+        de: 0xdfbf,
+        hl: 0x6f10,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb931,
+        iy: 0xd3d6,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbe2 | SET 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe2 | SET 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x66d7,
+        bc: 0xabd0,
+        de: 0xcb48,
+        hl: 0x8054,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xef50,
+        iy: 0x9997,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x85);
+    poke(0x0003, 0xe2);
+    poke(0xeed5, 0x72);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x66d7,
+        bc: 0xabd0,
+        de: 0x7248,
+        hl: 0x8054,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xef50,
+        iy: 0x9997,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbe3 | SET 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe3 | SET 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7013,
+        bc: 0xe7ed,
+        de: 0x7e1c,
+        hl: 0x57fb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7ec6,
+        iy: 0x75eb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf4);
+    poke(0x0003, 0xe3);
+    poke(0x7eba, 0x34);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7013,
+        bc: 0xe7ed,
+        de: 0x7e34,
+        hl: 0x57fb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7ec6,
+        iy: 0x75eb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbe4 | SET 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe4 | SET 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1108,
+        bc: 0x6e70,
+        de: 0xf0af,
+        hl: 0x2f0c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x95c7,
+        iy: 0x6501,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbf);
+    poke(0x0003, 0xe4);
+    poke(0x9586, 0x34);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1108,
+        bc: 0x6e70,
+        de: 0xf0af,
+        hl: 0x340c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x95c7,
+        iy: 0x6501,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbe5 | SET 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe5 | SET 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x57cc,
+        bc: 0x5511,
+        de: 0x2696,
+        hl: 0xb83d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6ab0,
+        iy: 0x0e90,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf2);
+    poke(0x0003, 0xe5);
+    poke(0x6aa2, 0x2e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x57cc,
+        bc: 0x5511,
+        de: 0x2696,
+        hl: 0xb83e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6ab0,
+        iy: 0x0e90,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(27298), equals(0x3e));
+  }, tags: 'undocumented');
 
   // Test instruction ddcbe6 | SET 4, (IX+*)
   test(
@@ -27495,6 +41186,367 @@ void main() {
     expect(peek(55435), equals(0x5c));
   });
 
+  // Test instruction ddcbe7 | SET 4, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe7 | SET 4, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc3c5,
+        bc: 0x7fa9,
+        de: 0x4e07,
+        hl: 0xe02d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2a1b,
+        iy: 0x55b7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf3);
+    poke(0x0003, 0xe7);
+    poke(0x2a0e, 0xeb);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfbc5,
+        bc: 0x7fa9,
+        de: 0x4e07,
+        hl: 0xe02d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2a1b,
+        iy: 0x55b7,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(10766), equals(0xfb));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbe8 | SET 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe8 | SET 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6d1c,
+        bc: 0xa0c4,
+        de: 0x93f0,
+        hl: 0xa0b4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4bda,
+        iy: 0x7761,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf2);
+    poke(0x0003, 0xe8);
+    poke(0x4bcc, 0xba);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6d1c,
+        bc: 0xbac4,
+        de: 0x93f0,
+        hl: 0xa0b4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4bda,
+        iy: 0x7761,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbe9 | SET 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbe9 | SET 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xebe5,
+        bc: 0x0c2c,
+        de: 0x1a2a,
+        hl: 0x2720,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x72dd,
+        iy: 0xa354,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8a);
+    poke(0x0003, 0xe9);
+    poke(0x7267, 0x0a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xebe5,
+        bc: 0x0c2a,
+        de: 0x1a2a,
+        hl: 0x2720,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x72dd,
+        iy: 0xa354,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(29287), equals(0x2a));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbea | SET 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbea | SET 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x42d2,
+        bc: 0xda7a,
+        de: 0x757f,
+        hl: 0x6da6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa7e9,
+        iy: 0xb933,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x04);
+    poke(0x0003, 0xea);
+    poke(0xa7ed, 0x5f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x42d2,
+        bc: 0xda7a,
+        de: 0x7f7f,
+        hl: 0x6da6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa7e9,
+        iy: 0xb933,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(42989), equals(0x7f));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbeb | SET 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbeb | SET 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe945,
+        bc: 0x10aa,
+        de: 0xf5f8,
+        hl: 0x7647,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x16df,
+        iy: 0x93fb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x24);
+    poke(0x0003, 0xeb);
+    poke(0x1703, 0xf3);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe945,
+        bc: 0x10aa,
+        de: 0xf5f3,
+        hl: 0x7647,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x16df,
+        iy: 0x93fb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbec | SET 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbec | SET 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7180,
+        bc: 0xbc85,
+        de: 0x7dd3,
+        hl: 0xf467,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdd88,
+        iy: 0x6a41,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x60);
+    poke(0x0003, 0xec);
+    poke(0xdde8, 0x00);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7180,
+        bc: 0xbc85,
+        de: 0x7dd3,
+        hl: 0x2067,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdd88,
+        iy: 0x6a41,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(56808), equals(0x20));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbed | SET 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbed | SET 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6b2f,
+        bc: 0x9762,
+        de: 0x1f0a,
+        hl: 0xdb61,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf772,
+        iy: 0x33e3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbe);
+    poke(0x0003, 0xed);
+    poke(0xf730, 0x6b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6b2f,
+        bc: 0x9762,
+        de: 0x1f0a,
+        hl: 0xdb6b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf772,
+        iy: 0x33e3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction ddcbee | SET 5, (IX+*)
   test(
       "OPCODE "
@@ -27545,6 +41597,366 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction ddcbef | SET 5, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbef | SET 5, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x46c3,
+        bc: 0x2fc2,
+        de: 0x8690,
+        hl: 0xa836,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcc68,
+        iy: 0xa8ce,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x30);
+    poke(0x0003, 0xef);
+    poke(0xcc98, 0x11);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x31c3,
+        bc: 0x2fc2,
+        de: 0x8690,
+        hl: 0xa836,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcc68,
+        iy: 0xa8ce,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(52376), equals(0x31));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbf0 | SET 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf0 | SET 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb330,
+        bc: 0x4469,
+        de: 0x362b,
+        hl: 0xb515,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x13c0,
+        iy: 0x6479,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2f);
+    poke(0x0003, 0xf0);
+    poke(0x13ef, 0xad);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb330,
+        bc: 0xed69,
+        de: 0x362b,
+        hl: 0xb515,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x13c0,
+        iy: 0x6479,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(5103), equals(0xed));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbf1 | SET 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf1 | SET 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x94c0,
+        bc: 0x9ab0,
+        de: 0xa0fd,
+        hl: 0x7c1d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x47ba,
+        iy: 0x8c81,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x40);
+    poke(0x0003, 0xf1);
+    poke(0x47fa, 0x78);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x94c0,
+        bc: 0x9a78,
+        de: 0xa0fd,
+        hl: 0x7c1d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x47ba,
+        iy: 0x8c81,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbf2 | SET 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf2 | SET 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5302,
+        bc: 0x9204,
+        de: 0x20ec,
+        hl: 0xd640,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc947,
+        iy: 0x4ef1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0f);
+    poke(0x0003, 0xf2);
+    poke(0xc956, 0x21);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5302,
+        bc: 0x9204,
+        de: 0x61ec,
+        hl: 0xd640,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc947,
+        iy: 0x4ef1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(51542), equals(0x61));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbf3 | SET 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf3 | SET 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9950,
+        bc: 0xa3d2,
+        de: 0x5058,
+        hl: 0x5ccc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1d96,
+        iy: 0x7c75,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x06);
+    poke(0x0003, 0xf3);
+    poke(0x1d9c, 0xe4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9950,
+        bc: 0xa3d2,
+        de: 0x50e4,
+        hl: 0x5ccc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1d96,
+        iy: 0x7c75,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbf4 | SET 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf4 | SET 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3712,
+        bc: 0x1f99,
+        de: 0x4863,
+        hl: 0x47de,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1702,
+        iy: 0xc042,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3b);
+    poke(0x0003, 0xf4);
+    poke(0x173d, 0xe1);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3712,
+        bc: 0x1f99,
+        de: 0x4863,
+        hl: 0xe1de,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1702,
+        iy: 0xc042,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbf5 | SET 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf5 | SET 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd83f,
+        bc: 0x1ec9,
+        de: 0xd0da,
+        hl: 0x4173,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeb3f,
+        iy: 0x1ead,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x64);
+    poke(0x0003, 0xf5);
+    poke(0xeba3, 0xc5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd83f,
+        bc: 0x1ec9,
+        de: 0xd0da,
+        hl: 0x41c5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeb3f,
+        iy: 0x1ead,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
 
   // Test instruction ddcbf6 | SET 6, (IX+*)
   test(
@@ -27598,6 +42010,368 @@ void main() {
     expect(peek(56533), equals(0xe2));
   });
 
+  // Test instruction ddcbf7 | SET 6, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf7 | SET 6, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfe40,
+        bc: 0x7887,
+        de: 0xb9de,
+        hl: 0xc013,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x301e,
+        iy: 0x9710,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc3);
+    poke(0x0003, 0xf7);
+    poke(0x2fe1, 0xa9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe940,
+        bc: 0x7887,
+        de: 0xb9de,
+        hl: 0xc013,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x301e,
+        iy: 0x9710,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(12257), equals(0xe9));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbf8 | SET 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf8 | SET 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8278,
+        bc: 0x21a4,
+        de: 0x1e5c,
+        hl: 0x4952,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x427f,
+        iy: 0x41e1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x59);
+    poke(0x0003, 0xf8);
+    poke(0x42d8, 0x28);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8278,
+        bc: 0xa8a4,
+        de: 0x1e5c,
+        hl: 0x4952,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x427f,
+        iy: 0x41e1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(17112), equals(0xa8));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbf9 | SET 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbf9 | SET 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb2df,
+        bc: 0xe9b8,
+        de: 0x56c3,
+        hl: 0x16ff,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd88f,
+        iy: 0x0bab,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x55);
+    poke(0x0003, 0xf9);
+    poke(0xd8e4, 0x14);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb2df,
+        bc: 0xe994,
+        de: 0x56c3,
+        hl: 0x16ff,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd88f,
+        iy: 0x0bab,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(55524), equals(0x94));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbfa | SET 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbfa | SET 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x01f1,
+        bc: 0xbc0d,
+        de: 0xd476,
+        hl: 0x1510,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9420,
+        iy: 0x93a3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x74);
+    poke(0x0003, 0xfa);
+    poke(0x9494, 0xfe);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x01f1,
+        bc: 0xbc0d,
+        de: 0xfe76,
+        hl: 0x1510,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9420,
+        iy: 0x93a3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbfb | SET 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbfb | SET 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x709b,
+        bc: 0x14eb,
+        de: 0xec1c,
+        hl: 0xb844,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3453,
+        iy: 0xf2b0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xaf);
+    poke(0x0003, 0xfb);
+    poke(0x3402, 0x02);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x709b,
+        bc: 0x14eb,
+        de: 0xec82,
+        hl: 0xb844,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3453,
+        iy: 0xf2b0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(13314), equals(0x82));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbfc | SET 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbfc | SET 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6c89,
+        bc: 0xa96e,
+        de: 0xd27b,
+        hl: 0xd6a7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6139,
+        iy: 0xb4c1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa1);
+    poke(0x0003, 0xfc);
+    poke(0x60da, 0x10);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6c89,
+        bc: 0xa96e,
+        de: 0xd27b,
+        hl: 0x90a7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6139,
+        iy: 0xb4c1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(24794), equals(0x90));
+  }, tags: 'undocumented');
+
+  // Test instruction ddcbfd | SET 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbfd | SET 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfb3f,
+        bc: 0x83f6,
+        de: 0x2094,
+        hl: 0x3349,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3ed0,
+        iy: 0x6f0e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x28);
+    poke(0x0003, 0xfd);
+    poke(0x3ef8, 0xc2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfb3f,
+        bc: 0x83f6,
+        de: 0x2094,
+        hl: 0x33c2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3ed0,
+        iy: 0x6f0e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction ddcbfe | SET 7, (IX+*)
   test(
       "OPCODE "
@@ -27648,6 +42422,58 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction ddcbff | SET 7, (IX+*)
+  test(
+      "UNDOCUMENTED "
+      "ddcbff | SET 7, (IX+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe666,
+        bc: 0x94d2,
+        de: 0xac90,
+        hl: 0x8f45,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0655,
+        iy: 0xba29,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd3);
+    poke(0x0003, 0xff);
+    poke(0x0628, 0x2b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xab66,
+        bc: 0x94d2,
+        de: 0xac90,
+        hl: 0x8f45,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0655,
+        iy: 0xba29,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(1576), equals(0xab));
+  }, tags: 'undocumented');
 
   // Test instruction dde1 | POP IX
   test(
@@ -27896,6 +42722,56 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 10);
   });
+
+  // Test instruction ddfd00 | <UNKNOWN>
+  test(
+      "UNDOCUMENTED "
+      "ddfd00", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0000,
+        bc: 0x0000,
+        de: 0x0000,
+        hl: 0x0000,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xdd);
+    poke(0x0001, 0xfd);
+    poke(0x0002, 0x00);
+    poke(0x0003, 0x00);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 13) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0000,
+        bc: 0x0000,
+        de: 0x0000,
+        hl: 0x0000,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0000,
+        iy: 0x0000,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x04, iff1: false, iff2: false, tStates: 16);
+  }, tags: 'undocumented');
 
   // Test instruction de | SBC A, *
   test(
@@ -35651,6 +50527,151 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 10);
   });
 
+  // Test instruction fd24 | INC IYH
+  test(
+      "UNDOCUMENTED "
+      "fd24 | INC IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5554,
+        bc: 0x9684,
+        de: 0xd36a,
+        hl: 0xdac3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7803,
+        iy: 0x6434,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x24);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5520,
+        bc: 0x9684,
+        de: 0xd36a,
+        hl: 0xdac3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7803,
+        iy: 0x6534,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd25 | <UNKNOWN>
+  test(
+      "UNDOCUMENTED "
+      "fd25", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xcd0b,
+        bc: 0xb5e4,
+        de: 0xa754,
+        hl: 0x9526,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3dcb,
+        iy: 0x03b2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x25);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcd03,
+        bc: 0xb5e4,
+        de: 0xa754,
+        hl: 0x9526,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3dcb,
+        iy: 0x02b2,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd26 | LD IYH, *
+  test(
+      "UNDOCUMENTED "
+      "fd26 | LD IYH, *", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2452,
+        bc: 0x300b,
+        de: 0xb4a1,
+        hl: 0x929d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc259,
+        iy: 0x3f30,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x26);
+    poke(0x0002, 0x77);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2452,
+        bc: 0x300b,
+        de: 0xb4a1,
+        hl: 0x929d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc259,
+        iy: 0x7730,
+        sp: 0x0000,
+        pc: 0x0003);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 11);
+  }, tags: 'undocumented');
+
   // Test instruction fd29 | ADD IY, IY
   test(
       "OPCODE "
@@ -35798,6 +50819,151 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 10);
   });
+
+  // Test instruction fd2c | INC IYL
+  test(
+      "UNDOCUMENTED "
+      "fd2c | INC IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x665d,
+        bc: 0x0ab1,
+        de: 0x5656,
+        hl: 0xe5a9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5fb9,
+        iy: 0x4df7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x2c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x66a9,
+        bc: 0x0ab1,
+        de: 0x5656,
+        hl: 0xe5a9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5fb9,
+        iy: 0x4df8,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd2d | <UNKNOWN>
+  test(
+      "UNDOCUMENTED "
+      "fd2d", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x32fb,
+        bc: 0xf78a,
+        de: 0xb906,
+        hl: 0x31d0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc72a,
+        iy: 0xe91c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x2d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x320b,
+        bc: 0xf78a,
+        de: 0xb906,
+        hl: 0x31d0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc72a,
+        iy: 0xe91b,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd2e | LD IXL, *
+  test(
+      "UNDOCUMENTED "
+      "fd2e | LD IXL, *", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2114,
+        bc: 0x4923,
+        de: 0x6e65,
+        hl: 0x006c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xda39,
+        iy: 0xc0cb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x2e);
+    poke(0x0002, 0x49);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2114,
+        bc: 0x4923,
+        de: 0x6e65,
+        hl: 0x006c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xda39,
+        iy: 0xc049,
+        sp: 0x0000,
+        pc: 0x0003);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 11);
+  }, tags: 'undocumented');
 
   // Test instruction fd34 | INC (IY+*)
   test(
@@ -36000,6 +51166,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 15);
   });
 
+  // Test instruction fd44 | LD B, IYH
+  test(
+      "UNDOCUMENTED "
+      "fd44 | LD B, IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0e58,
+        bc: 0x7192,
+        de: 0x3580,
+        hl: 0x9be4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1b79,
+        iy: 0x685e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0e58,
+        bc: 0x6892,
+        de: 0x3580,
+        hl: 0x9be4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1b79,
+        iy: 0x685e,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd45 | LD B, IYL
+  test(
+      "UNDOCUMENTED "
+      "fd45 | LD B, IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6555,
+        bc: 0xa488,
+        de: 0x5ae8,
+        hl: 0xc948,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd7b8,
+        iy: 0xa177,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x45);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6555,
+        bc: 0x7788,
+        de: 0x5ae8,
+        hl: 0xc948,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd7b8,
+        iy: 0xa177,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fd46 | LD B, (IY+*)
   test(
       "OPCODE "
@@ -36049,6 +51311,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction fd4c | LD C, IYH
+  test(
+      "UNDOCUMENTED "
+      "fd4c | LD C, IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7e6b,
+        bc: 0xbd4b,
+        de: 0x24b6,
+        hl: 0xff94,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x862d,
+        iy: 0x01d0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x4c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7e6b,
+        bc: 0xbd01,
+        de: 0x24b6,
+        hl: 0xff94,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x862d,
+        iy: 0x01d0,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd4d | LD C, IYL
+  test(
+      "UNDOCUMENTED "
+      "fd4d | LD C, IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x50cf,
+        bc: 0xe3fe,
+        de: 0x998e,
+        hl: 0xdba2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc4f5,
+        iy: 0xc7c9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x4d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x50cf,
+        bc: 0xe3c9,
+        de: 0x998e,
+        hl: 0xdba2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc4f5,
+        iy: 0xc7c9,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction fd4e | LD C, (IY+*)
   test(
@@ -36100,6 +51458,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction fd54 | LD D, IYH
+  test(
+      "UNDOCUMENTED "
+      "fd54 | LD D, IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd7f9,
+        bc: 0xf65b,
+        de: 0xb001,
+        hl: 0xd4c4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4b8e,
+        iy: 0xd437,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x54);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd7f9,
+        bc: 0xf65b,
+        de: 0xd401,
+        hl: 0xd4c4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4b8e,
+        iy: 0xd437,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd55 | LD D, IYL
+  test(
+      "UNDOCUMENTED "
+      "fd55 | LD D, IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xab98,
+        bc: 0xfdab,
+        de: 0x254a,
+        hl: 0x010e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x126b,
+        iy: 0x13a9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x55);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xab98,
+        bc: 0xfdab,
+        de: 0xa94a,
+        hl: 0x010e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x126b,
+        iy: 0x13a9,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fd56 | LD D, (IY+*)
   test(
       "OPCODE "
@@ -36149,6 +51603,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction fd5c | LD E, IYH
+  test(
+      "UNDOCUMENTED "
+      "fd5c | LD E, IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x11d5,
+        bc: 0xc489,
+        de: 0xe220,
+        hl: 0x434e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3244,
+        iy: 0xd8bb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x5c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x11d5,
+        bc: 0xc489,
+        de: 0xe2d8,
+        hl: 0x434e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3244,
+        iy: 0xd8bb,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd5d | LD E, IYL
+  test(
+      "UNDOCUMENTED "
+      "fd5d | LD E, IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe945,
+        bc: 0xdbae,
+        de: 0x32ea,
+        hl: 0x4f7e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfa56,
+        iy: 0x074e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x5d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe945,
+        bc: 0xdbae,
+        de: 0x324e,
+        hl: 0x4f7e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfa56,
+        iy: 0x074e,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction fd5e | LD E, (IY+*)
   test(
@@ -36200,6 +51750,294 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction fd60 | LD IYH, B
+  test(
+      "UNDOCUMENTED "
+      "fd60 | LD IYH, B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8579,
+        bc: 0x005d,
+        de: 0xd9ee,
+        hl: 0xfaee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x382d,
+        iy: 0x2f95,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x60);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8579,
+        bc: 0x005d,
+        de: 0xd9ee,
+        hl: 0xfaee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x382d,
+        iy: 0x0095,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd61 | LD IYH, C
+  test(
+      "UNDOCUMENTED "
+      "fd61 | LD IYH, C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5682,
+        bc: 0xdbc3,
+        de: 0xb495,
+        hl: 0x9799,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x85b2,
+        iy: 0x3c1e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x61);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5682,
+        bc: 0xdbc3,
+        de: 0xb495,
+        hl: 0x9799,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x85b2,
+        iy: 0xc31e,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd62 | LD IYH, D
+  test(
+      "UNDOCUMENTED "
+      "fd62 | LD IYH, D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x906b,
+        bc: 0xf52e,
+        de: 0xf3d8,
+        hl: 0x1e8c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xddba,
+        iy: 0x9a02,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x62);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x906b,
+        bc: 0xf52e,
+        de: 0xf3d8,
+        hl: 0x1e8c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xddba,
+        iy: 0xf302,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd63 | LD IYH, E
+  test(
+      "UNDOCUMENTED "
+      "fd63 | LD IYH, E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9d59,
+        bc: 0xbeb9,
+        de: 0xd826,
+        hl: 0x0eaa,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4290,
+        iy: 0xa4b9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x63);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9d59,
+        bc: 0xbeb9,
+        de: 0xd826,
+        hl: 0x0eaa,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4290,
+        iy: 0x26b9,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd64 | LD IYH, H
+  test(
+      "UNDOCUMENTED "
+      "fd64 | LD IYH, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7b0e,
+        bc: 0xe394,
+        de: 0x8a25,
+        hl: 0xcddf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9784,
+        iy: 0x2116,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x64);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7b0e,
+        bc: 0xe394,
+        de: 0x8a25,
+        hl: 0xcddf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9784,
+        iy: 0x2116,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd65 | LD IYH, L
+  test(
+      "UNDOCUMENTED "
+      "fd65 | LD IYH, L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb827,
+        bc: 0xeb4f,
+        de: 0xf666,
+        hl: 0xc52a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6206,
+        iy: 0x831f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x65);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb827,
+        bc: 0xeb4f,
+        de: 0xf666,
+        hl: 0xc52a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6206,
+        iy: 0x1f1f,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fd66 | LD H, (IY+*)
   test(
       "OPCODE "
@@ -36250,6 +52088,342 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction fd67 | LD IYH, A
+  test(
+      "UNDOCUMENTED "
+      "fd67 | LD IYH, A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdb7a,
+        bc: 0xb40b,
+        de: 0x7b58,
+        hl: 0x49fd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x266f,
+        iy: 0x9e7b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x67);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdb7a,
+        bc: 0xb40b,
+        de: 0x7b58,
+        hl: 0x49fd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x266f,
+        iy: 0xdb7b,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd68 | LD IYL, B
+  test(
+      "UNDOCUMENTED "
+      "fd68 | LD IYL, B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4d1d,
+        bc: 0x4fd9,
+        de: 0x783e,
+        hl: 0x0745,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0c3d,
+        iy: 0x82b5,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x68);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4d1d,
+        bc: 0x4fd9,
+        de: 0x783e,
+        hl: 0x0745,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0c3d,
+        iy: 0x824f,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd69 | LD IYL, C
+  test(
+      "UNDOCUMENTED "
+      "fd69 | LD IYL, C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1589,
+        bc: 0x5ceb,
+        de: 0xb5db,
+        hl: 0x922a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3c3a,
+        iy: 0xdc98,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x69);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1589,
+        bc: 0x5ceb,
+        de: 0xb5db,
+        hl: 0x922a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3c3a,
+        iy: 0xdceb,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd6a | LD IYL, D
+  test(
+      "UNDOCUMENTED "
+      "fd6a | LD IYL, D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x607a,
+        bc: 0xe035,
+        de: 0x5bb9,
+        hl: 0xdac0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfc04,
+        iy: 0xb5b7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x6a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x607a,
+        bc: 0xe035,
+        de: 0x5bb9,
+        hl: 0xdac0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfc04,
+        iy: 0xb55b,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd6b | LD IYL, E
+  test(
+      "UNDOCUMENTED "
+      "fd6b | LD IYL, E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdb2a,
+        bc: 0xe244,
+        de: 0x1182,
+        hl: 0x096f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x198e,
+        iy: 0x91a6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x6b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdb2a,
+        bc: 0xe244,
+        de: 0x1182,
+        hl: 0x096f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x198e,
+        iy: 0x9182,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd6c | LD IYL, H
+  test(
+      "UNDOCUMENTED "
+      "fd6c | LD IYL, H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa0be,
+        bc: 0x34ef,
+        de: 0x8fcd,
+        hl: 0x40a7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4481,
+        iy: 0xc215,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x6c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa0be,
+        bc: 0x34ef,
+        de: 0x8fcd,
+        hl: 0x40a7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4481,
+        iy: 0xc2c2,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd6d | LD IYL, L
+  test(
+      "UNDOCUMENTED "
+      "fd6d | LD IYL, L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfdfc,
+        bc: 0x727a,
+        de: 0xb839,
+        hl: 0x50a6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe782,
+        iy: 0x02e5,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x6d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfdfc,
+        bc: 0x727a,
+        de: 0xb839,
+        hl: 0x50a6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe782,
+        iy: 0x02e5,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fd6e | LD L, (IY+*)
   test(
       "OPCODE "
@@ -36299,6 +52473,54 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction fd6f | LD IYL, A
+  test(
+      "UNDOCUMENTED "
+      "fd6f | LD IYL, A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8e1d,
+        bc: 0xa138,
+        de: 0xf20a,
+        hl: 0x298e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb600,
+        iy: 0x0cf7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x6f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8e1d,
+        bc: 0xa138,
+        de: 0xf20a,
+        hl: 0x298e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb600,
+        iy: 0x0c8e,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction fd70 | LD (IY+*), B
   test(
@@ -36650,6 +52872,102 @@ void main() {
     expect(peek(27460), equals(0x6f));
   });
 
+  // Test instruction fd7c | LD A, IYH
+  test(
+      "UNDOCUMENTED "
+      "fd7c | LD A, IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf228,
+        bc: 0x93fc,
+        de: 0xa3d4,
+        hl: 0xdc9e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x21ac,
+        iy: 0xc617,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x7c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc628,
+        bc: 0x93fc,
+        de: 0xa3d4,
+        hl: 0xdc9e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x21ac,
+        iy: 0xc617,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd7d | LD A, IYL
+  test(
+      "UNDOCUMENTED "
+      "fd7d | LD A, IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x93e5,
+        bc: 0x3cbe,
+        de: 0x02c3,
+        hl: 0x26c2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xca81,
+        iy: 0x92b9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x7d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb9e5,
+        bc: 0x3cbe,
+        de: 0x02c3,
+        hl: 0x26c2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xca81,
+        iy: 0x92b9,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fd7e | LD A, (IY+*)
   test(
       "OPCODE "
@@ -36699,6 +53017,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction fd84 | ADD A, IYH
+  test(
+      "UNDOCUMENTED "
+      "fd84 | ADD A, IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbfba,
+        bc: 0x7cae,
+        de: 0xc4da,
+        hl: 0x7aee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x43ee,
+        iy: 0xc08e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x84);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7f2d,
+        bc: 0x7cae,
+        de: 0xc4da,
+        hl: 0x7aee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x43ee,
+        iy: 0xc08e,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd85 | ADD A, IYL
+  test(
+      "UNDOCUMENTED "
+      "fd85 | ADD A, IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x52dd,
+        bc: 0x1dea,
+        de: 0x324f,
+        hl: 0x84e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe7a8,
+        iy: 0xf799,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x85);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xeba8,
+        bc: 0x1dea,
+        de: 0x324f,
+        hl: 0x84e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe7a8,
+        iy: 0xf799,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction fd86 | ADD A, (IY+*)
   test(
@@ -36750,6 +53164,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction fd8c | ADC A, IYH
+  test(
+      "UNDOCUMENTED "
+      "fd8c | ADC A, IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfd9c,
+        bc: 0x42b1,
+        de: 0x5e8a,
+        hl: 0x081c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcb58,
+        iy: 0x3b4e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x8c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3839,
+        bc: 0x42b1,
+        de: 0x5e8a,
+        hl: 0x081c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcb58,
+        iy: 0x3b4e,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd8d | ADC A, IYL
+  test(
+      "UNDOCUMENTED "
+      "fd8d | ADC A, IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9301,
+        bc: 0x7750,
+        de: 0x8ad6,
+        hl: 0x295c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x695c,
+        iy: 0x99fb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x8d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8f89,
+        bc: 0x7750,
+        de: 0x8ad6,
+        hl: 0x295c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x695c,
+        iy: 0x99fb,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fd8e | ADC A, (IY+*)
   test(
       "OPCODE "
@@ -36799,6 +53309,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction fd94 | SUB IYH
+  test(
+      "UNDOCUMENTED "
+      "fd94 | SUB IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0431,
+        bc: 0xd255,
+        de: 0xb9d6,
+        hl: 0x20bb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1e6a,
+        iy: 0xd5ef,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x94);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2f3b,
+        bc: 0xd255,
+        de: 0xb9d6,
+        hl: 0x20bb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1e6a,
+        iy: 0xd5ef,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd95 | SUB IYL
+  test(
+      "UNDOCUMENTED "
+      "fd95 | SUB IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8b5d,
+        bc: 0xb455,
+        de: 0x2388,
+        hl: 0xec1e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7637,
+        iy: 0xcb97,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x95);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf4a3,
+        bc: 0xb455,
+        de: 0x2388,
+        hl: 0xec1e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7637,
+        iy: 0xcb97,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction fd96 | SUB (IY+*)
   test(
@@ -36850,6 +53456,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction fd9c | SBC IYH
+  test(
+      "UNDOCUMENTED "
+      "fd9c | SBC IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa44a,
+        bc: 0x3ecf,
+        de: 0xced3,
+        hl: 0x66ec,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4bff,
+        iy: 0xb133,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x9c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf3a3,
+        bc: 0x3ecf,
+        de: 0xced3,
+        hl: 0x66ec,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4bff,
+        iy: 0xb133,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fd9d | SBC IYL
+  test(
+      "UNDOCUMENTED "
+      "fd9d | SBC IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x06c0,
+        bc: 0x8bd0,
+        de: 0x131b,
+        hl: 0x3094,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xafc3,
+        iy: 0x7409,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0x9d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfdbb,
+        bc: 0x8bd0,
+        de: 0x131b,
+        hl: 0x3094,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xafc3,
+        iy: 0x7409,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fd9e | SBC A, (IY+*)
   test(
       "OPCODE "
@@ -36899,6 +53601,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction fda4 | AND IYH
+  test(
+      "UNDOCUMENTED "
+      "fda4 | AND IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb079,
+        bc: 0x79c0,
+        de: 0x2c7c,
+        hl: 0x3e06,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7399,
+        iy: 0x037a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xa4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0054,
+        bc: 0x79c0,
+        de: 0x2c7c,
+        hl: 0x3e06,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7399,
+        iy: 0x037a,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fda5 | AND IYL
+  test(
+      "UNDOCUMENTED "
+      "fda5 | AND IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x01d2,
+        bc: 0x654d,
+        de: 0x9653,
+        hl: 0x2b33,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x61a4,
+        iy: 0x8f88,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xa5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0054,
+        bc: 0x654d,
+        de: 0x9653,
+        hl: 0x2b33,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x61a4,
+        iy: 0x8f88,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction fda6 | AND (IY+*)
   test(
@@ -36950,6 +53748,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction fdac | XOR IYH
+  test(
+      "UNDOCUMENTED "
+      "fdac | XOR IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7a43,
+        bc: 0x72e3,
+        de: 0xdd4d,
+        hl: 0x1b62,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4753,
+        iy: 0x5d63,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xac);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2724,
+        bc: 0x72e3,
+        de: 0xdd4d,
+        hl: 0x1b62,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4753,
+        iy: 0x5d63,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fdad | XOR IYL
+  test(
+      "UNDOCUMENTED "
+      "fdad | XOR IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7d8e,
+        bc: 0x2573,
+        de: 0x19cc,
+        hl: 0x78fb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5248,
+        iy: 0x8391,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xad);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xeca8,
+        bc: 0x2573,
+        de: 0x19cc,
+        hl: 0x78fb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5248,
+        iy: 0x8391,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fdae | XOR (IY+*)
   test(
       "OPCODE "
@@ -36999,6 +53893,102 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction fdb4 | OR IYH
+  test(
+      "UNDOCUMENTED "
+      "fdb4 | OR IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4f95,
+        bc: 0x3461,
+        de: 0xf173,
+        hl: 0x8ad3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc1a2,
+        iy: 0x8265,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xb4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcf8c,
+        bc: 0x3461,
+        de: 0xf173,
+        hl: 0x8ad3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc1a2,
+        iy: 0x8265,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fdb5 | OR IYL
+  test(
+      "UNDOCUMENTED "
+      "fdb5 | OR IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x17f6,
+        bc: 0xe6ea,
+        de: 0xf919,
+        hl: 0x327c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4299,
+        iy: 0x9733,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xb5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3720,
+        bc: 0xe6ea,
+        de: 0xf919,
+        hl: 0x327c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4299,
+        iy: 0x9733,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
 
   // Test instruction fdb6 | OR (IY+*)
   test(
@@ -37050,6 +54040,102 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
 
+  // Test instruction fdbc | CP IYH
+  test(
+      "UNDOCUMENTED "
+      "fdbc | CP IYH", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb4fc,
+        bc: 0x9302,
+        de: 0xe35d,
+        hl: 0x31bc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5c12,
+        iy: 0x1c92,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xbc);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb49a,
+        bc: 0x9302,
+        de: 0xe35d,
+        hl: 0x31bc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5c12,
+        iy: 0x1c92,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
+  // Test instruction fdbd | CP IYL
+  test(
+      "UNDOCUMENTED "
+      "fdbd | CP IYL", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x391c,
+        bc: 0x7b82,
+        de: 0xdfeb,
+        hl: 0x03ee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbe7b,
+        iy: 0xb30f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xbd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x391a,
+        bc: 0x7b82,
+        de: 0xdfeb,
+        hl: 0x03ee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbe7b,
+        iy: 0xb30f,
+        sp: 0x0000,
+        pc: 0x0002);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 8);
+  }, tags: 'undocumented');
+
   // Test instruction fdbe | CP (IY+*)
   test(
       "OPCODE "
@@ -37099,6 +54185,318 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 19);
   });
+
+  // Test instruction fdcb00 | RLC (IY+*), B
+  test(
+      "UNDOCUMENTED "
+      "fdcb00 | RLC (IY+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x85ac,
+        bc: 0x46d0,
+        de: 0xa135,
+        hl: 0x20c5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb8de,
+        iy: 0x2776,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0b);
+    poke(0x0003, 0x00);
+    poke(0x2781, 0x50);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x85a4,
+        bc: 0xa0d0,
+        de: 0xa135,
+        hl: 0x20c5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb8de,
+        iy: 0x2776,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(10113), equals(0xa0));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb01 | RLC (IY+*), C
+  test(
+      "UNDOCUMENTED "
+      "fdcb01 | RLC (IY+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x577c,
+        bc: 0x2b76,
+        de: 0x3576,
+        hl: 0x280a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xae22,
+        iy: 0x5c35,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc8);
+    poke(0x0003, 0x01);
+    poke(0x5bfd, 0xcb);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5781,
+        bc: 0x2b97,
+        de: 0x3576,
+        hl: 0x280a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xae22,
+        iy: 0x5c35,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(23549), equals(0x97));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb02 | RLC (IY+*), D
+  test(
+      "UNDOCUMENTED "
+      "fdcb02 | RLC (IY+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdc23,
+        bc: 0x2b37,
+        de: 0x83c8,
+        hl: 0x5dd9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb2d2,
+        iy: 0x3df2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x14);
+    poke(0x0003, 0x02);
+    poke(0x3e06, 0x58);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdca0,
+        bc: 0x2b37,
+        de: 0xb0c8,
+        hl: 0x5dd9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb2d2,
+        iy: 0x3df2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(15878), equals(0xb0));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb03 | RLC (IY+*), E
+  test(
+      "UNDOCUMENTED "
+      "fdcb03 | RLC (IY+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x57ee,
+        bc: 0xc179,
+        de: 0xb2b6,
+        hl: 0x7058,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3f2e,
+        iy: 0x57e7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3a);
+    poke(0x0003, 0x03);
+    poke(0x5821, 0x1a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5720,
+        bc: 0xc179,
+        de: 0xb234,
+        hl: 0x7058,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3f2e,
+        iy: 0x57e7,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(22561), equals(0x34));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb04 | RLC (IY+*), H
+  test(
+      "UNDOCUMENTED "
+      "fdcb04 | RLC (IY+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xed18,
+        bc: 0x3f03,
+        de: 0x3327,
+        hl: 0xf35a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcbf2,
+        iy: 0x5071,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x67);
+    poke(0x0003, 0x04);
+    poke(0x50d8, 0x92);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xed21,
+        bc: 0x3f03,
+        de: 0x3327,
+        hl: 0x255a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcbf2,
+        iy: 0x5071,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(20696), equals(0x25));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb05 | RLC (IY+*), L
+  test(
+      "UNDOCUMENTED "
+      "fdcb05 | RLC (IY+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7a39,
+        bc: 0x0858,
+        de: 0xdb6c,
+        hl: 0xdbe0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x157a,
+        iy: 0xb25b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x1e);
+    poke(0x0003, 0x05);
+    poke(0xb279, 0x66);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7a8c,
+        bc: 0x0858,
+        de: 0xdb6c,
+        hl: 0xdbcc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x157a,
+        iy: 0xb25b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(45689), equals(0xcc));
+  }, tags: 'undocumented');
 
   // Test instruction fdcb06 | RLC (IY+*)
   test(
@@ -37152,6 +54550,370 @@ void main() {
     expect(peek(65433), equals(0xe3));
   });
 
+  // Test instruction fdcb07 | RLC (IY+*), A
+  test(
+      "UNDOCUMENTED "
+      "fdcb07 | RLC (IY+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8cce,
+        bc: 0xf3a7,
+        de: 0x3a6e,
+        hl: 0x8f0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8423,
+        iy: 0x07eb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x24);
+    poke(0x0003, 0x07);
+    poke(0x080f, 0xae);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5d09,
+        bc: 0xf3a7,
+        de: 0x3a6e,
+        hl: 0x8f0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8423,
+        iy: 0x07eb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(2063), equals(0x5d));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb08 | RRC (IY+*), B
+  test(
+      "UNDOCUMENTED "
+      "fdcb08 | RRC (IY+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa611,
+        bc: 0xe8ec,
+        de: 0xc958,
+        hl: 0x7bda,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x194d,
+        iy: 0x6137,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x25);
+    poke(0x0003, 0x08);
+    poke(0x615c, 0x83);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa681,
+        bc: 0xc1ec,
+        de: 0xc958,
+        hl: 0x7bda,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x194d,
+        iy: 0x6137,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(24924), equals(0xc1));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb09 | RRC (IY+*), C
+  test(
+      "UNDOCUMENTED "
+      "fdcb09 | RRC (IY+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x54b1,
+        bc: 0xfa1a,
+        de: 0x84e8,
+        hl: 0x4fa5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1ad3,
+        iy: 0x19da,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa0);
+    poke(0x0003, 0x09);
+    poke(0x197a, 0x27);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5485,
+        bc: 0xfa93,
+        de: 0x84e8,
+        hl: 0x4fa5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1ad3,
+        iy: 0x19da,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(6522), equals(0x93));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb0a | RRC (IY+*), D
+  test(
+      "UNDOCUMENTED "
+      "fdcb0a | RRC (IY+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb3ef,
+        bc: 0xa2bb,
+        de: 0xe5d6,
+        hl: 0x9617,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf946,
+        iy: 0xeef6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe1);
+    poke(0x0003, 0x0a);
+    poke(0xeed7, 0x19);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb389,
+        bc: 0xa2bb,
+        de: 0x8cd6,
+        hl: 0x9617,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf946,
+        iy: 0xeef6,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(61143), equals(0x8c));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb0b | RRC (IY+*), E
+  test(
+      "UNDOCUMENTED "
+      "fdcb0b | RRC (IY+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xae10,
+        bc: 0x8c4e,
+        de: 0xe159,
+        hl: 0x1c54,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe108,
+        iy: 0xc68f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0c);
+    poke(0x0003, 0x0b);
+    poke(0xc69b, 0xf2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xae28,
+        bc: 0x8c4e,
+        de: 0xe179,
+        hl: 0x1c54,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe108,
+        iy: 0xc68f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(50843), equals(0x79));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb0c | RRC (IY+*), H
+  test(
+      "UNDOCUMENTED "
+      "fdcb0c | RRC (IY+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8719,
+        bc: 0x6b16,
+        de: 0x4c3b,
+        hl: 0x180a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x175a,
+        iy: 0x8c9d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd7);
+    poke(0x0003, 0x0c);
+    poke(0x8c74, 0xae);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8700,
+        bc: 0x6b16,
+        de: 0x4c3b,
+        hl: 0x570a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x175a,
+        iy: 0x8c9d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(35956), equals(0x57));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb0d | RRC (IY+*), L
+  test(
+      "UNDOCUMENTED "
+      "fdcb0d | RRC (IY+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1204,
+        bc: 0xe0cb,
+        de: 0x3ab1,
+        hl: 0x2416,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1de4,
+        iy: 0xfe2d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x11);
+    poke(0x0003, 0x0d);
+    poke(0xfe3e, 0x1b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x128d,
+        bc: 0xe0cb,
+        de: 0x3ab1,
+        hl: 0x248d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1de4,
+        iy: 0xfe2d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(65086), equals(0x8d));
+  }, tags: 'undocumented');
+
   // Test instruction fdcb0e | RRC (IY+*)
   test(
       "OPCODE "
@@ -37203,6 +54965,370 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(61999), equals(0xfb));
   });
+
+  // Test instruction fdcb0f | RRC (IY+*), A
+  test(
+      "UNDOCUMENTED "
+      "fdcb0f | RRC (IY+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfbb0,
+        bc: 0x2ac9,
+        de: 0xec6b,
+        hl: 0x6511,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc93a,
+        iy: 0xce38,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x15);
+    poke(0x0003, 0x0f);
+    poke(0xce4d, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2224,
+        bc: 0x2ac9,
+        de: 0xec6b,
+        hl: 0x6511,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc93a,
+        iy: 0xce38,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(52813), equals(0x22));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb10 | RL (IY+*), B
+  test(
+      "UNDOCUMENTED "
+      "fdcb10 | RL (IY+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x259d,
+        bc: 0x3852,
+        de: 0x590d,
+        hl: 0xac66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x144f,
+        iy: 0x42a2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7a);
+    poke(0x0003, 0x10);
+    poke(0x431c, 0x1c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x252c,
+        bc: 0x3952,
+        de: 0x590d,
+        hl: 0xac66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x144f,
+        iy: 0x42a2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(17180), equals(0x39));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb11 | RL (IY+*), C
+  test(
+      "UNDOCUMENTED "
+      "fdcb11 | RL (IY+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbc60,
+        bc: 0x61c1,
+        de: 0xf5f8,
+        hl: 0xaf24,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4019,
+        iy: 0x9c90,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7b);
+    poke(0x0003, 0x11);
+    poke(0x9d0b, 0x5e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xbca8,
+        bc: 0x61bc,
+        de: 0xf5f8,
+        hl: 0xaf24,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4019,
+        iy: 0x9c90,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(40203), equals(0xbc));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb12 | RL (IY+*), D
+  test(
+      "UNDOCUMENTED "
+      "fdcb12 | RL (IY+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4e45,
+        bc: 0x3a25,
+        de: 0x3417,
+        hl: 0xbcc7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0d7e,
+        iy: 0x8537,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x61);
+    poke(0x0003, 0x12);
+    poke(0x8598, 0xa7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4e09,
+        bc: 0x3a25,
+        de: 0x4f17,
+        hl: 0xbcc7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0d7e,
+        iy: 0x8537,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(34200), equals(0x4f));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb13 | RL (IY+*), E
+  test(
+      "UNDOCUMENTED "
+      "fdcb13 | RL (IY+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb224,
+        bc: 0xb79b,
+        de: 0x84f1,
+        hl: 0xff7d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x414c,
+        iy: 0xe798,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb3);
+    poke(0x0003, 0x13);
+    poke(0xe74b, 0xb3);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb225,
+        bc: 0xb79b,
+        de: 0x8466,
+        hl: 0xff7d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x414c,
+        iy: 0xe798,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(59211), equals(0x66));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb14 | RL (IY+*), H
+  test(
+      "UNDOCUMENTED "
+      "fdcb14 | RL (IY+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xabbb,
+        bc: 0x451a,
+        de: 0xfc65,
+        hl: 0x14a1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0f4d,
+        iy: 0xd93c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc4);
+    poke(0x0003, 0x14);
+    poke(0xd900, 0x06);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xab08,
+        bc: 0x451a,
+        de: 0xfc65,
+        hl: 0x0da1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0f4d,
+        iy: 0xd93c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(55552), equals(0x0d));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb15 | RL (IY+*), L
+  test(
+      "UNDOCUMENTED "
+      "fdcb15 | RL (IY+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2864,
+        bc: 0x9532,
+        de: 0x8631,
+        hl: 0x751c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe327,
+        iy: 0x2d7b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x17);
+    poke(0x0003, 0x15);
+    poke(0x2d92, 0x12);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2824,
+        bc: 0x9532,
+        de: 0x8631,
+        hl: 0x7524,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe327,
+        iy: 0x2d7b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(11666), equals(0x24));
+  }, tags: 'undocumented');
 
   // Test instruction fdcb16 | RL (IY+*)
   test(
@@ -37256,6 +55382,370 @@ void main() {
     expect(peek(61655), equals(0x12));
   });
 
+  // Test instruction fdcb17 | RL (IY+*), A
+  test(
+      "UNDOCUMENTED "
+      "fdcb17 | RL (IY+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xaf5b,
+        bc: 0xd016,
+        de: 0x066e,
+        hl: 0x6638,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5e92,
+        iy: 0x2013,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8a);
+    poke(0x0003, 0x17);
+    poke(0x1f9d, 0xb8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7125,
+        bc: 0xd016,
+        de: 0x066e,
+        hl: 0x6638,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5e92,
+        iy: 0x2013,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(8093), equals(0x71));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb18 | RR (IY+*), B
+  test(
+      "UNDOCUMENTED "
+      "fdcb18 | RR (IY+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x23f3,
+        bc: 0x4517,
+        de: 0x16e0,
+        hl: 0x6894,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb908,
+        iy: 0x3216,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc0);
+    poke(0x0003, 0x18);
+    poke(0x31d6, 0xfa);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x23a8,
+        bc: 0xfd17,
+        de: 0x16e0,
+        hl: 0x6894,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb908,
+        iy: 0x3216,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(12758), equals(0xfd));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb19 | RR (IY+*), C
+  test(
+      "UNDOCUMENTED "
+      "fdcb19 | RR (IY+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x11ed,
+        bc: 0xc2b8,
+        de: 0xa9f3,
+        hl: 0x2014,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6db0,
+        iy: 0x4d2e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa2);
+    poke(0x0003, 0x19);
+    poke(0x4cd0, 0x4b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x11a5,
+        bc: 0xc2a5,
+        de: 0xa9f3,
+        hl: 0x2014,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6db0,
+        iy: 0x4d2e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(19664), equals(0xa5));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb1a | RR (IY+*), D
+  test(
+      "UNDOCUMENTED "
+      "fdcb1a | RR (IY+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbc5c,
+        bc: 0x6168,
+        de: 0xe541,
+        hl: 0xb630,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0207,
+        iy: 0x40d3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x78);
+    poke(0x0003, 0x1a);
+    poke(0x414b, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xbc24,
+        bc: 0x6168,
+        de: 0x2241,
+        hl: 0xb630,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0207,
+        iy: 0x40d3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(16715), equals(0x22));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb1b | RR (IY+*), E
+  test(
+      "UNDOCUMENTED "
+      "fdcb1b | RR (IY+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7a28,
+        bc: 0x1286,
+        de: 0xfe50,
+        hl: 0xc42d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe290,
+        iy: 0x71b0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x16);
+    poke(0x0003, 0x1b);
+    poke(0x71c6, 0xb8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7a0c,
+        bc: 0x1286,
+        de: 0xfe5c,
+        hl: 0xc42d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe290,
+        iy: 0x71b0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(29126), equals(0x5c));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb1c | RR (IY+*), H
+  test(
+      "UNDOCUMENTED "
+      "fdcb1c | RR (IY+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x932b,
+        bc: 0x097b,
+        de: 0x6928,
+        hl: 0x83a3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xff2d,
+        iy: 0xdf62,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x86);
+    poke(0x0003, 0x1c);
+    poke(0xdee8, 0x8f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9381,
+        bc: 0x097b,
+        de: 0x6928,
+        hl: 0xc7a3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xff2d,
+        iy: 0xdf62,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(57064), equals(0xc7));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb1d | RR (IY+*), L
+  test(
+      "UNDOCUMENTED "
+      "fdcb1d | RR (IY+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x97b1,
+        bc: 0x2b30,
+        de: 0x2645,
+        hl: 0x04ef,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x186a,
+        iy: 0xd667,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x27);
+    poke(0x0003, 0x1d);
+    poke(0xd68e, 0xb7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x978d,
+        bc: 0x2b30,
+        de: 0x2645,
+        hl: 0x04db,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x186a,
+        iy: 0xd667,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(54926), equals(0xdb));
+  }, tags: 'undocumented');
+
   // Test instruction fdcb1e | RR (IY+*)
   test(
       "OPCODE "
@@ -37307,6 +55797,370 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(55922), equals(0x92));
   });
+
+  // Test instruction fdcb1f | RR (IY+*), A
+  test(
+      "UNDOCUMENTED "
+      "fdcb1f | RR (IY+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4cdd,
+        bc: 0x49a3,
+        de: 0xda18,
+        hl: 0x3afd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa4f1,
+        iy: 0x2095,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7b);
+    poke(0x0003, 0x1f);
+    poke(0x2110, 0x04);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8284,
+        bc: 0x49a3,
+        de: 0xda18,
+        hl: 0x3afd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa4f1,
+        iy: 0x2095,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(8464), equals(0x82));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb20 | SLA (IY+*), B
+  test(
+      "UNDOCUMENTED "
+      "fdcb20 | SLA (IY+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3d74,
+        bc: 0x3a8f,
+        de: 0x206f,
+        hl: 0x8894,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xddab,
+        iy: 0xda25,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7a);
+    poke(0x0003, 0x20);
+    poke(0xda9f, 0x89);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3d05,
+        bc: 0x128f,
+        de: 0x206f,
+        hl: 0x8894,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xddab,
+        iy: 0xda25,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(55967), equals(0x12));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb21 | SLA (IY+*), C
+  test(
+      "UNDOCUMENTED "
+      "fdcb21 | SLA (IY+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1674,
+        bc: 0x6025,
+        de: 0x641a,
+        hl: 0x6598,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x473b,
+        iy: 0xde36,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7b);
+    poke(0x0003, 0x21);
+    poke(0xdeb1, 0x23);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1600,
+        bc: 0x6046,
+        de: 0x641a,
+        hl: 0x6598,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x473b,
+        iy: 0xde36,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(57009), equals(0x46));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb22 | SLA (IY+*), D
+  test(
+      "UNDOCUMENTED "
+      "fdcb22 | SLA (IY+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xada9,
+        bc: 0xefb2,
+        de: 0x6f03,
+        hl: 0xe732,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc11d,
+        iy: 0x8926,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9a);
+    poke(0x0003, 0x22);
+    poke(0x88c0, 0xd4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xada9,
+        bc: 0xefb2,
+        de: 0xa803,
+        hl: 0xe732,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc11d,
+        iy: 0x8926,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(35008), equals(0xa8));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb23 | SLA (IY+*), E
+  test(
+      "UNDOCUMENTED "
+      "fdcb23 | SLA (IY+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x21e9,
+        bc: 0xd678,
+        de: 0xa71b,
+        hl: 0x25d7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4ca8,
+        iy: 0x5255,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf5);
+    poke(0x0003, 0x23);
+    poke(0x524a, 0x65);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x218c,
+        bc: 0xd678,
+        de: 0xa7ca,
+        hl: 0x25d7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4ca8,
+        iy: 0x5255,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(21066), equals(0xca));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb24 | SLA (IY+*), H
+  test(
+      "UNDOCUMENTED "
+      "fdcb24 | SLA (IY+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1c51,
+        bc: 0xda3e,
+        de: 0xcc7c,
+        hl: 0xcb19,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x572c,
+        iy: 0xaffe,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xb4);
+    poke(0x0003, 0x24);
+    poke(0xafb2, 0x7e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1cac,
+        bc: 0xda3e,
+        de: 0xcc7c,
+        hl: 0xfc19,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x572c,
+        iy: 0xaffe,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(44978), equals(0xfc));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb25 | SLA (IY+*), L
+  test(
+      "UNDOCUMENTED "
+      "fdcb25 | SLA (IY+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x954e,
+        bc: 0x097c,
+        de: 0xa341,
+        hl: 0x89e0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x435d,
+        iy: 0x23e9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa6);
+    poke(0x0003, 0x25);
+    poke(0x238f, 0x26);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9508,
+        bc: 0x097c,
+        de: 0xa341,
+        hl: 0x894c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x435d,
+        iy: 0x23e9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(9103), equals(0x4c));
+  }, tags: 'undocumented');
 
   // Test instruction fdcb26 | SLA (IY+*)
   test(
@@ -37360,6 +56214,370 @@ void main() {
     expect(peek(54433), equals(0x7e));
   });
 
+  // Test instruction fdcb27 | SLA (IY+*), A
+  test(
+      "UNDOCUMENTED "
+      "fdcb27 | SLA (IY+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8e0d,
+        bc: 0x8c06,
+        de: 0x2c4c,
+        hl: 0xd7c8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9239,
+        iy: 0x8d42,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x59);
+    poke(0x0003, 0x27);
+    poke(0x8d9b, 0xa7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4e0d,
+        bc: 0x8c06,
+        de: 0x2c4c,
+        hl: 0xd7c8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9239,
+        iy: 0x8d42,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(36251), equals(0x4e));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb28 | SRA (IY+*), B
+  test(
+      "UNDOCUMENTED "
+      "fdcb28 | SRA (IY+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4122,
+        bc: 0xaf9b,
+        de: 0x7745,
+        hl: 0x76f5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa1bb,
+        iy: 0xab43,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x83);
+    poke(0x0003, 0x28);
+    poke(0xaac6, 0x5d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x412d,
+        bc: 0x2e9b,
+        de: 0x7745,
+        hl: 0x76f5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa1bb,
+        iy: 0xab43,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(43718), equals(0x2e));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb29 | SRA (IY+*), C
+  test(
+      "UNDOCUMENTED "
+      "fdcb29 | SRA (IY+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0b21,
+        bc: 0xaffd,
+        de: 0xfea6,
+        hl: 0x9478,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x32bb,
+        iy: 0x0343,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7d);
+    poke(0x0003, 0x29);
+    poke(0x03c0, 0x84);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0b80,
+        bc: 0xafc2,
+        de: 0xfea6,
+        hl: 0x9478,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x32bb,
+        iy: 0x0343,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(960), equals(0xc2));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb2a | SRA (IY+*), D
+  test(
+      "UNDOCUMENTED "
+      "fdcb2a | SRA (IY+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf236,
+        bc: 0x8c31,
+        de: 0x5932,
+        hl: 0x7feb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7db7,
+        iy: 0xabe7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf9);
+    poke(0x0003, 0x2a);
+    poke(0xabe0, 0xdd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf2ad,
+        bc: 0x8c31,
+        de: 0xee32,
+        hl: 0x7feb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7db7,
+        iy: 0xabe7,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(44000), equals(0xee));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb2b | SRA (IY+*), E
+  test(
+      "UNDOCUMENTED "
+      "fdcb2b | SRA (IY+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2450,
+        bc: 0x6945,
+        de: 0xdcfc,
+        hl: 0xd643,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5be1,
+        iy: 0x4a94,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4b);
+    poke(0x0003, 0x2b);
+    poke(0x4adf, 0x49);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2425,
+        bc: 0x6945,
+        de: 0xdc24,
+        hl: 0xd643,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5be1,
+        iy: 0x4a94,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(19167), equals(0x24));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb2c | SRA (IY+*), H
+  test(
+      "UNDOCUMENTED "
+      "fdcb2c | SRA (IY+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x117f,
+        bc: 0xb32b,
+        de: 0xe530,
+        hl: 0x255a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2416,
+        iy: 0xccd1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe6);
+    poke(0x0003, 0x2c);
+    poke(0xccb7, 0x3c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x110c,
+        bc: 0xb32b,
+        de: 0xe530,
+        hl: 0x1e5a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2416,
+        iy: 0xccd1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(52407), equals(0x1e));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb2d | SRA (IY+*), L
+  test(
+      "UNDOCUMENTED "
+      "fdcb2d | SRA (IY+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd0c3,
+        bc: 0x344b,
+        de: 0x1bb0,
+        hl: 0x3eab,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe11,
+        iy: 0xe4e6,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x5f);
+    poke(0x0003, 0x2d);
+    poke(0xe545, 0x78);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd02c,
+        bc: 0x344b,
+        de: 0x1bb0,
+        hl: 0x3e3c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe11,
+        iy: 0xe4e6,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(58693), equals(0x3c));
+  }, tags: 'undocumented');
+
   // Test instruction fdcb2e | SRA (IY+*)
   test(
       "OPCODE "
@@ -37411,6 +56629,786 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(17155), equals(0xd6));
   });
+
+  // Test instruction fdcb2f | SRA (IY+*), A
+  test(
+      "UNDOCUMENTED "
+      "fdcb2f | SRA (IY+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xff86,
+        bc: 0xf2c2,
+        de: 0x9f2f,
+        hl: 0xc946,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5fe0,
+        iy: 0x16b8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x29);
+    poke(0x0003, 0x2f);
+    poke(0x16e1, 0x18);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0c0c,
+        bc: 0xf2c2,
+        de: 0x9f2f,
+        hl: 0xc946,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5fe0,
+        iy: 0x16b8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(5857), equals(0x0c));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb30 | SLL (IY+*), B
+  test(
+      "UNDOCUMENTED "
+      "fdcb30 | SLL (IY+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xacf6,
+        bc: 0xe832,
+        de: 0xf9ed,
+        hl: 0xcabc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfabd,
+        iy: 0xd646,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x1b);
+    poke(0x0003, 0x30);
+    poke(0xd661, 0xa5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xac0d,
+        bc: 0x4b32,
+        de: 0xf9ed,
+        hl: 0xcabc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfabd,
+        iy: 0xd646,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(54881), equals(0x4b));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb31 | SLL (IY+*), C
+  test(
+      "UNDOCUMENTED "
+      "fdcb31 | SLL (IY+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2b96,
+        bc: 0x5134,
+        de: 0x83a7,
+        hl: 0x7eee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7750,
+        iy: 0xbfe0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf0);
+    poke(0x0003, 0x31);
+    poke(0xbfd0, 0xf1);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2ba1,
+        bc: 0x51e3,
+        de: 0x83a7,
+        hl: 0x7eee,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7750,
+        iy: 0xbfe0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(49104), equals(0xe3));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb32 | SLL (IY+*), D
+  test(
+      "UNDOCUMENTED "
+      "fdcb32 | SLL (IY+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb2bc,
+        bc: 0xa4b1,
+        de: 0xb685,
+        hl: 0xf66e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa9a1,
+        iy: 0x5ade,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc5);
+    poke(0x0003, 0x32);
+    poke(0x5aa3, 0x59);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb2a0,
+        bc: 0xa4b1,
+        de: 0xb385,
+        hl: 0xf66e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa9a1,
+        iy: 0x5ade,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(23203), equals(0xb3));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb33 | SLL (IY+*), E
+  test(
+      "UNDOCUMENTED "
+      "fdcb33 | SLL (IY+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9c6d,
+        bc: 0x2c90,
+        de: 0xd0a9,
+        hl: 0x2be3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2691,
+        iy: 0x1964,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7f);
+    poke(0x0003, 0x33);
+    poke(0x19e3, 0xda);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9ca1,
+        bc: 0x2c90,
+        de: 0xd0b5,
+        hl: 0x2be3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2691,
+        iy: 0x1964,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(6627), equals(0xb5));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb34 | SLL (IY+*), H
+  test(
+      "UNDOCUMENTED "
+      "fdcb34 | SLL (IY+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6029,
+        bc: 0xfbcd,
+        de: 0x5348,
+        hl: 0xf947,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5338,
+        iy: 0x5696,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd2);
+    poke(0x0003, 0x34);
+    poke(0x5668, 0xd4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x60ad,
+        bc: 0xfbcd,
+        de: 0x5348,
+        hl: 0xa947,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5338,
+        iy: 0x5696,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(22120), equals(0xa9));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb35 | SLL (IY+*), L
+  test(
+      "UNDOCUMENTED "
+      "fdcb35 | SLL (IY+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x96a9,
+        bc: 0x21c6,
+        de: 0x4cb6,
+        hl: 0xb40b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x673a,
+        iy: 0x00f8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x71);
+    poke(0x0003, 0x35);
+    poke(0x0169, 0x0b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9604,
+        bc: 0x21c6,
+        de: 0x4cb6,
+        hl: 0xb417,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x673a,
+        iy: 0x00f8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(361), equals(0x17));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb36 | SLL (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb36 | SLL (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdc6f,
+        bc: 0x0892,
+        de: 0x3cc7,
+        hl: 0x1494,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8598,
+        iy: 0x1ade,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xda);
+    poke(0x0003, 0x36);
+    poke(0x1ab8, 0x3c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdc28,
+        bc: 0x0892,
+        de: 0x3cc7,
+        hl: 0x1494,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8598,
+        iy: 0x1ade,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(6840), equals(0x79));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb37 | SLL (IY+*), A
+  test(
+      "UNDOCUMENTED "
+      "fdcb37 | SLL (IY+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd2b3,
+        bc: 0x4524,
+        de: 0x208f,
+        hl: 0x076f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xad10,
+        iy: 0xe7ec,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xcb);
+    poke(0x0003, 0x37);
+    poke(0xe7b7, 0x9f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3f2d,
+        bc: 0x4524,
+        de: 0x208f,
+        hl: 0x076f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xad10,
+        iy: 0xe7ec,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(59319), equals(0x3f));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb38 | SRL (IY+*), B
+  test(
+      "UNDOCUMENTED "
+      "fdcb38 | SRL (IY+*), B", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4f07,
+        bc: 0x0050,
+        de: 0x40c6,
+        hl: 0x4fb7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf37e,
+        iy: 0xd096,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8e);
+    poke(0x0003, 0x38);
+    poke(0xd024, 0x0d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4f05,
+        bc: 0x0650,
+        de: 0x40c6,
+        hl: 0x4fb7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf37e,
+        iy: 0xd096,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(53284), equals(0x06));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb39 | SRL (IY+*), C
+  test(
+      "UNDOCUMENTED "
+      "fdcb39 | SRL (IY+*), C", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbcc2,
+        bc: 0xf5b5,
+        de: 0x8dee,
+        hl: 0xe514,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x48bc,
+        iy: 0xf433,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7f);
+    poke(0x0003, 0x39);
+    poke(0xf4b2, 0xf5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xbc29,
+        bc: 0xf57a,
+        de: 0x8dee,
+        hl: 0xe514,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x48bc,
+        iy: 0xf433,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(62642), equals(0x7a));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb3a | SRL (IY+*), D
+  test(
+      "UNDOCUMENTED "
+      "fdcb3a | SRL (IY+*), D", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd012,
+        bc: 0x2ef5,
+        de: 0x2910,
+        hl: 0x9ca5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb155,
+        iy: 0xcb03,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x1d);
+    poke(0x0003, 0x3a);
+    poke(0xcb20, 0xa8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd000,
+        bc: 0x2ef5,
+        de: 0x5410,
+        hl: 0x9ca5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb155,
+        iy: 0xcb03,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(52000), equals(0x54));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb3b | SRL (IY+*), E
+  test(
+      "UNDOCUMENTED "
+      "fdcb3b | SRL (IY+*), E", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x503d,
+        bc: 0xa85b,
+        de: 0xcfbb,
+        hl: 0xde8c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9c5b,
+        iy: 0xd263,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x05);
+    poke(0x0003, 0x3b);
+    poke(0xd268, 0xb2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x500c,
+        bc: 0xa85b,
+        de: 0xcf59,
+        hl: 0xde8c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9c5b,
+        iy: 0xd263,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(53864), equals(0x59));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb3c | SRL (IY+*), H
+  test(
+      "UNDOCUMENTED "
+      "fdcb3c | SRL (IY+*), H", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x97f0,
+        bc: 0x4456,
+        de: 0x0b52,
+        hl: 0xfdad,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6d2a,
+        iy: 0xa80f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xae);
+    poke(0x0003, 0x3c);
+    poke(0xa7bd, 0x96);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x970c,
+        bc: 0x4456,
+        de: 0x0b52,
+        hl: 0x4bad,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6d2a,
+        iy: 0xa80f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(42941), equals(0x4b));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb3d | SRL (IY+*), L
+  test(
+      "UNDOCUMENTED "
+      "fdcb3d | SRL (IY+*), L", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7d44,
+        bc: 0x9303,
+        de: 0xe12b,
+        hl: 0xbff6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4c0f,
+        iy: 0xe52a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x13);
+    poke(0x0003, 0x3d);
+    poke(0xe53d, 0xfb);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7d2d,
+        bc: 0x9303,
+        de: 0xe12b,
+        hl: 0xbf7d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4c0f,
+        iy: 0xe52a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(58685), equals(0x7d));
+  }, tags: 'undocumented');
 
   // Test instruction fdcb3e | SRL (IY+*)
   test(
@@ -37464,6 +57462,364 @@ void main() {
     expect(peek(45823), equals(0x28));
   });
 
+  // Test instruction fdcb3f | SRL (IY+*), A
+  test(
+      "UNDOCUMENTED "
+      "fdcb3f | SRL (IY+*), A", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x89e3,
+        bc: 0x12f6,
+        de: 0x426c,
+        hl: 0x52d4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd9f7,
+        iy: 0xc1ac,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x21);
+    poke(0x0003, 0x3f);
+    poke(0xc1cd, 0x78);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3c2c,
+        bc: 0x12f6,
+        de: 0x426c,
+        hl: 0x52d4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd9f7,
+        iy: 0xc1ac,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(49613), equals(0x3c));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb40 | BIT 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb40 | BIT 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5408,
+        bc: 0x2c34,
+        de: 0x6784,
+        hl: 0xb376,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8ff9,
+        iy: 0x4195,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3b);
+    poke(0x0003, 0x40);
+    poke(0x41d0, 0x0d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5410,
+        bc: 0x2c34,
+        de: 0x6784,
+        hl: 0xb376,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8ff9,
+        iy: 0x4195,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb41 | BIT 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb41 | BIT 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8c35,
+        bc: 0x5a58,
+        de: 0xb71c,
+        hl: 0x6777,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdeca,
+        iy: 0x03cb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xcc);
+    poke(0x0003, 0x41);
+    poke(0x0397, 0xe9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8c11,
+        bc: 0x5a58,
+        de: 0xb71c,
+        hl: 0x6777,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdeca,
+        iy: 0x03cb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb42 | BIT 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb42 | BIT 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5535,
+        bc: 0x9c29,
+        de: 0x2feb,
+        hl: 0x97ff,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7f17,
+        iy: 0x9f56,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x01);
+    poke(0x0003, 0x42);
+    poke(0x9f57, 0xa8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x555d,
+        bc: 0x9c29,
+        de: 0x2feb,
+        hl: 0x97ff,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7f17,
+        iy: 0x9f56,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb43 | BIT 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb43 | BIT 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb404,
+        bc: 0xe58c,
+        de: 0xe62e,
+        hl: 0x2a32,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7130,
+        iy: 0x1fd1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x08);
+    poke(0x0003, 0x43);
+    poke(0x1fd9, 0xaa);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb45c,
+        bc: 0xe58c,
+        de: 0xe62e,
+        hl: 0x2a32,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7130,
+        iy: 0x1fd1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb44 | BIT 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb44 | BIT 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa954,
+        bc: 0x68f4,
+        de: 0x9fa4,
+        hl: 0x7f66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0209,
+        iy: 0xf4f3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x03);
+    poke(0x0003, 0x44);
+    poke(0xf4f6, 0x89);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xa930,
+        bc: 0x68f4,
+        de: 0x9fa4,
+        hl: 0x7f66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0209,
+        iy: 0xf4f3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb45 | BIT 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb45 | BIT 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x73e5,
+        bc: 0x8dde,
+        de: 0x5e4f,
+        hl: 0x84a7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4e24,
+        iy: 0x93ed,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8d);
+    poke(0x0003, 0x45);
+    poke(0x937a, 0x8d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7311,
+        bc: 0x8dde,
+        de: 0x5e4f,
+        hl: 0x84a7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4e24,
+        iy: 0x93ed,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
   // Test instruction fdcb46 | BIT 0, (IY+*)
   test(
       "OPCODE "
@@ -37514,6 +57870,363 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
+
+  // Test instruction fdcb47 | BIT 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb47 | BIT 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9b3d,
+        bc: 0x7f38,
+        de: 0x0753,
+        hl: 0xd5e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb9c3,
+        iy: 0x6e0e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x96);
+    poke(0x0003, 0x47);
+    poke(0x6da4, 0xd6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9b7d,
+        bc: 0x7f38,
+        de: 0x0753,
+        hl: 0xd5e7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb9c3,
+        iy: 0x6e0e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb48 | BIT 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb48 | BIT 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7d94,
+        bc: 0x50a9,
+        de: 0x2511,
+        hl: 0x8f9f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb612,
+        iy: 0xaba9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x44);
+    poke(0x0003, 0x48);
+    poke(0xabed, 0xb0);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7d7c,
+        bc: 0x50a9,
+        de: 0x2511,
+        hl: 0x8f9f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb612,
+        iy: 0xaba9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb49 | BIT 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb49 | BIT 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x691e,
+        bc: 0x3a39,
+        de: 0xb834,
+        hl: 0x74b6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0eb7,
+        iy: 0x3e21,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4e);
+    poke(0x0003, 0x49);
+    poke(0x3e6f, 0xa9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x697c,
+        bc: 0x3a39,
+        de: 0xb834,
+        hl: 0x74b6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0eb7,
+        iy: 0x3e21,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb4a | BIT 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb4a | BIT 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x31e3,
+        bc: 0x68e0,
+        de: 0xfe2f,
+        hl: 0xa2c4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xac96,
+        iy: 0xe7db,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x52);
+    poke(0x0003, 0x4a);
+    poke(0xe82d, 0xda);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3139,
+        bc: 0x68e0,
+        de: 0xfe2f,
+        hl: 0xa2c4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xac96,
+        iy: 0xe7db,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb4b | BIT 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb4b | BIT 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x09a1,
+        bc: 0x2453,
+        de: 0x9186,
+        hl: 0xa32a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x71af,
+        iy: 0x883f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xea);
+    poke(0x0003, 0x4b);
+    poke(0x8829, 0x4e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0919,
+        bc: 0x2453,
+        de: 0x9186,
+        hl: 0xa32a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x71af,
+        iy: 0x883f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb4c | BIT 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb4c | BIT 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4a52,
+        bc: 0x1e5b,
+        de: 0xbe2e,
+        hl: 0x3ee4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xaf79,
+        iy: 0x7f22,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xee);
+    poke(0x0003, 0x4c);
+    poke(0x7f10, 0x70);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4a7c,
+        bc: 0x1e5b,
+        de: 0xbe2e,
+        hl: 0x3ee4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xaf79,
+        iy: 0x7f22,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb4d | BIT 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb4d | BIT 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9f87,
+        bc: 0x6c8f,
+        de: 0x34f4,
+        hl: 0x5a79,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd3cc,
+        iy: 0xa770,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x29);
+    poke(0x0003, 0x4d);
+    poke(0xa799, 0x78);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9f75,
+        bc: 0x6c8f,
+        de: 0x34f4,
+        hl: 0x5a79,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd3cc,
+        iy: 0xa770,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
 
   // Test instruction fdcb4e | BIT 1, (IY+*)
   test(
@@ -37566,6 +58279,363 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
 
+  // Test instruction fdcb4f | BIT 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb4f | BIT 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6088,
+        bc: 0xe079,
+        de: 0x7152,
+        hl: 0x671f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8c22,
+        iy: 0x1cf8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9d);
+    poke(0x0003, 0x4f);
+    poke(0x1c95, 0x18);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x605c,
+        bc: 0xe079,
+        de: 0x7152,
+        hl: 0x671f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8c22,
+        iy: 0x1cf8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb50 | BIT 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb50 | BIT 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8cde,
+        bc: 0x1409,
+        de: 0x6d69,
+        hl: 0xe5b2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4a0c,
+        iy: 0xc75f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x6b);
+    poke(0x0003, 0x50);
+    poke(0xc7ca, 0xfe);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8c10,
+        bc: 0x1409,
+        de: 0x6d69,
+        hl: 0xe5b2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4a0c,
+        iy: 0xc75f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb51 | BIT 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb51 | BIT 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8f59,
+        bc: 0x40cb,
+        de: 0x9543,
+        hl: 0x9b3a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1942,
+        iy: 0x3495,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x86);
+    poke(0x0003, 0x51);
+    poke(0x341b, 0x13);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8f75,
+        bc: 0x40cb,
+        de: 0x9543,
+        hl: 0x9b3a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1942,
+        iy: 0x3495,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb52 | BIT 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb52 | BIT 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8905,
+        bc: 0x3e41,
+        de: 0x7ab4,
+        hl: 0x37f6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf82d,
+        iy: 0x8b0d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe6);
+    poke(0x0003, 0x52);
+    poke(0x8af3, 0x87);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8919,
+        bc: 0x3e41,
+        de: 0x7ab4,
+        hl: 0x37f6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf82d,
+        iy: 0x8b0d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb53 | BIT 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb53 | BIT 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xefde,
+        bc: 0xe345,
+        de: 0x09a3,
+        hl: 0xf0b2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc378,
+        iy: 0x7ee1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd1);
+    poke(0x0003, 0x53);
+    poke(0x7eb2, 0xe4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xef38,
+        bc: 0xe345,
+        de: 0x09a3,
+        hl: 0xf0b2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc378,
+        iy: 0x7ee1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb54 | BIT 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb54 | BIT 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x72a6,
+        bc: 0xcb82,
+        de: 0xd966,
+        hl: 0x2fc6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3c00,
+        iy: 0x5b6b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x08);
+    poke(0x0003, 0x54);
+    poke(0x5b73, 0x07);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7218,
+        bc: 0xcb82,
+        de: 0xd966,
+        hl: 0x2fc6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3c00,
+        iy: 0x5b6b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb55 | BIT 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb55 | BIT 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x855c,
+        bc: 0xc23b,
+        de: 0x6aab,
+        hl: 0x9b00,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe93,
+        iy: 0xb4b2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x54);
+    poke(0x0003, 0x55);
+    poke(0xb506, 0x46);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8530,
+        bc: 0xc23b,
+        de: 0x6aab,
+        hl: 0x9b00,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe93,
+        iy: 0xb4b2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
   // Test instruction fdcb56 | BIT 2, (IY+*)
   test(
       "OPCODE "
@@ -37616,6 +58686,363 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
+
+  // Test instruction fdcb57 | BIT 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb57 | BIT 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x37d7,
+        bc: 0xb7dc,
+        de: 0xbe1c,
+        hl: 0x38ea,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5e82,
+        iy: 0xa3bb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3c);
+    poke(0x0003, 0x57);
+    poke(0xa3f7, 0x6c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3731,
+        bc: 0xb7dc,
+        de: 0xbe1c,
+        hl: 0x38ea,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5e82,
+        iy: 0xa3bb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb58 | BIT 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb58 | BIT 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x752c,
+        bc: 0x7296,
+        de: 0x3ea5,
+        hl: 0x1143,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd7cc,
+        iy: 0x1e94,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4e);
+    poke(0x0003, 0x58);
+    poke(0x1ee2, 0xf6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x755c,
+        bc: 0x7296,
+        de: 0x3ea5,
+        hl: 0x1143,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd7cc,
+        iy: 0x1e94,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb59 | BIT 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb59 | BIT 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8056,
+        bc: 0xbf2a,
+        de: 0x1809,
+        hl: 0xed31,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe2b,
+        iy: 0xfad3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2e);
+    poke(0x0003, 0x59);
+    poke(0xfb01, 0x6f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8038,
+        bc: 0xbf2a,
+        de: 0x1809,
+        hl: 0xed31,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe2b,
+        iy: 0xfad3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb5a | BIT 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb5a | BIT 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xcc74,
+        bc: 0xa108,
+        de: 0x65d4,
+        hl: 0x6f66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0008,
+        iy: 0x7bb8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x88);
+    poke(0x0003, 0x5a);
+    poke(0x7b40, 0x6e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xcc38,
+        bc: 0xa108,
+        de: 0x65d4,
+        hl: 0x6f66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0008,
+        iy: 0x7bb8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb5b | BIT 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb5b | BIT 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5cf1,
+        bc: 0xb3bd,
+        de: 0x25bd,
+        hl: 0x98cf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2ba1,
+        iy: 0x315c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe7);
+    poke(0x0003, 0x5b);
+    poke(0x3143, 0xb1);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5c75,
+        bc: 0xb3bd,
+        de: 0x25bd,
+        hl: 0x98cf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2ba1,
+        iy: 0x315c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb5c | BIT 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb5c | BIT 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb3e0,
+        bc: 0xd43d,
+        de: 0xd9c0,
+        hl: 0xb04d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x21a9,
+        iy: 0x543e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x74);
+    poke(0x0003, 0x5c);
+    poke(0x54b2, 0xe3);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb354,
+        bc: 0xd43d,
+        de: 0xd9c0,
+        hl: 0xb04d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x21a9,
+        iy: 0x543e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb5d | BIT 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb5d | BIT 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9f49,
+        bc: 0x43dd,
+        de: 0xccb3,
+        hl: 0x085a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf130,
+        iy: 0x3b84,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xdc);
+    poke(0x0003, 0x5d);
+    poke(0x3b60, 0xef);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9f39,
+        bc: 0x43dd,
+        de: 0xccb3,
+        hl: 0x085a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf130,
+        iy: 0x3b84,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
 
   // Test instruction fdcb5e | BIT 3, (IY+*)
   test(
@@ -37668,6 +59095,363 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
 
+  // Test instruction fdcb5f | BIT 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb5f | BIT 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd72a,
+        bc: 0xa57a,
+        de: 0xaca6,
+        hl: 0x667e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5c33,
+        iy: 0xf81b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xab);
+    poke(0x0003, 0x5f);
+    poke(0xf7c6, 0xe2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd774,
+        bc: 0xa57a,
+        de: 0xaca6,
+        hl: 0x667e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5c33,
+        iy: 0xf81b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb60 | BIT 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb60 | BIT 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x15e9,
+        bc: 0x8d30,
+        de: 0x43f4,
+        hl: 0xc65e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1e34,
+        iy: 0x8c44,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x85);
+    poke(0x0003, 0x60);
+    poke(0x8bc9, 0xb9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1519,
+        bc: 0x8d30,
+        de: 0x43f4,
+        hl: 0xc65e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1e34,
+        iy: 0x8c44,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb61 | BIT 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb61 | BIT 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7bd1,
+        bc: 0xd421,
+        de: 0x5570,
+        hl: 0xcb85,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x32ec,
+        iy: 0x92e4,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbe);
+    poke(0x0003, 0x61);
+    poke(0x92a2, 0x28);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7b55,
+        bc: 0xd421,
+        de: 0x5570,
+        hl: 0xcb85,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x32ec,
+        iy: 0x92e4,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb62 | BIT 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb62 | BIT 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xba2f,
+        bc: 0x4fbb,
+        de: 0x67a7,
+        hl: 0xc5db,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x470b,
+        iy: 0x7eb1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9d);
+    poke(0x0003, 0x62);
+    poke(0x7e4e, 0x1a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xba39,
+        bc: 0x4fbb,
+        de: 0x67a7,
+        hl: 0xc5db,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x470b,
+        iy: 0x7eb1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb63 | BIT 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb63 | BIT 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc0a1,
+        bc: 0x2cc2,
+        de: 0xce12,
+        hl: 0xe77c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x71c5,
+        iy: 0x1713,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf4);
+    poke(0x0003, 0x63);
+    poke(0x1707, 0x3b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc011,
+        bc: 0x2cc2,
+        de: 0xce12,
+        hl: 0xe77c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x71c5,
+        iy: 0x1713,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb64 | BIT 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb64 | BIT 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0c1f,
+        bc: 0x7847,
+        de: 0x2494,
+        hl: 0x71eb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x315c,
+        iy: 0xb336,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x35);
+    poke(0x0003, 0x64);
+    poke(0xb36b, 0x8c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0c75,
+        bc: 0x7847,
+        de: 0x2494,
+        hl: 0x71eb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x315c,
+        iy: 0xb336,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb65 | BIT 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb65 | BIT 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5245,
+        bc: 0xa82d,
+        de: 0x1112,
+        hl: 0x8f09,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x672a,
+        iy: 0x89f4,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x37);
+    poke(0x0003, 0x65);
+    poke(0x8a2b, 0x08);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x525d,
+        bc: 0xa82d,
+        de: 0x1112,
+        hl: 0x8f09,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x672a,
+        iy: 0x89f4,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
   // Test instruction fdcb66 | BIT 4, (IY+*)
   test(
       "OPCODE "
@@ -37718,6 +59502,363 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
+
+  // Test instruction fdcb67 | BIT 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb67 | BIT 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x31b6,
+        bc: 0x0f7d,
+        de: 0x48b5,
+        hl: 0xcc5f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2103,
+        iy: 0x6572,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xcb);
+    poke(0x0003, 0x67);
+    poke(0x653d, 0x15);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3130,
+        bc: 0x0f7d,
+        de: 0x48b5,
+        hl: 0xcc5f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2103,
+        iy: 0x6572,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb68 | BIT 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb68 | BIT 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe330,
+        bc: 0x39fb,
+        de: 0xa03a,
+        hl: 0x59bc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe04a,
+        iy: 0x03be,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xca);
+    poke(0x0003, 0x68);
+    poke(0x0388, 0x83);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe354,
+        bc: 0x39fb,
+        de: 0xa03a,
+        hl: 0x59bc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe04a,
+        iy: 0x03be,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb69 | BIT 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb69 | BIT 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1896,
+        bc: 0x5bc2,
+        de: 0xd4d9,
+        hl: 0x4e8a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3716,
+        iy: 0xa603,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe2);
+    poke(0x0003, 0x69);
+    poke(0xa5e5, 0x01);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1874,
+        bc: 0x5bc2,
+        de: 0xd4d9,
+        hl: 0x4e8a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3716,
+        iy: 0xa603,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb6a | BIT 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb6a | BIT 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5bc9,
+        bc: 0x0099,
+        de: 0x34f8,
+        hl: 0x3e96,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf251,
+        iy: 0x93be,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xae);
+    poke(0x0003, 0x6a);
+    poke(0x936c, 0x33);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5b11,
+        bc: 0x0099,
+        de: 0x34f8,
+        hl: 0x3e96,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf251,
+        iy: 0x93be,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb6b | BIT 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb6b | BIT 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbbe5,
+        bc: 0x9e6c,
+        de: 0xabd1,
+        hl: 0x515f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x73db,
+        iy: 0xaa2f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x1f);
+    poke(0x0003, 0x6b);
+    poke(0xaa4e, 0x7c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xbb39,
+        bc: 0x9e6c,
+        de: 0xabd1,
+        hl: 0x515f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x73db,
+        iy: 0xaa2f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb6c | BIT 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb6c | BIT 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x144b,
+        bc: 0x3af2,
+        de: 0x8f80,
+        hl: 0x7be5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc379,
+        iy: 0x86ba,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0d);
+    poke(0x0003, 0x6c);
+    poke(0x86c7, 0x25);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1411,
+        bc: 0x3af2,
+        de: 0x8f80,
+        hl: 0x7be5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc379,
+        iy: 0x86ba,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb6d | BIT 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb6d | BIT 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6392,
+        bc: 0xd077,
+        de: 0x668d,
+        hl: 0x6e4a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb0a8,
+        iy: 0x62c8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf0);
+    poke(0x0003, 0x6d);
+    poke(0x62b8, 0xe3);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6330,
+        bc: 0xd077,
+        de: 0x668d,
+        hl: 0x6e4a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb0a8,
+        iy: 0x62c8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
 
   // Test instruction fdcb6e | BIT 5, (IY+*)
   test(
@@ -37770,6 +59911,363 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
 
+  // Test instruction fdcb6f | BIT 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb6f | BIT 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdf7b,
+        bc: 0xc7aa,
+        de: 0x9002,
+        hl: 0x86b8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1347,
+        iy: 0x004e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x20);
+    poke(0x0003, 0x6f);
+    poke(0x006e, 0x37);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdf11,
+        bc: 0xc7aa,
+        de: 0x9002,
+        hl: 0x86b8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1347,
+        iy: 0x004e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb70 | BIT 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb70 | BIT 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6ea9,
+        bc: 0x018d,
+        de: 0x5075,
+        hl: 0xcf4e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcd2b,
+        iy: 0x3e68,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd9);
+    poke(0x0003, 0x70);
+    poke(0x3e41, 0xc9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6e39,
+        bc: 0x018d,
+        de: 0x5075,
+        hl: 0xcf4e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcd2b,
+        iy: 0x3e68,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb71 | BIT 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb71 | BIT 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1b48,
+        bc: 0xe3af,
+        de: 0x94d5,
+        hl: 0x0996,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcad5,
+        iy: 0x999a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x27);
+    poke(0x0003, 0x71);
+    poke(0x99c1, 0x3e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1b5c,
+        bc: 0xe3af,
+        de: 0x94d5,
+        hl: 0x0996,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcad5,
+        iy: 0x999a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb72 | BIT 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb72 | BIT 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe83b,
+        bc: 0x26b1,
+        de: 0x8608,
+        hl: 0xf3cb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6323,
+        iy: 0xfd31,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x98);
+    poke(0x0003, 0x72);
+    poke(0xfcc9, 0x4f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe839,
+        bc: 0x26b1,
+        de: 0x8608,
+        hl: 0xf3cb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6323,
+        iy: 0xfd31,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb73 | BIT 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb73 | BIT 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x101b,
+        bc: 0x446c,
+        de: 0xc2f9,
+        hl: 0xb9b1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0820,
+        iy: 0xf5d8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7a);
+    poke(0x0003, 0x73);
+    poke(0xf652, 0x31);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1075,
+        bc: 0x446c,
+        de: 0xc2f9,
+        hl: 0xb9b1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0820,
+        iy: 0xf5d8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb74 | BIT 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb74 | BIT 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6847,
+        bc: 0x38c2,
+        de: 0x0ea4,
+        hl: 0x0825,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd255,
+        iy: 0x5e4a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4b);
+    poke(0x0003, 0x74);
+    poke(0x5e95, 0xfe);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6819,
+        bc: 0x38c2,
+        de: 0x0ea4,
+        hl: 0x0825,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd255,
+        iy: 0x5e4a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb75 | BIT 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb75 | BIT 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x56f2,
+        bc: 0xc034,
+        de: 0x6e11,
+        hl: 0xd35e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe702,
+        iy: 0x60be,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x57);
+    poke(0x0003, 0x75);
+    poke(0x6115, 0x21);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5674,
+        bc: 0xc034,
+        de: 0x6e11,
+        hl: 0xd35e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe702,
+        iy: 0x60be,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
   // Test instruction fdcb76 | BIT 6, (IY+*)
   test(
       "OPCODE "
@@ -37820,6 +60318,363 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
+
+  // Test instruction fdcb77 | BIT 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb77 | BIT 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xab10,
+        bc: 0x983e,
+        de: 0x0bdc,
+        hl: 0x3b46,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xae51,
+        iy: 0x8841,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x02);
+    poke(0x0003, 0x77);
+    poke(0x8843, 0xd8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xab18,
+        bc: 0x983e,
+        de: 0x0bdc,
+        hl: 0x3b46,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xae51,
+        iy: 0x8841,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb78 | BIT 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb78 | BIT 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2765,
+        bc: 0xce2f,
+        de: 0x4824,
+        hl: 0x6930,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xae69,
+        iy: 0xfecb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7d);
+    poke(0x0003, 0x78);
+    poke(0xff48, 0xec);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x27b9,
+        bc: 0xce2f,
+        de: 0x4824,
+        hl: 0x6930,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xae69,
+        iy: 0xfecb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb79 | BIT 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb79 | BIT 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb428,
+        bc: 0x6355,
+        de: 0x7896,
+        hl: 0x8a7c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9090,
+        iy: 0x1cae,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x23);
+    poke(0x0003, 0x79);
+    poke(0x1cd1, 0x87);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb498,
+        bc: 0x6355,
+        de: 0x7896,
+        hl: 0x8a7c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9090,
+        iy: 0x1cae,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb7a | BIT 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb7a | BIT 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x59f4,
+        bc: 0xca21,
+        de: 0x1482,
+        hl: 0x3fae,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc6c9,
+        iy: 0xd923,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x42);
+    poke(0x0003, 0x7a);
+    poke(0xd965, 0xb3);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5998,
+        bc: 0xca21,
+        de: 0x1482,
+        hl: 0x3fae,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc6c9,
+        iy: 0xd923,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb7b | BIT 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb7b | BIT 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6314,
+        bc: 0x0240,
+        de: 0x5efa,
+        hl: 0x5e7b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3e50,
+        iy: 0x0a83,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x17);
+    poke(0x0003, 0x7b);
+    poke(0x0a9a, 0xbd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6398,
+        bc: 0x0240,
+        de: 0x5efa,
+        hl: 0x5e7b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3e50,
+        iy: 0x0a83,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb7c | BIT 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb7c | BIT 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x22a6,
+        bc: 0xaff4,
+        de: 0xb89b,
+        hl: 0x4dca,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0ac2,
+        iy: 0xd371,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf1);
+    poke(0x0003, 0x7c);
+    poke(0xd362, 0x1b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2254,
+        bc: 0xaff4,
+        de: 0xb89b,
+        hl: 0x4dca,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0ac2,
+        iy: 0xd371,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb7d | BIT 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb7d | BIT 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1c95,
+        bc: 0xd615,
+        de: 0x825a,
+        hl: 0x5e64,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x32fb,
+        iy: 0xac3b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9f);
+    poke(0x0003, 0x7d);
+    poke(0xabda, 0x8a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1cb9,
+        bc: 0xd615,
+        de: 0x825a,
+        hl: 0x5e64,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x32fb,
+        iy: 0xac3b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
 
   // Test instruction fdcb7e | BIT 7, (IY+*)
   test(
@@ -37872,6 +60727,366 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
   });
 
+  // Test instruction fdcb7f | BIT 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb7f | BIT 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1b07,
+        bc: 0x9ec3,
+        de: 0x14be,
+        hl: 0x5ebe,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1178,
+        iy: 0xce69,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa2);
+    poke(0x0003, 0x7f);
+    poke(0xce0b, 0x47);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1b5d,
+        bc: 0x9ec3,
+        de: 0x14be,
+        hl: 0x5ebe,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1178,
+        iy: 0xce69,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 20);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb80 | RES 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb80 | RES 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe196,
+        bc: 0x72ea,
+        de: 0x507e,
+        hl: 0x6457,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xab75,
+        iy: 0x920d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8b);
+    poke(0x0003, 0x80);
+    poke(0x9198, 0xa9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe196,
+        bc: 0xa8ea,
+        de: 0x507e,
+        hl: 0x6457,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xab75,
+        iy: 0x920d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(37272), equals(0xa8));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb81 | RES 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb81 | RES 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3d3d,
+        bc: 0xb255,
+        de: 0x8759,
+        hl: 0x0cb0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe078,
+        iy: 0x82a5,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x55);
+    poke(0x0003, 0x81);
+    poke(0x82fa, 0xfa);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3d3d,
+        bc: 0xb2fa,
+        de: 0x8759,
+        hl: 0x0cb0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe078,
+        iy: 0x82a5,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb82 | RES 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb82 | RES 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4e10,
+        bc: 0x5d8d,
+        de: 0x27a0,
+        hl: 0xffff,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xee0a,
+        iy: 0x5dd8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9c);
+    poke(0x0003, 0x82);
+    poke(0x5d74, 0x9d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4e10,
+        bc: 0x5d8d,
+        de: 0x9ca0,
+        hl: 0xffff,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xee0a,
+        iy: 0x5dd8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(23924), equals(0x9c));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb83 | RES 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb83 | RES 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3c7f,
+        bc: 0xfd81,
+        de: 0x47fb,
+        hl: 0x9f12,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcbf9,
+        iy: 0x374a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x28);
+    poke(0x0003, 0x83);
+    poke(0x3772, 0xd5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3c7f,
+        bc: 0xfd81,
+        de: 0x47d4,
+        hl: 0x9f12,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcbf9,
+        iy: 0x374a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(14194), equals(0xd4));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb84 | RES 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb84 | RES 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6872,
+        bc: 0x81b1,
+        de: 0x1e7a,
+        hl: 0xe37e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9b4c,
+        iy: 0xf1c3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xaa);
+    poke(0x0003, 0x84);
+    poke(0xf16d, 0xea);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6872,
+        bc: 0x81b1,
+        de: 0x1e7a,
+        hl: 0xea7e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9b4c,
+        iy: 0xf1c3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb85 | RES 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb85 | RES 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x25b3,
+        bc: 0x5694,
+        de: 0x57cd,
+        hl: 0xf34d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8ed2,
+        iy: 0x0433,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x6c);
+    poke(0x0003, 0x85);
+    poke(0x049f, 0xe0);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x25b3,
+        bc: 0x5694,
+        de: 0x57cd,
+        hl: 0xf3e0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8ed2,
+        iy: 0x0433,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction fdcb86 | RES 0, (IY+*)
   test(
       "OPCODE "
@@ -37922,6 +61137,367 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction fdcb87 | RES 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb87 | RES 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfe1d,
+        bc: 0x5353,
+        de: 0x618d,
+        hl: 0x3266,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1a53,
+        iy: 0x246a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x59);
+    poke(0x0003, 0x87);
+    poke(0x24c3, 0x65);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x641d,
+        bc: 0x5353,
+        de: 0x618d,
+        hl: 0x3266,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1a53,
+        iy: 0x246a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(9411), equals(0x64));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb88 | RES 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb88 | RES 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7d14,
+        bc: 0xa0ec,
+        de: 0x1e47,
+        hl: 0x76e1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3871,
+        iy: 0xc60d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd4);
+    poke(0x0003, 0x88);
+    poke(0xc5e1, 0xd6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7d14,
+        bc: 0xd4ec,
+        de: 0x1e47,
+        hl: 0x76e1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3871,
+        iy: 0xc60d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(50657), equals(0xd4));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb89 | RES 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb89 | RES 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x86c3,
+        bc: 0x50a6,
+        de: 0x8592,
+        hl: 0xd6ca,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x947b,
+        iy: 0x0a01,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc3);
+    poke(0x0003, 0x89);
+    poke(0x09c4, 0xb0);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x86c3,
+        bc: 0x50b0,
+        de: 0x8592,
+        hl: 0xd6ca,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x947b,
+        iy: 0x0a01,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb8a | RES 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb8a | RES 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x599c,
+        bc: 0x961a,
+        de: 0x55f9,
+        hl: 0x8470,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd2a5,
+        iy: 0xd4d2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf9);
+    poke(0x0003, 0x8a);
+    poke(0xd4cb, 0xd8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x599c,
+        bc: 0x961a,
+        de: 0xd8f9,
+        hl: 0x8470,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd2a5,
+        iy: 0xd4d2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb8b | RES 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb8b | RES 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2715,
+        bc: 0xa209,
+        de: 0xab47,
+        hl: 0x3eac,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf352,
+        iy: 0xc71e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xed);
+    poke(0x0003, 0x8b);
+    poke(0xc70b, 0xdc);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2715,
+        bc: 0xa209,
+        de: 0xabdc,
+        hl: 0x3eac,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf352,
+        iy: 0xc71e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb8c | RES 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb8c | RES 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2818,
+        bc: 0x4259,
+        de: 0xa9b0,
+        hl: 0xe7a0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6471,
+        iy: 0xa202,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x97);
+    poke(0x0003, 0x8c);
+    poke(0xa199, 0x67);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2818,
+        bc: 0x4259,
+        de: 0xa9b0,
+        hl: 0x65a0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6471,
+        iy: 0xa202,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(41369), equals(0x65));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb8d | RES 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb8d | RES 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x14e3,
+        bc: 0xc330,
+        de: 0x9aa2,
+        hl: 0x8418,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0d4f,
+        iy: 0x5669,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc9);
+    poke(0x0003, 0x8d);
+    poke(0x5632, 0x9a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x14e3,
+        bc: 0xc330,
+        de: 0x9aa2,
+        hl: 0x8498,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0d4f,
+        iy: 0x5669,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(22066), equals(0x98));
+  }, tags: 'undocumented');
 
   // Test instruction fdcb8e | RES 1, (IY+*)
   test(
@@ -37975,6 +61551,365 @@ void main() {
     expect(peek(19523), equals(0x7d));
   });
 
+  // Test instruction fdcb8f | RES 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb8f | RES 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x66b4,
+        bc: 0x5fbb,
+        de: 0x6c9b,
+        hl: 0xd0e3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xac5a,
+        iy: 0x6b51,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd4);
+    poke(0x0003, 0x8f);
+    poke(0x6b25, 0x59);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x59b4,
+        bc: 0x5fbb,
+        de: 0x6c9b,
+        hl: 0xd0e3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xac5a,
+        iy: 0x6b51,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb90 | RES 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb90 | RES 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1305,
+        bc: 0x1ce1,
+        de: 0xd627,
+        hl: 0x7402,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb470,
+        iy: 0xd7f5,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xfd);
+    poke(0x0003, 0x90);
+    poke(0xd7f2, 0x70);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1305,
+        bc: 0x70e1,
+        de: 0xd627,
+        hl: 0x7402,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb470,
+        iy: 0xd7f5,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb91 | RES 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb91 | RES 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x10df,
+        bc: 0xc48f,
+        de: 0x0213,
+        hl: 0xfc7e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbfab,
+        iy: 0x47d2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbf);
+    poke(0x0003, 0x91);
+    poke(0x4791, 0x0e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x10df,
+        bc: 0xc40a,
+        de: 0x0213,
+        hl: 0xfc7e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbfab,
+        iy: 0x47d2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(18321), equals(0x0a));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb92 | RES 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb92 | RES 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6a11,
+        bc: 0xf89e,
+        de: 0xf49d,
+        hl: 0xc115,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbc5d,
+        iy: 0x313a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0b);
+    poke(0x0003, 0x92);
+    poke(0x3145, 0xf6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6a11,
+        bc: 0xf89e,
+        de: 0xf29d,
+        hl: 0xc115,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbc5d,
+        iy: 0x313a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(12613), equals(0xf2));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb93 | RES 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb93 | RES 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x61e5,
+        bc: 0xcc2c,
+        de: 0x959a,
+        hl: 0xb52b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfa64,
+        iy: 0x2940,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x52);
+    poke(0x0003, 0x93);
+    poke(0x2992, 0x38);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x61e5,
+        bc: 0xcc2c,
+        de: 0x9538,
+        hl: 0xb52b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfa64,
+        iy: 0x2940,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb94 | RES 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb94 | RES 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x31b4,
+        bc: 0x3e5a,
+        de: 0xfb3d,
+        hl: 0xab83,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa801,
+        iy: 0xfe1c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x95);
+    poke(0x0003, 0x94);
+    poke(0xfdb1, 0x48);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x31b4,
+        bc: 0x3e5a,
+        de: 0xfb3d,
+        hl: 0x4883,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa801,
+        iy: 0xfe1c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb95 | RES 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb95 | RES 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x337e,
+        bc: 0x63a7,
+        de: 0x2918,
+        hl: 0xed6b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb12c,
+        iy: 0xe776,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x90);
+    poke(0x0003, 0x95);
+    poke(0xe706, 0xeb);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x337e,
+        bc: 0x63a7,
+        de: 0x2918,
+        hl: 0xedeb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb12c,
+        iy: 0xe776,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction fdcb96 | RES 2, (IY+*)
   test(
       "OPCODE "
@@ -38027,6 +61962,366 @@ void main() {
     expect(peek(58989), equals(0xf8));
   });
 
+  // Test instruction fdcb97 | RES 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb97 | RES 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xccb6,
+        bc: 0x8406,
+        de: 0x72c6,
+        hl: 0x1ba7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6dca,
+        iy: 0x187f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x64);
+    poke(0x0003, 0x97);
+    poke(0x18e3, 0x9d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x99b6,
+        bc: 0x8406,
+        de: 0x72c6,
+        hl: 0x1ba7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6dca,
+        iy: 0x187f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(6371), equals(0x99));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb98 | RES 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb98 | RES 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0495,
+        bc: 0x312f,
+        de: 0x8000,
+        hl: 0xb749,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe9cb,
+        iy: 0x43b8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xda);
+    poke(0x0003, 0x98);
+    poke(0x4392, 0x15);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0495,
+        bc: 0x152f,
+        de: 0x8000,
+        hl: 0xb749,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe9cb,
+        iy: 0x43b8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb99 | RES 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb99 | RES 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2824,
+        bc: 0xa485,
+        de: 0xa30b,
+        hl: 0xb286,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x10b0,
+        iy: 0xd86c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x78);
+    poke(0x0003, 0x99);
+    poke(0xd8e4, 0xb5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2824,
+        bc: 0xa4b5,
+        de: 0xa30b,
+        hl: 0xb286,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x10b0,
+        iy: 0xd86c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb9a | RES 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb9a | RES 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb0cc,
+        bc: 0xc40c,
+        de: 0xdc1a,
+        hl: 0x014a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2ff9,
+        iy: 0xd717,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9c);
+    poke(0x0003, 0x9a);
+    poke(0xd6b3, 0x9d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb0cc,
+        bc: 0xc40c,
+        de: 0x951a,
+        hl: 0x014a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2ff9,
+        iy: 0xd717,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(54963), equals(0x95));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb9b | RES 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb9b | RES 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd092,
+        bc: 0xa6c2,
+        de: 0x7900,
+        hl: 0x5448,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfab0,
+        iy: 0xcb1e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x83);
+    poke(0x0003, 0x9b);
+    poke(0xcaa1, 0x95);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd092,
+        bc: 0xa6c2,
+        de: 0x7995,
+        hl: 0x5448,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfab0,
+        iy: 0xcb1e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb9c | RES 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb9c | RES 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb58d,
+        bc: 0x1ed1,
+        de: 0xe93b,
+        hl: 0x9e0c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5605,
+        iy: 0x03b3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x1e);
+    poke(0x0003, 0x9c);
+    poke(0x03d1, 0x78);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb58d,
+        bc: 0x1ed1,
+        de: 0xe93b,
+        hl: 0x700c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x5605,
+        iy: 0x03b3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(977), equals(0x70));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcb9d | RES 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb9d | RES 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc7e9,
+        bc: 0x18d3,
+        de: 0x8eed,
+        hl: 0xbd7d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9a7f,
+        iy: 0xc087,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe6);
+    poke(0x0003, 0x9d);
+    poke(0xc06d, 0x53);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc7e9,
+        bc: 0x18d3,
+        de: 0x8eed,
+        hl: 0xbd53,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9a7f,
+        iy: 0xc087,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction fdcb9e | RES 3, (IY+*)
   test(
       "OPCODE "
@@ -38077,6 +62372,366 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction fdcb9f | RES 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcb9f | RES 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xebf5,
+        bc: 0xdc9f,
+        de: 0xd490,
+        hl: 0x15be,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0e12,
+        iy: 0x9d49,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x50);
+    poke(0x0003, 0x9f);
+    poke(0x9d99, 0x89);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x81f5,
+        bc: 0xdc9f,
+        de: 0xd490,
+        hl: 0x15be,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0e12,
+        iy: 0x9d49,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(40345), equals(0x81));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcba0 | RES 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba0 | RES 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8ccb,
+        bc: 0x0057,
+        de: 0xbc19,
+        hl: 0xe543,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8c5d,
+        iy: 0xd68d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x76);
+    poke(0x0003, 0xa0);
+    poke(0xd703, 0xd4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8ccb,
+        bc: 0xc457,
+        de: 0xbc19,
+        hl: 0xe543,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8c5d,
+        iy: 0xd68d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(55043), equals(0xc4));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcba1 | RES 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba1 | RES 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xeee6,
+        bc: 0x6da4,
+        de: 0x3a20,
+        hl: 0x8bba,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1de7,
+        iy: 0x66c8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x31);
+    poke(0x0003, 0xa1);
+    poke(0x66f9, 0xec);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xeee6,
+        bc: 0x6dec,
+        de: 0x3a20,
+        hl: 0x8bba,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1de7,
+        iy: 0x66c8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcba2 | RES 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba2 | RES 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3f89,
+        bc: 0x5120,
+        de: 0x0bd1,
+        hl: 0xe669,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2993,
+        iy: 0x04bf,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0e);
+    poke(0x0003, 0xa2);
+    poke(0x04cd, 0x47);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3f89,
+        bc: 0x5120,
+        de: 0x47d1,
+        hl: 0xe669,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2993,
+        iy: 0x04bf,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcba3 | RES 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba3 | RES 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4439,
+        bc: 0x6b8b,
+        de: 0x6178,
+        hl: 0x1246,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4cdb,
+        iy: 0xad77,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x05);
+    poke(0x0003, 0xa3);
+    poke(0xad7c, 0x59);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4439,
+        bc: 0x6b8b,
+        de: 0x6149,
+        hl: 0x1246,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4cdb,
+        iy: 0xad77,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(44412), equals(0x49));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcba4 | RES 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba4 | RES 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3385,
+        bc: 0x261e,
+        de: 0xa487,
+        hl: 0xb3bd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4b8f,
+        iy: 0xc0cd,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x66);
+    poke(0x0003, 0xa4);
+    poke(0xc133, 0xc5);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3385,
+        bc: 0x261e,
+        de: 0xa487,
+        hl: 0xc5bd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4b8f,
+        iy: 0xc0cd,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcba5 | RES 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba5 | RES 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6e70,
+        bc: 0xb7ed,
+        de: 0x22cd,
+        hl: 0xaedc,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x46de,
+        iy: 0xf1a1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa0);
+    poke(0x0003, 0xa5);
+    poke(0xf141, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6e70,
+        bc: 0xb7ed,
+        de: 0x22cd,
+        hl: 0xae44,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x46de,
+        iy: 0xf1a1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
 
   // Test instruction fdcba6 | RES 4, (IY+*)
   test(
@@ -38130,6 +62785,366 @@ void main() {
     expect(peek(37993), equals(0xac));
   });
 
+  // Test instruction fdcba7 | RES 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba7 | RES 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xa4c2,
+        bc: 0x679e,
+        de: 0xc313,
+        hl: 0x61df,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x67e6,
+        iy: 0x79c4,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x66);
+    poke(0x0003, 0xa7);
+    poke(0x7a2a, 0x2e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2ec2,
+        bc: 0x679e,
+        de: 0xc313,
+        hl: 0x61df,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x67e6,
+        iy: 0x79c4,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcba8 | RES 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba8 | RES 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x537c,
+        bc: 0x1fed,
+        de: 0x6cbb,
+        hl: 0xbd26,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc638,
+        iy: 0x0d46,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa9);
+    poke(0x0003, 0xa8);
+    poke(0x0cef, 0xb7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x537c,
+        bc: 0x97ed,
+        de: 0x6cbb,
+        hl: 0xbd26,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc638,
+        iy: 0x0d46,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(3311), equals(0x97));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcba9 | RES 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcba9 | RES 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xba5a,
+        bc: 0x3076,
+        de: 0xcdd7,
+        hl: 0x298d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x59ab,
+        iy: 0x0f54,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2b);
+    poke(0x0003, 0xa9);
+    poke(0x0f7f, 0x8f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xba5a,
+        bc: 0x308f,
+        de: 0xcdd7,
+        hl: 0x298d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x59ab,
+        iy: 0x0f54,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbaa | RES 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbaa | RES 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x406a,
+        bc: 0x2ed6,
+        de: 0xfa8c,
+        hl: 0xc633,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x87cb,
+        iy: 0xb3d1,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0b);
+    poke(0x0003, 0xaa);
+    poke(0xb3dc, 0x3a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x406a,
+        bc: 0x2ed6,
+        de: 0x1a8c,
+        hl: 0xc633,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x87cb,
+        iy: 0xb3d1,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(46044), equals(0x1a));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbab | RES 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbab | RES 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xda61,
+        bc: 0x0521,
+        de: 0xa123,
+        hl: 0xc7fa,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb71a,
+        iy: 0x8ece,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa9);
+    poke(0x0003, 0xab);
+    poke(0x8e77, 0x1f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xda61,
+        bc: 0x0521,
+        de: 0xa11f,
+        hl: 0xc7fa,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb71a,
+        iy: 0x8ece,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbac | RES 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbac | RES 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x34a3,
+        bc: 0x81ce,
+        de: 0x07d6,
+        hl: 0xf3a4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x430b,
+        iy: 0x0525,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x23);
+    poke(0x0003, 0xac);
+    poke(0x0548, 0x9c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x34a3,
+        bc: 0x81ce,
+        de: 0x07d6,
+        hl: 0x9ca4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x430b,
+        iy: 0x0525,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbad | RES 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbad | RES 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5010,
+        bc: 0x918e,
+        de: 0xddbc,
+        hl: 0x4f89,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x88c5,
+        iy: 0x948f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x4e);
+    poke(0x0003, 0xad);
+    poke(0x94dd, 0x37);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5010,
+        bc: 0x918e,
+        de: 0xddbc,
+        hl: 0x4f17,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x88c5,
+        iy: 0x948f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(38109), equals(0x17));
+  }, tags: 'undocumented');
+
   // Test instruction fdcbae | RES 5, (IY+*)
   test(
       "OPCODE "
@@ -38182,6 +63197,367 @@ void main() {
     expect(peek(3113), equals(0x89));
   });
 
+  // Test instruction fdcbaf | RES 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbaf | RES 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb322,
+        bc: 0x6731,
+        de: 0xdaad,
+        hl: 0x8d38,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdd8f,
+        iy: 0x26eb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0d);
+    poke(0x0003, 0xaf);
+    poke(0x26f8, 0x44);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4422,
+        bc: 0x6731,
+        de: 0xdaad,
+        hl: 0x8d38,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xdd8f,
+        iy: 0x26eb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbb0 | RES 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb0 | RES 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xb984,
+        bc: 0x796c,
+        de: 0x44b1,
+        hl: 0xfef9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4069,
+        iy: 0xa0cb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x5a);
+    poke(0x0003, 0xb0);
+    poke(0xa125, 0x76);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb984,
+        bc: 0x366c,
+        de: 0x44b1,
+        hl: 0xfef9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4069,
+        iy: 0xa0cb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(41253), equals(0x36));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbb1 | RES 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb1 | RES 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x59c3,
+        bc: 0xab13,
+        de: 0x42ee,
+        hl: 0xb764,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8f7f,
+        iy: 0xf398,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x82);
+    poke(0x0003, 0xb1);
+    poke(0xf31a, 0x79);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x59c3,
+        bc: 0xab39,
+        de: 0x42ee,
+        hl: 0xb764,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8f7f,
+        iy: 0xf398,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(62234), equals(0x39));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbb2 | RES 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb2 | RES 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf310,
+        bc: 0xceec,
+        de: 0xbbfb,
+        hl: 0x3569,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4a6f,
+        iy: 0x33f9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x23);
+    poke(0x0003, 0xb2);
+    poke(0x341c, 0x7b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xf310,
+        bc: 0xceec,
+        de: 0x3bfb,
+        hl: 0x3569,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4a6f,
+        iy: 0x33f9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(13340), equals(0x3b));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbb3 | RES 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb3 | RES 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9c05,
+        bc: 0x0f92,
+        de: 0xbd3b,
+        hl: 0x553d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc75e,
+        iy: 0x51d2,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x6c);
+    poke(0x0003, 0xb3);
+    poke(0x523e, 0x37);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9c05,
+        bc: 0x0f92,
+        de: 0xbd37,
+        hl: 0x553d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc75e,
+        iy: 0x51d2,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbb4 | RES 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb4 | RES 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3e55,
+        bc: 0x1338,
+        de: 0x638d,
+        hl: 0x353c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x44ad,
+        iy: 0x4d17,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc5);
+    poke(0x0003, 0xb4);
+    poke(0x4cdc, 0xe9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3e55,
+        bc: 0x1338,
+        de: 0x638d,
+        hl: 0xa93c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x44ad,
+        iy: 0x4d17,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(19676), equals(0xa9));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbb5 | RES 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb5 | RES 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2f3a,
+        bc: 0xb709,
+        de: 0x4167,
+        hl: 0x57be,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb543,
+        iy: 0x8edd,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x50);
+    poke(0x0003, 0xb5);
+    poke(0x8f2d, 0x0f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2f3a,
+        bc: 0xb709,
+        de: 0x4167,
+        hl: 0x570f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb543,
+        iy: 0x8edd,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction fdcbb6 | RES 6, (IY+*)
   test(
       "OPCODE "
@@ -38232,6 +63608,367 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction fdcbb7 | RES 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb7 | RES 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1335,
+        bc: 0xa599,
+        de: 0x9fbf,
+        hl: 0xc111,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8bc5,
+        iy: 0x00a9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xc0);
+    poke(0x0003, 0xb7);
+    poke(0x0069, 0x38);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3835,
+        bc: 0xa599,
+        de: 0x9fbf,
+        hl: 0xc111,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8bc5,
+        iy: 0x00a9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbb8 | RES 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb8 | RES 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xd146,
+        bc: 0x1138,
+        de: 0x1a45,
+        hl: 0x8259,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6a03,
+        iy: 0xd087,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x31);
+    poke(0x0003, 0xb8);
+    poke(0xd0b8, 0x17);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd146,
+        bc: 0x1738,
+        de: 0x1a45,
+        hl: 0x8259,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6a03,
+        iy: 0xd087,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbb9 | RES 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbb9 | RES 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x757b,
+        bc: 0x0b9e,
+        de: 0x767b,
+        hl: 0x2ad1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1498,
+        iy: 0xb84e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3b);
+    poke(0x0003, 0xb9);
+    poke(0xb889, 0xb4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x757b,
+        bc: 0x0b34,
+        de: 0x767b,
+        hl: 0x2ad1,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1498,
+        iy: 0xb84e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(47241), equals(0x34));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbba | RES 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbba | RES 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x43ef,
+        bc: 0x1c58,
+        de: 0xdda3,
+        hl: 0x4519,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb67b,
+        iy: 0x383f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x38);
+    poke(0x0003, 0xba);
+    poke(0x3877, 0xd6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x43ef,
+        bc: 0x1c58,
+        de: 0x56a3,
+        hl: 0x4519,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xb67b,
+        iy: 0x383f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(14455), equals(0x56));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbbb | RES 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbbb | RES 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xdccb,
+        bc: 0x7ab3,
+        de: 0x7615,
+        hl: 0x4161,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2942,
+        iy: 0xe2fe,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x07);
+    poke(0x0003, 0xbb);
+    poke(0xe305, 0x6e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xdccb,
+        bc: 0x7ab3,
+        de: 0x766e,
+        hl: 0x4161,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2942,
+        iy: 0xe2fe,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbbc | RES 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbbc | RES 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0e07,
+        bc: 0x34f5,
+        de: 0x0995,
+        hl: 0xcc42,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9d42,
+        iy: 0xaf0c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf8);
+    poke(0x0003, 0xbc);
+    poke(0xaf04, 0xcf);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0e07,
+        bc: 0x34f5,
+        de: 0x0995,
+        hl: 0x4f42,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9d42,
+        iy: 0xaf0c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(44804), equals(0x4f));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbbd | RES 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbbd | RES 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x30ef,
+        bc: 0xe60c,
+        de: 0x9bf0,
+        hl: 0xa1bf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbd1c,
+        iy: 0xdf0d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xaa);
+    poke(0x0003, 0xbd);
+    poke(0xdeb7, 0x8d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x30ef,
+        bc: 0xe60c,
+        de: 0x9bf0,
+        hl: 0xa10d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xbd1c,
+        iy: 0xdf0d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(57015), equals(0x0d));
+  }, tags: 'undocumented');
 
   // Test instruction fdcbbe | RES 7, (IY+*)
   test(
@@ -38285,6 +64022,367 @@ void main() {
     expect(peek(15575), equals(0x21));
   });
 
+  // Test instruction fdcbbf | RES 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbbf | RES 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x83d6,
+        bc: 0xc893,
+        de: 0x8db8,
+        hl: 0x716b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0956,
+        iy: 0xbde7,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xfd);
+    poke(0x0003, 0xbf);
+    poke(0xbde4, 0xac);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x2cd6,
+        bc: 0xc893,
+        de: 0x8db8,
+        hl: 0x716b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0956,
+        iy: 0xbde7,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(48612), equals(0x2c));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbc0 | SET 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc0 | SET 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3666,
+        bc: 0x676c,
+        de: 0x35e5,
+        hl: 0xdb0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xea93,
+        iy: 0x2b31,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x0a);
+    poke(0x0003, 0xc0);
+    poke(0x2b3b, 0xec);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3666,
+        bc: 0xed6c,
+        de: 0x35e5,
+        hl: 0xdb0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xea93,
+        iy: 0x2b31,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(11067), equals(0xed));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbc1 | SET 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc1 | SET 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3902,
+        bc: 0xd498,
+        de: 0xaf62,
+        hl: 0x9821,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x48b8,
+        iy: 0xbd67,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x87);
+    poke(0x0003, 0xc1);
+    poke(0xbcee, 0xee);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3902,
+        bc: 0xd4ef,
+        de: 0xaf62,
+        hl: 0x9821,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x48b8,
+        iy: 0xbd67,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(48366), equals(0xef));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbc2 | SET 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc2 | SET 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xad26,
+        bc: 0x5a6d,
+        de: 0x6762,
+        hl: 0x16c9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x495a,
+        iy: 0x5b2c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x8d);
+    poke(0x0003, 0xc2);
+    poke(0x5ab9, 0xc2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xad26,
+        bc: 0x5a6d,
+        de: 0xc362,
+        hl: 0x16c9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x495a,
+        iy: 0x5b2c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(23225), equals(0xc3));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbc3 | SET 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc3 | SET 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3e6c,
+        bc: 0x9a74,
+        de: 0xa2ee,
+        hl: 0x9838,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeafa,
+        iy: 0xe666,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x5a);
+    poke(0x0003, 0xc3);
+    poke(0xe6c0, 0x4f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3e6c,
+        bc: 0x9a74,
+        de: 0xa24f,
+        hl: 0x9838,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xeafa,
+        iy: 0xe666,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbc4 | SET 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc4 | SET 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbf68,
+        bc: 0xd00b,
+        de: 0x5283,
+        hl: 0x51c2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x517c,
+        iy: 0x5d10,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x89);
+    poke(0x0003, 0xc4);
+    poke(0x5c99, 0x61);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xbf68,
+        bc: 0xd00b,
+        de: 0x5283,
+        hl: 0x61c2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x517c,
+        iy: 0x5d10,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbc5 | SET 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc5 | SET 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x127b,
+        bc: 0xdb6a,
+        de: 0x00b9,
+        hl: 0x5138,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x98f6,
+        iy: 0x02bb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa9);
+    poke(0x0003, 0xc5);
+    poke(0x0264, 0xcd);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x127b,
+        bc: 0xdb6a,
+        de: 0x00b9,
+        hl: 0x51cd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x98f6,
+        iy: 0x02bb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction fdcbc6 | SET 0, (IY+*)
   test(
       "OPCODE "
@@ -38336,6 +64434,366 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(30386), equals(0x83));
   });
+
+  // Test instruction fdcbc7 | SET 0, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc7 | SET 0, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x763f,
+        bc: 0xb86f,
+        de: 0x12d3,
+        hl: 0x7e2d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd870,
+        iy: 0xf30b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9e);
+    poke(0x0003, 0xc7);
+    poke(0xf2a9, 0xd7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xd73f,
+        bc: 0xb86f,
+        de: 0x12d3,
+        hl: 0x7e2d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd870,
+        iy: 0xf30b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbc8 | SET 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc8 | SET 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1f81,
+        bc: 0xc7c0,
+        de: 0x85da,
+        hl: 0x3cdd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd854,
+        iy: 0xc412,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x10);
+    poke(0x0003, 0xc8);
+    poke(0xc422, 0xe9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1f81,
+        bc: 0xebc0,
+        de: 0x85da,
+        hl: 0x3cdd,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd854,
+        iy: 0xc412,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(50210), equals(0xeb));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbc9 | SET 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbc9 | SET 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xed19,
+        bc: 0x3f88,
+        de: 0x1370,
+        hl: 0xe084,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4fdd,
+        iy: 0x8b42,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x61);
+    poke(0x0003, 0xc9);
+    poke(0x8ba3, 0xb7);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xed19,
+        bc: 0x3fb7,
+        de: 0x1370,
+        hl: 0xe084,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4fdd,
+        iy: 0x8b42,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbca | SET 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbca | SET 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xc7e5,
+        bc: 0x233b,
+        de: 0x2312,
+        hl: 0xf7f9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe417,
+        iy: 0x5190,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x1a);
+    poke(0x0003, 0xca);
+    poke(0x51aa, 0x90);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xc7e5,
+        bc: 0x233b,
+        de: 0x9212,
+        hl: 0xf7f9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe417,
+        iy: 0x5190,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(20906), equals(0x92));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbcb | SET 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbcb | SET 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xbdba,
+        bc: 0xa964,
+        de: 0xea38,
+        hl: 0x9422,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfca3,
+        iy: 0x9a72,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x5e);
+    poke(0x0003, 0xcb);
+    poke(0x9ad0, 0x70);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xbdba,
+        bc: 0xa964,
+        de: 0xea72,
+        hl: 0x9422,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfca3,
+        iy: 0x9a72,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(39632), equals(0x72));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbcc | SET 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbcc | SET 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0f4f,
+        bc: 0x0261,
+        de: 0x21b0,
+        hl: 0x2097,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x575d,
+        iy: 0x14f9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2d);
+    poke(0x0003, 0xcc);
+    poke(0x1526, 0x4e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0f4f,
+        bc: 0x0261,
+        de: 0x21b0,
+        hl: 0x4e97,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x575d,
+        iy: 0x14f9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbcd | SET 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbcd | SET 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1b79,
+        bc: 0x8f9f,
+        de: 0x31bf,
+        hl: 0x9ca6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7ecb,
+        iy: 0xbbe9,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xa1);
+    poke(0x0003, 0xcd);
+    poke(0xbb8a, 0x66);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1b79,
+        bc: 0x8f9f,
+        de: 0x31bf,
+        hl: 0x9c66,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7ecb,
+        iy: 0xbbe9,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
 
   // Test instruction fdcbce | SET 1, (IY+*)
   test(
@@ -38389,6 +64847,368 @@ void main() {
     expect(peek(47320), equals(0x47));
   });
 
+  // Test instruction fdcbcf | SET 1, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbcf | SET 1, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8d0a,
+        bc: 0xa073,
+        de: 0xc4ba,
+        hl: 0x5b69,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3b47,
+        iy: 0xc29c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x70);
+    poke(0x0003, 0xcf);
+    poke(0xc30c, 0x7a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7a0a,
+        bc: 0xa073,
+        de: 0xc4ba,
+        hl: 0x5b69,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3b47,
+        iy: 0xc29c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbd0 | SET 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd0 | SET 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe2bb,
+        bc: 0x8635,
+        de: 0x650c,
+        hl: 0x689a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1294,
+        iy: 0x3beb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbc);
+    poke(0x0003, 0xd0);
+    poke(0x3ba7, 0x20);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe2bb,
+        bc: 0x2435,
+        de: 0x650c,
+        hl: 0x689a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1294,
+        iy: 0x3beb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(15271), equals(0x24));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbd1 | SET 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd1 | SET 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5df8,
+        bc: 0xf701,
+        de: 0x9494,
+        hl: 0x4967,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xad00,
+        iy: 0x8c65,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x11);
+    poke(0x0003, 0xd1);
+    poke(0x8c76, 0xb9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5df8,
+        bc: 0xf7bd,
+        de: 0x9494,
+        hl: 0x4967,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xad00,
+        iy: 0x8c65,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(35958), equals(0xbd));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbd2 | SET 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd2 | SET 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9876,
+        bc: 0x4bd9,
+        de: 0x3148,
+        hl: 0x665a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7eac,
+        iy: 0xc051,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xfb);
+    poke(0x0003, 0xd2);
+    poke(0xc04c, 0x51);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9876,
+        bc: 0x4bd9,
+        de: 0x5548,
+        hl: 0x665a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7eac,
+        iy: 0xc051,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(49228), equals(0x55));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbd3 | SET 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd3 | SET 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8f90,
+        bc: 0xbacd,
+        de: 0xe87a,
+        hl: 0x538f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe5a,
+        iy: 0x0a87,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x3e);
+    poke(0x0003, 0xd3);
+    poke(0x0ac5, 0xe0);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8f90,
+        bc: 0xbacd,
+        de: 0xe8e4,
+        hl: 0x538f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfe5a,
+        iy: 0x0a87,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(2757), equals(0xe4));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbd4 | SET 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd4 | SET 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x15e2,
+        bc: 0x1820,
+        de: 0x5588,
+        hl: 0xe67f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7193,
+        iy: 0x9478,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x36);
+    poke(0x0003, 0xd4);
+    poke(0x94ae, 0x7d);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x15e2,
+        bc: 0x1820,
+        de: 0x5588,
+        hl: 0x7d7f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x7193,
+        iy: 0x9478,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbd5 | SET 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd5 | SET 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1409,
+        bc: 0x6535,
+        de: 0xc371,
+        hl: 0xabe2,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2e10,
+        iy: 0x8608,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x48);
+    poke(0x0003, 0xd5);
+    poke(0x8650, 0x98);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1409,
+        bc: 0x6535,
+        de: 0xc371,
+        hl: 0xab9c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2e10,
+        iy: 0x8608,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(34384), equals(0x9c));
+  }, tags: 'undocumented');
+
   // Test instruction fdcbd6 | SET 2, (IY+*)
   test(
       "OPCODE "
@@ -38439,6 +65259,366 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction fdcbd7 | SET 2, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd7 | SET 2, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1b6a,
+        bc: 0x266e,
+        de: 0x387f,
+        hl: 0x7fcb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1941,
+        iy: 0x36ab,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbe);
+    poke(0x0003, 0xd7);
+    poke(0x3669, 0x95);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x956a,
+        bc: 0x266e,
+        de: 0x387f,
+        hl: 0x7fcb,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1941,
+        iy: 0x36ab,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbd8 | SET 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd8 | SET 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7b1b,
+        bc: 0xa191,
+        de: 0xefee,
+        hl: 0x55b9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf789,
+        iy: 0x43f8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xbc);
+    poke(0x0003, 0xd8);
+    poke(0x43b4, 0xd8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7b1b,
+        bc: 0xd891,
+        de: 0xefee,
+        hl: 0x55b9,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf789,
+        iy: 0x43f8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbd9 | SET 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbd9 | SET 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0faf,
+        bc: 0x4eda,
+        de: 0xc556,
+        hl: 0x6ed3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3fc3,
+        iy: 0x0a66,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x16);
+    poke(0x0003, 0xd9);
+    poke(0x0a7c, 0xf4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0faf,
+        bc: 0x4efc,
+        de: 0xc556,
+        hl: 0x6ed3,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x3fc3,
+        iy: 0x0a66,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(2684), equals(0xfc));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbda | SET 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbda | SET 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9ea1,
+        bc: 0x8186,
+        de: 0xc045,
+        hl: 0xd6e0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x34d3,
+        iy: 0xd0f0,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe8);
+    poke(0x0003, 0xda);
+    poke(0xd0d8, 0x6b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9ea1,
+        bc: 0x8186,
+        de: 0x6b45,
+        hl: 0xd6e0,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x34d3,
+        iy: 0xd0f0,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbdb | SET 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbdb | SET 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5ee0,
+        bc: 0xbdea,
+        de: 0xd00e,
+        hl: 0x513f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x690a,
+        iy: 0x8c29,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x7a);
+    poke(0x0003, 0xdb);
+    poke(0x8ca3, 0x15);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5ee0,
+        bc: 0xbdea,
+        de: 0xd01d,
+        hl: 0x513f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x690a,
+        iy: 0x8c29,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(36003), equals(0x1d));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbdc | SET 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbdc | SET 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5cfa,
+        bc: 0x2e2b,
+        de: 0x1d17,
+        hl: 0xdbf6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa4f2,
+        iy: 0x593a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x64);
+    poke(0x0003, 0xdc);
+    poke(0x599e, 0x15);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5cfa,
+        bc: 0x2e2b,
+        de: 0x1d17,
+        hl: 0x1df6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa4f2,
+        iy: 0x593a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(22942), equals(0x1d));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbdd | SET 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbdd | SET 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8773,
+        bc: 0x70a6,
+        de: 0x83ce,
+        hl: 0x52b8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x35da,
+        iy: 0x1d94,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x75);
+    poke(0x0003, 0xdd);
+    poke(0x1e09, 0x28);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8773,
+        bc: 0x70a6,
+        de: 0x83ce,
+        hl: 0x5228,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x35da,
+        iy: 0x1d94,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
 
   // Test instruction fdcbde | SET 3, (IY+*)
   test(
@@ -38492,6 +65672,365 @@ void main() {
     expect(peek(51703), equals(0x49));
   });
 
+  // Test instruction fdcbdf | SET 3, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbdf | SET 3, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x780d,
+        bc: 0xa722,
+        de: 0xe78e,
+        hl: 0x50ba,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9d67,
+        iy: 0xeac3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x93);
+    poke(0x0003, 0xdf);
+    poke(0xea56, 0xef);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xef0d,
+        bc: 0xa722,
+        de: 0xe78e,
+        hl: 0x50ba,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x9d67,
+        iy: 0xeac3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbe0 | SET 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe0 | SET 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x10ef,
+        bc: 0x4101,
+        de: 0x2ca5,
+        hl: 0xf752,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4747,
+        iy: 0x1507,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x56);
+    poke(0x0003, 0xe0);
+    poke(0x155d, 0xb9);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x10ef,
+        bc: 0xb901,
+        de: 0x2ca5,
+        hl: 0xf752,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x4747,
+        iy: 0x1507,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbe1 | SET 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe1 | SET 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe4cb,
+        bc: 0x6f72,
+        de: 0x1c11,
+        hl: 0x1426,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x189b,
+        iy: 0x0e0d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd1);
+    poke(0x0003, 0xe1);
+    poke(0x0dde, 0x16);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe4cb,
+        bc: 0x6f16,
+        de: 0x1c11,
+        hl: 0x1426,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x189b,
+        iy: 0x0e0d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbe2 | SET 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe2 | SET 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x11a9,
+        bc: 0xbae8,
+        de: 0x938b,
+        hl: 0xbac4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd8ed,
+        iy: 0xe49c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x50);
+    poke(0x0003, 0xe2);
+    poke(0xe4ec, 0xc2);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x11a9,
+        bc: 0xbae8,
+        de: 0xd28b,
+        hl: 0xbac4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd8ed,
+        iy: 0xe49c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(58604), equals(0xd2));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbe3 | SET 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe3 | SET 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x8832,
+        bc: 0x952b,
+        de: 0x02b2,
+        hl: 0x26ef,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfb55,
+        iy: 0xada8,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xca);
+    poke(0x0003, 0xe3);
+    poke(0xad72, 0xba);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x8832,
+        bc: 0x952b,
+        de: 0x02ba,
+        hl: 0x26ef,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xfb55,
+        iy: 0xada8,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbe4 | SET 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe4 | SET 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3989,
+        bc: 0x4142,
+        de: 0x89e2,
+        hl: 0x785b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0bf7,
+        iy: 0x5474,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x62);
+    poke(0x0003, 0xe4);
+    poke(0x54d6, 0x7b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3989,
+        bc: 0x4142,
+        de: 0x89e2,
+        hl: 0x7b5b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x0bf7,
+        iy: 0x5474,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbe5 | SET 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe5 | SET 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe5c5,
+        bc: 0xb86d,
+        de: 0x41bb,
+        hl: 0x315e,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1a78,
+        iy: 0xa52d,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xda);
+    poke(0x0003, 0xe5);
+    poke(0xa507, 0x4c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe5c5,
+        bc: 0xb86d,
+        de: 0x41bb,
+        hl: 0x315c,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x1a78,
+        iy: 0xa52d,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(42247), equals(0x5c));
+  }, tags: 'undocumented');
+
   // Test instruction fdcbe6 | SET 4, (IY+*)
   test(
       "OPCODE "
@@ -38543,6 +66082,369 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(35708), equals(0x55));
   });
+
+  // Test instruction fdcbe7 | SET 4, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe7 | SET 4, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x2025,
+        bc: 0xd3e9,
+        de: 0xd4b6,
+        hl: 0xaa30,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x88bd,
+        iy: 0xb597,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x11);
+    poke(0x0003, 0xe7);
+    poke(0xb5a8, 0xa6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xb625,
+        bc: 0xd3e9,
+        de: 0xd4b6,
+        hl: 0xaa30,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x88bd,
+        iy: 0xb597,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(46504), equals(0xb6));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbe8 | SET 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe8 | SET 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x514d,
+        bc: 0xc2ab,
+        de: 0x37b5,
+        hl: 0x57de,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa4ec,
+        iy: 0x0a77,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xed);
+    poke(0x0003, 0xe8);
+    poke(0x0a64, 0xd0);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x514d,
+        bc: 0xf0ab,
+        de: 0x37b5,
+        hl: 0x57de,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xa4ec,
+        iy: 0x0a77,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(2660), equals(0xf0));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbe9 | SET 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbe9 | SET 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x974e,
+        bc: 0xd28e,
+        de: 0xd5cb,
+        hl: 0x6bd4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x158a,
+        iy: 0xa84e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x35);
+    poke(0x0003, 0xe9);
+    poke(0xa883, 0x2f);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x974e,
+        bc: 0xd22f,
+        de: 0xd5cb,
+        hl: 0x6bd4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x158a,
+        iy: 0xa84e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbea | SET 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbea | SET 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x3ef4,
+        bc: 0x3fc6,
+        de: 0x4a44,
+        hl: 0xe9a4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc877,
+        iy: 0x7593,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x93);
+    poke(0x0003, 0xea);
+    poke(0x7526, 0x1b);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x3ef4,
+        bc: 0x3fc6,
+        de: 0x3b44,
+        hl: 0xe9a4,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc877,
+        iy: 0x7593,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(29990), equals(0x3b));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbeb | SET 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbeb | SET 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x798f,
+        bc: 0x5e9b,
+        de: 0x940e,
+        hl: 0x2e52,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd6ad,
+        iy: 0x2411,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd0);
+    poke(0x0003, 0xeb);
+    poke(0x23e1, 0x47);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x798f,
+        bc: 0x5e9b,
+        de: 0x9467,
+        hl: 0x2e52,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd6ad,
+        iy: 0x2411,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(9185), equals(0x67));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbec | SET 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbec | SET 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x38a4,
+        bc: 0x07c0,
+        de: 0x6cee,
+        hl: 0xe715,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf160,
+        iy: 0xd2eb,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xf3);
+    poke(0x0003, 0xec);
+    poke(0xd2de, 0x49);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x38a4,
+        bc: 0x07c0,
+        de: 0x6cee,
+        hl: 0x6915,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf160,
+        iy: 0xd2eb,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(53982), equals(0x69));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbed | SET 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbed | SET 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe0bc,
+        bc: 0x70c1,
+        de: 0xde35,
+        hl: 0x81c5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd57f,
+        iy: 0x0eab,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x58);
+    poke(0x0003, 0xed);
+    poke(0x0f03, 0x10);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xe0bc,
+        bc: 0x70c1,
+        de: 0xde35,
+        hl: 0x8130,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xd57f,
+        iy: 0x0eab,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(3843), equals(0x30));
+  }, tags: 'undocumented');
 
   // Test instruction fdcbee | SET 5, (IY+*)
   test(
@@ -38596,6 +66498,367 @@ void main() {
     expect(peek(17086), equals(0xf0));
   });
 
+  // Test instruction fdcbef | SET 5, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbef | SET 5, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4ee3,
+        bc: 0xd344,
+        de: 0xcb5b,
+        hl: 0xaeb5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xde5f,
+        iy: 0x2272,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x58);
+    poke(0x0003, 0xef);
+    poke(0x22ca, 0x09);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x29e3,
+        bc: 0xd344,
+        de: 0xcb5b,
+        hl: 0xaeb5,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xde5f,
+        iy: 0x2272,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(8906), equals(0x29));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbf0 | SET 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf0 | SET 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1080,
+        bc: 0xb270,
+        de: 0x1b5b,
+        hl: 0xa9b7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe89d,
+        iy: 0xee9e,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x45);
+    poke(0x0003, 0xf0);
+    poke(0xeee3, 0x2c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1080,
+        bc: 0x6c70,
+        de: 0x1b5b,
+        hl: 0xa9b7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe89d,
+        iy: 0xee9e,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(61155), equals(0x6c));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbf1 | SET 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf1 | SET 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1702,
+        bc: 0xc43b,
+        de: 0xd138,
+        hl: 0x316f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8067,
+        iy: 0x4783,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2f);
+    poke(0x0003, 0xf1);
+    poke(0x47b2, 0xdc);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1702,
+        bc: 0xc4dc,
+        de: 0xd138,
+        hl: 0x316f,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8067,
+        iy: 0x4783,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbf2 | SET 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf2 | SET 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x732a,
+        bc: 0x4cd1,
+        de: 0x77fe,
+        hl: 0x4814,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x42f1,
+        iy: 0xea97,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x2c);
+    poke(0x0003, 0xf2);
+    poke(0xeac3, 0x5e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x732a,
+        bc: 0x4cd1,
+        de: 0x5efe,
+        hl: 0x4814,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x42f1,
+        iy: 0xea97,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbf3 | SET 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf3 | SET 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x6b97,
+        bc: 0x59d3,
+        de: 0xf546,
+        hl: 0x7530,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6670,
+        iy: 0x7d90,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x38);
+    poke(0x0003, 0xf3);
+    poke(0x7dc8, 0x0c);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x6b97,
+        bc: 0x59d3,
+        de: 0xf54c,
+        hl: 0x7530,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x6670,
+        iy: 0x7d90,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(32200), equals(0x4c));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbf4 | SET 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf4 | SET 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x7af0,
+        bc: 0xa81f,
+        de: 0x5d3a,
+        hl: 0x799b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe12b,
+        iy: 0x309c,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xd0);
+    poke(0x0003, 0xf4);
+    poke(0x306c, 0x0e);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x7af0,
+        bc: 0xa81f,
+        de: 0x5d3a,
+        hl: 0x4e9b,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe12b,
+        iy: 0x309c,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(12396), equals(0x4e));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbf5 | SET 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf5 | SET 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1370,
+        bc: 0xf6b2,
+        de: 0xaaa2,
+        hl: 0x7f0a,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc9f6,
+        iy: 0x6b1f,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x55);
+    poke(0x0003, 0xf5);
+    poke(0x6b74, 0xf8);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1370,
+        bc: 0xf6b2,
+        de: 0xaaa2,
+        hl: 0x7ff8,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc9f6,
+        iy: 0x6b1f,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
   // Test instruction fdcbf6 | SET 6, (IY+*)
   test(
       "OPCODE "
@@ -38646,6 +66909,366 @@ void main() {
     checkSpecialRegisters(
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
   });
+
+  // Test instruction fdcbf7 | SET 6, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf7 | SET 6, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xe6da,
+        bc: 0x231a,
+        de: 0x7bb1,
+        hl: 0x800d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe37e,
+        iy: 0x5789,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x9e);
+    poke(0x0003, 0xf7);
+    poke(0x5727, 0x66);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x66da,
+        bc: 0x231a,
+        de: 0x7bb1,
+        hl: 0x800d,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xe37e,
+        iy: 0x5789,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbf8 | SET 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf8 | SET 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xfa29,
+        bc: 0xee74,
+        de: 0xd7c4,
+        hl: 0xafaf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x512c,
+        iy: 0xde7a,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x54);
+    poke(0x0003, 0xf8);
+    poke(0xdece, 0x7a);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0xfa29,
+        bc: 0xfa74,
+        de: 0xd7c4,
+        hl: 0xafaf,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x512c,
+        iy: 0xde7a,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(57038), equals(0xfa));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbf9 | SET 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbf9 | SET 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x4662,
+        bc: 0xa71b,
+        de: 0x5065,
+        hl: 0xed06,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x279e,
+        iy: 0x99e3,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x30);
+    poke(0x0003, 0xf9);
+    poke(0x9a13, 0xc6);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x4662,
+        bc: 0xa7c6,
+        de: 0x5065,
+        hl: 0xed06,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x279e,
+        iy: 0x99e3,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbfa | SET 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbfa | SET 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x9426,
+        bc: 0x53ec,
+        de: 0x5016,
+        hl: 0x6c99,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8b99,
+        iy: 0xbd79,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x09);
+    poke(0x0003, 0xfa);
+    poke(0xbd82, 0xf4);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9426,
+        bc: 0x53ec,
+        de: 0xf416,
+        hl: 0x6c99,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x8b99,
+        iy: 0xbd79,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbfb | SET 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbfb | SET 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x5343,
+        bc: 0xb212,
+        de: 0x09ca,
+        hl: 0xe3c6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcd2b,
+        iy: 0xf875,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xba);
+    poke(0x0003, 0xfb);
+    poke(0xf82f, 0xed);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x5343,
+        bc: 0xb212,
+        de: 0x09ed,
+        hl: 0xe3c6,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xcd2b,
+        iy: 0xf875,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbfc | SET 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbfc | SET 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x0965,
+        bc: 0x4392,
+        de: 0xca25,
+        hl: 0x2baa,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf023,
+        iy: 0x6623,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x56);
+    poke(0x0003, 0xfc);
+    poke(0x6679, 0x65);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x0965,
+        bc: 0x4392,
+        de: 0xca25,
+        hl: 0xe5aa,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xf023,
+        iy: 0x6623,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(26233), equals(0xe5));
+  }, tags: 'undocumented');
+
+  // Test instruction fdcbfd | SET 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbfd | SET 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0x1751,
+        bc: 0x233c,
+        de: 0x6214,
+        hl: 0xd119,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc415,
+        iy: 0x5d2b,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0x25);
+    poke(0x0003, 0xfd);
+    poke(0x5d50, 0x27);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x1751,
+        bc: 0x233c,
+        de: 0x6214,
+        hl: 0xd1a7,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0xc415,
+        iy: 0x5d2b,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+    expect(peek(23888), equals(0xa7));
+  }, tags: 'undocumented');
 
   // Test instruction fdcbfe | SET 7, (IY+*)
   test(
@@ -38698,6 +67321,57 @@ void main() {
         i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
     expect(peek(19927), equals(0xca));
   });
+
+  // Test instruction fdcbff | SET 7, (IY+*)
+  test(
+      "UNDOCUMENTED "
+      "fdcbff | SET 7, (IY+*)", () {
+    // Set up machine initial state
+    loadRegisters(
+        af: 0xf151,
+        bc: 0x13da,
+        de: 0x7c56,
+        hl: 0xf025,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2b36,
+        iy: 0x2aed,
+        sp: 0x0000,
+        pc: 0x0000);
+    z80.i = 0x00;
+    z80.r = 0x00;
+    z80.iff1 = false;
+    z80.iff2 = false;
+    poke(0x0000, 0xfd);
+    poke(0x0001, 0xcb);
+    poke(0x0002, 0xe4);
+    poke(0x0003, 0xff);
+    poke(0x2ad1, 0x97);
+
+    // Execute machine for tState cycles
+    while (z80.tStates < 1) {
+      z80.executeNextInstruction();
+    }
+
+    // Test machine state is as expected
+    checkRegisters(
+        af: 0x9751,
+        bc: 0x13da,
+        de: 0x7c56,
+        hl: 0xf025,
+        af_: 0x0000,
+        bc_: 0x0000,
+        de_: 0x0000,
+        hl_: 0x0000,
+        ix: 0x2b36,
+        iy: 0x2aed,
+        sp: 0x0000,
+        pc: 0x0004);
+    checkSpecialRegisters(
+        i: 0x00, r: 0x02, iff1: false, iff2: false, tStates: 23);
+  }, tags: 'undocumented');
 
   // Test instruction fde1 | POP IY
   test(

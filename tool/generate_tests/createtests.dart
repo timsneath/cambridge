@@ -3,7 +3,9 @@ import 'package:spectrum/core/disassembler.dart';
 
 import 'loadtests.dart';
 
-const bool includeUndocumentedOpcodeUnitTests = false;
+const bool includeUndocumentedOpcodeUnitTests = true;
+const bool skipUndocumentedOpcodeUnitTests = false;
+
 String toHex32(int value) => '0x${value.toRadixString(16).padLeft(4, '0')}';
 String toHex16(int value) => '0x${value.toRadixString(16).padLeft(2, '0')}';
 
@@ -182,9 +184,15 @@ void main() {
     expect(peek($addr), equals(0x${test.results.expectedMemory[addr]!}));
 """);
       }
-      sink.write("""
+      if (skipUndocumentedOpcodeUnitTests) {
+        sink.write("""
   }${test.isUndocumented ? ", skip: 'undocumented'" : ''});
 """);
+      } else {
+        sink.write("""
+  }${test.isUndocumented ? ", tags: 'undocumented'" : ''});        
+""");
+      }
     }
     sink.write('}\n');
     print('Generated ${file.uri}.');

@@ -1498,76 +1498,104 @@ class Z80 {
       tStates += 20;
       return;
     } else {
-      switch (opCode) {
+      // Here follows a double-pass switch statement to determine the opcode
+      // results. Firstly, we determine which kind of operation is being
+      // requested, and then we identify where the result should be placed.
+      var opResult = 0;
+
+      final opCodeType = (opCode & 0xF8) >> 3;
+      switch (opCodeType) {
         // RLC (IX+*)
-        case 0x06:
-          memory.writeByte(addr, RLC(memory.readByte(addr)));
+        case 0x00:
+          opResult = RLC(memory.readByte(addr));
           break;
 
         // RRC (IX+*)
-        case 0x0E:
-          memory.writeByte(addr, RRC(memory.readByte(addr)));
+        case 0x01:
+          opResult = RRC(memory.readByte(addr));
           break;
 
         // RL (IX+*)
-        case 0x16:
-          memory.writeByte(addr, RL(memory.readByte(addr)));
+        case 0x02:
+          opResult = RL(memory.readByte(addr));
           break;
 
         // RR (IX+*)
-        case 0x1E:
-          memory.writeByte(addr, RR(memory.readByte(addr)));
+        case 0x03:
+          opResult = RR(memory.readByte(addr));
           break;
 
         // SLA (IX+*)
-        case 0x26:
-          memory.writeByte(addr, SLA(memory.readByte(addr)));
+        case 0x04:
+          opResult = SLA(memory.readByte(addr));
           break;
 
         // SRA (IX+*)
-        case 0x2E:
-          memory.writeByte(addr, SRA(memory.readByte(addr)));
+        case 0x05:
+          opResult = SRA(memory.readByte(addr));
           break;
 
         // SLL (IX+*)
-        case 0x36:
-          memory.writeByte(addr, SLL(memory.readByte(addr)));
+        case 0x06:
+          opResult = SLL(memory.readByte(addr));
           break;
 
         // SRL (IX+*)
-        case 0x3E:
-          memory.writeByte(addr, SRL(memory.readByte(addr)));
+        case 0x07:
+          opResult = SRL(memory.readByte(addr));
           break;
 
         // RES n, (IX+*)
-        case 0x86:
-        case 0x8E:
-        case 0x96:
-        case 0x9E:
-        case 0xA6:
-        case 0xAE:
-        case 0xB6:
-        case 0xBE:
-          memory.writeByte(
-              addr, resetBit(memory.readByte(addr), (opCode & 0x38) >> 3));
+        case 0x10:
+        case 0x11:
+        case 0x12:
+        case 0x13:
+        case 0x14:
+        case 0x15:
+        case 0x16:
+        case 0x17:
+          opResult = resetBit(memory.readByte(addr), (opCode & 0x38) >> 3);
           break;
 
         // SET n, (IX+*)
-        case 0xC6:
-        case 0xCE:
-        case 0xD6:
-        case 0xDE:
-        case 0xE6:
-        case 0xEE:
-        case 0xF6:
-        case 0xFE:
-          memory.writeByte(
-              addr, setBit(memory.readByte(addr), (opCode & 0x38) >> 3));
+        case 0x18:
+        case 0x19:
+        case 0x1A:
+        case 0x1B:
+        case 0x1C:
+        case 0x1D:
+        case 0x1E:
+        case 0x1F:
+          opResult = setBit(memory.readByte(addr), (opCode & 0x38) >> 3);
           break;
+      }
+      memory.writeByte(addr, opResult);
 
-        default:
-          print(
-              "Undocumented opcode DDCB**${toHex16(opCode)} not interpreted. ");
+      final opCodeTarget = opCode & 0x07;
+      switch (opCodeTarget) {
+        case 0x00: // b
+          b = opResult;
+          break;
+        case 0x01: // c
+          c = opResult;
+          break;
+        case 0x02: // d
+          d = opResult;
+          break;
+        case 0x03: // e
+          e = opResult;
+          break;
+        case 0x04: // h
+          h = opResult;
+          break;
+        case 0x05: // l
+          l = opResult;
+          break;
+        case 0x06: // no register
+          break;
+        case 0x07: // a
+          a = opResult;
+          break;
       }
 
       tStates += 23;
@@ -2099,6 +2127,12 @@ class Z80 {
         tStates += 8;
         break;
 
+      // Undocumented, but per §3.7 of:
+      //    http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
+      case 0xFD:
+        tStates += 8;
+        break;
+
       // LD SP, IX
       case 0xF9:
         sp = ix;
@@ -2514,76 +2548,104 @@ class Z80 {
       tStates += 20;
       return;
     } else {
-      switch (opCode) {
+      // Here follows a double-pass switch statement to determine the opcode
+      // results. Firstly, we determine which kind of operation is being
+      // requested, and then we identify where the result should be placed.
+      var opResult = 0;
+
+      final opCodeType = (opCode & 0xF8) >> 3;
+      switch (opCodeType) {
         // RLC (IY+*)
-        case 0x06:
-          memory.writeByte(addr, RLC(memory.readByte(addr)));
+        case 0x00:
+          opResult = RLC(memory.readByte(addr));
           break;
 
         // RRC (IY+*)
-        case 0x0E:
-          memory.writeByte(addr, RRC(memory.readByte(addr)));
+        case 0x01:
+          opResult = RRC(memory.readByte(addr));
           break;
 
         // RL (IY+*)
-        case 0x16:
-          memory.writeByte(addr, RL(memory.readByte(addr)));
+        case 0x02:
+          opResult = RL(memory.readByte(addr));
           break;
 
         // RR (IY+*)
-        case 0x1E:
-          memory.writeByte(addr, RR(memory.readByte(addr)));
+        case 0x03:
+          opResult = RR(memory.readByte(addr));
           break;
 
         // SLA (IY+*)
-        case 0x26:
-          memory.writeByte(addr, SLA(memory.readByte(addr)));
+        case 0x04:
+          opResult = SLA(memory.readByte(addr));
           break;
 
         // SRA (IY+*)
-        case 0x2E:
-          memory.writeByte(addr, SRA(memory.readByte(addr)));
+        case 0x05:
+          opResult = SRA(memory.readByte(addr));
           break;
 
         // SLL (IY+*)
-        case 0x36:
-          memory.writeByte(addr, SLL(memory.readByte(addr)));
+        case 0x06:
+          opResult = SLL(memory.readByte(addr));
           break;
 
         // SRL (IY+*)
-        case 0x3E:
-          memory.writeByte(addr, SRL(memory.readByte(addr)));
+        case 0x07:
+          opResult = SRL(memory.readByte(addr));
           break;
 
         // RES n, (IY+*)
-        case 0x86:
-        case 0x8E:
-        case 0x96:
-        case 0x9E:
-        case 0xA6:
-        case 0xAE:
-        case 0xB6:
-        case 0xBE:
-          memory.writeByte(
-              addr, resetBit(memory.readByte(addr), (opCode & 0x38) >> 3));
+        case 0x10:
+        case 0x11:
+        case 0x12:
+        case 0x13:
+        case 0x14:
+        case 0x15:
+        case 0x16:
+        case 0x17:
+          opResult = resetBit(memory.readByte(addr), (opCode & 0x38) >> 3);
           break;
 
         // SET n, (IY+*)
-        case 0xC6:
-        case 0xCE:
-        case 0xD6:
-        case 0xDE:
-        case 0xE6:
-        case 0xEE:
-        case 0xF6:
-        case 0xFE:
-          memory.writeByte(
-              addr, setBit(memory.readByte(addr), (opCode & 0x38) >> 3));
+        case 0x18:
+        case 0x19:
+        case 0x1A:
+        case 0x1B:
+        case 0x1C:
+        case 0x1D:
+        case 0x1E:
+        case 0x1F:
+          opResult = setBit(memory.readByte(addr), (opCode & 0x38) >> 3);
           break;
+      }
+      memory.writeByte(addr, opResult);
 
-        default:
-          print(
-              "Undocumented opcode FDCB**${toHex16(opCode)} not interpreted. ");
+      final opCodeTarget = opCode & 0x07;
+      switch (opCodeTarget) {
+        case 0x00: // b
+          b = opResult;
+          break;
+        case 0x01: // c
+          c = opResult;
+          break;
+        case 0x02: // d
+          d = opResult;
+          break;
+        case 0x03: // e
+          e = opResult;
+          break;
+        case 0x04: // h
+          h = opResult;
+          break;
+        case 0x05: // l
+          l = opResult;
+          break;
+        case 0x06: // no register
+          break;
+        case 0x07: // a
+          a = opResult;
+          break;
       }
 
       tStates += 23;

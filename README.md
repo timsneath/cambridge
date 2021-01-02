@@ -17,6 +17,16 @@ Things not yet working:
  - Interrupts aren't fully enabled (IM 2 in particular)
  - No sound support
 
+Prerequisites: this is written with the latest daily master builds of Flutter,
+including sound null safety. As of the time of writing (Jan 2021), this will
+not compile on the stable release of Flutter; make sure you switch to the beta
+channel before attempting to run this, using:
+
+```bash
+flutter channel beta
+flutter upgrade
+```
+
 This is an ongoing project that I'm using to learn and improve; feel free to
 contribute, critique or improve what you see. I work on this in my spare time
 here and there; it's not supposed to be the pinnacle of coding accomplishment!

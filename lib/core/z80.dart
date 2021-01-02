@@ -218,8 +218,8 @@ class Z80 {
 
     fH = false;
     fN = false;
-    f5 = isBitSet(byteRead, 5);
-    f3 = isBitSet(byteRead, 3);
+    f5 = isBitSet((byteRead + a) & 0xFF, 1);
+    f3 = isBitSet((byteRead + a) & 0xFF, 3);
 
     tStates += 16;
   }
@@ -234,8 +234,8 @@ class Z80 {
     fH = false;
     fN = false;
     fPV = bc != 0;
-    f5 = isBitSet(byteRead, 5);
-    f3 = isBitSet(byteRead, 3);
+    f5 = isBitSet((byteRead + a) & 0xFF, 1);
+    f3 = isBitSet((byteRead + a) & 0xFF, 3);
 
     tStates += 16;
   }
@@ -252,8 +252,8 @@ class Z80 {
       pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
-      f5 = isBitSet(byteRead, 5);
-      f3 = isBitSet(byteRead, 3);
+      f5 = isBitSet((byteRead + a) & 0xFF, 1);
+      f3 = isBitSet((byteRead + a) & 0xFF, 3);
       fH = false;
       fPV = false;
       fN = false;
@@ -273,8 +273,8 @@ class Z80 {
       pc = (pc - 2) % 0x10000;
       tStates += 21;
     } else {
-      f5 = isBitSet(byteRead, 5);
-      f3 = isBitSet(byteRead, 3);
+      f5 = isBitSet((byteRead + a) & 0xFF, 1);
+      f3 = isBitSet((byteRead + a) & 0xFF, 3);
       fH = false;
       fPV = false;
       fN = false;
@@ -551,6 +551,8 @@ class Z80 {
     fH = (a & 0x0F) < (val & 0x0F);
     fS = isSign8(a - val);
     fZ = a == val;
+    f5 = isBitSet((a - val - (fH == true ? 1 : 0)) & 0xFF, 1);
+    f3 = isBitSet((a - val - (fH == true ? 1 : 0)) & 0xFF, 3);
     fN = true;
     fPV = bc - 1 != 0;
     hl = (hl - 1) % 0x10000;
@@ -564,6 +566,8 @@ class Z80 {
     fH = (a & 0x0F) < (val & 0x0F);
     fS = isSign8(a - val);
     fZ = a == val;
+    f5 = isBitSet((a - val - (fH == true ? 1 : 0)) & 0xFF, 1);
+    f3 = isBitSet((a - val - (fH == true ? 1 : 0)) & 0xFF, 3);
     fN = true;
     fPV = bc - 1 != 0;
     hl = (hl - 1) % 0x10000;
@@ -582,6 +586,8 @@ class Z80 {
     fH = (a & 0x0F) < (val & 0x0F);
     fS = isSign8(a - val);
     fZ = a == val;
+    f5 = isBitSet((a - val - (fH == true ? 1 : 0)) & 0xFF, 1);
+    f3 = isBitSet((a - val - (fH == true ? 1 : 0)) & 0xFF, 3);
     fN = true;
     fPV = bc - 1 != 0;
     hl = (hl + 1) % 0x10000;
@@ -595,6 +601,8 @@ class Z80 {
     fH = (a & 0x0F) < (val & 0x0F);
     fS = isSign8(a - val);
     fZ = a == val;
+    f5 = isBitSet((a - val - (fH == true ? 1 : 0)) & 0xFF, 1);
+    f3 = isBitSet((a - val - (fH == true ? 1 : 0)) & 0xFF, 3);
     fN = true;
     fPV = bc - 1 != 0;
 
@@ -1013,8 +1021,8 @@ class Z80 {
         // internal register 'W' that is highly undocumented. This really
         // doesn't matter too much, I don't think. See the following for more:
         //   http://www.omnimaga.org/asm-language/bit-n-(hl)-flags/
-        f3 = isBitSet(highByte(hl), 3);
-        f5 = isBitSet(highByte(hl), 5);
+        f3 = false;
+        f5 = false;
         fPV = fZ;
         break;
       case 0x7:
@@ -2221,7 +2229,9 @@ class Z80 {
         a = i;
         fS = isSign8(i);
         fZ = isZero(i);
+        f5 = isBitSet(i, 5);
         fH = false;
+        f3 = isBitSet(i, 3);
         fPV = iff2;
         fN = false;
         tStates += 9;

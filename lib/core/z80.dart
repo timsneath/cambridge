@@ -1135,8 +1135,8 @@ class Z80 {
     f3 = isBitSet(b, 3);
     f5 = isBitSet(b, 5);
 
-    fC = fH = hl + ((c + 1) & 0xFF) > 0xFF;
-    fPV = isParity(((hl + ((c + 1) & 0xFF)) & 0x07) ^ b);
+    fC = fH = memval + ((c + 1) & 0xFF) > 0xFF;
+    fPV = isParity(((memval + ((c + 1) & 0xFF)) & 0x07) ^ b);
 
     tStates += 16;
   }
@@ -1171,8 +1171,8 @@ class Z80 {
     f3 = isBitSet(b, 3);
     f5 = isBitSet(b, 5);
 
-    fC = fH = hl + ((c - 1) & 0xFF) > 0xFF;
-    fPV = isParity(((hl + ((c - 1) & 0xFF)) & 0x07) ^ b);
+    fC = fH = memval + ((c - 1) & 0xFF) > 0xFF;
+    fPV = isParity(((memval + ((c - 1) & 0xFF)) & 0x07) ^ b);
     tStates += 16;
   }
 

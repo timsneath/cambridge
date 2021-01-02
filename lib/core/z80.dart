@@ -597,6 +597,7 @@ class Z80 {
     fZ = a == val;
     fN = true;
     fPV = bc - 1 != 0;
+
     hl = (hl + 1) % 0x10000;
     bc = (bc - 1) % 0x10000;
 
@@ -1196,57 +1197,97 @@ class Z80 {
   }
 
   void INIR() {
-    memory.writeByte(hl, portRead(bc));
+    final memval = portRead(bc);
+    memory.writeByte(hl, memval);
     hl = (hl + 1) % 0x10000;
     b = (b - 1) % 0x100;
+
+    fN = isBitSet(memval, 7);
+    fZ = b == 0;
+    fS = isSign8(b);
+    f3 = isBitSet(b, 3);
+    f5 = isBitSet(b, 5);
+
+    fC = fH = memval + ((c + 1) & 0xFF) > 0xFF;
+    fPV = isParity(((memval + ((c + 1) & 0xFF)) & 0x07) ^ b);
+
     if (b != 0) {
       pc -= 2;
       tStates += 21;
     } else {
-      fN = true;
-      fZ = true;
       tStates += 16;
     }
   }
 
   void OTIR() {
-    portWrite(bc, memory.readByte(hl));
+    final memval = memory.readByte(hl);
+    portWrite(c, memval);
+
     hl = (hl + 1) % 0x10000;
     b = (b - 1) % 0x100;
+
+    fN = true;
+    fN = isBitSet(memval, 7);
+    fZ = b == 0;
+    fS = isSign8(b);
+    f3 = isBitSet(b, 3);
+    f5 = isBitSet(b, 5);
+
+    fC = fH = memval + l > 0xFF;
+    fPV = isParity(((memval + l) & 0x07) ^ b);
+
     if (b != 0) {
       pc -= 2;
       tStates += 21;
     } else {
-      fN = true;
-      fZ = true;
       tStates += 16;
     }
   }
 
   void INDR() {
-    memory.writeByte(hl, portRead(bc));
+    final memval = portRead(bc);
+    memory.writeByte(hl, memval);
     hl = (hl - 1) % 0x10000;
     b = (b - 1) % 0x100;
+
+    fN = isBitSet(memval, 7);
+    fZ = b == 0;
+    fS = isSign8(b);
+    f3 = isBitSet(b, 3);
+    f5 = isBitSet(b, 5);
+
+    fC = fH = memval + ((c - 1) & 0xFF) > 0xFF;
+    fPV = isParity(((memval + ((c - 1) & 0xFF)) & 0x07) ^ b);
+
     if (b != 0) {
       pc -= 2;
       tStates += 21;
     } else {
-      fN = true;
-      fZ = true;
       tStates += 16;
     }
   }
 
   void OTDR() {
-    portWrite(bc, memory.readByte(hl));
+    final memval = memory.readByte(hl);
+    portWrite(c, memval);
+
     hl = (hl - 1) % 0x10000;
     b = (b - 1) % 0x100;
+
+    fN = true;
+    fN = isBitSet(memval, 7);
+    fZ = b == 0;
+    fS = isSign8(b);
+    f3 = isBitSet(b, 3);
+    f5 = isBitSet(b, 5);
+
+    fC = fH = memval + l > 0xFF;
+    fPV = isParity(((memval + l) & 0x07) ^ b);
+
     if (b != 0) {
       pc -= 2;
       tStates += 21;
     } else {
-      fN = true;
-      fZ = true;
       tStates += 16;
     }
   }

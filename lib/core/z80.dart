@@ -316,10 +316,10 @@ class Z80 {
     return reg;
   }
 
-  int ADC8(int x, int y) {
-    return ADD8(x, y, withCarry: fC);
-  }
+  /// Add with carry (8-bit)
+  int ADC8(int x, int y) => ADD8(x, y, withCarry: fC);
 
+  /// Add with carry (16-bit)
   int ADC16(int xx, int yy) {
     // overflow in add only occurs when operand polarities are the same
     final overflowCheck = isSign16(xx) == isSign16(yy);
@@ -380,9 +380,7 @@ class Z80 {
     return xx;
   }
 
-  int SBC8(int x, int y) {
-    return SUB8(x, y, withCarry: fC);
-  }
+  int SBC8(int x, int y) => SUB8(x, y, withCarry: fC);
 
   int SBC16(int xx, int yy) {
     final carry = fC ? 1 : 0;
@@ -1329,18 +1327,18 @@ class Z80 {
   int displacedIX() {
     final displ = getNextByte();
     if (displ > 0x7F) {
-      return ix + twocomp8(displ);
+      return (ix + twocomp8(displ)) % 0x10000;
     } else {
-      return ix + displ;
+      return (ix + displ) % 0x10000;
     }
   }
 
   int displacedIY() {
     final displ = getNextByte();
     if (displ > 0x7F) {
-      return iy + twocomp8(displ);
+      return (iy + twocomp8(displ)) % 0x10000;
     } else {
-      return iy + displ;
+      return (iy + displ) % 0x10000;
     }
   }
 

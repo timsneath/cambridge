@@ -174,15 +174,30 @@ class Z80 {
     l_ = lowByte(value);
   }
 
-  int get ixh => ix & 0xFF00 >> 8;
+  int get ixh => (ix & 0xFF00) >> 8;
   int get ixl => ix & 0x00FF;
-  set ixh(int value) => ix = (value << 8) + ixl;
-  set ixl(int value) => ix = (ixh << 8) + value;
 
-  int get iyh => iy & 0xFF00 >> 8;
+  set ixh(int value) {
+    final lo = lowByte(ix);
+    ix = ((value & 0xFF) << 8) + lo;
+  }
+
+  set ixl(int value) {
+    final hi = highByte(ix);
+    ix = (hi << 8) + (value & 0xFF);
+  }
+
+  int get iyh => (iy & 0xFF00) >> 8;
   int get iyl => iy & 0x00FF;
-  set iyh(int value) => iy = (value << 8) + iyl;
-  set iyl(int value) => iy = (iyh << 8) + value;
+  set iyh(int value) {
+    final lo = lowByte(iy);
+    iy = ((value & 0xFF) << 8) + lo;
+  }
+
+  set iyl(int value) {
+    final hi = highByte(iy);
+    iy = (hi << 8) + (value & 0xFF);
+  }
 
   bool get fC => f & flags['C']! == flags['C'];
   bool get fN => f & flags['N']! == flags['N'];
@@ -1636,13 +1651,13 @@ class Z80 {
         tStates += 10;
         break;
 
-      // INC IXH
+      // INC IXL
       case 0x2C:
         ixl = INC(ixl);
         tStates += 4;
         break;
 
-      // DEC IXH
+      // DEC IXL
       case 0x2D:
         ixl = DEC(ixl);
         tStates += 4;
@@ -2651,13 +2666,13 @@ class Z80 {
         tStates += 10;
         break;
 
-      // INC IYH
+      // INC IYL
       case 0x2C:
         iyl = INC(iyl);
         tStates += 4;
         break;
 
-      // DEC IYH
+      // DEC IYL
       case 0x2D:
         iyl = DEC(iyl);
         tStates += 4;

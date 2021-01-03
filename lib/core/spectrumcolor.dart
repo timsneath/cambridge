@@ -4,8 +4,6 @@
 // assumes alpha channel is always opaque (since ZX Spectrum has no concept
 // of transparency).
 
-// TODO: this might be much better as extension methods now D27 is complete.
-
 import 'dart:ui';
 
 class SpectrumColor extends Color {

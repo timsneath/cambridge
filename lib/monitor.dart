@@ -14,7 +14,7 @@ class Monitor extends StatelessWidget {
 
   const Monitor({required this.memory});
 
-  // TODO: Not used today. Perhaps use in the future?
+  // Not used today. Perhaps use in the future?
   Future<FrameInfo> makeImage() async {
     final pixels = Display.imageBuffer(memory);
 

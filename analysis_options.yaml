@@ -26,6 +26,9 @@ linter:
     use_key_in_widget_constructors: false
     prefer_expression_function_bodies: false
 
+    # this is just annoying. 
+    constant_identifier_names: false
+
     # temporarily disabled, but need fixing.
     avoid_classes_with_only_static_members: false
     parameter_assignments: false

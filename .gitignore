@@ -49,3 +49,4 @@ app.*.map.json
 !**/roms/zexdoc
 !**/roms/48.rom
 !**/roms/LICENSE
+!**/roms/JENNIFER.TAP

@@ -17,7 +17,7 @@ Display? display;
 late List<int> breakpoints;
 
 const instructionTestFile = 'roms/zexdoc';
-const snapshotFile = 'roms/MANIC.TAP';
+const snapshotFile = 'roms/JENNIFER.TAP';
 const romFile = 'roms/Chess.rom';
 
 void main() {
@@ -88,7 +88,7 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
           storage.loadZ80Snapshot(rawBinary);
         }
       });
-    } catch (exception) {
+    } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(

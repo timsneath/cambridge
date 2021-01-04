@@ -44,8 +44,8 @@ class Storage {
     // From https://softspectrum48.weebly.com/notes/category/tape-loading
     z80.memory.writeWord(VARS, variablesOffset + progStartAddress);
     z80.memory.writeWord(E_LINE, progEndAddress + 1);
-    z80.memory.writeByte(z80.memory.readByte(E_LINE - 1), 0x80);
-    z80.memory.writeWord(z80.memory.readByte(E_LINE), oldLineContent);
+    z80.memory.writeByte(z80.memory.readWord(E_LINE) - 1, 0x80);
+    z80.memory.writeWord(z80.memory.readWord(E_LINE), oldLineContent);
     z80.memory.writeByte(E_LINE + 2, 0x0D);
     z80.memory.writeByte(E_LINE + 3, 0x80);
 
@@ -77,7 +77,6 @@ class Storage {
             break;
           case 0x03:
             // A straightforward data block
-            final program = blocks[++idx] as TAPDataBlock;
             z80.memory.load(header.param1, program.data);
             break;
           default:

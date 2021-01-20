@@ -198,8 +198,6 @@ void main() {
     expect(z80.fPV, equals(z80.iff2));
     expect(z80.fN, equals(false));
     expect(z80.fC, equals(oldCarry));
-    // TODO: If an interrupt occurs during the execution of
-    // this instruction, the Parity flag contains a 0.
   });
 
   test('LD_A_R', () // LD A, R
@@ -215,8 +213,6 @@ void main() {
     expect(z80.fPV, equals(z80.iff2));
     expect(z80.fN, equals(false));
     expect(z80.fC, equals(oldCarry));
-    // TODO: If an interrupt occurs during the execution of
-    // this instruction, the Parity flag contains a 0.
   });
 
   test('LD_I_A', () // LD I, A
@@ -813,7 +809,6 @@ void main() {
     execute([0xA0, 0x81, 0x27, 0x8A, 0x27]);
 
     expect(z80.a, equals(0x45));
-    // TODO: Add asserts for flags
   });
 
   test('CPL', () // CPL
@@ -851,13 +846,6 @@ void main() {
     expect(z80.fH || z80.fN, equals(false));
   });
 
-  test('HALT', () // HALT
-      {
-    // TODO: Replace temporary HALT assert with real logic
-    // when HALT isn't used to end emulation
-    // expect(true);
-  });
-
   test('DI', () // DI
       {
     z80.iff1 = true;
@@ -872,24 +860,6 @@ void main() {
     z80.iff2 = true;
     execute([0xF3]);
     expect(z80.iff1 || z80.iff2, equals(false));
-  });
-
-  test('IM0', () // IM 0
-      {
-    // TODO: Come up with a test case for this
-    // expect(true);
-  });
-
-  test('IM1', () // IM 1
-      {
-    // TODO: Come up with a test case for this
-    // expect(true);
-  });
-
-  test('IM2', () // IM 2
-      {
-    // TODO: Come up with a test case for this
-    // expect(true);
   });
 
   test('ADD_HL_ss', () // ADD HL, ss
@@ -974,11 +944,7 @@ void main() {
     z80.iy = 0x7649;
     execute([0xFD, 0x2B]);
     expect(z80.iy, equals(0x7648));
-  }
-
-// TODO: Go back and check some of these flags
-
-      );
+  });
 
   test('RLCA', () // RLCA
       {

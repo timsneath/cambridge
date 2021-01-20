@@ -2,6 +2,7 @@
 
 import 'dart:typed_data';
 
+import 'storage/tap_file.dart';
 import 'ula.dart';
 import 'utility.dart';
 import 'z80.dart';
@@ -23,9 +24,68 @@ class Storage {
     loadBinaryData(snapshot, startLocation: 0x0000, pc: 0x0000);
   }
 
-  // Documented at https://sinclair.wiki.zxnet.co.uk/wiki/TAP_format
+  void loadBASICProgram(List<int> data, int startLine, int variablesOffset) {
+    const NEWPPC = 0x5C42; // [WORD] Line to be jumped to
+    const NSPPC = 0x5C44; //  [BYTE] Statement number in line to be jumped to
+    const VARS = 0x5C4B; //   [WORD] Address of variables
+    const PROG = 0x5C53; //   [WORD] Address of BASIC program
+    const E_LINE = 0x5C59; // [WORD] Address of command being typed in
+    const WORKSP = 0x5C61; // [WORD] Address of temporary work space
+    const STKBOT = 0x5C63; // [WORD] Address of bottom of calculator stack
+    const STKEND = 0x5C65; // [WORD] Address of start of spare space
+
+    final oldLineContent = z80.memory.readWord(E_LINE);
+    final progStartAddress = z80.memory.readWord(PROG);
+    final progEndAddress = progStartAddress + data.length;
+
+    z80.memory.load(progStartAddress, data);
+
+    // Update system variables
+    // From https://softspectrum48.weebly.com/notes/category/tape-loading
+    z80.memory.writeWord(VARS, variablesOffset + progStartAddress);
+    z80.memory.writeWord(E_LINE, progEndAddress + 1);
+    z80.memory.writeByte(z80.memory.readWord(E_LINE) - 1, 0x80);
+    z80.memory.writeWord(z80.memory.readWord(E_LINE), oldLineContent);
+    z80.memory.writeByte(E_LINE + 2, 0x0D);
+    z80.memory.writeByte(E_LINE + 3, 0x80);
+
+    z80.memory.writeWord(WORKSP, progEndAddress + 5);
+    z80.memory.writeWord(STKBOT, progEndAddress + 5);
+    z80.memory.writeWord(STKEND, progEndAddress + 5);
+
+    if (startLine < 32768) {
+      z80.memory.writeWord(NEWPPC, startLine);
+      z80.memory.writeByte(NSPPC, 0);
+    } else {
+      z80.memory.writeWord(NEWPPC, 32768);
+    }
+
+    z80.ix = progEndAddress;
+  }
+
   void loadTAPSnapshot(ByteData snapshot) {
-    // TODO: implement
+    final blocks = TAPFile(snapshot).blocks;
+
+    for (var idx = 0; idx < blocks.length; idx++) {
+      if (blocks[idx].isHeader) {
+        final header = blocks[idx] as TAPHeaderBlock;
+        final program = blocks[++idx] as TAPDataBlock;
+        switch (header.blockType) {
+          case 0x00:
+            // We have a BASIC program
+            loadBASICProgram(program.data, header.param1, header.param2);
+            break;
+          case 0x03:
+            // A straightforward data block
+            z80.memory.load(header.param1, program.data);
+            break;
+          default:
+            throw Exception('Unhandled TAP header type');
+        }
+      } else {
+        throw Exception('Headerless TAP data block');
+      }
+    }
   }
 
   // Per https://faqwiki.zxnet.co.uk/wiki/SNA_format

@@ -17,7 +17,7 @@ Display? display;
 late List<int> breakpoints;
 
 const instructionTestFile = 'roms/zexdoc';
-const snapshotFile = 'roms/Z80TEST.SNA';
+const snapshotFile = 'roms/JENNIFER.TAP';
 const romFile = 'roms/Chess.rom';
 
 void main() {
@@ -82,11 +82,13 @@ class CambridgeHomePageState extends State<CambridgeHomePage> {
       setState(() {
         if (snapshotFile.toLowerCase().endsWith('.sna')) {
           storage.loadSNASnapshot(rawBinary);
+        } else if (snapshotFile.toLowerCase().endsWith('.tap')) {
+          storage.loadTAPSnapshot(rawBinary);
         } else {
           storage.loadZ80Snapshot(rawBinary);
         }
       });
-    } catch (exception) {
+    } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(

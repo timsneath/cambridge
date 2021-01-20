@@ -80,6 +80,8 @@ class Z80 {
             // Not used on the ZX Spectrum
             break;
           case 1:
+            iff1 = false;
+
             PUSH(pc);
             pc = 0x0038;
             break;
